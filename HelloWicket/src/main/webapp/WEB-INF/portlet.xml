@@ -1,34 +1,23 @@
 <?xml version="1.0"?>
 
 <portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
-    <portlet>
-        <portlet-name>HelloWicketPortlet</portlet-name>
-        <display-name>Wicket Portlet by E</display-name>
-        <portlet-class>org.apache.wicket.protocol.http.portlet.WicketPortlet</portlet-class>
-        <init-param>
-            <name>wicketFilterPath</name>
-            <value>/ownhelloworld</value>
-        </init-param>
-        <supports>
-            <mime-type>text/html</mime-type>
-            <portlet-mode>VIEW</portlet-mode>
-            <portlet-mode>EDIT</portlet-mode>
-        </supports>
-        <supports>
-          <mime-type>text/html</mime-type>
-          <portlet-mode>VIEW</portlet-mode>
-          <portlet-mode>EDIT</portlet-mode>
-        </supports>
-        <portlet-info>
-            <title>WICKET portlet created by EniSh</title>
-            <short-title>Hello wicket portlet</short-title>
-            <keywords>HelloWorld portlet</keywords>
-        </portlet-info>
-    </portlet>
-
-  <!-- Somehting? -->
-  <container-runtime-option>
-    <name>javax.portlet.escapeXml</name>
-    <value>false</value>
-  </container-runtime-option>
+	<portlet>
+		<portlet-name>HelloWicketPortlet</portlet-name>
+		<display-name>Wicket Portlet by E</display-name>
+		<portlet-class>org.apache.wicket.protocol.http.portlet.WicketPortlet</portlet-class>
+                <init-param>
+                        <name>wicketFilterPath</name>
+                        <value>/ownhelloworld</value>
+                </init-param>
+		<supports>
+			<mime-type>text/html</mime-type>
+                        <portlet-mode>VIEW</portlet-mode>
+                        <portlet-mode>EDIT</portlet-mode>
+		</supports>
+		<portlet-info>
+			<title>WICKET portlet created by EniSh</title>
+			<short-title>Portlet Short Title</short-title>
+			<keywords>HelloWorld portlet</keywords>
+		</portlet-info>
+	</portlet>
 </portlet-app>
