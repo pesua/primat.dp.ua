@@ -1,0 +1,30 @@
+<html>
+<body>
+  <span wicket:id = "navomaticBorder">
+  <form wicket:id = "commentForm">
+    Add your comment here:
+    <p>
+    <textarea wicket:id = "text">This is a comment</textarea>
+    </p>
+    <input type = "submit" value = "Submit"/>
+  </form>  
+  <p>
+   <span wicket:id = "comments">
+    <p>
+        <span wicket:id = "date">1/1/2004</span><br>
+        <span wicket:id = "text">Comment text goes here.</span>
+    </p>  
+    <wicket:remove>
+    <p>
+        1/2/2004<br/>
+        More comment text here.
+    </p>
+    </wicket:remove>  
+   </span>
+  </p>
+  </span>
+
+
+
+</body>
+</html>
