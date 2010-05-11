@@ -19,12 +19,21 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+        <repositories>
+            <repository>
+                <id>JBoss</id>
+                <name>JBoss Repsitory</name>
+                <layout>default</layout>
+                <url>http://repository.jboss.org/maven2</url>
+            </repository>
+        </repositories>
+
 	<dependencies>
 		<!--  WICKET DEPENDENCIES -->
 		<dependency>
-			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket</artifactId>
-			<version>${wicket.version}</version>
+                    <groupId>org.apache.wicket</groupId>
+                    <artifactId>wicket</artifactId>
+                    <version>${wicket.version}</version>
 		</dependency>
 		<!--
 			OPTIONAL <dependency> <groupId>org.apache.wicket</groupId>
@@ -34,14 +43,14 @@
 
 		<!-- LOGGING DEPENDENCIES - LOG4J -->
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.4.2</version>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                    <version>1.4.2</version>
 		</dependency>
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.14</version>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                    <version>1.2.14</version>
 		</dependency>
 
 		<!--  JUNIT DEPENDENCY FOR TESTING -->
@@ -71,6 +80,39 @@
 			<version>${jetty.version}</version>
 			<scope>provided</scope>
 		</dependency>
+
+                <dependency>
+                  <groupId>mysql</groupId>
+                  <artifactId>mysql-connector-java</artifactId>
+                  <version>5.1.6</version>
+                </dependency>
+
+                <dependency>
+                   <groupId>org.hibernate</groupId>
+                   <artifactId>hibernate-core</artifactId>
+                   <version>3.3.2.GA</version>
+                </dependency>
+                <dependency>
+                   <groupId>org.hibernate</groupId>
+                   <artifactId>hibernate-annotations</artifactId>
+                   <version>3.4.0.GA</version>
+                </dependency>
+                <dependency>
+                   <groupId>org.hibernate</groupId>
+                   <artifactId>hibernate-commons-annotations</artifactId>
+                   <version>3.3.0.ga</version>
+                </dependency>
+                <dependency>
+                   <groupId>org.hibernate</groupId>
+                   <artifactId>hibernate-entitymanager</artifactId>
+                   <version>3.4.0.GA</version>
+                </dependency>
+
+                <dependency>
+                  <groupId>javax.persistence</groupId>
+                  <artifactId>persistence-api</artifactId>
+                  <version>1.0</version>
+                </dependency>
 	</dependencies>
 	<build>
 		<resources>
