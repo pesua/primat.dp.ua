@@ -35,4 +35,7 @@ public class StudentGroup implements Serializable {
 
     @Column(name="group_year")
     Long year;
+
+    public StudentGroup() {
+    }
 }

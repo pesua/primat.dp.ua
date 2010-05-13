@@ -36,4 +36,7 @@ public class Discipline implements Serializable {
     
     @OneToMany(mappedBy = "discepline")
     private List<Workload> workloads;
+
+    public Discipline() {
+    }
 }

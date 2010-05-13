@@ -47,4 +47,7 @@ public class WorkloadEntry implements Serializable {
     @OneToMany
     @Column(name="individual_control")
     List<IndividualControl> individualControl;
+
+    public WorkloadEntry() {
+    }
 }

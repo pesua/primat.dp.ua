@@ -29,4 +29,7 @@ public class IndividualControl implements Serializable {
 
     @Column(name="week_num")
     Long weekNum;
+
+    public IndividualControl() {
+    }
 }

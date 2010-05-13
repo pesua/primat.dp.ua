@@ -55,4 +55,7 @@ public class Workload implements Serializable {
     public void setWorkloadId(Long workloadId) {
         this.workloadId = workloadId;
     }
+
+    public Workload() {
+    }
 }
