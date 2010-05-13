@@ -34,4 +34,28 @@ public class Cathedra implements Serializable {
 
     public Cathedra() {
     }
+
+    public Long getCathedraId() {
+        return cathedraId;
+    }
+
+    public void setCathedraId(Long cathedraId) {
+        this.cathedraId = cathedraId;
+    }
+
+    public List<Discipline> getDisciplines() {
+        return disciplines;
+    }
+
+    public void setDisciplines(List<Discipline> disciplines) {
+        this.disciplines = disciplines;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

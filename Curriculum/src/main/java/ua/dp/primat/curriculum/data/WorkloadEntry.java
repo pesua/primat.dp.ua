@@ -51,4 +51,68 @@ public class WorkloadEntry implements Serializable {
 
     public WorkloadEntry() {
     }
+
+    public Boolean getCourceWork() {
+        return courceWork;
+    }
+
+    public void setCourceWork(Boolean courceWork) {
+        this.courceWork = courceWork;
+    }
+
+    public FinalControlType getFinalControl() {
+        return finalControl;
+    }
+
+    public void setFinalControl(FinalControlType finalControl) {
+        this.finalControl = finalControl;
+    }
+
+    public Long getIndCount() {
+        return indCount;
+    }
+
+    public void setIndCount(Long indCount) {
+        this.indCount = indCount;
+    }
+
+    public List<IndividualControl> getIndividualControl() {
+        return individualControl;
+    }
+
+    public void setIndividualControl(List<IndividualControl> individualControl) {
+        this.individualControl = individualControl;
+    }
+
+    public Long getLabCount() {
+        return labCount;
+    }
+
+    public void setLabCount(Long labCount) {
+        this.labCount = labCount;
+    }
+
+    public Long getLectionCount() {
+        return lectionCount;
+    }
+
+    public void setLectionCount(Long lectionCount) {
+        this.lectionCount = lectionCount;
+    }
+
+    public Long getPracticeCount() {
+        return practiceCount;
+    }
+
+    public void setPracticeCount(Long practiceCount) {
+        this.practiceCount = practiceCount;
+    }
+
+    public WorkloadEntryPK getWorkloadEntryId() {
+        return workloadEntryId;
+    }
+
+    public void setWorkloadEntryId(WorkloadEntryPK workloadEntryId) {
+        this.workloadEntryId = workloadEntryId;
+    }
 }

@@ -26,19 +26,28 @@ public class WorkloadEntryPK implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        return super.hashCode();
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final WorkloadEntryPK other = (WorkloadEntryPK) obj;
+        if (this.workloadId != other.workloadId && (this.workloadId == null || !this.workloadId.equals(other.workloadId))) {
+            return false;
+        }
+        if (this.semesterNumber != other.semesterNumber && (this.semesterNumber == null || !this.semesterNumber.equals(other.semesterNumber))) {
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj.getClass() == WorkloadEntryPK.class)
-        {
-            WorkloadEntryPK pk = (WorkloadEntryPK)obj;
-            return (pk.semesterNumber == this.semesterNumber)
-                    && (pk.workloadId == this.workloadId);
-        }
-        else
-            return super.equals(obj);
+    public int hashCode() {
+        int hash = 5;
+        hash = 97 * hash + (this.workloadId != null ? this.workloadId.hashCode() : 0);
+        hash = 97 * hash + (this.semesterNumber != null ? this.semesterNumber.hashCode() : 0);
+        return hash;
     }
 }

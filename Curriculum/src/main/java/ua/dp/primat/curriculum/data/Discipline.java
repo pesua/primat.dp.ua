@@ -39,4 +39,36 @@ public class Discipline implements Serializable {
 
     public Discipline() {
     }
+
+    public Cathedra getCathedra() {
+        return cathedra;
+    }
+
+    public void setCathedra(Cathedra cathedra) {
+        this.cathedra = cathedra;
+    }
+
+    public Long getDisciplineId() {
+        return disciplineId;
+    }
+
+    public void setDisciplineId(Long disciplineId) {
+        this.disciplineId = disciplineId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Workload> getWorkloads() {
+        return workloads;
+    }
+
+    public void setWorkloads(List<Workload> workloads) {
+        this.workloads = workloads;
+    }
 }

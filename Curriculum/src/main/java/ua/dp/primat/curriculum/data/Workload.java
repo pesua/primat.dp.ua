@@ -58,4 +58,44 @@ public class Workload implements Serializable {
 
     public Workload() {
     }
+
+    public Discipline getDiscipline() {
+        return discipline;
+    }
+
+    public void setDiscipline(Discipline discipline) {
+        this.discipline = discipline;
+    }
+
+    public List<WorkloadEntry> getEntries() {
+        return entries;
+    }
+
+    public void setEntries(List<WorkloadEntry> entries) {
+        this.entries = entries;
+    }
+
+    public List<StudentGroup> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<StudentGroup> groups) {
+        this.groups = groups;
+    }
+
+    public LoadCategory getLoadCategory() {
+        return loadCategory;
+    }
+
+    public void setLoadCategory(LoadCategory loadCategory) {
+        this.loadCategory = loadCategory;
+    }
+
+    public WorkloadType getType() {
+        return type;
+    }
+
+    public void setType(WorkloadType type) {
+        this.type = type;
+    }
 }
