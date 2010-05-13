@@ -38,6 +38,9 @@ public class WorkloadEntry implements Serializable {
     @Column(name="lab_count")
     Long labCount;
 
+    @Column(name="ind_count")
+    Long indCount;
+
     @Column(name="final_control")
     FinalControlType finalControl;
 
