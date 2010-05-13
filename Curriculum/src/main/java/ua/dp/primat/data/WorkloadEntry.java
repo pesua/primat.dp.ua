@@ -26,9 +26,6 @@ public class WorkloadEntry implements Serializable {
     //Long workloadId;
     //Long sessionNumber;
 
-    @Column(name="semester_number")
-    Long semesterNumber;
-
     @Column(name="lection_count")
     Long lectionCount;
 
@@ -38,6 +35,7 @@ public class WorkloadEntry implements Serializable {
     @Column(name="lab_count")
     Long labCount;
 
+    // individual work lessons count
     @Column(name="ind_count")
     Long indCount;
 

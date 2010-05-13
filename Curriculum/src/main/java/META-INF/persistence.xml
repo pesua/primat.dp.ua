@@ -2,11 +2,13 @@
 <persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence     http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
   <persistence-unit name="app">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <class>ua.dp.primat.PersonalControl</class>
-    <class>hiberhello.Group</class>
-    <class>hiberhello.Workload</class>
-    <class>hiberhello.Cathedra</class>
-    <class>hiberhello.Discipline</class>
+    
+    <class>ua.dp.primat.data.Cathedra</class>
+    <class>ua.dp.primat.data.Discipline</class>
+    <class>ua.dp.primat.data.IndividualControl</class>
+    <class>ua.dp.primat.data.StudentGroup</class>
+    <class>ua.dp.primat.data.Workload</class>
+    <class>ua.dp.primat.data.WorkloadEntry</class>
     <properties>
       <property name="hibernate.archive.autodetection" value="class, hbm"/>
       <property name="hibernate.show_sql" value="true"/>
