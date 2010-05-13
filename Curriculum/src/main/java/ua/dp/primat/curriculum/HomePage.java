@@ -1,4 +1,4 @@
-package ua.dp.primat;
+package ua.dp.primat.curriculum;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;

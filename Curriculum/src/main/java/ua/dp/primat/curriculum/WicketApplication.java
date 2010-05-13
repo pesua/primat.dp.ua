@@ -1,4 +1,4 @@
-package ua.dp.primat;
+package ua.dp.primat.curriculum;
 
 import org.apache.wicket.protocol.http.WebApplication;
 
