@@ -2,6 +2,8 @@ package ua.dp.primat;
 
 import junit.framework.TestCase;
 import org.apache.wicket.util.tester.WicketTester;
+import ua.dp.primat.curriculum.HomePage;
+import ua.dp.primat.curriculum.WicketApplication;
 
 /**
  * Simple test using the WicketTester

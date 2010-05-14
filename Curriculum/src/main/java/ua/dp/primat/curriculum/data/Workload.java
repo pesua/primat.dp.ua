@@ -6,8 +6,12 @@ package ua.dp.primat.curriculum.data;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Vector;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -19,22 +23,16 @@ import javax.persistence.Table;
  * @author EniSh
  */
 @Entity
-@Table(name="workloads")
 public class Workload implements Serializable {
     // entity key
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="id")
     Long workloadId;
 
     // descipline which this one related to
     @ManyToOne
-    @Column(name="discipline")
     Discipline discipline;
-
-    // Учебная нагрузка может быть привязана к нескольким группам
-    @ManyToMany
-    @Column(name="groups")
-    List<StudentGroup> groups;
 
     // Учебная нагрузка для группы может быть профильная, непрофильная и т. д.
     @Column(name="type")
@@ -43,10 +41,6 @@ public class Workload implements Serializable {
     @Column(name="load_category")
     LoadCategory loadCategory;
 
-    // У нее есть определенные записи на каждый семестр
-    @OneToMany
-    @Column(name="entries")
-    List<WorkloadEntry> entries;
 
     public Long getWorkloadId() {
         return workloadId;
@@ -65,22 +59,6 @@ public class Workload implements Serializable {
 
     public void setDiscipline(Discipline discipline) {
         this.discipline = discipline;
-    }
-
-    public List<WorkloadEntry> getEntries() {
-        return entries;
-    }
-
-    public void setEntries(List<WorkloadEntry> entries) {
-        this.entries = entries;
-    }
-
-    public List<StudentGroup> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(List<StudentGroup> groups) {
-        this.groups = groups;
     }
 
     public LoadCategory getLoadCategory() {
