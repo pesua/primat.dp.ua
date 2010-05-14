@@ -56,7 +56,7 @@ public class WorkloadEntry implements Serializable {
     @ManyToOne
     Workload workload;
 
-    // Учебная нагрузка может быть привязана к нескольким группам
+   
     @ManyToMany
     List<StudentGroup> groups = new Vector<StudentGroup>();
 

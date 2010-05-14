@@ -1,5 +1,5 @@
 /*
- *  Учебная нагрузка для определенных груп на определенную дисциплину
+ * 
  */
 
 package ua.dp.primat.curriculum.data;
@@ -34,7 +34,7 @@ public class Workload implements Serializable {
     @ManyToOne
     Discipline discipline;
 
-    // Учебная нагрузка для группы может быть профильная, непрофильная и т. д.
+    // 
     @Column(name="type")
     WorkloadType type;
 
