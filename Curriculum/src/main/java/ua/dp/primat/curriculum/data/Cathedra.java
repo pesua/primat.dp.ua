@@ -6,7 +6,6 @@ package ua.dp.primat.curriculum.data;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Vector;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +19,7 @@ import javax.persistence.Table;
  * @author EniSh
  */
 @Entity
+@Table(name = "Cathedra")
 public class Cathedra implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -28,6 +28,9 @@ public class Cathedra implements Serializable {
 
     @Column(name = "name", length = 255)
     String name;
+    
+    @OneToMany(mappedBy = "cathedra")
+    private List<Discipline> disciplines;
 
     public Cathedra() {
     }
@@ -38,6 +41,14 @@ public class Cathedra implements Serializable {
 
     public void setCathedraId(Long cathedraId) {
         this.cathedraId = cathedraId;
+    }
+
+    public List<Discipline> getDisciplines() {
+        return disciplines;
+    }
+
+    public void setDisciplines(List<Discipline> disciplines) {
+        this.disciplines = disciplines;
     }
 
     public String getName() {

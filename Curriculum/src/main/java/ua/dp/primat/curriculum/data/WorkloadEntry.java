@@ -6,16 +6,9 @@ package ua.dp.primat.curriculum.data;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Vector;
-import javax.annotation.Generated;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -24,15 +17,14 @@ import javax.persistence.Table;
  * @author EniSh
  */
 @Entity
+@Table(name="WorkloadsEntry")
 public class WorkloadEntry implements Serializable {
     //
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="id")
-    Long workloadEntryId;
-
-    @Column(name="semester_number")
-    Long semesterNumber;
+    WorkloadEntryPK workloadEntryId;
+    
+    //Long workloadId;
+    //Long sessionNumber;
 
     @Column(name="lection_count")
     Long lectionCount;
@@ -53,12 +45,9 @@ public class WorkloadEntry implements Serializable {
     @Column(name="cource_work")
     Boolean courceWork;
 
-    @ManyToOne
-    Workload workload;
-
-    // Учебная нагрузка может быть привязана к нескольким группам
-    @ManyToMany
-    List<StudentGroup> groups = new Vector<StudentGroup>();
+    @OneToMany
+    @Column(name="individual_control")
+    List<IndividualControl> individualControl;
 
     public WorkloadEntry() {
     }
@@ -87,6 +76,14 @@ public class WorkloadEntry implements Serializable {
         this.indCount = indCount;
     }
 
+    public List<IndividualControl> getIndividualControl() {
+        return individualControl;
+    }
+
+    public void setIndividualControl(List<IndividualControl> individualControl) {
+        this.individualControl = individualControl;
+    }
+
     public Long getLabCount() {
         return labCount;
     }
@@ -111,27 +108,11 @@ public class WorkloadEntry implements Serializable {
         this.practiceCount = practiceCount;
     }
 
-    public Long getSemesterNumber() {
-        return semesterNumber;
+    public WorkloadEntryPK getWorkloadEntryId() {
+        return workloadEntryId;
     }
 
-    public void setSemesterNumber(Long semesterNumber) {
-        this.semesterNumber = semesterNumber;
-    }
-
-    public List<StudentGroup> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(List<StudentGroup> groups) {
-        this.groups = groups;
-    }
-
-    public Workload getWorkload() {
-        return workload;
-    }
-
-    public void setWorkload(Workload workload) {
-        this.workload = workload;
+    public void setWorkloadEntryId(WorkloadEntryPK workloadEntryId) {
+        this.workloadEntryId = workloadEntryId;
     }
 }

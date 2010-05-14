@@ -6,7 +6,6 @@ package ua.dp.primat.curriculum.data;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Vector;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,13 +18,16 @@ import javax.persistence.Table;
  * @author EniSh
  */
 @Entity
+@Table(name="groups")
 public class StudentGroup implements Serializable {
+    @ManyToMany(mappedBy = "groups")
+    private List<Workload> workloads;
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="groupId")
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name="id")
     Long groupId;
 
-    @Column(name="code", length=10)
+    @Column(name="code", length=3)
     String code;
 
     @Column(name="number")
@@ -34,11 +36,15 @@ public class StudentGroup implements Serializable {
     @Column(name="group_year")
     Long year;
 
-    @ManyToMany
-    private List<WorkloadEntry> workloadentriess = new Vector<WorkloadEntry>();
-
     public StudentGroup() {
     }
+
+    public StudentGroup(String code, Long number, Long year) {
+        this.code = code;
+        this.number = number;
+        this.year = year;
+    }
+    
 
     public String getCode() {
         return code;
@@ -64,12 +70,12 @@ public class StudentGroup implements Serializable {
         this.number = number;
     }
 
-    public List<WorkloadEntry> getWorkloads() {
-        return workloadentriess;
+    public List<Workload> getWorkloads() {
+        return workloads;
     }
 
-    public void setWorkloads(List<WorkloadEntry> workloads) {
-        this.workloadentriess = workloads;
+    public void setWorkloads(List<Workload> workloads) {
+        this.workloads = workloads;
     }
 
     public Long getYear() {
