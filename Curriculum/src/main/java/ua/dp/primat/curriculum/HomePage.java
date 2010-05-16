@@ -1,6 +1,10 @@
 package ua.dp.primat.curriculum;
 
 import java.util.Arrays;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.WebPage;
@@ -25,18 +29,21 @@ public class HomePage extends WebPage {
 	 * @param parameters
 	 *            Page parameters
 	 */
-    StudentGroup choosenGroup = new StudentGroup("PS", new Long(2008), new Long(1));
+    StudentGroup choosenGroup;
     
     
     public HomePage(final PageParameters parameters) {
+        EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("curriculum");
+        EntityManager em = emFactory.createEntityManager();
+        //logic
+        em.getTransaction().begin();
+
+        final List groups = em.createQuery("from StudentGroup").getResultList();
 
         Form form = new Form("form");
         add(form);
 
-        final StudentGroup[] groups = new StudentGroup[2];
-        groups[0] = new StudentGroup("PZ", new Long(2008), new Long(1));
-
-        groups[1] = new StudentGroup("PM", new Long(2007), new Long(2));
+        choosenGroup = (StudentGroup) groups.get(0);
 
         DropDownChoice ddc = new DropDownChoice("group",
                 new PropertyModel(this, "choosenGroup"),
@@ -44,7 +51,7 @@ public class HomePage extends WebPage {
 
             @Override
             protected Object load() {
-                return Arrays.asList(groups);
+                return groups;
             }
         });
         form.add(ddc);
