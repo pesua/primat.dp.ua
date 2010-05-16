@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -20,7 +21,7 @@ import javax.persistence.Table;
  * @author EniSh
  */
 @Entity
-@Table(name="disciplines")
+@Table(name="discipline")
 public class Discipline implements Serializable {
     @Id
     @Column(name="id")
@@ -29,12 +30,11 @@ public class Discipline implements Serializable {
 
     @Column(name="name")
     String name;
-
-    @Column(name="cathedra")
+    
     @ManyToOne
     Cathedra cathedra;
     
-    @OneToMany(mappedBy = "discepline")
+    @OneToMany(mappedBy = "discipline")
     private List<Workload> workloads;
 
     public Discipline() {

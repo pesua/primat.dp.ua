@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -28,7 +29,8 @@ public class Workload implements Serializable {
 
     // descipline which this one related to
     @ManyToOne
-    @Column(name="discipline")
+    @JoinColumn(name="discipline_fk")
+    //@Column(name="discipline")
     Discipline discipline;
 
     // Учебная нагрузка может быть привязана к нескольким группам

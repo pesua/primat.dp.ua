@@ -5,12 +5,15 @@
 package ua.dp.primat.curriculum.data;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -30,7 +33,7 @@ public class Cathedra implements Serializable {
     String name;
     
     @OneToMany(mappedBy = "cathedra")
-    private List<Discipline> disciplines;
+    private Set<Discipline> disciplines;
 
     public Cathedra() {
     }
@@ -43,11 +46,11 @@ public class Cathedra implements Serializable {
         this.cathedraId = cathedraId;
     }
 
-    public List<Discipline> getDisciplines() {
+    public Set<Discipline> getDisciplines() {
         return disciplines;
     }
 
-    public void setDisciplines(List<Discipline> disciplines) {
+    public void setDisciplines(Set<Discipline> disciplines) {
         this.disciplines = disciplines;
     }
 
