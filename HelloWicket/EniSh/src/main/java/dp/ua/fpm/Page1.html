@@ -1,5 +1,36 @@
 <html>
+    <head>
+        <title></title>
+    </head>
 <body>
-	<span wicket:id = "navomaticBorder">You are viewing Page1</span>
+
+        <form wicket:id="form">
+        <h1>Assign manager</h1>
+        <table>
+        <tr>
+            <th>Name</th>
+            <td wicket:id="name">Some employee</td>
+        </tr>
+        <tr>
+            <th>Managed by</th>
+            <td><select wicket:id="managedBy">
+                <option>Some Person</option>
+                <option>Some Other Person</option>
+                </select>
+            </td>
+        </tr>
+        <tr><td colspan="2"><input type="submit" value="Save"/></td></tr>
+        </table>
+        </form>
+
+    <table>
+        <tr>
+            <td>Name</td><td>1st semester</td><td>2st semester</td><td>3st semester</td><td>4st semester</td>
+        </tr>
+        <tr id="Discipline">
+            <td id="Name">Mat an</td><td id="sem1"></td><td id="sem2">+</td><td id="sem3">+</td><td id="sem4"></td>
+        </tr>
+
+    </table>
 </body>
 </html>

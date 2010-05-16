@@ -87,4 +87,9 @@ public class StudentGroup implements Serializable {
     public void setYear(Long year) {
         this.year = year;
     }
+
+    @Override
+    public String toString() {
+        return getCode() + getYear() + getNumber();
+    }
 }

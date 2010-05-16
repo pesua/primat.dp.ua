@@ -1,5 +1,6 @@
 package ua.dp.primat.curriculum;
 
+import java.util.Arrays;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.WebPage;
@@ -24,31 +25,28 @@ public class HomePage extends WebPage {
 	 * @param parameters
 	 *            Page parameters
 	 */
+    StudentGroup choosenGroup = new StudentGroup("PS", new Long(2008), new Long(1));
+    
+    
     public HomePage(final PageParameters parameters) {
 
         Form form = new Form("form");
         add(form);
 
-        StudentGroup choosenGroup = new StudentGroup();
         final StudentGroup[] groups = new StudentGroup[2];
-        groups[0] = new StudentGroup();
-        groups[0].setCode("PZ");
-        groups[0].setYear(new Long(2008));
-        groups[0].setNumber(new Long(1));
+        groups[0] = new StudentGroup("PZ", new Long(2008), new Long(1));
 
-        groups[1] = new StudentGroup();
-        groups[1].setCode("PM");
-        groups[1].setYear(new Long(2007));
-        groups[1].setNumber(new Long(2));
+        groups[1] = new StudentGroup("PM", new Long(2007), new Long(2));
 
         DropDownChoice ddc = new DropDownChoice("group",
-                new PropertyModel(choosenGroup, "group"),
+                new PropertyModel(this, "choosenGroup"),
                 new LoadableDetachableModel() {
 
             @Override
             protected Object load() {
-                return groups;
+                return Arrays.asList(groups);
             }
         });
+        form.add(ddc);
     }
 }

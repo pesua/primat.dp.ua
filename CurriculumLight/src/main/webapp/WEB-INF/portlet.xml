@@ -7,7 +7,7 @@
 		<portlet-class>org.apache.wicket.protocol.http.portlet.WicketPortlet</portlet-class>
                 <init-param>
                         <name>wicketFilterPath</name>
-                        <value>/curriclum</value>
+                        <value>/curriculum</value>
                 </init-param>
 		<supports>
 			<mime-type>text/html</mime-type>
@@ -16,8 +16,8 @@
 		</supports>
 		<portlet-info>
 			<title>Portlet which show curriclums</title>
-			<short-title>Curriclum</short-title>
-			<keywords>Curriclum</keywords>
+			<short-title>Curriculum</short-title>
+			<keywords>Curriculum</keywords>
 		</portlet-info>
 	</portlet>
 </portlet-app>
