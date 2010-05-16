@@ -90,6 +90,6 @@ public class StudentGroup implements Serializable {
 
     @Override
     public String toString() {
-        return getCode() + getYear() + getNumber();
+        return getCode() + "-" + (getYear() % 100) + "-" + getNumber();
     }
 }

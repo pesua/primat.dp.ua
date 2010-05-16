@@ -39,11 +39,13 @@ public class HomePage extends WebPage {
         em.getTransaction().begin();
 
         final List groups = em.createQuery("from StudentGroup").getResultList();
+        if(choosenGroup == null)
+            choosenGroup = (StudentGroup) groups.get(0);
 
+        em.close();
         Form form = new Form("form");
         add(form);
 
-        choosenGroup = (StudentGroup) groups.get(0);
 
         DropDownChoice ddc = new DropDownChoice("group",
                 new PropertyModel(this, "choosenGroup"),
