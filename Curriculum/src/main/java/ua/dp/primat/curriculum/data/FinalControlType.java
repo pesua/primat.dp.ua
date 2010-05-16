@@ -15,7 +15,7 @@ public enum FinalControlType {
     Nothing;
 
     @Override
-    public String toString() {
+    public String toString(){
         switch(this) {
             case Exam:
                 return "Екзамен";
@@ -23,7 +23,7 @@ public enum FinalControlType {
                 return "Дифиринційовний залік";
             case Setoff:
                 return "Залік";
-            case Nothing:
+            default:
                 return "Нічого";
         }
     }
