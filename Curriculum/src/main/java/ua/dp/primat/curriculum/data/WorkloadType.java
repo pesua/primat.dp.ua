@@ -22,5 +22,9 @@ package ua.dp.primat.curriculum.data;
  * @author Administrator
  */
 public enum WorkloadType {
-    PROFILED, NONPROFILED
+    wtHumanities,
+    wtNaturalScience,
+    wtProfPract,
+    wtProfPractStudent,
+    wtProfPractUniver;
 }

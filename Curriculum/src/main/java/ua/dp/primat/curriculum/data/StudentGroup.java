@@ -6,6 +6,7 @@ package ua.dp.primat.curriculum.data;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Vector;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,8 +21,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name="groups")
 public class StudentGroup implements Serializable {
-    @ManyToMany(mappedBy = "groups")
-    private List<Workload> workloads;
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="id")
@@ -35,6 +34,9 @@ public class StudentGroup implements Serializable {
 
     @Column(name="group_year")
     Long year;
+
+    @ManyToMany(mappedBy = "groups")
+    private List<WorkloadEntry> workloadEntries = new Vector<WorkloadEntry>();
 
     public StudentGroup() {
     }
@@ -70,12 +72,12 @@ public class StudentGroup implements Serializable {
         this.number = number;
     }
 
-    public List<Workload> getWorkloads() {
-        return workloads;
+    public List<WorkloadEntry> getWorkloadEntries() {
+        return workloadEntries;
     }
 
-    public void setWorkloads(List<Workload> workloads) {
-        this.workloads = workloads;
+    public void setWorkloads(List<WorkloadEntry> workloadEntries) {
+        this.workloadEntries = workloadEntries;
     }
 
     public Long getYear() {

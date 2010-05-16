@@ -9,6 +9,7 @@ package ua.dp.primat.curriculum.data;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -16,11 +17,26 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class WorkloadEntryPK implements Serializable {
-    @Column(name = "workload_id")
-    Long workloadId;
+    @ManyToOne
+    Workload workloadId;
 
-    @Column(name = "semester_number")
     Long semesterNumber;
+
+    public Long getSemesterNumber() {
+        return semesterNumber;
+    }
+
+    public void setSemesterNumber(Long semesterNumber) {
+        this.semesterNumber = semesterNumber;
+    }
+
+    public Workload getWorkloadId() {
+        return workloadId;
+    }
+
+    public void setWorkloadId(Workload workloadId) {
+        this.workloadId = workloadId;
+    }
 
     public WorkloadEntryPK() {
     }

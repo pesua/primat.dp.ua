@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -24,6 +26,7 @@ import javax.persistence.Table;
 public class Workload implements Serializable {
     // entity key
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="id")
     Long workloadId;
 
@@ -32,11 +35,6 @@ public class Workload implements Serializable {
     @JoinColumn(name="discipline_fk")
     //@Column(name="discipline")
     Discipline discipline;
-
-    // Учебная нагрузка может быть привязана к нескольким группам
-    @ManyToMany
-    @Column(name="groups")
-    List<StudentGroup> groups;
 
     // Учебная нагрузка для группы может быть профильная, непрофильная и т. д.
     @Column(name="type")
@@ -75,14 +73,6 @@ public class Workload implements Serializable {
 
     public void setEntries(List<WorkloadEntry> entries) {
         this.entries = entries;
-    }
-
-    public List<StudentGroup> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(List<StudentGroup> groups) {
-        this.groups = groups;
     }
 
     public LoadCategory getLoadCategory() {

@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -17,7 +18,6 @@ import javax.persistence.Table;
  * @author EniSh
  */
 @Entity
-@Table(name="individual_control")
 public class IndividualControl implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -29,6 +29,17 @@ public class IndividualControl implements Serializable {
 
     @Column(name="week_num")
     Long weekNum;
+
+    @ManyToOne
+    WorkloadEntry workloadEntry;
+
+    public WorkloadEntry getWorkloadEntry() {
+        return workloadEntry;
+    }
+
+    public void setWorkloadEntry(WorkloadEntry workloadEntry) {
+        this.workloadEntry = workloadEntry;
+    }
 
     public IndividualControl() {
     }
