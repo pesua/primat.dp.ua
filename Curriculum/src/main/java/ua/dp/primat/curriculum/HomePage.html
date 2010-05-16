@@ -4,36 +4,38 @@
     </head>
     <body>
         <form wicket:id="form">
-            <select wicket:id="group" onchange="submit" name="Enter">
-            <option>some group</option>
-        </select>
-        <input type="submit" />
+            <select wicket:id="group">
+                <option>some group</option>
+            </select>
+            <label for="semester">Семестр №</label>
+            <select wicket:id="semester">
+                <option>some group</option>
+            </select>
+            <input type="submit" value="Обрати" />
         </form>
         <table border="1">
             <thead>
                 <tr>
                     <th>Name:</th>
-                    <th>1st semester</th>
-                    <th>2nd semester</th>
-                    <th>3rd semester</th>
-                    <th>4th semester</th>
-                    <th>5th semester</th>
-                    <th>6th semester</th>
-                    <th>7th semester</th>
-                    <th>8th semester</th>
+                    <th>Cathedra</th>
+                    <th>Lection(h)</th>
+                    <th>Practice(h)</th>
+                    <th>Labs(h)</th>
+                    <th>Selfwork(h)</th>
+                    <th>Course work</th>
+                    <th>Final control</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                <tr wicket:id="disciplineRow">
+                    <td wicket:id="disciplineName"></td>
+                    <td wicket:id="cathedra"></td>
+                    <td wicket:id="lection"></td>
+                    <td wicket:id="practice"></td>
+                    <td wicket:id="labs"></td>
+                    <td wicket:id="selfwork"></td>
+                    <td wicket:id="course"></td>
+                    <td wicket:id="finalcontrol"></td>
                 </tr>
             </tbody>
         </table>
