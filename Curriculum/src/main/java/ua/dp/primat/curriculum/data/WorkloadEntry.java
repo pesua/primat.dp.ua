@@ -47,19 +47,7 @@ public class WorkloadEntry implements Serializable {
     @OneToMany(mappedBy="workloadEntry")
     List<IndividualControl> individualControl = new Vector<IndividualControl>();
 
-    // Учебная нагрузка может быть привязана к нескольким группам
-    @ManyToMany
-    List<StudentGroup> groups = new Vector<StudentGroup>();
-
     public WorkloadEntry() {
-    }
-
-    public List<StudentGroup> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(List<StudentGroup> groups) {
-        this.groups = groups;
     }
 
     public Long getSemesterNumber() {

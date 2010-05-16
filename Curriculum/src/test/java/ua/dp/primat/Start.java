@@ -35,7 +35,7 @@ public class Start {
 			server.start();
 			System.in.read();
 			System.out.println(">>> STOPPING EMBEDDED JETTY SERVER"); 
-            // while (System.in.available() == 0) {
+                        // while (System.in.available() == 0) {
 			//   Thread.sleep(5000);
 			// }
 			server.stop();

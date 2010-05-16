@@ -36,7 +36,7 @@ public class StudentGroup implements Serializable {
     Long year;
 
     @ManyToMany(mappedBy = "groups")
-    private List<WorkloadEntry> workloadEntries = new Vector<WorkloadEntry>();
+    private List<Workload> workloads = new Vector<Workload>();
 
     public StudentGroup() {
     }
@@ -72,12 +72,12 @@ public class StudentGroup implements Serializable {
         this.number = number;
     }
 
-    public List<WorkloadEntry> getWorkloadEntries() {
-        return workloadEntries;
+    public List<Workload> getWorkloads() {
+        return workloads;
     }
 
-    public void setWorkloads(List<WorkloadEntry> workloadEntries) {
-        this.workloadEntries = workloadEntries;
+    public void setWorkloads(List<Workload> workloads) {
+        this.workloads = workloads;
     }
 
     public Long getYear() {

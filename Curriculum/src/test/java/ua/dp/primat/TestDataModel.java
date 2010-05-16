@@ -56,6 +56,11 @@ public class TestDataModel {
     public void hello() {
         EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("curriculum");
         EntityManager em = emFactory.createEntityManager();
+        em.getTransaction().begin();
+        List l = em.createQuery("from IndividualControl").getResultList();
+        long cWas = l.size();
+        em.getTransaction().commit();
+
         //logic
         em.getTransaction().begin();
 
@@ -75,6 +80,7 @@ public class TestDataModel {
         wl.setDiscipline(subj1);
         wl.setLoadCategory(LoadCategory.Normative);
         wl.setType(WorkloadType.wtProfPract);
+        wl.getGroups().add(sg);
         em.persist(wl);
 
         WorkloadEntry wle = new WorkloadEntry();
@@ -86,7 +92,6 @@ public class TestDataModel {
         wle.setLabCount(new Long(3));
         wle.setLectionCount(new Long(3));
         wle.setPracticeCount(new Long(3));
-        wle.getGroups().add(sg);
         em.persist(wle);
 
         IndividualControl ic = new IndividualControl();
@@ -124,7 +129,7 @@ public class TestDataModel {
         em.close();
 
         //check result
-        assertEquals(2, cItems);
+        assertEquals(2, cItems-cWas);
     }
 
 }

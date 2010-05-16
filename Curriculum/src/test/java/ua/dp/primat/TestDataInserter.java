@@ -1,42 +1,51 @@
 /*
- *  This unit-test allows us to test the One-To-Many relation between
- *  tables Discipline and Cathedra.
+ *  Test unit for testing the DataInserter object
  */
 
 package ua.dp.primat;
 
 import java.util.Iterator;
 import java.util.List;
-import junit.framework.TestCase;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import ua.dp.primat.curriculum.data.Cathedra;
 import ua.dp.primat.curriculum.data.Discipline;
+import ua.dp.primat.curriculum.utils.DataInserter;
+import static org.junit.Assert.*;
 
 /**
  *
- * @author fdevelop
+ * @author Acer
  */
-public class TestCathedra extends TestCase {
-    
-    public TestCathedra(String testName) {
-        super(testName);
+public class TestDataInserter {
+
+    public TestDataInserter() {
     }
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @BeforeClass
+    public static void setUpClass() throws Exception {
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    @AfterClass
+    public static void tearDownClass() throws Exception {
     }
 
-    //test for 2 disciplines, that has 1 cathedra
-    public void test2Disciplines1Cathedra() {
+    @Before
+    public void setUp() {
+    }
+
+    @After
+    public void tearDown() {
+    }
+
+    @Test
+    public void hello() {
         EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("curriculum");
         EntityManager em = emFactory.createEntityManager();
         em.getTransaction().begin();
@@ -47,8 +56,15 @@ public class TestCathedra extends TestCase {
         em.getTransaction().begin();
 
         Cathedra pmm = new Cathedra();
-        pmm.setName("PMM");
-        em.persist(pmm);
+        pmm.setName("PMMK");
+        pmm = DataInserter.addCathedra(em, pmm);
+
+        Cathedra pmm2 = new Cathedra();
+        pmm2.setName("PMMK");
+        pmm2 = DataInserter.addCathedra(em, pmm2);
+
+        if (!em.getTransaction().isActive())
+            em.getTransaction().begin();
 
         Discipline subj1 = new Discipline();
         subj1.setName("MathAn");
@@ -57,7 +73,7 @@ public class TestCathedra extends TestCase {
 
         Discipline subj2 = new Discipline();
         subj2.setName("Algebra");
-        subj2.setCathedra(pmm);
+        subj2.setCathedra(pmm2);
         em.persist(subj2);
         //commit
         em.getTransaction().commit();
@@ -79,7 +95,7 @@ public class TestCathedra extends TestCase {
         em.close();
 
         //check result
-        assertEquals(1, cathItems - cWas);
+        assertEquals(1, cathItems-cWas);
     }
 
 }

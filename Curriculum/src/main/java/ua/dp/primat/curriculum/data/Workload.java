@@ -6,6 +6,7 @@ package ua.dp.primat.curriculum.data;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Vector;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,10 +44,17 @@ public class Workload implements Serializable {
     @Column(name="load_category")
     LoadCategory loadCategory;
 
+    // ”чебна€ нагрузка может быть прив€зана к нескольким группам
+    @ManyToMany
+    List<StudentGroup> groups = new Vector<StudentGroup>();
+
     // ” нее есть определенные записи на каждый семестр
     @OneToMany
     @Column(name="entries")
     List<WorkloadEntry> entries;
+
+    public Workload() {
+    }
 
     public Long getWorkloadId() {
         return workloadId;
@@ -56,7 +64,12 @@ public class Workload implements Serializable {
         this.workloadId = workloadId;
     }
 
-    public Workload() {
+    public List<StudentGroup> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<StudentGroup> groups) {
+        this.groups = groups;
     }
 
     public Discipline getDiscipline() {

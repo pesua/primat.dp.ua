@@ -23,6 +23,7 @@ import ua.dp.primat.curriculum.data.StudentGroup;
 import ua.dp.primat.curriculum.data.Workload;
 import ua.dp.primat.curriculum.data.WorkloadEntry;
 import ua.dp.primat.curriculum.data.WorkloadType;
+import ua.dp.primat.curriculum.utils.DataInserter;
 
 /**
  *
@@ -62,7 +63,7 @@ public class PlanParser {
             int rows = sheet.getPhysicalNumberOfRows();
             for (int r = id_start; r <= id_end; r++) {
                 HSSFRow row = sheet.getRow(r);
-                System.out.println(r);
+                
                 if (row == null) continue;
 
                 int cells = row.getPhysicalNumberOfCells();
@@ -104,12 +105,12 @@ public class PlanParser {
                 String subjCath = row.getCell(colCath).getStringCellValue();
                 Cathedra cath = new Cathedra();
                 cath.setName(subjCath);
-                //TODO: add cathedra
+                cath = DataInserter.addCathedra(entityManager, cath);
 
                 Discipline disc = new Discipline();
                 disc.setName(subjName);
                 disc.setCathedra(cath);
-                //TODO: add discipline
+                disc = DataInserter.addDiscipline(entityManager, disc);
 
                 double workPGpract = row.getCell(colPG).getNumericCellValue();
                 double workPGlab = row.getCell(colPG+1).getNumericCellValue();
@@ -118,9 +119,12 @@ public class PlanParser {
                 wload.setDiscipline(disc);
                 wload.setLoadCategory(lcat);
                 wload.setType(wtype);
-                //TODO: add workload
+                List<StudentGroup> lsg = wload.getGroups();
+                lsg.add(group);
+                wload.setGroups(lsg);
+                wload = DataInserter.addWorkload(entityManager, wload);
 
-                //ind. control
+                //internal ind. control
                 String workIndSem = row.getCell(colIndTask).toString();
                 String workIndForm = row.getCell(colIndTask+1).toString();
                 String workIndWeek = row.getCell(colIndTask+2).toString();
@@ -201,26 +205,30 @@ public class PlanParser {
                         wlEntry.setLectionCount(Math.round(sc[sem].workHours.hLec));
                         wlEntry.setPracticeCount(Math.round(sc[sem].workHours.hPract));
                         wlEntry.setSemesterNumber(new Long(sem+1));
-                        List<StudentGroup> lsg = wlEntry.getGroups();
-                        lsg.add(group);
-                        wlEntry.setGroups(lsg);
-                        //TODO: add workload entry
+                        wlEntry = DataInserter.addWorkloadEntry(entityManager, wlEntry);
 
                         for (int y=0;y<cw.get(sem).size();y++) {
+                            if (!entityManager.getTransaction().isActive())
+                                entityManager.getTransaction().begin();
                             IndividualControl cwic = new IndividualControl();
                             cwic.setType(cw.get(sem).get(y).getType());
                             cwic.setWeekNum(cw.get(sem).get(y).getWeekNum());
                             cwic.setWorkloadEntry(wlEntry);
                             //TODO: add individual control
+                            entityManager.persist(cwic);
+                            entityManager.getTransaction().commit();
                         }
                     }
                 }
             }
+
+            //entityManager.getTransaction().commit();
         }
         catch (FileNotFoundException ioe) {
             ioe.printStackTrace();
         }
         finally {
+            entityManager.close();
             if (fios != null)
                 fios.close();
         }
