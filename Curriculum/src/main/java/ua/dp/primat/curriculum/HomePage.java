@@ -33,9 +33,9 @@ public class HomePage extends WebPage {
 	 * @param parameters
 	 *            Page parameters
 	 */
-    StudentGroup choosenGroup;
-    Long choosenSemester;
-    ListView<WorkloadEntry> disciplinesView;
+    private StudentGroup choosenGroup;
+    private Long choosenSemester;
+    private ListView<WorkloadEntry> disciplinesView;
     
     public HomePage(final PageParameters parameters) {
         //load data from database
@@ -45,8 +45,9 @@ public class HomePage extends WebPage {
         em.getTransaction().begin();
 
         final List groups = em.createQuery("from StudentGroup").getResultList();
-        
-        em.close();
+     
+        if (groups.size() < 1)
+            groups.add(new StudentGroup("PZ", new Long(2008), new Long(1)));
 
         if(choosenGroup == null)
             choosenGroup = (StudentGroup) groups.get(0);
@@ -90,6 +91,8 @@ public class HomePage extends WebPage {
                     workloadEntries.add(we);
             }
         }
+        
+        em.close();
         
         add(disciplinesView = new ListView<WorkloadEntry>("disciplineRow", workloadEntries) {
 
