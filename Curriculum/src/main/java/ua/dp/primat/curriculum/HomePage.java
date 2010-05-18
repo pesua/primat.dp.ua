@@ -83,15 +83,9 @@ public class HomePage extends WebPage {
         form.add(semesterChoise);
 
         //TODO must be refactored
-        List<Workload> workloads = choosenGroup.getWorkloads();
-        List<WorkloadEntry> workloadEntries = new ArrayList();
-        for(Workload w: workloads) {
-            for(WorkloadEntry we: w.getEntries()) {
-                if(we.getSemesterNumber() == choosenSemester)
-                    workloadEntries.add(we);
-            }
-        }
-        
+
+        List<WorkloadEntry> workloadEntries = em.createQuery("from WorkloadEntry where semesterNumber = " + choosenSemester).getResultList();
+
         em.close();
         
         add(disciplinesView = new ListView<WorkloadEntry>("disciplineRow", workloadEntries) {
@@ -102,6 +96,7 @@ public class HomePage extends WebPage {
                 li.add(new Label("disciplineName", entry.getWorkload().getDiscipline().getName()));
                 li.add(new Label("cathedra", entry.getWorkload().getDiscipline().getCathedra().getName()));
                 li.add(new Label("lection", entry.getLectionCount().toString()));
+                li.add(new Label("practice", entry.getPracticeCount().toString()));
                 li.add(new Label("labs", entry.getLabCount().toString()));
                 li.add(new Label("selfwork", entry.getIndCount().toString()));
                 li.add(new Label("course", entry.getCourceWork().toString()));
