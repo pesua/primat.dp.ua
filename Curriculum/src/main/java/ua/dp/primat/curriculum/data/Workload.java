@@ -49,7 +49,7 @@ public class Workload implements Serializable {
     List<StudentGroup> groups = new Vector<StudentGroup>();
 
     // ” нее есть определенные записи на каждый семестр
-    @OneToMany
+    @OneToMany(mappedBy="workloadId")
     @Column(name="entries")
     List<WorkloadEntry> entries;
 
