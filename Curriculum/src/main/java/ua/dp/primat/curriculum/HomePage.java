@@ -23,20 +23,18 @@ import ua.dp.primat.curriculum.data.WorkloadEntry;
  */
 public class HomePage extends WebPage {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	// TODO Add any page properties or variables here
-
+    private StudentGroup choosenGroup;
+    private Long choosenSemester;
+    private final ListView<WorkloadEntry> disciplinesViev;
+    List<WorkloadEntry> workloadEntries;
     /**
 	 * Constructor that is invoked when page is invoked without a session.
 	 * 
 	 * @param parameters
 	 *            Page parameters
 	 */
-    private StudentGroup choosenGroup;
-    private Long choosenSemester;
-    private ListView<WorkloadEntry> disciplinesView;
-    
     public HomePage(final PageParameters parameters) {
         //load data from database
         EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("curriculum");
@@ -47,15 +45,36 @@ public class HomePage extends WebPage {
         final List groups = em.createQuery("from StudentGroup").getResultList();
      
         if (groups.size() < 1)
-            groups.add(new StudentGroup("PZ", new Long(2008), new Long(1)));
+            throw new NullPointerException("Sorry, but no groups in the database");
+            //groups.add(new StudentGroup("PZ", new Long(2008), new Long(1)));
 
+        //when user visit page firstly, he haven't made choise
+        //and we heve to init default choise for him
         if(choosenGroup == null)
             choosenGroup = (StudentGroup) groups.get(0);
-
         if(choosenSemester == null)
             choosenSemester = new Long(1);
 
-        Form form = new Form("form");
+        //get necessary to us workloads
+        workloadEntries = em.createQuery("from WorkloadEntry where semesterNumber = " + choosenSemester).getResultList();
+
+        em.close();
+
+        Form form = new Form("form"){
+
+            @Override
+            protected void onSubmit() {
+                EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("curriculum");
+                EntityManager em = emFactory.createEntityManager();
+                em.getTransaction().begin();
+                workloadEntries = em.createQuery("from WorkloadEntry where semesterNumber = " + choosenSemester).getResultList();
+
+                disciplinesViev.modelChanged();
+                em.close();
+                super.onSubmit();
+            }
+
+        };
         add(form);
         DropDownChoice groupChoise = new DropDownChoice("group",
                 new PropertyModel(this, "choosenGroup"),
@@ -80,15 +99,10 @@ public class HomePage extends WebPage {
                 return l;
             }
         });
+
         form.add(semesterChoise);
-
-        //TODO must be refactored
-
-        List<WorkloadEntry> workloadEntries = em.createQuery("from WorkloadEntry where semesterNumber = " + choosenSemester).getResultList();
-
-        em.close();
         
-        add(disciplinesView = new ListView<WorkloadEntry>("disciplineRow", workloadEntries) {
+        add(disciplinesViev = new ListView<WorkloadEntry>("disciplineRow", workloadEntries) {
 
             @Override
             protected void populateItem(ListItem<WorkloadEntry> li) {

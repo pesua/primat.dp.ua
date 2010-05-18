@@ -4,26 +4,27 @@
     </head>
     <body>
         <form wicket:id="form">
+            <label for="semester"><wicket:message key="form.group">group</wicket:message></label>
             <select wicket:id="group">
                 <option>some group</option>
             </select>
-            <label for="semester">Семестр №</label>
+            <label for="semester"><wicket:message key="form.semester">semester number</wicket:message></label>
             <select wicket:id="semester">
                 <option>some group</option>
             </select>
-            <input type="submit" value="Обрати" />
+            <input type="submit" value="Submit" />
         </form>
-        <table border="1">
+        <table border="1" align="center">
             <thead>
                 <tr>
-                    <th>Name:</th>
-                    <th>Cathedra</th>
-                    <th>Lection(h)</th>
-                    <th>Practice(h)</th>
-                    <th>Labs(h)</th>
-                    <th>Selfwork(h)</th>
-                    <th>Course work</th>
-                    <th>Final control</th>
+                    <th><wicket:message key="table.caption.name">Name:</wicket:message></th>
+                    <th><wicket:message key="table.caption.cathedra">Cathedra</wicket:message></th>
+                    <th><wicket:message key="table.caption.lection">Lection(h)</wicket:message></th>
+                    <th><wicket:message key="table.caption.practice">Practice(h)</wicket:message></th>
+                    <th><wicket:message key="table.caption.labs">Labs(h)</wicket:message></th>
+                    <th><wicket:message key="table.caption.selfwork">Selfwork(h)</wicket:message></th>
+                    <th><wicket:message key="table.caption.cousework">Course work</wicket:message></th>
+                    <th><wicket:message key="table.caption.finalcontrol">Final control</wicket:message></th>
                 </tr>
             </thead>
             <tbody>
