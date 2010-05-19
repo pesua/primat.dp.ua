@@ -31,7 +31,8 @@ import org.junit.Test;
 import ua.dp.primat.curriculum.data.IndividualControl;
 import ua.dp.primat.curriculum.data.StudentGroup;
 import ua.dp.primat.curriculum.data.WorkloadEntry;
-import ua.dp.primat.curriculum.planparser.PlanParser;
+import ua.dp.primat.curriculum.planparser.CurriculumParser;
+import ua.dp.primat.curriculum.planparser.CurriculumXLSRow;
 import static org.junit.Assert.*;
 
 /**
@@ -62,39 +63,20 @@ public class TestPOI {
     
     @Test
     public void testIt() {
-        StudentGroup sgg = new StudentGroup("PZ", new Long(1), new Long(2008));
-        PlanParser pp = new PlanParser("src/test/resources/PZ_B.07_08_140307_lev4.xls", sgg, 0, 8, 83);
-        try
-        {
-            pp.Parse();
+        int semesters = 8;
+        StudentGroup pz081 = new StudentGroup("ог", new Long(1), new Long(2008));
+        CurriculumParser cParser = new CurriculumParser(pz081, 0, 8, 83, semesters,
+                "src/test/resources/PZ_B.07_08_140307_lev4.xls");
+        List<CurriculumXLSRow> listParsed = cParser.Parse();
+        for (int i=0;i<listParsed.size();i++) {
+            System.out.println(listParsed.get(i).getDisciplineName());
+            for (int j=1;j<=semesters;j++)
+                System.out.print(">"+listParsed.get(i).getFinalControlTypeInSemester(j).toString());
+            System.out.print("\n");
         }
-        catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-
-        //list the db
-        long cItems = 0;
-        EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("curriculum");
-        EntityManager em = emFactory.createEntityManager();
-        em.getTransaction().begin();
-        List caths = em.createQuery("from WorkloadEntry").getResultList();
-        System.out.println( caths.size() + " item(s) found:" );
-
-        for ( Iterator iter = caths.iterator(); iter.hasNext(); ) {
-            cItems++;
-            WorkloadEntry c = (WorkloadEntry)iter.next();
-            System.out.println( c.getWorkload().getDiscipline().getName() +
-                    "|" + c.getSemesterNumber() +
-                    "|" + c.getCourceWork().toString() +
-                    "|" + c.getFinalControl().toString() +
-                    "| size:" + c.getIndividualControl().size());
-        }
-        //em.getTransaction().commit();
-        em.close();
 
         //check result
-        assertEquals(cItems > 50,true);
-
+        assertEquals(listParsed.size() > 60,true);
     }
 
 }
