@@ -33,7 +33,7 @@ public class HomePage extends WebPage {
 	 */
     public HomePage() {
         
-        final List groups = DataUtils.getGroups();
+        final List<StudentGroup> groups = DataUtils.getGroups();
      
         if (groups.size() < 1) {
             throw new IllegalArgumentException("Sorry, but no groups in the database");
@@ -42,10 +42,10 @@ public class HomePage extends WebPage {
         //when user visit page firstly, he haven't made choise
         //and we heve to init default choise for him
         if(choosenGroup == null) {
-            choosenGroup = (StudentGroup) groups.get(0);
+            choosenGroup = groups.get(0);
         }
         if(choosenSemester == null) {
-            choosenSemester = new Long(1); 
+            choosenSemester = Long.valueOf(1);
         }
 
         //get necessary to us workloads
@@ -53,30 +53,33 @@ public class HomePage extends WebPage {
 
         Form form = new ChooseGroupForm("form");
         add(form);
-        DropDownChoice groupChoise = new DropDownChoice("group",
-                new PropertyModel(this, "choosenGroup"),
-                new LoadableDetachableModel() {
+        DropDownChoice<StudentGroup> groupChoise = new DropDownChoice<StudentGroup>("group",
+                new PropertyModel<StudentGroup>(this, "choosenGroup"),
+                new LoadableDetachableModel<List<StudentGroup>>() {
 
             @Override
-            protected Object load() {
+            protected List<StudentGroup> load() {
                 return groups;
             }
+
+
         });
         form.add(groupChoise);
 
-        DropDownChoice semesterChoise = new DropDownChoice("semester",
-                new PropertyModel(this, "choosenSemester"),
-                new LoadableDetachableModel() {
+        DropDownChoice<Long> semesterChoise = new DropDownChoice<Long>("semester",
+                new PropertyModel<Long>(this, "choosenSemester"),
+                new LoadableDetachableModel<List<Long>>(){
 
             @Override
-            protected Object load() {
+            protected List<Long> load() {
                 List l = new ArrayList();
                 for (int i = 1; i <= DataUtils.getSemesterCount(choosenGroup); i++) {
-                    l.add(new Long(i));
+                    l.add(Long.valueOf(i));
                 }
                 return l;
             }
         });
+
         form.add(semesterChoise);
 
         disciplinesViev = new ListViewImpl("disciplineRow", workloadEntries);
