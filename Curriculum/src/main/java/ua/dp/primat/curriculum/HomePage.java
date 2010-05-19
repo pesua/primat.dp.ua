@@ -2,7 +2,6 @@ package ua.dp.primat.curriculum;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -32,7 +31,7 @@ public class HomePage extends WebPage {
 	 * @param parameters
 	 *            Page parameters
 	 */
-    public HomePage() {//final PageParameters parameters
+    public HomePage() {
         
         final List groups = DataUtils.getGroups();
      

@@ -28,7 +28,7 @@ import javax.persistence.Persistence;
  */
 public class DataUtils {
 
-    public DataUtils() {
+    private DataUtils() {
     }
     
     public static List<StudentGroup> getGroups(){
