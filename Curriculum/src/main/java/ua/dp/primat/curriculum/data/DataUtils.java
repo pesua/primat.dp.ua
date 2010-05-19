@@ -27,6 +27,10 @@ import javax.persistence.Persistence;
  * @author Administrator
  */
 public class DataUtils {
+
+    public DataUtils() {
+    }
+    
     public static List<StudentGroup> getGroups(){
         EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("curriculum");
         EntityManager em = emFactory.createEntityManager();
@@ -46,5 +50,9 @@ public class DataUtils {
         List entries = em.createQuery("from WorkloadEntry where semesterNumber = " + semester).getResultList();
         em.close();
         return entries;
+    }
+
+    public static long getSemesterCount(StudentGroup group) {
+        return 8;
     }
 }

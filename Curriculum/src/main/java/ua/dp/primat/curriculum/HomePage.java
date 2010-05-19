@@ -2,9 +2,6 @@ package ua.dp.primat.curriculum;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
@@ -16,7 +13,6 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
 import ua.dp.primat.curriculum.data.DataUtils;
 import ua.dp.primat.curriculum.data.StudentGroup;
-import ua.dp.primat.curriculum.data.Workload;
 import ua.dp.primat.curriculum.data.WorkloadEntry;
 
 /**
@@ -29,30 +25,32 @@ public class HomePage extends WebPage {
     private StudentGroup choosenGroup;
     private Long choosenSemester;
     private final ListView<WorkloadEntry> disciplinesViev;
-    List<WorkloadEntry> workloadEntries;
+
     /**
 	 * Constructor that is invoked when page is invoked without a session.
 	 * 
 	 * @param parameters
 	 *            Page parameters
 	 */
-    public HomePage(final PageParameters parameters) {
+    public HomePage() {//final PageParameters parameters
         
         final List groups = DataUtils.getGroups();
      
-        if (groups.size() < 1)
-            throw new NullPointerException("Sorry, but no groups in the database");
-            //groups.add(new StudentGroup("PZ", new Long(2008), new Long(1)));
-
+        if (groups.size() < 1) {
+            throw new IllegalArgumentException("Sorry, but no groups in the database");
+        }
+        
         //when user visit page firstly, he haven't made choise
         //and we heve to init default choise for him
-        if(choosenGroup == null)
+        if(choosenGroup == null) {
             choosenGroup = (StudentGroup) groups.get(0);
-        if(choosenSemester == null)
-            choosenSemester = new Long(1);
+        }
+        if(choosenSemester == null) {
+            choosenSemester = new Long(1); 
+        }
 
         //get necessary to us workloads
-        workloadEntries = DataUtils.getWorkloadEntries(choosenGroup, choosenSemester);
+        List<WorkloadEntry> workloadEntries = DataUtils.getWorkloadEntries(choosenGroup, choosenSemester);
 
         Form form = new ChooseGroupForm("form");
         add(form);
@@ -74,15 +72,17 @@ public class HomePage extends WebPage {
             @Override
             protected Object load() {
                 List l = new ArrayList();
-                for (int i = 1; i <= 8; i++)
+                for (int i = 1; i <= DataUtils.getSemesterCount(choosenGroup); i++) {
                     l.add(new Long(i));
+                }
                 return l;
             }
         });
-
         form.add(semesterChoise);
-        
-        add(disciplinesViev = new ListViewImpl("disciplineRow", workloadEntries));
+
+        disciplinesViev = new ListViewImpl("disciplineRow", workloadEntries);
+
+        add(disciplinesViev);
 
     }
 
@@ -114,7 +114,7 @@ public class HomePage extends WebPage {
 
         @Override
         protected void onSubmit() {
-            workloadEntries = DataUtils.getWorkloadEntries(choosenGroup, choosenSemester);
+            List<WorkloadEntry> workloadEntries = DataUtils.getWorkloadEntries(choosenGroup, choosenSemester);
             disciplinesViev.setList(workloadEntries);
             super.onSubmit();
         }
