@@ -4,30 +4,19 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import ua.dp.primat.curriculum.data.Cathedra;
-import ua.dp.primat.curriculum.data.Discipline;
-import ua.dp.primat.curriculum.data.FinalControlType;
-import ua.dp.primat.curriculum.data.IndividualControl;
 import ua.dp.primat.curriculum.data.LoadCategory;
 import ua.dp.primat.curriculum.data.StudentGroup;
-import ua.dp.primat.curriculum.data.Workload;
-import ua.dp.primat.curriculum.data.WorkloadEntry;
 import ua.dp.primat.curriculum.data.WorkloadType;
 
 /**
@@ -35,7 +24,7 @@ import ua.dp.primat.curriculum.data.WorkloadType;
  * @author fdevelop
  *
  */
-public class CurriculumParser {
+public final class CurriculumParser {
 
     private CurriculumParser(StudentGroup group, int sheetNum,
             int itemStart, int itemEnd, int semCount) {
@@ -75,10 +64,7 @@ public class CurriculumParser {
         currentSheet = excelBook.getSheetAt(sheetNumber);
     }
 
-    private CurriculumXLSRow ParseXLSEntry(Row row, WorkloadType workloadType, LoadCategory loadCategory) {
-        if (row == null)
-            return null;
-
+    private CurriculumXLSRow parseXLSEntry(Row row, WorkloadType workloadType, LoadCategory loadCategory) {
         //parse info
         String subjName = row.getCell(COL_DISCIPLINE).getStringCellValue();
         String subjCath = row.getCell(COL_CATHEDRA).getStringCellValue();
@@ -91,70 +77,72 @@ public class CurriculumParser {
         String workIndForm = row.getCell(COL_INDIVIDUALTASKS+1).toString();
         String workIndWeek = row.getCell(COL_INDIVIDUALTASKS+2).toString();
         //hours
-        Map<Integer, WorkHours> SemesterWorkhours = new HashMap<Integer, WorkHours>();
+        Map<Integer, WorkHours> semesterWorkhours = new HashMap<Integer, WorkHours>();
         for (int sem=0; sem < semestersCount; sem++) {
-            WorkHours SemesterHoursInfo = new WorkHours();
-            SemesterHoursInfo.hLec = row.getCell(COL_HOURS_LECTURE+6*sem).getNumericCellValue();
-            SemesterHoursInfo.hPract = row.getCell(COL_HOURS_PRACTICE+6*sem).getNumericCellValue();
-            SemesterHoursInfo.hLab = row.getCell(COL_HOURS_LAB+6*sem).getNumericCellValue();
-            SemesterHoursInfo.hInd = row.getCell(COL_HOURS_INDIVIDUAL+6*sem).getNumericCellValue();
-            SemesterHoursInfo.hSam = row.getCell(COL_HOURS_SELFWORK+6*sem).getNumericCellValue();
-            if (SemesterHoursInfo.getSum() > 0)
-                SemesterWorkhours.put(sem+1, null);
+            WorkHours semesterHoursInfo = new WorkHours();
+            semesterHoursInfo.hLec = row.getCell(COL_HOURS_LECTURE+COL_HOUROFFSET*sem).getNumericCellValue();
+            semesterHoursInfo.hPract = row.getCell(COL_HOURS_PRACTICE+COL_HOUROFFSET*sem).getNumericCellValue();
+            semesterHoursInfo.hLab = row.getCell(COL_HOURS_LAB+COL_HOUROFFSET*sem).getNumericCellValue();
+            semesterHoursInfo.hInd = row.getCell(COL_HOURS_INDIVIDUAL+COL_HOUROFFSET*sem).getNumericCellValue();
+            semesterHoursInfo.hSam = row.getCell(COL_HOURS_SELFWORK+COL_HOUROFFSET*sem).getNumericCellValue();
+            if (semesterHoursInfo.getSum() > 0)
+                semesterWorkhours.put(sem+1, null);
         }
 
         //finally, create object
         return new CurriculumXLSRow(subjName, subjCath,
                 workCtrlExams, workCtrlMark, workCtrlCourse,
-                workIndSem, workIndForm, workIndWeek, SemesterWorkhours,
+                workIndSem, workIndForm, workIndWeek, semesterWorkhours,
                 workloadType, loadCategory);
     }
 
-    public List<CurriculumXLSRow> Parse() {
-        WorkloadType wtype = WorkloadType.wtProfPract;
-        LoadCategory lcat = LoadCategory.Normative;
+    public List<CurriculumXLSRow> parse() {
+        List<CurriculumXLSRow> entries = new ArrayList<CurriculumXLSRow>();
 
-        Vector<CurriculumXLSRow> entries = new Vector<CurriculumXLSRow>();
+        //assign default values for type and category of discipline
+        WorkloadType workloadType = WorkloadType.wtProfPract;
+        LoadCategory loadCategory = LoadCategory.Normative;
 
-        int rows = currentSheet.getPhysicalNumberOfRows();
+        if ((itemStart < 0) || (itemEnd > currentSheet.getPhysicalNumberOfRows()-1)) {
+            throw new IndexOutOfBoundsException();
+        }
+
         for (int r = itemStart; r <= itemEnd; r++) {
             Row row = currentSheet.getRow(r);
-            if (row == null)
-                continue;
 
-            if (row.getPhysicalNumberOfCells() == 0)
+            //could not parse item
+            if ((row == null) ||
+                (row.getPhysicalNumberOfCells() == 0) ||
+                (row.getCell(0).toString().isEmpty())) {
                 continue;
+            }
 
-            if (row.getCell(0).toString().isEmpty())
-                continue;
-
+            //if this item is not a Database entry, it might be the options
             if ((row.getCell(1) == null) || (row.getCell(1).toString().isEmpty())) {
                 Cell cell = row.getCell(0);
                 if ( cell.getStringCellValue().indexOf(". ") > -1 ) {
                     int dtype = Integer.parseInt( cell.getStringCellValue().substring(0, cell.getStringCellValue().indexOf(".")) );
                     switch (dtype) {
-                        case 1:wtype = WorkloadType.wtHumanities;
-                        case 2:wtype = WorkloadType.wtNaturalScience;
-                        case 3:wtype = WorkloadType.wtProfPract;
-                        case 4:wtype = WorkloadType.wtProfPractStudent;
-                        case 5:wtype = WorkloadType.wtProfPractUniver;
+                        case 1:workloadType = WorkloadType.wtHumanities;
+                        case 2:workloadType = WorkloadType.wtNaturalScience;
+                        case 3:workloadType = WorkloadType.wtProfPract;
+                        case 4:workloadType = WorkloadType.wtProfPractStudent;
+                        case 5:workloadType = WorkloadType.wtProfPractUniver;
                     }
-                    lcat = LoadCategory.Normative;
+                    loadCategory = LoadCategory.Normative;
                 }
                 else {
                     String categoryName = cell.getStringCellValue();
                     if (categoryName.equalsIgnoreCase(DISCIPLINE_CAT_ALTERNATIVEWAR))
-                        lcat = LoadCategory.AlternativeForWar;
+                        loadCategory = LoadCategory.AlternativeForWar;
                     else if (categoryName.equalsIgnoreCase(DISCIPLINE_CAT_SELECTIVE))
-                        lcat = LoadCategory.Selective;
+                        loadCategory = LoadCategory.Selective;
                     else
-                        lcat = LoadCategory.Normative;
+                        loadCategory = LoadCategory.Normative;
                 }
-
-                continue;
+            } else {
+                entries.add(parseXLSEntry(row, workloadType, loadCategory));
             }
-
-            entries.add(ParseXLSEntry(row, wtype, lcat));
         }
 
         return entries;
@@ -179,6 +167,8 @@ public class CurriculumParser {
     public static final int COL_HOURS_LAB = 24;
     public static final int COL_HOURS_INDIVIDUAL = 25;
     public static final int COL_HOURS_SELFWORK = 26;
+    //
+    public static final int COL_HOUROFFSET = 6;
 
     /* VARIABLES */
     private Workbook excelBook;
@@ -186,10 +176,10 @@ public class CurriculumParser {
 
     //pre-params
     private StudentGroup group;
-    private int sheetNumber = 0;
-    private int itemStart = 8;
-    private int itemEnd = 84;
-    private int semestersCount = 8;
+    private int sheetNumber;
+    private int itemStart;
+    private int itemEnd;
+    private int semestersCount;
 
 
     //getters and setters

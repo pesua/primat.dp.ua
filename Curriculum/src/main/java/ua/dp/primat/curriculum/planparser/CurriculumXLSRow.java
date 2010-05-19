@@ -1,14 +1,9 @@
-/*
- *  
- */
-
 package ua.dp.primat.curriculum.planparser;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Arrays;
-import java.util.Vector;
 import ua.dp.primat.curriculum.data.FinalControlType;
 import ua.dp.primat.curriculum.data.LoadCategory;
 import ua.dp.primat.curriculum.data.WorkloadType;
@@ -17,15 +12,15 @@ import ua.dp.primat.curriculum.data.WorkloadType;
  *
  * @author fdevelop
  */
-public class CurriculumXLSRow {
+public final class CurriculumXLSRow {
 
     private static final char DIFFERENTIAL_TEST_MARK = 'ä';
 
     private int[] parseNumValues(String fmStr, boolean standard) {
-        Vector<Integer> intValues = new Vector<Integer>();
+        List<Integer> intValues = new ArrayList<Integer>();
         String[] values = fmStr.split(",");
 
-        for (int i=0;i<values.length;i++)
+        for (int i=0;i<values.length;i++) {
             if (standard) {
                 try {
                     intValues.add((int)Double.parseDouble(values[i].trim()));
@@ -40,6 +35,7 @@ public class CurriculumXLSRow {
                     catch (NumberFormatException nfe) { }
                 }
             }
+        }
 
         int[] result = new int[intValues.size()];
         for (int i=0;i<intValues.size();i++)
@@ -48,20 +44,21 @@ public class CurriculumXLSRow {
     }
 
     private List<IndividualControlEntry> createIndividualWorkList(String siwSemester, String siwForm, String siwWeek) {
-        int[] Semesters = parseNumValues(siwSemester,true);
-        String[] Types = siwForm.trim().split(",");
-        int[] Weeks = parseNumValues(siwWeek,true);
+        int[] semesters = parseNumValues(siwSemester,true);
+        String[] types = siwForm.trim().split(",");
+        int[] weeks = parseNumValues(siwWeek,true);
 
-        if ((Semesters.length != Types.length) || (Semesters.length != Weeks.length))
+        if ((semesters.length != types.length) || (semesters.length != weeks.length)) {
             return null;
+        }
 
-        Vector<IndividualControlEntry> entries = new Vector<IndividualControlEntry>();
-        for (int i=0;i<Semesters.length;i++)
+        List<IndividualControlEntry> entries = new ArrayList<IndividualControlEntry>();
+        for (int i=0;i<semesters.length;i++)
         {
             IndividualControlEntry ic = new IndividualControlEntry();
-            ic.setSemester(Semesters[i]);
-            ic.setType(Types[i]);
-            ic.setWeekNum(Weeks[i]);
+            ic.setSemester(semesters[i]);
+            ic.setType(types[i]);
+            ic.setWeekNum(weeks[i]);
             entries.add(ic);
         }
 
@@ -71,7 +68,7 @@ public class CurriculumXLSRow {
     public CurriculumXLSRow(String disciplineName, String cathedraName,
                             String sfmExams, String sfmTests, String sfmCourses,
                             String siwSemester, String siwForm, String siwWeek,
-                            Map<Integer, WorkHours> SemesterHours,
+                            Map<Integer, WorkHours> semesterHours,
                             WorkloadType workloadType, LoadCategory loadCategory) {
         this.disciplineName = disciplineName;
         this.cathedraName = cathedraName;
@@ -87,7 +84,7 @@ public class CurriculumXLSRow {
 
         this.indWorks = createIndividualWorkList(siwSemester, siwForm, siwWeek);
         
-        this.HoursForSemesters = SemesterHours;
+        this.hoursForSemesters = semesterHours;
 
         this.workloadType = workloadType;
         this.loadCategory = loadCategory;
@@ -105,7 +102,7 @@ public class CurriculumXLSRow {
     //individual works
     private List<IndividualControlEntry> indWorks;
     //hours info
-    private Map<Integer ,WorkHours> HoursForSemesters;
+    private Map<Integer ,WorkHours> hoursForSemesters;
 
     /* getters and setters */
 
@@ -165,5 +162,21 @@ public class CurriculumXLSRow {
 
     public void setWorkloadType(WorkloadType workloadType) {
         this.workloadType = workloadType;
+    }
+
+    public Map<Integer, WorkHours> getHoursForSemesters() {
+        return hoursForSemesters;
+    }
+
+    public void setHoursForSemesters(Map<Integer, WorkHours> hoursForSemesters) {
+        this.hoursForSemesters = hoursForSemesters;
+    }
+
+    public List<IndividualControlEntry> getIndWorks() {
+        return indWorks;
+    }
+
+    public void setIndWorks(List<IndividualControlEntry> indWorks) {
+        this.indWorks = indWorks;
     }
 }
