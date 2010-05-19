@@ -76,7 +76,7 @@ public class TestPOI {
         }
 
         //check result
-        assertEquals(listParsed.size() > 60,true);
+        assertEquals(true,listParsed.size() > 50);
     }
 
 }
