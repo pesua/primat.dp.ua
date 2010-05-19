@@ -14,6 +14,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
+import ua.dp.primat.curriculum.data.DataUtils;
 import ua.dp.primat.curriculum.data.StudentGroup;
 import ua.dp.primat.curriculum.data.Workload;
 import ua.dp.primat.curriculum.data.WorkloadEntry;
@@ -36,13 +37,8 @@ public class HomePage extends WebPage {
 	 *            Page parameters
 	 */
     public HomePage(final PageParameters parameters) {
-        //load data from database
-        EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("curriculum");
-        EntityManager em = emFactory.createEntityManager();
-       
-        em.getTransaction().begin();
-
-        final List groups = em.createQuery("from StudentGroup").getResultList();
+        
+        final List groups = DataUtils.getGroups();
      
         if (groups.size() < 1)
             throw new NullPointerException("Sorry, but no groups in the database");
@@ -56,9 +52,7 @@ public class HomePage extends WebPage {
             choosenSemester = new Long(1);
 
         //get necessary to us workloads
-        workloadEntries = em.createQuery("from WorkloadEntry where semesterNumber = " + choosenSemester).getResultList();
-
-        em.close();
+        workloadEntries = DataUtils.getWorkloadEntries(choosenGroup, choosenSemester);
 
         Form form = new ChooseGroupForm("form");
         add(form);
@@ -120,11 +114,7 @@ public class HomePage extends WebPage {
 
         @Override
         protected void onSubmit() {
-            EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("curriculum");
-            EntityManager em = emFactory.createEntityManager();
-            em.getTransaction().begin();
-            workloadEntries = em.createQuery("from WorkloadEntry where semesterNumber = " + choosenSemester).getResultList();
-            em.close();
+            workloadEntries = DataUtils.getWorkloadEntries(choosenGroup, choosenSemester);
             disciplinesViev.setList(workloadEntries);
             super.onSubmit();
         }

@@ -4,7 +4,6 @@ import junit.framework.TestCase;
 import org.apache.wicket.util.tester.WicketTester;
 import ua.dp.primat.curriculum.HomePage;
 import ua.dp.primat.curriculum.WicketApplication;
-//>>>>>>> .r48
 
 /**
  * Simple test using the WicketTester
