@@ -2,6 +2,8 @@ package ua.dp.primat;
 
 import junit.framework.TestCase;
 import org.apache.wicket.util.tester.WicketTester;
+import ua.dp.primat.curriculum.HomePage;
+import ua.dp.primat.curriculum.WicketApplication;
 //>>>>>>> .r48
 
 /**
@@ -14,7 +16,7 @@ public class TestHomePage extends TestCase
 	@Override
 	public void setUp()
 	{
-		//tester = new WicketTester(new WicketApplication());
+		tester = new WicketTester(new WicketApplication());
 	}
 
 	public void testRenderMyPage()
@@ -24,8 +26,5 @@ public class TestHomePage extends TestCase
 
 		//assert rendered page class
 		//tester.assertRenderedPage(HomePage.class);
-
-		//assert rendered label component
-		//tester.assertLabel("message", "Curriclums will be here");
 	}
 }

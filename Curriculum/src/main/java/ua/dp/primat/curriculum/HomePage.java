@@ -60,21 +60,7 @@ public class HomePage extends WebPage {
 
         em.close();
 
-        Form form = new Form("form"){
-
-            @Override
-            protected void onSubmit() {
-                EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("curriculum");
-                EntityManager em = emFactory.createEntityManager();
-                em.getTransaction().begin();
-                workloadEntries = em.createQuery("from WorkloadEntry where semesterNumber = " + choosenSemester).getResultList();
-
-                disciplinesViev.modelChanged();
-                em.close();
-                super.onSubmit();
-            }
-
-        };
+        Form form = new ChooseGroupForm("form");
         add(form);
         DropDownChoice groupChoise = new DropDownChoice("group",
                 new PropertyModel(this, "choosenGroup"),
@@ -102,21 +88,45 @@ public class HomePage extends WebPage {
 
         form.add(semesterChoise);
         
-        add(disciplinesViev = new ListView<WorkloadEntry>("disciplineRow", workloadEntries) {
+        add(disciplinesViev = new ListViewImpl("disciplineRow", workloadEntries));
 
-            @Override
-            protected void populateItem(ListItem<WorkloadEntry> li) {
-                final WorkloadEntry entry = li.getModelObject();
-                li.add(new Label("disciplineName", entry.getWorkload().getDiscipline().getName()));
-                li.add(new Label("cathedra", entry.getWorkload().getDiscipline().getCathedra().getName()));
-                li.add(new Label("lection", entry.getLectionCount().toString()));
-                li.add(new Label("practice", entry.getPracticeCount().toString()));
-                li.add(new Label("labs", entry.getLabCount().toString()));
-                li.add(new Label("selfwork", entry.getIndCount().toString()));
-                li.add(new Label("course", entry.getCourceWork().toString()));
-                li.add(new Label("finalcontrol", entry.getFinalControl().toString()));
-            }
-        });
+    }
 
+    private static class ListViewImpl extends ListView<WorkloadEntry> {
+
+        public ListViewImpl(String string, List<? extends WorkloadEntry> list) {
+            super(string, list);
+        }
+
+        @Override
+        protected void populateItem(ListItem<WorkloadEntry> li) {
+            final WorkloadEntry entry = li.getModelObject();
+            li.add(new Label("disciplineName", entry.getWorkload().getDiscipline().getName()));
+            li.add(new Label("cathedra", entry.getWorkload().getDiscipline().getCathedra().getName()));
+            li.add(new Label("lection", entry.getLectionCount().toString()));
+            li.add(new Label("practice", entry.getPracticeCount().toString()));
+            li.add(new Label("labs", entry.getLabCount().toString()));
+            li.add(new Label("selfwork", entry.getIndCount().toString()));
+            li.add(new Label("course", entry.getCourceWork().toString()));
+            li.add(new Label("finalcontrol", entry.getFinalControl().toString()));
+        }
+    }
+
+    private class ChooseGroupForm extends Form {
+
+        public ChooseGroupForm(String id) {
+            super(id);
+        }
+
+        @Override
+        protected void onSubmit() {
+            EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("curriculum");
+            EntityManager em = emFactory.createEntityManager();
+            em.getTransaction().begin();
+            workloadEntries = em.createQuery("from WorkloadEntry where semesterNumber = " + choosenSemester).getResultList();
+            em.close();
+            disciplinesViev.setList(workloadEntries);
+            super.onSubmit();
+        }
     }
 }
