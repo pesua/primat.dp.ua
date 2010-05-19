@@ -36,5 +36,8 @@ public class TestHomePage {
 
             DropDownChoice dChoice = (DropDownChoice) tester.getComponentFromLastRenderedPage("form:semester");
             Assert.assertTrue(dChoice.getChoices().size() == 8);
+
+            dChoice = (DropDownChoice) tester.getComponentFromLastRenderedPage("form:group");
+            Assert.assertTrue(dChoice.getChoices().size() > 0);
 	}
 }
