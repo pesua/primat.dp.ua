@@ -14,9 +14,6 @@ import ua.dp.primat.curriculum.data.DataUtils;
 import ua.dp.primat.curriculum.data.StudentGroup;
 import ua.dp.primat.curriculum.data.WorkloadEntry;
 
-/**
- * Homepage
- */
 public class HomePage extends WebPage {
 
     private static final long serialVersionUID = 1L;
@@ -25,32 +22,21 @@ public class HomePage extends WebPage {
     private Long choosenSemester;
     private final ListView<WorkloadEntry> disciplinesViev;
 
-    /**
-	 * Constructor that is invoked when page is invoked without a session.
-	 * 
-	 * @param parameters
-	 *            Page parameters
-	 */
     public HomePage() {
         
         final List<StudentGroup> groups = DataUtils.getGroups();
      
-        if (groups.size() < 1) {
+        if (groups.isEmpty()) {
             throw new IllegalArgumentException("Sorry, but no groups in the database");
         }
         
-        //when user visit page firstly, he haven't made choise
-        //and we heve to init default choise for him
         if(choosenGroup == null) {
             choosenGroup = groups.get(0);
         }
         if(choosenSemester == null) {
             choosenSemester = Long.valueOf(1);
         }
-
-        //get necessary to us workloads
-        List<WorkloadEntry> workloadEntries = DataUtils.getWorkloadEntries(choosenGroup, choosenSemester);
-
+        
         Form form = new ChooseGroupForm("form");
         add(form);
         DropDownChoice<StudentGroup> groupChoise = new DropDownChoice<StudentGroup>("group",
@@ -61,8 +47,6 @@ public class HomePage extends WebPage {
             protected List<StudentGroup> load() {
                 return groups;
             }
-
-
         });
         form.add(groupChoise);
 
@@ -82,15 +66,15 @@ public class HomePage extends WebPage {
 
         form.add(semesterChoise);
 
-        disciplinesViev = new ListViewImpl("disciplineRow", workloadEntries);
+        List<WorkloadEntry> workloadEntries = DataUtils.getWorkloadEntries(choosenGroup, choosenSemester);
+        disciplinesViev = new WorkloadsListView("disciplineRow", workloadEntries);
 
         add(disciplinesViev);
-
     }
 
-    private static class ListViewImpl extends ListView<WorkloadEntry> {
+    private static class WorkloadsListView extends ListView<WorkloadEntry> {
 
-        public ListViewImpl(String string, List<? extends WorkloadEntry> list) {
+        public WorkloadsListView(String string, List<? extends WorkloadEntry> list) {
             super(string, list);
         }
 
@@ -116,8 +100,7 @@ public class HomePage extends WebPage {
 
         @Override
         protected void onSubmit() {
-            List<WorkloadEntry> workloadEntries = DataUtils.getWorkloadEntries(choosenGroup, choosenSemester);
-            disciplinesViev.setList(workloadEntries);
+            disciplinesViev.setList(DataUtils.getWorkloadEntries(choosenGroup, choosenSemester));
             super.onSubmit();
         }
     }

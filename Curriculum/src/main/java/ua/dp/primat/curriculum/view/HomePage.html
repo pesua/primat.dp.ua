@@ -1,20 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" >
     <head>  
-        <title>Wicket Quickstart Archetype Homepage</title>
+        <title><wicket:message key="page.title">Curriculums</wicket:message></title>
+        <link rel="stylesheet" type="text/css" href="view.css" />
     </head>
     <body>
         <form wicket:id="form">
-            <label for="semester"><wicket:message key="form.group">group</wicket:message></label>
-            <select wicket:id="group">
+            <label for="group"><wicket:message key="form.group">group</wicket:message></label>
+            <select id="group" wicket:id="group">
                 <option>some group</option>
             </select>
             <label for="semester"><wicket:message key="form.semester">semester number</wicket:message></label>
-            <select wicket:id="semester">
+            <select id="semester" wicket:id="semester">
                 <option>some group</option>
             </select>
             <input type="submit" wicket:message="value:form.submit" />
         </form>
-        <table border="1" align="center">
+        <table id="curriculumTable">
             <thead>
                 <tr>
                     <th><wicket:message key="table.caption.name">Name:</wicket:message></th>
