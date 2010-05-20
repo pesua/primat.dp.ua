@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -85,8 +84,9 @@ public final class CurriculumParser {
             semesterHoursInfo.setHoursLab(row.getCell(COL_HOURS_LAB+COL_HOUROFFSET*sem).getNumericCellValue());
             semesterHoursInfo.setHoursInd(row.getCell(COL_HOURS_INDIVIDUAL+COL_HOUROFFSET*sem).getNumericCellValue());
             semesterHoursInfo.setHoursSam(row.getCell(COL_HOURS_SELFWORK+COL_HOUROFFSET*sem).getNumericCellValue());
-            if (semesterHoursInfo.getSum() > 0)
+            if (semesterHoursInfo.getSum() > 0) {
                 semesterWorkhours.put(sem+1, semesterHoursInfo);
+            }
         }
 
         //finally, create object
@@ -97,21 +97,26 @@ public final class CurriculumParser {
     }
 
     private void changeEntriesCategoryOrType(String cellText) {
-        if ( cellText.indexOf(". ") > -1 ) {
-            int dtype = Integer.parseInt( cellText.substring(0, cellText.indexOf(".")) );
-            switch (dtype) {
-                case 1:currentWorkloadType = WorkloadType.wtHumanities;
-                case 2:currentWorkloadType = WorkloadType.wtNaturalScience;
-                case 3:currentWorkloadType = WorkloadType.wtProfPract;
-                case 4:currentWorkloadType = WorkloadType.wtProfPractStudent;
-                case 5:currentWorkloadType = WorkloadType.wtProfPractUniver;
-            }
+        if ( cellText.indexOf('.') > -1 ) {
+            int dtype = Integer.parseInt( cellText.substring(0, cellText.indexOf('.')) );
             currentLoadCategory = LoadCategory.Normative;
+            switch (dtype) {
+                case WTID_HUMANITIES:currentWorkloadType = WorkloadType.wtHumanities;
+                    break;
+                case WTID_NATURALSCIENCE:currentWorkloadType = WorkloadType.wtNaturalScience;
+                    break;
+                case WTID_PROFPRACT:currentWorkloadType = WorkloadType.wtProfPract;
+                    break;
+                case WTID_PROFPRACTSTUDENT:currentWorkloadType = WorkloadType.wtProfPractStudent;
+                    break;
+                case WTID_PROFPRACTUNIVER:currentWorkloadType = WorkloadType.wtProfPractUniver;
+                    break;
+            }
         }
         else {
-            if (cellText.equalsIgnoreCase(DISCIPLINE_CAT_ALTERNATIVEWAR)) {
+            if (cellText.contains(DISCIPLINE_CAT_ALTERNATIVEWAR)) {
                 currentLoadCategory = LoadCategory.AlternativeForWar;
-            } else if (cellText.equalsIgnoreCase(DISCIPLINE_CAT_SELECTIVE)) {
+            } else if (cellText.contains(DISCIPLINE_CAT_SELECTIVE)) {
                 currentLoadCategory = LoadCategory.Selective;
             } else {
                 currentLoadCategory = LoadCategory.Normative;
@@ -143,7 +148,7 @@ public final class CurriculumParser {
 
                 //if this item is not a Database entry, it might be the options
                 if ((row.getCell(1) == null) || (row.getCell(1).toString().isEmpty())) {
-                    String cellText = row.getCell(0).getStringCellValue();
+                    String cellText = row.getCell(0).getStringCellValue().trim();
                     changeEntriesCategoryOrType(cellText);
                 } else {
                     entries.add(parseXLSEntry(row, currentWorkloadType, currentLoadCategory));
@@ -157,8 +162,8 @@ public final class CurriculumParser {
 
     /* CONSTANTS */
     //
-    public static final String DISCIPLINE_CAT_SELECTIVE = "Р’РёР±С–СЂРєРѕРІР° С‡Р°СЃС‚РёРЅР°";
-    public static final String DISCIPLINE_CAT_ALTERNATIVEWAR = "РђР»СЊС‚РµСЂРЅР°С‚РёРІР° РґРѕ РІС–Р№СЃСЊРєРѕРІРѕС— РїС–РґРіРѕС‚РѕРІРєРё";
+    public static final String DISCIPLINE_CAT_SELECTIVE = "Вибіркова частина";
+    public static final String DISCIPLINE_CAT_ALTERNATIVEWAR = "Альтернатива до військової підготовки";
 
     //Excel index for Name of Discipline
     public static final int COL_DISCIPLINE = 1;
@@ -176,6 +181,12 @@ public final class CurriculumParser {
     public static final int COL_HOURS_SELFWORK = 26;
     //
     public static final int COL_HOUROFFSET = 6;
+    //Workload Type Indexes
+    public static final int WTID_HUMANITIES = 1;
+    public static final int WTID_NATURALSCIENCE = 2;
+    public static final int WTID_PROFPRACT = 3;
+    public static final int WTID_PROFPRACTSTUDENT = 4;
+    public static final int WTID_PROFPRACTUNIVER = 5;
 
     /* VARIABLES */
     private Workbook excelBook;

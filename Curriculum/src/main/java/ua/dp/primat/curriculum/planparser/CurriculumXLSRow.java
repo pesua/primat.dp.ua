@@ -21,7 +21,7 @@ import ua.dp.primat.curriculum.data.StudentGroup;
  */
 public final class CurriculumXLSRow {
 
-    private static final String DIFFERENTIAL_TEST_MARK = "ะด";
+    private static final String DIFFERENTIAL_TEST_MARK = "ไ";
 
     /**
      * Parses a string like '1,2  ,3, 7', which is used in Curriculum. There is a
@@ -71,14 +71,17 @@ public final class CurriculumXLSRow {
         String workIndForm = individualControlTypeCell.trim();
         while (workIndForm.indexOf(',') > -1) {
             String tokenType = workIndForm.substring(0, workIndForm.indexOf(',')).trim();
-            if (tokenType.isEmpty()) continue;
+            if (tokenType.isEmpty()) {
+						    continue;
+						}
             if ((tokenType.charAt(0) >= '0') && (tokenType.charAt(0) <= '9')) {
                 int nextWorksCount = Integer.parseInt(tokenType.substring(0,1));
                 for (int y=0;y<nextWorksCount;y++) {
                     listTokens.add(tokenType.substring(1));
                 }
-            } else
+            } else {
                 listTokens.add(tokenType);
+            }
             workIndForm = workIndForm.substring(workIndForm.indexOf(',')+1);
         }
         String tokenType = workIndForm.trim();
@@ -88,8 +91,9 @@ public final class CurriculumXLSRow {
                 for (int y=0;y<nextWorksCount;y++) {
                     listTokens.add(tokenType.substring(1));
                 }
-            } else
+            } else {
                 listTokens.add(tokenType);
+          	}
         }
 
         return listTokens.toArray(new String[0]);

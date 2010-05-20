@@ -46,11 +46,19 @@ public class TestPOI {
         List<CurriculumXLSRow> listParsed = cParser.parse();
         for (int i=0;i<listParsed.size();i++) {
             System.out.println("Discipline: "+listParsed.get(i).getDiscipline().getName());
-            for (int j=0;j<listParsed.get(i).getWorkload().getEntries().size();j++)
+            System.out.println("Category: "+listParsed.get(i).getWorkload().getLoadCategory());
+            System.out.println("Type: "+listParsed.get(i).getWorkload().getType());
+            for (int j=0;j<listParsed.get(i).getWorkload().getEntries().size();j++) {
                 System.out.println("-> Semester:"+listParsed.get(i).getWorkload().getEntries().get(j).getSemesterNumber()
                         + "| FinalControl:" + listParsed.get(i).getWorkload().getEntries().get(j).getFinalControl()
                         + "| CourseWork:" + listParsed.get(i).getWorkload().getEntries().get(j).getCourceWork()
                         + "| IndividualControlCount:" + listParsed.get(i).getWorkload().getEntries().get(j).getIndividualControl().size());
+                for (int k=0;k<listParsed.get(i).getWorkload().getEntries().get(j).getIndividualControl().size();k++) {
+                    System.out.print("$ " + listParsed.get(i).getWorkload().getEntries().get(j).getIndividualControl().get(k).getType());
+                    System.out.print(", " + listParsed.get(i).getWorkload().getEntries().get(j).getIndividualControl().get(k).getWeekNum());                    
+                }
+                System.out.print("\n");
+            }
             System.out.print("\n");
         }
 
