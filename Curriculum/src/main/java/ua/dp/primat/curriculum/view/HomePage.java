@@ -30,12 +30,12 @@ public class HomePage extends WebPage {
             throw new IllegalArgumentException("Sorry, but no groups in the database");
         }
         
-        if(choosenGroup == null) {
+        //if(choosenGroup == null) {
             choosenGroup = groups.get(0);
-        }
-        if(choosenSemester == null) {
+        //}
+        //if(choosenSemester == null) {
             choosenSemester = Long.valueOf(1);
-        }
+        //}
         
         Form form = new ChooseGroupForm("form");
         add(form);
