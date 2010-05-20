@@ -5,8 +5,8 @@ import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import ua.dp.primat.curriculum.HomePage;
-import ua.dp.primat.curriculum.WicketApplication;
+import ua.dp.primat.curriculum.view.HomePage;
+import ua.dp.primat.curriculum.view.WicketApplication;
 
 /**
  * Simple test using the WicketTester

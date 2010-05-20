@@ -1,4 +1,4 @@
-package ua.dp.primat.curriculum;
+package ua.dp.primat.curriculum.view;
 
 import java.util.ArrayList;
 import java.util.List;
