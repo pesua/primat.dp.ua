@@ -4,7 +4,7 @@ package ua.dp.primat.curriculum.planparser;
  *
  * @author fdevelop
  */
-public class IndividualControlEntry {
+public final class IndividualControlEntry {
 
     private int semester;
     private String type;

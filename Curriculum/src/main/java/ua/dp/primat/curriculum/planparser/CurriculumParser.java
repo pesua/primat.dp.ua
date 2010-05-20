@@ -80,11 +80,11 @@ public final class CurriculumParser {
         Map<Integer, WorkHours> semesterWorkhours = new HashMap<Integer, WorkHours>();
         for (int sem=0; sem < semestersCount; sem++) {
             WorkHours semesterHoursInfo = new WorkHours();
-            semesterHoursInfo.hLec = row.getCell(COL_HOURS_LECTURE+COL_HOUROFFSET*sem).getNumericCellValue();
-            semesterHoursInfo.hPract = row.getCell(COL_HOURS_PRACTICE+COL_HOUROFFSET*sem).getNumericCellValue();
-            semesterHoursInfo.hLab = row.getCell(COL_HOURS_LAB+COL_HOUROFFSET*sem).getNumericCellValue();
-            semesterHoursInfo.hInd = row.getCell(COL_HOURS_INDIVIDUAL+COL_HOUROFFSET*sem).getNumericCellValue();
-            semesterHoursInfo.hSam = row.getCell(COL_HOURS_SELFWORK+COL_HOUROFFSET*sem).getNumericCellValue();
+            semesterHoursInfo.setHoursLec(row.getCell(COL_HOURS_LECTURE+COL_HOUROFFSET*sem).getNumericCellValue());
+            semesterHoursInfo.setHoursPract(row.getCell(COL_HOURS_PRACTICE+COL_HOUROFFSET*sem).getNumericCellValue());
+            semesterHoursInfo.setHoursLab(row.getCell(COL_HOURS_LAB+COL_HOUROFFSET*sem).getNumericCellValue());
+            semesterHoursInfo.setHoursInd(row.getCell(COL_HOURS_INDIVIDUAL+COL_HOUROFFSET*sem).getNumericCellValue());
+            semesterHoursInfo.setHoursSam(row.getCell(COL_HOURS_SELFWORK+COL_HOUROFFSET*sem).getNumericCellValue());
             if (semesterHoursInfo.getSum() > 0)
                 semesterWorkhours.put(sem+1, semesterHoursInfo);
         }
@@ -96,56 +96,63 @@ public final class CurriculumParser {
                 workloadType, loadCategory);
     }
 
+    private void changeEntriesCategoryOrType(String cellText) {
+        if ( cellText.indexOf(". ") > -1 ) {
+            int dtype = Integer.parseInt( cellText.substring(0, cellText.indexOf(".")) );
+            switch (dtype) {
+                case 1:currentWorkloadType = WorkloadType.wtHumanities;
+                case 2:currentWorkloadType = WorkloadType.wtNaturalScience;
+                case 3:currentWorkloadType = WorkloadType.wtProfPract;
+                case 4:currentWorkloadType = WorkloadType.wtProfPractStudent;
+                case 5:currentWorkloadType = WorkloadType.wtProfPractUniver;
+            }
+            currentLoadCategory = LoadCategory.Normative;
+        }
+        else {
+            if (cellText.equalsIgnoreCase(DISCIPLINE_CAT_ALTERNATIVEWAR)) {
+                currentLoadCategory = LoadCategory.AlternativeForWar;
+            } else if (cellText.equalsIgnoreCase(DISCIPLINE_CAT_SELECTIVE)) {
+                currentLoadCategory = LoadCategory.Selective;
+            } else {
+                currentLoadCategory = LoadCategory.Normative;
+            }
+        }
+    }
+
     public List<CurriculumXLSRow> parse() {
-        List<CurriculumXLSRow> entries = new ArrayList<CurriculumXLSRow>();
-
-        //assign default values for type and category of discipline
-        WorkloadType workloadType = WorkloadType.wtProfPract;
-        LoadCategory loadCategory = LoadCategory.Normative;
-
         if ((itemStart < 0) || (itemEnd > currentSheet.getPhysicalNumberOfRows()-1)) {
             throw new IndexOutOfBoundsException();
         }
 
-        for (int r = itemStart; r <= itemEnd; r++) {
-            Row row = currentSheet.getRow(r);
+        //assign default values for type and category of discipline
+        currentWorkloadType = WorkloadType.wtProfPract;
+        currentLoadCategory = LoadCategory.Normative;
 
-            //could not parse item
-            if ((row == null) ||
-                (row.getPhysicalNumberOfCells() == 0) ||
-                (row.getCell(0).toString().isEmpty())) {
-                continue;
-            }
+        List<CurriculumXLSRow> entries = new ArrayList<CurriculumXLSRow>();
+        //start reading excel rows
+        try {
+            for (int r = itemStart; r <= itemEnd; r++) {
+                Row row = currentSheet.getRow(r);
 
-            //if this item is not a Database entry, it might be the options
-            if ((row.getCell(1) == null) || (row.getCell(1).toString().isEmpty())) {
-                Cell cell = row.getCell(0);
-                if ( cell.getStringCellValue().indexOf(". ") > -1 ) {
-                    int dtype = Integer.parseInt( cell.getStringCellValue().substring(0, cell.getStringCellValue().indexOf(".")) );
-                    switch (dtype) {
-                        case 1:workloadType = WorkloadType.wtHumanities;
-                        case 2:workloadType = WorkloadType.wtNaturalScience;
-                        case 3:workloadType = WorkloadType.wtProfPract;
-                        case 4:workloadType = WorkloadType.wtProfPractStudent;
-                        case 5:workloadType = WorkloadType.wtProfPractUniver;
-                    }
-                    loadCategory = LoadCategory.Normative;
+                //could not parse item
+                if ((row == null) ||
+                    (row.getPhysicalNumberOfCells() == 0) ||
+                    (row.getCell(0).toString().isEmpty())) {
+                    continue;
                 }
-                else {
-                    String categoryName = cell.getStringCellValue();
-                    if (categoryName.equalsIgnoreCase(DISCIPLINE_CAT_ALTERNATIVEWAR))
-                        loadCategory = LoadCategory.AlternativeForWar;
-                    else if (categoryName.equalsIgnoreCase(DISCIPLINE_CAT_SELECTIVE))
-                        loadCategory = LoadCategory.Selective;
-                    else
-                        loadCategory = LoadCategory.Normative;
+
+                //if this item is not a Database entry, it might be the options
+                if ((row.getCell(1) == null) || (row.getCell(1).toString().isEmpty())) {
+                    String cellText = row.getCell(0).getStringCellValue();
+                    changeEntriesCategoryOrType(cellText);
+                } else {
+                    entries.add(parseXLSEntry(row, currentWorkloadType, currentLoadCategory));
                 }
-            } else {
-                entries.add(parseXLSEntry(row, workloadType, loadCategory));
             }
         }
-
-        return entries;
+        finally {
+            return entries;
+        }
     }
 
     /* CONSTANTS */
@@ -173,6 +180,9 @@ public final class CurriculumParser {
     /* VARIABLES */
     private Workbook excelBook;
     private Sheet currentSheet;
+
+    private WorkloadType currentWorkloadType;
+    private LoadCategory currentLoadCategory;
 
     //pre-params
     private StudentGroup group;

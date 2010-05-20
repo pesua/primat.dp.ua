@@ -54,37 +54,40 @@ public final class CurriculumXLSRow {
         }
 
         int[] result = new int[intValues.size()];
-        for (int i=0;i<intValues.size();i++)
+        for (int i=0;i<intValues.size();i++) {
             result[i] = intValues.get(i);
+        }
         return result;
     }
 
     /**
      * Parses the individual control strings like 'AO, 2mw' and returns
      * an array of token like ['AO','mw','mw'].
-     * @param workIndForm - the input string
+     * @param individualControlTypeCell - the input string
      * @return The string array of tokens
      */
-    private String[] parseIndividualControlTypes(String workIndForm) {
+    private String[] parseIndividualControlTypes(String individualControlTypeCell) {
         List<String> listTokens = new ArrayList<String>();
-        workIndForm = workIndForm.trim();
-        while (workIndForm.indexOf(",") > -1) {
-            String tokenType = workIndForm.substring(0, workIndForm.indexOf(",")).trim();
+        String workIndForm = individualControlTypeCell.trim();
+        while (workIndForm.indexOf(',') > -1) {
+            String tokenType = workIndForm.substring(0, workIndForm.indexOf(',')).trim();
             if (tokenType.isEmpty()) continue;
             if ((tokenType.charAt(0) >= '0') && (tokenType.charAt(0) <= '9')) {
                 int nextWorksCount = Integer.parseInt(tokenType.substring(0,1));
-                for (int y=0;y<nextWorksCount;y++)
+                for (int y=0;y<nextWorksCount;y++) {
                     listTokens.add(tokenType.substring(1));
+                }
             } else
                 listTokens.add(tokenType);
-            workIndForm = workIndForm.substring(workIndForm.indexOf(",")+1);
+            workIndForm = workIndForm.substring(workIndForm.indexOf(',')+1);
         }
         String tokenType = workIndForm.trim();
         if (!tokenType.isEmpty()) {
             if ((tokenType.charAt(0) >= '0') && (tokenType.charAt(0) <= '9')) {
                 int nextWorksCount = Integer.parseInt(tokenType.substring(0,1));
-                for (int y=0;y<nextWorksCount;y++)
+                for (int y=0;y<nextWorksCount;y++) {
                     listTokens.add(tokenType.substring(1));
+                }
             } else
                 listTokens.add(tokenType);
         }
@@ -180,11 +183,11 @@ public final class CurriculumXLSRow {
                 WorkloadEntry workloadEntry = new WorkloadEntry();
                 workloadEntry.setCourceWork(getCourseInSemester(i));
                 workloadEntry.setFinalControl(getFinalControlTypeInSemester(i));
-                workloadEntry.setIndCount(new Long(Math.round(hoursForSemesters.get(i).hSam
-                        + hoursForSemesters.get(i).hInd)));
-                workloadEntry.setLabCount(new Long(Math.round(hoursForSemesters.get(i).hLab)));
-                workloadEntry.setLectionCount(new Long(Math.round(hoursForSemesters.get(i).hLec)));
-                workloadEntry.setPracticeCount(new Long(Math.round(hoursForSemesters.get(i).hPract)));
+                workloadEntry.setIndCount(new Long(Math.round(hoursForSemesters.get(i).getHoursSam()
+                        + hoursForSemesters.get(i).getHoursInd())));
+                workloadEntry.setLabCount(new Long(Math.round(hoursForSemesters.get(i).getHoursLab())));
+                workloadEntry.setLectionCount(new Long(Math.round(hoursForSemesters.get(i).getHoursLec())));
+                workloadEntry.setPracticeCount(new Long(Math.round(hoursForSemesters.get(i).getHoursPract())));
                 workloadEntry.setSemesterNumber(new Long(i));
                 workload.getEntries().add(workloadEntry);
                 //individual controls
