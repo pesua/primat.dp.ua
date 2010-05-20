@@ -40,4 +40,9 @@ public class DataUtils {
     public static long getSemesterCount(StudentGroup group) {
         return 8;
     }
+
+    public static boolean isCurriculumsExist()
+    {
+        return !getGroups().isEmpty();
+    }
 }

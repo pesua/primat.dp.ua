@@ -1,5 +1,8 @@
 #curriculumTable {
-    border-width: medium;
-    text-align: center;
+    text-align: left;
+    border: black double;
+}
+tr, td {
+    border: 1px black solid;
 }
 
