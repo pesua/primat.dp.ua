@@ -40,14 +40,17 @@ public class TestPOI {
     @Test
     public void testIt() {
         int semesters = 8;
-        StudentGroup pz081 = new StudentGroup("ог", new Long(1), new Long(2008));
+        StudentGroup pz081 = new StudentGroup("О©╫О©╫", new Long(1), new Long(2008));
         CurriculumParser cParser = new CurriculumParser(pz081, 0, 8, 83, semesters,
                 "src/test/resources/PZ_B.07_08_140307_lev4.xls");
         List<CurriculumXLSRow> listParsed = cParser.parse();
         for (int i=0;i<listParsed.size();i++) {
-            System.out.println(listParsed.get(i).getDisciplineName());
-            for (int j=1;j<=semesters;j++)
-                System.out.print(">"+listParsed.get(i).getFinalControlTypeInSemester(j).toString());
+            System.out.println("Discipline: "+listParsed.get(i).getDiscipline().getName());
+            for (int j=0;j<listParsed.get(i).getWorkload().getEntries().size();j++)
+                System.out.println("-> Semester:"+listParsed.get(i).getWorkload().getEntries().get(j).getSemesterNumber()
+                        + "| FinalControl:" + listParsed.get(i).getWorkload().getEntries().get(j).getFinalControl()
+                        + "| CourseWork:" + listParsed.get(i).getWorkload().getEntries().get(j).getCourceWork()
+                        + "| IndividualControlCount:" + listParsed.get(i).getWorkload().getEntries().get(j).getIndividualControl().size());
             System.out.print("\n");
         }
 

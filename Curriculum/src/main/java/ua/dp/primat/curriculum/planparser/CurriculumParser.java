@@ -86,11 +86,11 @@ public final class CurriculumParser {
             semesterHoursInfo.hInd = row.getCell(COL_HOURS_INDIVIDUAL+COL_HOUROFFSET*sem).getNumericCellValue();
             semesterHoursInfo.hSam = row.getCell(COL_HOURS_SELFWORK+COL_HOUROFFSET*sem).getNumericCellValue();
             if (semesterHoursInfo.getSum() > 0)
-                semesterWorkhours.put(sem+1, null);
+                semesterWorkhours.put(sem+1, semesterHoursInfo);
         }
 
         //finally, create object
-        return new CurriculumXLSRow(subjName, subjCath,
+        return new CurriculumXLSRow(group, subjName, subjCath,
                 workCtrlExams, workCtrlMark, workCtrlCourse,
                 workIndSem, workIndForm, workIndWeek, semesterWorkhours,
                 workloadType, loadCategory);
@@ -150,8 +150,8 @@ public final class CurriculumParser {
 
     /* CONSTANTS */
     //
-    public static final String DISCIPLINE_CAT_SELECTIVE = "Вибіркова частина";
-    public static final String DISCIPLINE_CAT_ALTERNATIVEWAR = "Альтернатива до військової підготовки";
+    public static final String DISCIPLINE_CAT_SELECTIVE = "Р’РёР±С–СЂРєРѕРІР° С‡Р°СЃС‚РёРЅР°";
+    public static final String DISCIPLINE_CAT_ALTERNATIVEWAR = "РђР»СЊС‚РµСЂРЅР°С‚РёРІР° РґРѕ РІС–Р№СЃСЊРєРѕРІРѕС— РїС–РґРіРѕС‚РѕРІРєРё";
 
     //Excel index for Name of Discipline
     public static final int COL_DISCIPLINE = 1;
@@ -180,7 +180,6 @@ public final class CurriculumParser {
     private int itemStart;
     private int itemEnd;
     private int semestersCount;
-
 
     //getters and setters
     public StudentGroup getGroup() {

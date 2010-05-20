@@ -4,9 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Arrays;
+
 import ua.dp.primat.curriculum.data.FinalControlType;
 import ua.dp.primat.curriculum.data.LoadCategory;
 import ua.dp.primat.curriculum.data.WorkloadType;
+import ua.dp.primat.curriculum.data.Cathedra;
+import ua.dp.primat.curriculum.data.Discipline;
+import ua.dp.primat.curriculum.data.Workload;
+import ua.dp.primat.curriculum.data.WorkloadEntry;
+import ua.dp.primat.curriculum.data.IndividualControl;
+import ua.dp.primat.curriculum.data.StudentGroup;
 
 /**
  *
@@ -14,8 +21,17 @@ import ua.dp.primat.curriculum.data.WorkloadType;
  */
 public final class CurriculumXLSRow {
 
-    private static final char DIFFERENTIAL_TEST_MARK = 'ไ';
+    private static final String DIFFERENTIAL_TEST_MARK = "ะด";
 
+    /**
+     * Parses a string like '1,2  ,3, 7', which is used in Curriculum. There is a
+     * special case for Setoffs: it could be as '1, 2, 3d, 4', where 'd' means
+     * differential setoff (this char is defined by internal DIFFERENTIAL_TEST_MARK constant).
+     * @param fmStr - the input string
+     * @param standard - if true, a test of differential setoff will be skipped
+     * @return The generated array of parsed integers. If standard was false, the result
+     *      will include only marked numbers (like '3d').
+     */
     private int[] parseNumValues(String fmStr, boolean standard) {
         List<Integer> intValues = new ArrayList<Integer>();
         String[] values = fmStr.split(",");
@@ -28,7 +44,7 @@ public final class CurriculumXLSRow {
                 catch (NumberFormatException nfe) { }
             } else {
                 if (values[i].indexOf(DIFFERENTIAL_TEST_MARK) > -1) {
-                    String valueWithoutMark = values[i].replaceAll(String.valueOf(DIFFERENTIAL_TEST_MARK), "").trim();
+                    String valueWithoutMark = values[i].replaceAll(DIFFERENTIAL_TEST_MARK, "").trim();
                     try {
                         intValues.add((int)Double.parseDouble(valueWithoutMark.trim()));
                     }
@@ -43,9 +59,53 @@ public final class CurriculumXLSRow {
         return result;
     }
 
+    /**
+     * Parses the individual control strings like 'AO, 2mw' and returns
+     * an array of token like ['AO','mw','mw'].
+     * @param workIndForm - the input string
+     * @return The string array of tokens
+     */
+    private String[] parseIndividualControlTypes(String workIndForm) {
+        List<String> listTokens = new ArrayList<String>();
+        workIndForm = workIndForm.trim();
+        while (workIndForm.indexOf(",") > -1) {
+            String tokenType = workIndForm.substring(0, workIndForm.indexOf(",")).trim();
+            if (tokenType.isEmpty()) continue;
+            if ((tokenType.charAt(0) >= '0') && (tokenType.charAt(0) <= '9')) {
+                int nextWorksCount = Integer.parseInt(tokenType.substring(0,1));
+                for (int y=0;y<nextWorksCount;y++)
+                    listTokens.add(tokenType.substring(1));
+            } else
+                listTokens.add(tokenType);
+            workIndForm = workIndForm.substring(workIndForm.indexOf(",")+1);
+        }
+        String tokenType = workIndForm.trim();
+        if (!tokenType.isEmpty()) {
+            if ((tokenType.charAt(0) >= '0') && (tokenType.charAt(0) <= '9')) {
+                int nextWorksCount = Integer.parseInt(tokenType.substring(0,1));
+                for (int y=0;y<nextWorksCount;y++)
+                    listTokens.add(tokenType.substring(1));
+            } else
+                listTokens.add(tokenType);
+        }
+
+        return listTokens.toArray(new String[0]);
+    }
+
+    /**
+     * Parses 3 columns for individual controls works info. It includes semester number,
+     * type of control work and its week number of year. If the count of tokens
+     * in parameters are different, method returns null.
+     *
+     * @param siwSemester - cell text for semester number of work
+     * @param siwForm - cell text for type of control work
+     * @param siwWeek - cell text for number of week
+     * @return The array of IndividualControlEntry objects or null, if count of tokens
+     *      are different.
+     */
     private List<IndividualControlEntry> createIndividualWorkList(String siwSemester, String siwForm, String siwWeek) {
         int[] semesters = parseNumValues(siwSemester,true);
-        String[] types = siwForm.trim().split(",");
+        String[] types = parseIndividualControlTypes(siwForm);
         int[] weeks = parseNumValues(siwWeek,true);
 
         if ((semesters.length != types.length) || (semesters.length != weeks.length)) {
@@ -65,13 +125,109 @@ public final class CurriculumXLSRow {
         return entries;
     }
 
-    public CurriculumXLSRow(String disciplineName, String cathedraName,
+    /**
+     * Creates new entity Cathedra
+     */
+    private void generateCathedra() {
+        cathedra = new Cathedra();
+        cathedra.setName(cathedraName);
+    }
+
+    /**
+     * Creates new entity Discipline for specified Cathedra
+     * @param cathedra
+     */
+    private void generateDiscipline(Cathedra cathedra) {
+        discipline = new Discipline();
+        discipline.setName(disciplineName);
+        discipline.setCathedra(cathedra);
+    }
+
+    /**
+     * Creates new entity Workload for specified Discipline
+     * @param discipline
+     */
+    private void generateWorkload(Discipline discipline) {
+        workload = new Workload();
+        workload.setDiscipline(discipline);
+        workload.setLoadCategory(loadCategory);
+        workload.setType(workloadType);
+        workload.getGroups().add(group);
+    }
+
+    /**
+     * Generates list of IndividualControls for specified WorkloadEntry
+     * @param workloadEntry
+     */
+    private void generateIndividualControls(WorkloadEntry workloadEntry) {
+        for (IndividualControlEntry ice : indWorks) {
+            if (workloadEntry.getSemesterNumber() == ice.getSemester()) {
+                IndividualControl ic = new IndividualControl();
+                ic.setType(ice.getType());
+                ic.setWeekNum(new Long(ice.getWeekNum()));
+                workloadEntry.getIndividualControl().add(ic);
+            }
+        }
+    }
+
+    /**
+     * Generates list of WorkloadEntry for specified Workload
+     * @param workload
+     */
+    private void generateWorkloadEntries(Workload workload) {
+        for (Integer i : hoursForSemesters.keySet()) {
+            if (hoursForSemesters.get(i) != null) {
+                WorkloadEntry workloadEntry = new WorkloadEntry();
+                workloadEntry.setCourceWork(getCourseInSemester(i));
+                workloadEntry.setFinalControl(getFinalControlTypeInSemester(i));
+                workloadEntry.setIndCount(new Long(Math.round(hoursForSemesters.get(i).hSam
+                        + hoursForSemesters.get(i).hInd)));
+                workloadEntry.setLabCount(new Long(Math.round(hoursForSemesters.get(i).hLab)));
+                workloadEntry.setLectionCount(new Long(Math.round(hoursForSemesters.get(i).hLec)));
+                workloadEntry.setPracticeCount(new Long(Math.round(hoursForSemesters.get(i).hPract)));
+                workloadEntry.setSemesterNumber(new Long(i));
+                workload.getEntries().add(workloadEntry);
+                //individual controls
+                generateIndividualControls(workloadEntry);
+            }
+        }
+    }
+
+    /**
+     * Executes the generation methods for database objects.
+     */
+    private void generateDatabaseEntries() {
+        generateCathedra();
+        generateDiscipline(cathedra);
+        generateWorkload(discipline);
+        generateWorkloadEntries(workload);
+    }
+
+    /**
+     * Constructor, that gets atomic info from one row and creates data entities
+     * objects (Cathedra, Discipline, Workload)
+     * @param group
+     * @param disciplineName
+     * @param cathedraName
+     * @param sfmExams
+     * @param sfmTests
+     * @param sfmCourses
+     * @param siwSemester
+     * @param siwForm
+     * @param siwWeek
+     * @param semesterHours
+     * @param workloadType
+     * @param loadCategory
+     */
+    public CurriculumXLSRow(StudentGroup group, String disciplineName, String cathedraName,
                             String sfmExams, String sfmTests, String sfmCourses,
                             String siwSemester, String siwForm, String siwWeek,
                             Map<Integer, WorkHours> semesterHours,
                             WorkloadType workloadType, LoadCategory loadCategory) {
         this.disciplineName = disciplineName;
         this.cathedraName = cathedraName;
+        this.workloadType = workloadType;
+        this.loadCategory = loadCategory;
 
         this.fmExams = parseNumValues(sfmExams, true);
         Arrays.sort(fmExams);
@@ -83,13 +239,15 @@ public final class CurriculumXLSRow {
         Arrays.sort(fmDifTests);
 
         this.indWorks = createIndividualWorkList(siwSemester, siwForm, siwWeek);
-        
         this.hoursForSemesters = semesterHours;
 
-        this.workloadType = workloadType;
-        this.loadCategory = loadCategory;
+        this.group = group;
+
+        //generate database entries
+        generateDatabaseEntries();
     }
 
+    //Variables
     private String disciplineName;
     private String cathedraName;
     private WorkloadType workloadType;
@@ -102,7 +260,13 @@ public final class CurriculumXLSRow {
     //individual works
     private List<IndividualControlEntry> indWorks;
     //hours info
-    private Map<Integer ,WorkHours> hoursForSemesters;
+    private Map<Integer, WorkHours> hoursForSemesters;
+
+    //DataBase output objects
+    private StudentGroup group;
+    private Cathedra cathedra;
+    private Discipline discipline;
+    private Workload workload;
 
     /* getters and setters */
 
@@ -111,7 +275,7 @@ public final class CurriculumXLSRow {
      * @param semester
      * @return true - if there is a course work in specified semester
      */
-    public boolean getCourseInSemester(int semester) {
+    private boolean getCourseInSemester(int semester) {
         return (Arrays.binarySearch(fmCourses, semester) != -1);
     }
 
@@ -120,7 +284,7 @@ public final class CurriculumXLSRow {
      * @param semester
      * @return Value of FinalControlType, which indicates a type of final control for specified semester
      */
-    public FinalControlType getFinalControlTypeInSemester(int semester) {
+    private FinalControlType getFinalControlTypeInSemester(int semester) {
         if (Arrays.binarySearch(fmExams, semester) > -1) {
             return FinalControlType.Exam;
         } else if (Arrays.binarySearch(fmTests, semester) > -1) {
@@ -132,51 +296,16 @@ public final class CurriculumXLSRow {
         }
     }
 
-    public String getCathedraName() {
-        return cathedraName;
+    public Cathedra getCathedra() {
+        return cathedra;
     }
 
-    public void setCathedraName(String cathedraName) {
-        this.cathedraName = cathedraName;
+    public Discipline getDiscipline() {
+        return discipline;
     }
 
-    public String getDisciplineName() {
-        return disciplineName;
+    public Workload getWorkload() {
+        return workload;
     }
 
-    public void setDisciplineName(String disciplineName) {
-        this.disciplineName = disciplineName;
-    }
-
-    public LoadCategory getLoadCategory() {
-        return loadCategory;
-    }
-
-    public void setLoadCategory(LoadCategory loadCategory) {
-        this.loadCategory = loadCategory;
-    }
-
-    public WorkloadType getWorkloadType() {
-        return workloadType;
-    }
-
-    public void setWorkloadType(WorkloadType workloadType) {
-        this.workloadType = workloadType;
-    }
-
-    public Map<Integer, WorkHours> getHoursForSemesters() {
-        return hoursForSemesters;
-    }
-
-    public void setHoursForSemesters(Map<Integer, WorkHours> hoursForSemesters) {
-        this.hoursForSemesters = hoursForSemesters;
-    }
-
-    public List<IndividualControlEntry> getIndWorks() {
-        return indWorks;
-    }
-
-    public void setIndWorks(List<IndividualControlEntry> indWorks) {
-        this.indWorks = indWorks;
-    }
 }
