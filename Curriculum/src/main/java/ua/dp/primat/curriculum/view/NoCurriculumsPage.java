@@ -7,8 +7,5 @@ public final class NoCurriculumsPage extends WebPage {
     public NoCurriculumsPage() {
         super ();
     }
-
-    public NoCurriculumsPage(PageParameters params) {
-    }
 }
 

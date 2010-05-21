@@ -25,17 +25,9 @@ public class HomePage extends WebPage {
     public HomePage() {
         
         final List<StudentGroup> groups = DataUtils.getGroups();
-     
-        if (groups.isEmpty()) {
-            throw new IllegalArgumentException("Sorry, but no groups in the database");
-        }
-        
-        //if(choosenGroup == null) {
-            choosenGroup = groups.get(0);
-        //}
-        //if(choosenSemester == null) {
-            choosenSemester = Long.valueOf(1);
-        //}
+             
+        choosenGroup = groups.get(0);
+        choosenSemester = Long.valueOf(1);
         
         Form form = new ChooseGroupForm("form");
         add(form);
