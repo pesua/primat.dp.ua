@@ -18,21 +18,21 @@ public class HomePage extends WebPage {
 
     private static final long serialVersionUID = 1L;
 
-    private StudentGroup choosenGroup;
-    private Long choosenSemester;
-    private final ListView<WorkloadEntry> disciplinesViev;
+    private StudentGroup chosenGroup;
+    private Long chosenSemester;
+    private final ListView<WorkloadEntry> disciplinesView;
 
     public HomePage() {
         
         final List<StudentGroup> groups = DataUtils.getGroups();
              
-        choosenGroup = groups.get(0);
-        choosenSemester = Long.valueOf(1);
+        chosenGroup = groups.get(0);
+        chosenSemester = Long.valueOf(1);
         
         Form form = new ChooseGroupForm("form");
         add(form);
         DropDownChoice<StudentGroup> groupChoise = new DropDownChoice<StudentGroup>("group",
-                new PropertyModel<StudentGroup>(this, "choosenGroup"),
+                new PropertyModel<StudentGroup>(this, "chosenGroup"),
                 new LoadableDetachableModel<List<StudentGroup>>() {
 
             @Override
@@ -43,13 +43,13 @@ public class HomePage extends WebPage {
         form.add(groupChoise);
 
         DropDownChoice<Long> semesterChoise = new DropDownChoice<Long>("semester",
-                new PropertyModel<Long>(this, "choosenSemester"),
+                new PropertyModel<Long>(this, "chosenSemester"),
                 new LoadableDetachableModel<List<Long>>(){
 
             @Override
             protected List<Long> load() {
-                List l = new ArrayList();
-                for (int i = 1; i <= DataUtils.getSemesterCount(choosenGroup); i++) {
+                List<Long> l = new ArrayList<Long>();
+                for (int i = 1; i <= DataUtils.getSemesterCount(chosenGroup); i++) {
                     l.add(Long.valueOf(i));
                 }
                 return l;
@@ -58,10 +58,10 @@ public class HomePage extends WebPage {
 
         form.add(semesterChoise);
 
-        List<WorkloadEntry> workloadEntries = DataUtils.getWorkloadEntries(choosenGroup, choosenSemester);
-        disciplinesViev = new WorkloadsListView("disciplineRow", workloadEntries);
+        List<WorkloadEntry> workloadEntries = DataUtils.getWorkloadEntries(chosenGroup, chosenSemester);
+        disciplinesView = new WorkloadsListView("disciplineRow", workloadEntries);
 
-        add(disciplinesViev);
+        add(disciplinesView);
     }
 
     private static class WorkloadsListView extends ListView<WorkloadEntry> {
@@ -92,7 +92,7 @@ public class HomePage extends WebPage {
 
         @Override
         protected void onSubmit() {
-            disciplinesViev.setList(DataUtils.getWorkloadEntries(choosenGroup, choosenSemester));
+            disciplinesView.setList(DataUtils.getWorkloadEntries(chosenGroup, chosenSemester));
             super.onSubmit();
         }
     }

@@ -3,7 +3,7 @@ package ua.dp.primat;
 import junit.framework.TestCase;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.util.tester.WicketTester;
-import org.junit.Assert;
+import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import ua.dp.primat.curriculum.view.HomePage;
