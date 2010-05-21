@@ -4,6 +4,9 @@ import junit.framework.TestCase;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.util.tester.WicketTester;
 import junit.framework.Assert;
+import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
+import org.apache.wicket.spring.injection.annot.test.AnnotApplicationContextMock;
+import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.junit.Before;
 import org.junit.Test;
 import ua.dp.primat.curriculum.view.HomePage;
@@ -15,7 +18,10 @@ public class TestHomePage extends TestCase{
  	@Before
 	public void setUp()
 	{
-            tester = new WicketTester(new WicketApplication());
+            ApplicationContextMock acm = new ApplicationContextMock();
+
+            tester = new WicketTester();//new WicketApplication()
+            tester.getApplication().addComponentInstantiationListener(new SpringComponentInjector(tester.getApplication(), acm));
 
             tester.startPage(HomePage.class);
 	}
