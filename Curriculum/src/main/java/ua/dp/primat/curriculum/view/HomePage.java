@@ -10,6 +10,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import ua.dp.primat.curriculum.data.DataUtils;
 import ua.dp.primat.curriculum.data.StudentGroup;
 import ua.dp.primat.curriculum.data.WorkloadEntry;
@@ -24,7 +25,7 @@ public class HomePage extends WebPage {
 
     public HomePage() {
         
-        final List<StudentGroup> groups = DataUtils.getGroups();
+        final List<StudentGroup> groups = dataUtils.getGroups();
              
         chosenGroup = groups.get(0);
         chosenSemester = Long.valueOf(1);
@@ -49,7 +50,7 @@ public class HomePage extends WebPage {
             @Override
             protected List<Long> load() {
                 List<Long> l = new ArrayList<Long>();
-                for (int i = 1; i <= DataUtils.getSemesterCount(chosenGroup); i++) {
+                for (int i = 1; i <= dataUtils.getSemesterCount(chosenGroup); i++) {
                     l.add(Long.valueOf(i));
                 }
                 return l;
@@ -58,7 +59,7 @@ public class HomePage extends WebPage {
 
         form.add(semesterChoise);
 
-        List<WorkloadEntry> workloadEntries = DataUtils.getWorkloadEntries(chosenGroup, chosenSemester);
+        List<WorkloadEntry> workloadEntries = dataUtils.getWorkloadEntries(chosenGroup, chosenSemester);
         disciplinesView = new WorkloadsListView("disciplineRow", workloadEntries);
 
         add(disciplinesView);
@@ -92,8 +93,11 @@ public class HomePage extends WebPage {
 
         @Override
         protected void onSubmit() {
-            disciplinesView.setList(DataUtils.getWorkloadEntries(chosenGroup, chosenSemester));
+            disciplinesView.setList(dataUtils.getWorkloadEntries(chosenGroup, chosenSemester));
             super.onSubmit();
         }
     }
+
+    @SpringBean
+    DataUtils dataUtils;
 }
