@@ -2,6 +2,7 @@ package ua.dp.primat.curriculum.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -26,6 +27,10 @@ public class HomePage extends WebPage {
     public HomePage() {
         
         final List<StudentGroup> groups = dataUtils.getGroups();
+
+        if (groups.isEmpty()) {
+            throw new RestartResponseAtInterceptPageException(NoCurriculumsPage.class);
+        }
              
         chosenGroup = groups.get(0);
         chosenSemester = Long.valueOf(1);
