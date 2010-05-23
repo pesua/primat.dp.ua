@@ -35,12 +35,11 @@ public class TestPOI {
     @After
     public void tearDown() {
     }
-
     
     @Test
     public void testIt() {
         int semesters = 8;
-        StudentGroup pz081 = new StudentGroup("��", new Long(1), new Long(2008));
+        StudentGroup pz081 = new StudentGroup("PZ", new Long(1), new Long(2008));
         CurriculumParser cParser = new CurriculumParser(pz081, 0, 8, 83, semesters,
                 "src/test/resources/PZ_B.07_08_140307_lev4.xls");
         List<CurriculumXLSRow> listParsed = cParser.parse();
@@ -63,7 +62,7 @@ public class TestPOI {
         }
 
         //check result
-        assertEquals(true,listParsed.size() > 50);
+        assertEquals(String.format("We get extacly %d entries",listParsed.size()),true,listParsed.size() > 50);
     }
 
 }

@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -25,6 +27,13 @@ import ua.dp.primat.curriculum.data.WorkloadType;
  */
 public final class CurriculumParser {
 
+    private void languageLoad() {
+        ResourceBundle parserConstants = ResourceBundle.getBundle("parser", new Locale("uk"));
+        disciplineCategorySelective = parserConstants.getString("category.selective");
+        disciplineCategoryAlternativeWar = parserConstants.getString("category.alternativewar");
+        diffSetOff = parserConstants.getString("differentialsetoff");
+    }
+
     private CurriculumParser(StudentGroup group, int sheetNum,
             int itemStart, int itemEnd, int semCount) {
         this.group = group;
@@ -32,6 +41,8 @@ public final class CurriculumParser {
         this.itemEnd = itemEnd;
         this.sheetNumber = sheetNum;
         this.semestersCount = semCount;
+
+        languageLoad();
     }
 
     public CurriculumParser(StudentGroup group, int sheetNum,
@@ -93,7 +104,7 @@ public final class CurriculumParser {
         return new CurriculumXLSRow(group, subjName, subjCath,
                 workCtrlExams, workCtrlMark, workCtrlCourse,
                 workIndSem, workIndForm, workIndWeek, semesterWorkhours,
-                workloadType, loadCategory);
+                workloadType, loadCategory, diffSetOff);
     }
 
     private void changeEntriesCategoryOrType(String cellText) {
@@ -114,9 +125,9 @@ public final class CurriculumParser {
             }
         }
         else {
-            if (cellText.contains(DISCIPLINE_CAT_ALTERNATIVEWAR)) {
+            if (cellText.contains(disciplineCategoryAlternativeWar)) {
                 currentLoadCategory = LoadCategory.AlternativeForWar;
-            } else if (cellText.contains(DISCIPLINE_CAT_SELECTIVE)) {
+            } else if (cellText.contains(disciplineCategorySelective)) {
                 currentLoadCategory = LoadCategory.Selective;
             } else {
                 currentLoadCategory = LoadCategory.Normative;
@@ -145,7 +156,7 @@ public final class CurriculumParser {
                     (row.getCell(0).toString().isEmpty())) {
                     continue;
                 }
-
+                
                 //if this item is not a Database entry, it might be the options
                 if ((row.getCell(1) == null) || (row.getCell(1).toString().isEmpty())) {
                     String cellText = row.getCell(0).getStringCellValue().trim();
@@ -161,10 +172,6 @@ public final class CurriculumParser {
     }
 
     /* CONSTANTS */
-    //
-    public static final String DISCIPLINE_CAT_SELECTIVE = "Вибіркова частина";
-    public static final String DISCIPLINE_CAT_ALTERNATIVEWAR = "Альтернатива до військової підготовки";
-
     //Excel index for Name of Discipline
     public static final int COL_DISCIPLINE = 1;
     //Excel index for Cathedra of Discipline
@@ -189,6 +196,10 @@ public final class CurriculumParser {
     public static final int WTID_PROFPRACTUNIVER = 5;
 
     /* VARIABLES */
+    private String diffSetOff;
+    private String disciplineCategorySelective;
+    private String disciplineCategoryAlternativeWar;
+
     private Workbook excelBook;
     private Sheet currentSheet;
 

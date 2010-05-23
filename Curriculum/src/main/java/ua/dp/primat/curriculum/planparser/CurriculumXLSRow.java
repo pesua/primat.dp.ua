@@ -21,12 +21,10 @@ import ua.dp.primat.curriculum.data.StudentGroup;
  */
 public final class CurriculumXLSRow {
 
-    private static final String DIFFERENTIAL_TEST_MARK = "ä";
-
     /**
      * Parses a string like '1,2  ,3, 7', which is used in Curriculum. There is a
      * special case for Setoffs: it could be as '1, 2, 3d, 4', where 'd' means
-     * differential setoff (this char is defined by internal DIFFERENTIAL_TEST_MARK constant).
+     * differential setoff (this char is defined by the diffSetOff language constant).
      * @param fmStr - the input string
      * @param standard - if true, a test of differential setoff will be skipped
      * @return The generated array of parsed integers. If standard was false, the result
@@ -43,8 +41,8 @@ public final class CurriculumXLSRow {
                 }
                 catch (NumberFormatException nfe) { }
             } else {
-                if (values[i].indexOf(DIFFERENTIAL_TEST_MARK) > -1) {
-                    String valueWithoutMark = values[i].replaceAll(DIFFERENTIAL_TEST_MARK, "").trim();
+                if (values[i].indexOf(diffSetOff) > -1) {
+                    String valueWithoutMark = values[i].replaceAll(diffSetOff, "").trim();
                     try {
                         intValues.add((int)Double.parseDouble(valueWithoutMark.trim()));
                     }
@@ -93,7 +91,7 @@ public final class CurriculumXLSRow {
                 }
             } else {
                 listTokens.add(tokenType);
-          	}
+            }
         }
 
         return listTokens.toArray(new String[0]);
@@ -225,12 +223,16 @@ public final class CurriculumXLSRow {
      * @param semesterHours
      * @param workloadType
      * @param loadCategory
+     * @param diffSetOff
      */
     public CurriculumXLSRow(StudentGroup group, String disciplineName, String cathedraName,
                             String sfmExams, String sfmTests, String sfmCourses,
                             String siwSemester, String siwForm, String siwWeek,
                             Map<Integer, WorkHours> semesterHours,
-                            WorkloadType workloadType, LoadCategory loadCategory) {
+                            WorkloadType workloadType, LoadCategory loadCategory,
+                            String diffSetOff) {
+        this.diffSetOff = diffSetOff;
+
         this.disciplineName = disciplineName;
         this.cathedraName = cathedraName;
         this.workloadType = workloadType;
@@ -255,6 +257,7 @@ public final class CurriculumXLSRow {
     }
 
     //Variables
+    private String diffSetOff;
     private String disciplineName;
     private String cathedraName;
     private WorkloadType workloadType;
