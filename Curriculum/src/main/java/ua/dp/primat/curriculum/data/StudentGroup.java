@@ -13,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -20,6 +22,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="groups")
+@NamedQueries({
+    @NamedQuery(name="getGroups", query="select n from StudentGroup n")
+    //@NamedQuery(name="getSemesterCount", query="select MAX(n.number) from StudentGroup n where n=:group")
+})
 public class StudentGroup implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)

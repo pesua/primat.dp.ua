@@ -14,7 +14,9 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import ua.dp.primat.curriculum.data.DataUtils;
 import ua.dp.primat.curriculum.data.StudentGroup;
+import ua.dp.primat.curriculum.data.StudentGroupRepository;
 import ua.dp.primat.curriculum.data.WorkloadEntry;
+import ua.dp.primat.curriculum.data.WorkloadEntryRepository;
 
 public class HomePage extends WebPage {
 
@@ -26,7 +28,7 @@ public class HomePage extends WebPage {
 
     public HomePage() {
         
-        final List<StudentGroup> groups = dataUtils.getGroups();
+        final List<StudentGroup> groups = studentGroupRepository.getGroups();
 
         if (groups.isEmpty()) {
             throw new RestartResponseAtInterceptPageException(NoCurriculumsPage.class);
@@ -64,7 +66,7 @@ public class HomePage extends WebPage {
 
         form.add(semesterChoise);
 
-        List<WorkloadEntry> workloadEntries = dataUtils.getWorkloadEntries(chosenGroup, chosenSemester);
+        List<WorkloadEntry> workloadEntries = workloadEntryRepository.getWorkloadEntries(chosenGroup, chosenSemester);
         disciplinesView = new WorkloadsListView("disciplineRow", workloadEntries);
 
         add(disciplinesView);
@@ -98,11 +100,17 @@ public class HomePage extends WebPage {
 
         @Override
         protected void onSubmit() {
-            disciplinesView.setList(dataUtils.getWorkloadEntries(chosenGroup, chosenSemester));
+            disciplinesView.setList(workloadEntryRepository.getWorkloadEntries(chosenGroup, chosenSemester));
             super.onSubmit();
         }
     }
 
     @SpringBean
     DataUtils dataUtils;
+
+    @SpringBean
+    StudentGroupRepository studentGroupRepository;
+
+    @SpringBean
+    WorkloadEntryRepository workloadEntryRepository;
 }

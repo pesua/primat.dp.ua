@@ -47,8 +47,10 @@
     </bean>
 
     <bean id="dataUtils" class="ua.dp.primat.curriculum.data.DataUtils"/>
+    
+    <bean id="studentGroupRepository" class="ua.dp.primat.curriculum.data.StudentGroupRepositoryImpl"/>
 
-    <bean id="curriculumApplication" class="ua.dp.primat.curriculum.view.WicketApplication">
-        <property name="dataUtils" ref="dataUtils"/>
-    </bean>
+    <bean id="workloadEntryRepository" class="ua.dp.primat.curriculum.data.WorkloadEntryRepositoryImpl"/>
+
+    <bean id="curriculumApplication" class="ua.dp.primat.curriculum.view.WicketApplication"/>
 </beans>
