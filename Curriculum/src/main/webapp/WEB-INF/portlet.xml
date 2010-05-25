@@ -19,4 +19,23 @@
 			<keywords>Curriculum</keywords>
 		</portlet-info>
 	</portlet>
+        	<portlet>
+		<portlet-name>Schedule</portlet-name>
+		<display-name>Schedule</display-name>
+		<portlet-class>org.apache.wicket.protocol.http.portlet.WicketPortlet</portlet-class>
+                <init-param>
+                        <name>wicketFilterPath</name>
+                        <value>/schedule/</value>
+                </init-param>
+		<supports>
+			<mime-type>text/html</mime-type>
+                        <portlet-mode>VIEW</portlet-mode>
+                        <portlet-mode>EDIT</portlet-mode>
+		</supports>
+		<portlet-info>
+			<title>Portlet which show lessons schedule</title>
+			<short-title>Schedule</short-title>
+			<keywords>Schedule</keywords>
+		</portlet-info>
+	</portlet>
 </portlet-app>
