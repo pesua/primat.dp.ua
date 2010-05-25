@@ -15,6 +15,7 @@ public class WorkloadEntryRepositoryImpl implements WorkloadEntryRepository {
     public List<WorkloadEntry> getWorkloadEntries(StudentGroup group, Long semester){
         Query query = ((Session)em.getDelegate()).getNamedQuery("getWorkloadEntries");
         query.setParameter("semester", semester);
+        query.setParameter("group", group);
         
         @SuppressWarnings("unchecked")
         List<WorkloadEntry> entries = query.list();

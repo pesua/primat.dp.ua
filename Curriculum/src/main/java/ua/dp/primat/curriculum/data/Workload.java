@@ -1,7 +1,3 @@
-/*
- *  ������� �������� ��� ������������ ���� �� ������������ ����������
- */
-
 package ua.dp.primat.curriculum.data;
 
 import java.io.Serializable;
@@ -18,10 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-/**
- *
- * @author EniSh
- */
 @Entity
 @Table(name="workloads")
 public class Workload implements Serializable {
@@ -37,7 +29,6 @@ public class Workload implements Serializable {
     //@Column(name="discipline")
     Discipline discipline;
 
-    // ������� �������� ��� ������ ����� ���� ����������, ������������ � �. �.
     @Column(name="type")
     WorkloadType type;
 

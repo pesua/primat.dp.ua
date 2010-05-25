@@ -18,4 +18,10 @@ public class StudentGroupRepositoryImpl implements StudentGroupRepository {
         List<StudentGroup> groups = query.list();
         return groups;
     }
+
+    @Transactional
+    public long getSemesterCount(StudentGroup group){
+        em.createQuery("select MAX(n.workloadEntryPK.semesterNumber) from WorkloadEntry n INNER JOIN n.workloadEntryPK.workloadId.groups sgroup with sgroup.groupId=1");
+        return 8;
+    }
 }

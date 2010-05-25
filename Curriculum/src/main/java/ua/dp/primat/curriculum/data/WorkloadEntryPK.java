@@ -1,20 +1,9 @@
-/*
- *  ласс составного ключа дл€ WorkloadEntry.
- * “ак как запись полюбому относитьс€ к определенной нагрузки и об€зательно
- * прив€зана к определенному семестру
- */
-
 package ua.dp.primat.curriculum.data;
 
 import java.io.Serializable;
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 
-/**
- *
- * @author EniSh
- */
 @Embeddable
 public class WorkloadEntryPK implements Serializable {
     @ManyToOne

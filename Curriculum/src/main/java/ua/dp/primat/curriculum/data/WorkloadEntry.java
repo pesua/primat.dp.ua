@@ -15,17 +15,12 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-/**
- *
- * @author EniSh
- */
 @Entity
 @Table(name="WorkloadEntry")
 @NamedQueries({
-    @NamedQuery(name="getWorkloadEntries", query="from WorkloadEntry where semesterNumber = :semester")
+    @NamedQuery(name="getWorkloadEntries", query="select we from WorkloadEntry we join we.workloadEntryPK.workloadId w join w.groups g where we.workloadEntryPK.semesterNumber = :semester and g = :group")
 })
 public class WorkloadEntry implements Serializable {
-    //
     @Id
     WorkloadEntryPK workloadEntryPK = new WorkloadEntryPK();
 

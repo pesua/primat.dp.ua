@@ -24,7 +24,6 @@ import javax.persistence.Table;
 @Table(name="groups")
 @NamedQueries({
     @NamedQuery(name="getGroups", query="select n from StudentGroup n")
-    //@NamedQuery(name="getSemesterCount", query="select MAX(n.number) from StudentGroup n where n=:group")
 })
 public class StudentGroup implements Serializable {
     @Id
