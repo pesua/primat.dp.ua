@@ -1,13 +1,8 @@
-/*
- *  
- */
-
 package ua.dp.primat.curriculum.data;
 
-/**
- *
- * @author EniSh
- */
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public enum FinalControlType {
     Exam,
     Setoff,
@@ -16,15 +11,16 @@ public enum FinalControlType {
 
     @Override
     public String toString(){
+        ResourceBundle localization = ResourceBundle.getBundle("FinalControlType", new Locale("uk"));
         switch(this) {
             case Exam:
-                return "Екзамен";
+                return localization.getString("Exam");
             case DifferentiableSetoff:
-                return "Дифиринційовний залік";
+                return localization.getString("DiffSetoff");
             case Setoff:
-                return "Залік";
+                return localization.getString("Setoff");
             default:
-                return "Нічого";
+                return localization.getString("Nothing");
         }
     }
 }

@@ -12,7 +12,6 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import ua.dp.primat.curriculum.data.DataUtils;
 import ua.dp.primat.curriculum.data.StudentGroup;
 import ua.dp.primat.curriculum.data.StudentGroupRepository;
 import ua.dp.primat.curriculum.data.WorkloadEntry;
@@ -105,9 +104,6 @@ public class HomePage extends WebPage {
             super.onSubmit();
         }
     }
-
-    @SpringBean
-    DataUtils dataUtils;
 
     @SpringBean
     StudentGroupRepository studentGroupRepository;

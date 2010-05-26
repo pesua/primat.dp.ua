@@ -5,14 +5,11 @@ import java.util.List;
 import org.apache.wicket.Application;
 
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.markup.html.form.upload.*;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
@@ -20,7 +17,6 @@ import org.apache.wicket.util.file.Files;
 import org.apache.wicket.util.file.Folder;
 import org.apache.wicket.util.lang.*;
 import org.apache.wicket.validation.validator.RangeValidator;
-import ua.dp.primat.curriculum.data.DataUtils;
 import ua.dp.primat.curriculum.data.StudentGroup;
 import ua.dp.primat.curriculum.data.StudentGroupRepository;
 import ua.dp.primat.curriculum.data.WorkloadRepository;
@@ -175,9 +171,6 @@ public class EditPage extends WebPage {
     {
         return ((WicketApplication)Application.get()).getUploadFolder();
     }
-
-    @SpringBean
-    DataUtils dataUtils;
 
     @SpringBean
     StudentGroupRepository studentGroupRepository;
