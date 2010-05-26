@@ -16,6 +16,7 @@ public class IndividualControl implements Serializable {
     @Column(name="id")
     private Long id;
 
+    @SuppressWarnings("MagicNumber")
     @Column(name="type", length=100)
     private String type;
 

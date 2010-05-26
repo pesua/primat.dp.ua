@@ -9,6 +9,7 @@ import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -39,15 +40,9 @@ public class HomePage extends WebPage {
         
         Form form = new ChooseGroupForm("form");
         add(form);
-        DropDownChoice<StudentGroup> groupChoise = new DropDownChoice<StudentGroup>("group",
+        DropDownChoice<StudentGroup> groupChoise = new GroupChoise("group",
                 new PropertyModel<StudentGroup>(this, "chosenGroup"),
-                new LoadableDetachableModel<List<StudentGroup>>() {
-
-            @Override
-            protected List<StudentGroup> load() {
-                return groups;
-            }
-        });
+                new LoadableDetachableModelImpl(groups));
         form.add(groupChoise);
 
         DropDownChoice<Long> semesterChoise = new DropDownChoice<Long>("semester",
@@ -110,4 +105,35 @@ public class HomePage extends WebPage {
 
     @SpringBean
     private WorkloadEntryRepository workloadEntryRepository;
+
+    static class LoadableDetachableModelImpl extends LoadableDetachableModel<List<StudentGroup>> {
+
+        private final List<StudentGroup> groups;
+
+        public LoadableDetachableModelImpl(List<StudentGroup> groups) {
+            this.groups = groups;
+        }
+
+        @Override
+        protected List<StudentGroup> load() {
+            return groups;
+        }
+    }
+
+    private class GroupChoise extends DropDownChoice<StudentGroup> {
+
+        public GroupChoise(String id, IModel<StudentGroup> model, IModel<? extends List<? extends StudentGroup>> choices) {
+            super(id, model, choices);
+        }
+
+        @Override
+        protected void onSelectionChanged(StudentGroup newSelection) {
+            super.onSelectionChanged(newSelection);
+        }
+
+        @Override
+        protected boolean wantOnSelectionChangedNotifications() {
+            return true;
+        }
+    }
 }

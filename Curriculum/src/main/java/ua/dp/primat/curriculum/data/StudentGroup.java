@@ -22,9 +22,10 @@ import javax.persistence.Table;
 public class StudentGroup implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="id")
+    @Column(name="groupId")
     private Long groupId;
 
+    @SuppressWarnings("MagicNumber")
     @Column(name="code", length=3)
     private String code;
 
@@ -89,6 +90,9 @@ public class StudentGroup implements Serializable {
 
     @Override
     public String toString() {
-        return getCode() + "-" + (getYear() % 100) + "-" + getNumber();
+        final int yearDigitCount = 2;
+        
+        return String.format(getCode() + "-%0$2d-%d", getYear()%100, getNumber());
+        //getCode() + "-" + (yearPart.substring(yearPart.length() - yearDigitCount)) + "-" + getNumber();
     }
 }

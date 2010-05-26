@@ -5,13 +5,21 @@
     border-left-color: black;
     border-bottom-color: black;
     border-top-color: black;
-    border-right-style: double;
-    border-left-style: double;
-    border-bottom-style: double;
-    border-top-style: double;
+    border-right-style: solid;
+    border-left-style: solid;
+    border-bottom-style: solid;
+    border-top-style: solid;
+    border-right-width: 2px;
+    border-left-width: 2px;
+    border-bottom-width: 2px;
+    border-top-width: 2px;
 }
 #curriculumTable tr, #curriculumTable td, #curriculumTable th {
     border: 1px black solid;
+    margin-right: 3px;
+    margin-left: 3px;
+    margin-bottom: 3px;
+    margin-top: 3px;
 }
 #curriculumTable th {
     border-bottom-style: solid;

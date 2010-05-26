@@ -19,6 +19,7 @@ public class Cathedra implements Serializable {
     @Column(name = "cathedra_id")
     private Long cathedraId;
 
+    @SuppressWarnings("MagicNumber")
     @Column(name = "name", length = 255)
     private String name;
     

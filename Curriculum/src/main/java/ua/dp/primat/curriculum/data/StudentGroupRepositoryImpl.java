@@ -14,9 +14,8 @@ public class StudentGroupRepositoryImpl implements StudentGroupRepository {
     @Transactional
     public List<StudentGroup> getGroups() {
         Query query = ((Session)em.getDelegate()).getNamedQuery("getGroups");
-        @SuppressWarnings("unchecked")
-        List<StudentGroup> groups = query.list();
-        return groups;
+        //@SuppressWarnings("unchecked")
+        return query.list();
     }
 
     @Transactional
@@ -32,6 +31,13 @@ public class StudentGroupRepositoryImpl implements StudentGroupRepository {
         }
         else {
             em.persist(studentGroup);
+        }
+    }
+    
+    @Transactional
+    public void remove(StudentGroup studentGroup) {
+        if (em.contains(studentGroup)) {
+            em.remove(studentGroup);
         }
     }
 }
