@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+    <head>  
+        <title>Config</title>
+        <link rel="stylesheet" type="text/css" href="view.css" />
+    </head>
+    <body>
+        <h4>Curriculums upload form</h4>
+        <form wicket:id="formUploadXLS">
+	 <fieldset>
+            <legend>Select file, configure for parsing, than start</legend>
+            <table border="0">
+                <tr>
+                    <td>
+                        <label for="upload">XLS File: </label>
+                    </td>
+                    <td>
+                        <input wicket:id="fileInput" id="upload" type="file"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="parseSheet">Sheet number: </label>
+                    </td>
+                    <td>
+                        <input wicket:id="parseSheet" id="parseSheet"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="parseStart">Row start:</label>
+                    </td>
+                    <td>
+                        <input wicket:id="parseStart" id="parseStart"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="parseEnd">Row end:</label>
+                    </td>
+                    <td>
+                        <input wicket:id="parseEnd" id="parseEnd"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="parseSemester">Semester count:</label>
+                    </td>
+                    <td>
+                        <input wicket:id="parseSemester" id="parseSemester"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="parseGroup">Group:</label>
+                    </td>
+                    <td>
+                        <select wicket:id="parseGroup" id="parseGroup"/>
+                    </td>
+                </tr>
+	    </table>
+	    <input type="submit" value="Start"/>
+	 </fieldset>
+        </form>
+    </body>
+</html>

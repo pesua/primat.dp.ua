@@ -69,9 +69,9 @@ public final class CurriculumXLSRow {
         String workIndForm = individualControlTypeCell.trim();
         while (workIndForm.indexOf(',') > -1) {
             String tokenType = workIndForm.substring(0, workIndForm.indexOf(',')).trim();
-            if (tokenType.isEmpty()) {
-						    continue;
-						}
+            if (tokenType.length() == 0) {
+                continue;
+            }
             if ((tokenType.charAt(0) >= '0') && (tokenType.charAt(0) <= '9')) {
                 int nextWorksCount = Integer.parseInt(tokenType.substring(0,1));
                 for (int y=0;y<nextWorksCount;y++) {
@@ -83,7 +83,7 @@ public final class CurriculumXLSRow {
             workIndForm = workIndForm.substring(workIndForm.indexOf(',')+1);
         }
         String tokenType = workIndForm.trim();
-        if (!tokenType.isEmpty()) {
+        if (tokenType.length() != 0) {
             if ((tokenType.charAt(0) >= '0') && (tokenType.charAt(0) <= '9')) {
                 int nextWorksCount = Integer.parseInt(tokenType.substring(0,1));
                 for (int y=0;y<nextWorksCount;y++) {

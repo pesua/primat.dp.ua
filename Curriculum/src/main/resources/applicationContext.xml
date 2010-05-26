@@ -52,6 +52,8 @@
 
     <bean id="workloadEntryRepository" class="ua.dp.primat.curriculum.data.WorkloadEntryRepositoryImpl"/>
 
+    <bean id="workloadRepository" class="ua.dp.primat.curriculum.data.WorkloadRepositoryImpl"/>
+
     <bean id="curriculumApplication" class="ua.dp.primat.curriculum.view.WicketApplication"/>
 
     <bean id="scheduleApplication" class="ua.dp.primat.schedule.view.Application"/>

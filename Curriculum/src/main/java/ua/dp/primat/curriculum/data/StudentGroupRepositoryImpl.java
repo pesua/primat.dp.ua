@@ -24,4 +24,14 @@ public class StudentGroupRepositoryImpl implements StudentGroupRepository {
         em.createQuery("select MAX(n.workloadEntryPK.semesterNumber) from WorkloadEntry n INNER JOIN n.workloadEntryPK.workloadId.groups sgroup with sgroup.groupId=1");
         return 8;
     }
+
+    @Transactional
+    public void store(StudentGroup studentGroup) {
+        if (em.contains(studentGroup)) {
+            em.merge(studentGroup);
+        }
+        else {
+            em.persist(studentGroup);
+        }
+    }
 }

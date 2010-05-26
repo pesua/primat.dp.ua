@@ -153,18 +153,21 @@ public final class CurriculumParser {
                 //could not parse item
                 if ((row == null) ||
                     (row.getPhysicalNumberOfCells() == 0) ||
-                    (row.getCell(0).toString().isEmpty())) {
+                    (row.getCell(0).toString().length() == 0)) {
                     continue;
                 }
-                
+
                 //if this item is not a Database entry, it might be the options
-                if ((row.getCell(1) == null) || (row.getCell(1).toString().isEmpty())) {
+                if ((row.getCell(1) == null) || (row.getCell(1).toString().length() == 0)) {
                     String cellText = row.getCell(0).getStringCellValue().trim();
                     changeEntriesCategoryOrType(cellText);
                 } else {
                     entries.add(parseXLSEntry(row, currentWorkloadType, currentLoadCategory));
                 }
             }
+        }
+        catch (Throwable e) {
+            e.printStackTrace();
         }
         finally {
             return entries;
