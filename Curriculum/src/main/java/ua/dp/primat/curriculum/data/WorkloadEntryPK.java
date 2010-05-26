@@ -1,12 +1,13 @@
 package ua.dp.primat.curriculum.data;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 
 @Embeddable
 public class WorkloadEntryPK implements Serializable {
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     Workload workloadId;
 
     Long semesterNumber;

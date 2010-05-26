@@ -6,12 +6,12 @@ package ua.dp.primat.curriculum.data;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -31,10 +31,10 @@ public class Discipline implements Serializable {
     @Column(name="name")
     String name;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     Cathedra cathedra;
     
-    @OneToMany(mappedBy = "discipline")
+    @OneToMany(mappedBy = "discipline", cascade = CascadeType.ALL)
     private List<Workload> workloads;
 
     public Discipline() {

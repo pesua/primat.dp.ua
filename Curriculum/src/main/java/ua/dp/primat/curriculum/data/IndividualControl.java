@@ -1,22 +1,14 @@
-/*
- *  
- */
-
 package ua.dp.primat.curriculum.data;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
-/**
- *
- * @author EniSh
- */
 @Entity
 public class IndividualControl implements Serializable {
     @Id
@@ -30,7 +22,7 @@ public class IndividualControl implements Serializable {
     @Column(name="week_num")
     Long weekNum;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     WorkloadEntry workloadEntry;
 
     public WorkloadEntry getWorkloadEntry() {

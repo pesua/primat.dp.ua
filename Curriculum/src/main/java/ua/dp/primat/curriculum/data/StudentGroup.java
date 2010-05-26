@@ -1,12 +1,9 @@
-/*
- * Every workload related to some groups
- */
-
 package ua.dp.primat.curriculum.data;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Vector;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,9 +14,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-/**
- * @author EniSh
- */
 @Entity
 @Table(name="groups")
 @NamedQueries({
@@ -40,7 +34,7 @@ public class StudentGroup implements Serializable {
     @Column(name="group_year")
     Long year;
 
-    @ManyToMany(mappedBy = "groups")
+    @ManyToMany(mappedBy = "groups", cascade = CascadeType.ALL)
     private List<Workload> workloads = new Vector<Workload>();
 
     public StudentGroup() {

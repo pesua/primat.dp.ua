@@ -5,8 +5,9 @@
 package ua.dp.primat.curriculum.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -43,8 +44,8 @@ public class WorkloadEntry implements Serializable {
     @Column(name="cource_work")
     Boolean courceWork;
 
-    @OneToMany(mappedBy="workloadEntry")
-    List<IndividualControl> individualControl = new Vector<IndividualControl>();
+    @OneToMany(mappedBy="workloadEntry", cascade = CascadeType.ALL)
+    List<IndividualControl> individualControl = new ArrayList<IndividualControl>();
 
     public WorkloadEntry() {
     }

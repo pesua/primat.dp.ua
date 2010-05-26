@@ -3,6 +3,7 @@ package ua.dp.primat.curriculum.data;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Vector;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,12 +36,11 @@ public class Workload implements Serializable {
     @Column(name="load_category")
     LoadCategory loadCategory;
 
-    // ������� �������� ����� ���� ��������� � ���������� �������
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     List<StudentGroup> groups = new Vector<StudentGroup>();
 
     // � ��� ���� ������������ ������ �� ������ �������
-    @OneToMany(mappedBy="workloadEntryPK.workloadId")
+    @OneToMany(mappedBy="workloadEntryPK.workloadId", cascade = CascadeType.ALL)
     @Column(name="entries")
     List<WorkloadEntry> entries = new Vector<WorkloadEntry>();
 
