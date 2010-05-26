@@ -31,22 +31,6 @@ public class EditPage extends WebPage {
     public EditPage() {
         Form form = new FileUploadForm("formUploadXLS");
         add(form);
-
-        //add groups and combo box for this
-        availableGroups = studentGroupRepository.getGroups();
-        if (availableGroups.size() > 0) {
-            parseGroup = availableGroups.get(0);
-        }
-        DropDownChoice<StudentGroup> groupChoise = new DropDownChoice<StudentGroup>("parseGroup",
-                new PropertyModel<StudentGroup>(this, "parseGroup"),
-                new LoadableDetachableModel<List<StudentGroup>>()
-                    {
-                        @Override
-                        protected List<StudentGroup> load() {
-                            return availableGroups;
-                        }
-                    });
-        form.add(groupChoise);
     }
 
     /**
@@ -59,6 +43,9 @@ public class EditPage extends WebPage {
         private TextField<Integer> textParseStart;
         private TextField<Integer> textParseEnd;
         private TextField<Integer> textParseSemester;
+        private TextField<String> textGroupSpec;
+        private TextField<Integer> textGroupYear;
+        private TextField<Integer> textGroupNumber;
 
         /**
          * Construct.
@@ -74,6 +61,9 @@ public class EditPage extends WebPage {
             add(textParseStart = new TextField<Integer>("parseStart", new Model<Integer>(), Integer.class));
             add(textParseEnd = new TextField<Integer>("parseEnd", new Model<Integer>(), Integer.class));
             add(textParseSemester = new TextField<Integer>("parseSemester", new Model<Integer>(), Integer.class));
+            add(textGroupSpec = new TextField<String>("groupSpec", new Model<String>(), String.class));
+            add(textGroupYear = new TextField<Integer>("groupYear", new Model<Integer>(), Integer.class));
+            add(textGroupNumber = new TextField<Integer>("groupNumber", new Model<Integer>(), Integer.class));
             textParseSheet.setRequired(true);
             textParseSheet.add(new RangeValidator<Integer>(0, Integer.MAX_VALUE));
             textParseStart.setRequired(true);
@@ -82,6 +72,11 @@ public class EditPage extends WebPage {
             textParseEnd.add(new RangeValidator<Integer>(0, Integer.MAX_VALUE));
             textParseSemester.setRequired(true);
             textParseSemester.add(new RangeValidator<Integer>(0, Integer.MAX_VALUE));
+            textGroupSpec.setRequired(true);
+            textGroupYear.setRequired(true);
+            textGroupYear.add(new RangeValidator<Integer>(1910, 2110));
+            textGroupNumber.setRequired(true);
+            textGroupNumber.add(new RangeValidator<Integer>(1, 20));
             // Set maximum size to 10M
             setMaxSize(Bytes.megabytes(10));
         }
@@ -121,6 +116,9 @@ public class EditPage extends WebPage {
             Integer parseStart = textParseStart.getConvertedInput();
             Integer parseEnd = textParseEnd.getConvertedInput();
             Integer parseSemesters = textParseSemester.getConvertedInput();
+            String groupSpec = textGroupSpec.getConvertedInput();
+            Integer groupYear = textGroupYear.getConvertedInput();
+            Integer groupNumber = textGroupNumber.getConvertedInput();
             FileUpload upload = fileUploadField.getFileUpload();
 
             //upload and create file on server
@@ -131,10 +129,7 @@ public class EditPage extends WebPage {
                     + " parseEnd: " + parseEnd
                     + " parseSemesters: " + parseSemesters );*/
 
-            //if (parseGroup == null) {
-                parseGroup = new StudentGroup("??", new Long(0), new Long(0));
-                studentGroupRepository.store(parseGroup);
-            //}
+            parseGroup = new StudentGroup(groupSpec, new Long(groupNumber), new Long(groupYear));
             //parser launch
             CurriculumParser cParser = new CurriculumParser(parseGroup,
                     parseSheet, parseStart, parseEnd, parseSemesters,
@@ -179,5 +174,4 @@ public class EditPage extends WebPage {
     WorkloadRepository workloadRepository;
 
     private StudentGroup parseGroup;
-    private List<StudentGroup> availableGroups;
 }
