@@ -1,8 +1,8 @@
 package ua.dp.primat.curriculum.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,31 +18,27 @@ import javax.persistence.Table;
 @Entity
 @Table(name="workloads")
 public class Workload implements Serializable {
-    // entity key
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="id")
-    Long workloadId;
+    private Long workloadId;
 
-    // descipline which this one related to
     @ManyToOne
     @JoinColumn(name="discipline_fk")
-    //@Column(name="discipline")
-    Discipline discipline;
+    private Discipline discipline;
 
     @Column(name="type")
-    WorkloadType type;
+    private WorkloadType type;
 
     @Column(name="load_category")
-    LoadCategory loadCategory;
+    private LoadCategory loadCategory;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    List<StudentGroup> groups = new Vector<StudentGroup>();
+    private List<StudentGroup> groups = new ArrayList<StudentGroup>();
 
-    // � ��� ���� ������������ ������ �� ������ �������
     @OneToMany(mappedBy="workloadEntryPK.workloadId", cascade = CascadeType.ALL)
     @Column(name="entries")
-    List<WorkloadEntry> entries = new Vector<WorkloadEntry>();
+    private List<WorkloadEntry> entries = new ArrayList<WorkloadEntry>();
 
     public Workload() {
     }

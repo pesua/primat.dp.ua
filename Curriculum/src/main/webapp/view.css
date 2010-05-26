@@ -1,8 +1,21 @@
 #curriculumTable {
     text-align: left;
-    border: black double;
+    border: black solid;
+    border-right-color: black;
+    border-left-color: black;
+    border-bottom-color: black;
+    border-top-color: black;
+    border-right-style: double;
+    border-left-style: double;
+    border-bottom-style: double;
+    border-top-style: double;
 }
-tr, td {
+#curriculumTable tr, #curriculumTable td, #curriculumTable th {
     border: 1px black solid;
+}
+#curriculumTable th {
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: black;
 }
 

@@ -106,8 +106,8 @@ public class HomePage extends WebPage {
     }
 
     @SpringBean
-    StudentGroupRepository studentGroupRepository;
+    private StudentGroupRepository studentGroupRepository;
 
     @SpringBean
-    WorkloadEntryRepository workloadEntryRepository;
+    private WorkloadEntryRepository workloadEntryRepository;
 }

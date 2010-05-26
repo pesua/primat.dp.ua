@@ -6,4 +6,9 @@ public enum WorkloadType {
     wtProfPract,
     wtProfPractStudent,
     wtProfPractUniver;
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

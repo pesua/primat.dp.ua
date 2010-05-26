@@ -26,13 +26,13 @@ public class Discipline implements Serializable {
     @Id
     @Column(name="id")
     @GeneratedValue(strategy=GenerationType.AUTO)
-    Long disciplineId;
+    private Long disciplineId;
 
     @Column(name="name")
-    String name;
+    private String name;
     
     @ManyToOne(cascade = CascadeType.ALL)
-    Cathedra cathedra;
+    private Cathedra cathedra;
     
     @OneToMany(mappedBy = "discipline", cascade = CascadeType.ALL)
     private List<Workload> workloads;

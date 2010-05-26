@@ -8,9 +8,9 @@ import javax.persistence.ManyToOne;
 @Embeddable
 public class WorkloadEntryPK implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
-    Workload workloadId;
+    private Workload workloadId;
 
-    Long semesterNumber;
+    private Long semesterNumber;
 
     public Long getSemesterNumber() {
         return semesterNumber;

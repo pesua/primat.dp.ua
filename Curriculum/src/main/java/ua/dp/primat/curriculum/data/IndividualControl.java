@@ -14,16 +14,16 @@ public class IndividualControl implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="id")
-    Long id;
+    private Long id;
 
     @Column(name="type", length=100)
-    String type;
+    private String type;
 
     @Column(name="week_num")
-    Long weekNum;
+    private Long weekNum;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    WorkloadEntry workloadEntry;
+    private WorkloadEntry workloadEntry;
 
     public WorkloadEntry getWorkloadEntry() {
         return workloadEntry;

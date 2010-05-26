@@ -23,29 +23,28 @@ import javax.persistence.Table;
 })
 public class WorkloadEntry implements Serializable {
     @Id
-    WorkloadEntryPK workloadEntryPK = new WorkloadEntryPK();
+    private WorkloadEntryPK workloadEntryPK = new WorkloadEntryPK();
 
     @Column(name="lection_count")
-    Long lectionCount;
+    private Long lectionCount;
 
     @Column(name="practice_count")
-    Long practiceCount;
+    private Long practiceCount;
 
     @Column(name="lab_count")
-    Long labCount;
+    private Long labCount;
 
-    // individual work lessons count
     @Column(name="ind_count")
-    Long indCount;
+    private Long indCount;
 
     @Column(name="final_control")
-    FinalControlType finalControl;
+    private FinalControlType finalControl;
 
     @Column(name="cource_work")
-    Boolean courceWork;
+    private Boolean courceWork;
 
     @OneToMany(mappedBy="workloadEntry", cascade = CascadeType.ALL)
-    List<IndividualControl> individualControl = new ArrayList<IndividualControl>();
+    private List<IndividualControl> individualControl = new ArrayList<IndividualControl>();
 
     public WorkloadEntry() {
     }

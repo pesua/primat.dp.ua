@@ -1,7 +1,3 @@
-/*
- *  
- */
-
 package ua.dp.primat.curriculum.data;
 
 import java.io.Serializable;
@@ -15,20 +11,16 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-/**
- *
- * @author EniSh
- */
 @Entity
 @Table(name = "Cathedra")
 public class Cathedra implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "cathedra_id")
-    Long cathedraId;
+    private Long cathedraId;
 
     @Column(name = "name", length = 255)
-    String name;
+    private String name;
     
     @OneToMany(mappedBy = "cathedra", cascade = CascadeType.ALL)
     private Set<Discipline> disciplines;

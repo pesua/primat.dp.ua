@@ -1,8 +1,8 @@
 package ua.dp.primat.curriculum.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,19 +23,19 @@ public class StudentGroup implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="id")
-    Long groupId;
+    private Long groupId;
 
     @Column(name="code", length=3)
-    String code;
+    private String code;
 
     @Column(name="number")
-    Long number;
+    private Long number;
 
     @Column(name="group_year")
-    Long year;
+    private Long year;
 
     @ManyToMany(mappedBy = "groups", cascade = CascadeType.ALL)
-    private List<Workload> workloads = new Vector<Workload>();
+    private List<Workload> workloads = new ArrayList<Workload>();
 
     public StudentGroup() {
     }

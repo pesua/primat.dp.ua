@@ -19,7 +19,7 @@ public class WicketApplication extends WebApplication {
     }
 
     @Override
-    protected void init() {
+    protected final void init() {
         super.init();
 
         //Curriculum upload folder
