@@ -1,18 +1,17 @@
 package ua.dp.primat.curriculum.view;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import org.apache.wicket.Application;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.markup.html.form.upload.*;
-import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.util.file.Files;
 import org.apache.wicket.util.file.Folder;
 import org.apache.wicket.util.lang.*;
@@ -26,11 +25,12 @@ import ua.dp.primat.curriculum.planparser.CurriculumXLSRow;
 
 public class EditPage extends WebPage {
 
-    private static final long serialVersionUID = 2L;
-
     public EditPage() {
-        Form form = new FileUploadForm("formUploadXLS");
+        final Form form = new FileUploadForm("formUploadXLS");
         add(form);
+
+        final FeedbackPanel feedback = new FeedbackPanel("feedback");
+        add(feedback);
     }
 
     /**
@@ -55,30 +55,46 @@ public class EditPage extends WebPage {
             super(name);
             // set this form to multipart mode (allways needed for uploads!)
             setMultiPart(true);
-            // Add one file input field
-            add(fileUploadField = new FileUploadField("fileInput"));
-            add(textParseSheet = new TextField<Integer>("parseSheet", new Model<Integer>(), Integer.class));
-            add(textParseStart = new TextField<Integer>("parseStart", new Model<Integer>(), Integer.class));
-            add(textParseEnd = new TextField<Integer>("parseEnd", new Model<Integer>(), Integer.class));
-            add(textParseSemester = new TextField<Integer>("parseSemester", new Model<Integer>(), Integer.class));
-            add(textGroupSpec = new TextField<String>("groupSpec", new Model<String>(), String.class));
-            add(textGroupYear = new TextField<Integer>("groupYear", new Model<Integer>(), Integer.class));
-            add(textGroupNumber = new TextField<Integer>("groupNumber", new Model<Integer>(), Integer.class));
+            // Add file input field and other options fields
+            fileUploadField = new FileUploadField("fileInput");
+            add(fileUploadField);
+
+            textParseSheet = new TextField<Integer>("parseSheet", new Model<Integer>(), Integer.class);
             textParseSheet.setRequired(true);
             textParseSheet.add(new RangeValidator<Integer>(0, Integer.MAX_VALUE));
+            add(textParseSheet);
+
+            textParseStart = new TextField<Integer>("parseStart", new Model<Integer>(), Integer.class);
             textParseStart.setRequired(true);
             textParseStart.add(new RangeValidator<Integer>(0, Integer.MAX_VALUE));
+            add(textParseStart);
+
+            textParseEnd = new TextField<Integer>("parseEnd", new Model<Integer>(), Integer.class);
             textParseEnd.setRequired(true);
             textParseEnd.add(new RangeValidator<Integer>(0, Integer.MAX_VALUE));
+            add(textParseEnd);
+
+            textParseSemester = new TextField<Integer>("parseSemester", new Model<Integer>(), Integer.class);
             textParseSemester.setRequired(true);
             textParseSemester.add(new RangeValidator<Integer>(0, Integer.MAX_VALUE));
+            add(textParseSemester);
+
+            textGroupSpec = new TextField<String>("groupSpec", new Model<String>(), String.class);
             textGroupSpec.setRequired(true);
+            add(textGroupSpec);
+
+            textGroupYear = new TextField<Integer>("groupYear", new Model<Integer>(), Integer.class);
             textGroupYear.setRequired(true);
-            textGroupYear.add(new RangeValidator<Integer>(1910, 2110));
+            textGroupYear.add(new RangeValidator<Integer>(MIN_YEAR, MAX_YEAR));
+            add(textGroupYear);
+            
+            textGroupNumber = new TextField<Integer>("groupNumber", new Model<Integer>(), Integer.class);
             textGroupNumber.setRequired(true);
-            textGroupNumber.add(new RangeValidator<Integer>(1, 20));
+            textGroupNumber.add(new RangeValidator<Integer>(1, MAX_GROUP_NUMBER));
+            add(textGroupNumber);
+
             // Set maximum size to 10M
-            setMaxSize(Bytes.megabytes(10));
+            setMaxSize(Bytes.megabytes(MAX_FILESIZE));
         }
 
         private String makeUploadedFile(FileUpload upload) {
@@ -122,25 +138,37 @@ public class EditPage extends WebPage {
             FileUpload upload = fileUploadField.getFileUpload();
 
             //upload and create file on server
-            String uploadedFileName = makeUploadedFile(upload);
-            /*EditPage.this.info("uploadedFileName: " + uploadedFileName + "\n"
-                    + " parseSheet: " + parseSheet
-                    + " parseStart: " + parseStart
-                    + " parseEnd: " + parseEnd
-                    + " parseSemesters: " + parseSemesters );*/
+            String uploadedFileName = "";
+            try {
+                uploadedFileName = makeUploadedFile(upload);
+            }
+            catch (IllegalStateException ise) {
+                this.error(ise);
+            }
 
             parseGroup = new StudentGroup(groupSpec, new Long(groupNumber), new Long(groupYear));
             //parser launch
-            CurriculumParser cParser = new CurriculumParser(parseGroup,
+            List<CurriculumXLSRow> listParsed = null;
+            try {
+                CurriculumParser cParser = new CurriculumParser(parseGroup,
                     parseSheet, parseStart, parseEnd, parseSemesters,
                     uploadedFileName);
-            List<CurriculumXLSRow> listParsed = cParser.parse();
+                listParsed = cParser.parse();
+            }
+            catch (IOException ioe) {
+                this.error(ioe);
+            }
 
             //commit info to the database
+            String parserLog = "";
             for (int i=0;i<listParsed.size();i++) {
                 Workload workload = listParsed.get(i).getWorkload();
                 workloadRepository.store(workload);
+                parserLog = listParsed.get(i).toString();
+                this.info(parserLog);
             }
+
+            this.info(String.format("Curriculum in '%s' was successfully parsed\n into database (%d items).", uploadedFileName, listParsed.size()));
         }
     }
 
@@ -167,11 +195,17 @@ public class EditPage extends WebPage {
         return ((WicketApplication)Application.get()).getUploadFolder();
     }
 
-    @SpringBean
-    StudentGroupRepository studentGroupRepository;
-
-    @SpringBean
-    WorkloadRepository workloadRepository;
-
     private StudentGroup parseGroup;
+
+    @SpringBean
+    private StudentGroupRepository studentGroupRepository;
+
+    @SpringBean
+    private WorkloadRepository workloadRepository;
+
+    private static final long serialVersionUID = 2L;
+    private static final int MIN_YEAR = 1910;
+    private static final int MAX_YEAR = 2110;
+    private static final int MAX_GROUP_NUMBER = 20;
+    private static final int MAX_FILESIZE = 10; //in megabytes
 }

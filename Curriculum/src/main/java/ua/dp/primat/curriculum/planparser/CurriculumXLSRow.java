@@ -256,6 +256,35 @@ public final class CurriculumXLSRow {
         generateDatabaseEntries();
     }
 
+    /**
+     * toString() overriden method for plain representation of the parsed item
+     * @return
+     */
+    @Override
+    public String toString() {
+        String result = "";
+        final String eolChar = String.format("%n");
+
+        result += "Discipline: "+this.getDiscipline().getName() + eolChar;
+        result += "Category: "+this.getWorkload().getLoadCategory() + eolChar;
+        result += "Type: "+this.getWorkload().getType() + eolChar;
+        for (int j=0;j<this.getWorkload().getEntries().size();j++) {
+            result += "-> Semester:"+this.getWorkload().getEntries().get(j).getSemesterNumber()
+                    + "| FinalControl:" + this.getWorkload().getEntries().get(j).getFinalControl()
+                    + "| CourseWork:" + this.getWorkload().getEntries().get(j).getCourceWork()
+                    + "| IndividualControlCount:" + this.getWorkload().getEntries().get(j).getIndividualControl().size()
+                    + eolChar;
+
+            for (int k=0;k<this.getWorkload().getEntries().get(j).getIndividualControl().size();k++) {
+                result += "---> IndividualControl: " + this.getWorkload().getEntries().get(j).getIndividualControl().get(k).getType();
+                result += ", " + this.getWorkload().getEntries().get(j).getIndividualControl().get(k).getWeekNum();
+                result += eolChar;
+            }
+        }
+
+        return result;
+    }
+
     //Variables
     private String diffSetOff;
     private String disciplineName;

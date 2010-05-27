@@ -45,24 +45,26 @@ public final class CurriculumParser {
         languageLoad();
     }
 
+    /**
+     * Constructor, that takes parser options and opens excel workbook at specified sheet.
+     * @param group StudentGroup Entity that all items from this plan will be assigned to.
+     * @param sheetNum Number of Excel sheet with the curriculum (starts from 0)
+     * @param itemStart Number of row, that will be first to parse.
+     * Generally, it is the first row after the curriculum header (starts from 0)
+     * @param itemEnd Number of row, that will be last to parse (starts from 0)
+     * @param semCount Count of semesters in the curriculum
+     * @param fileName Excel file name with input curriculum
+     */
     public CurriculumParser(StudentGroup group, int sheetNum,
-            int itemStart, int itemEnd, int semCount, String fileName) {
+            int itemStart, int itemEnd, int semCount, String fileName) throws FileNotFoundException, IOException {
         //run general constructor
         this(group, sheetNum, itemStart, itemEnd, semCount);
 
         File fileExcel = null;
-        try {
-            fileExcel = new File(fileName);
+        fileExcel = new File(fileName);
 
-            this.excelBook = new HSSFWorkbook(new FileInputStream(fileExcel));
-            currentSheet = excelBook.getSheetAt(sheetNumber);
-        }
-        catch (FileNotFoundException fnfe) {
-            fnfe.printStackTrace();
-        }
-        catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
+        this.excelBook = new HSSFWorkbook(new FileInputStream(fileExcel));
+        currentSheet = excelBook.getSheetAt(sheetNumber);
     }
 
     public CurriculumParser(StudentGroup group, int sheetNum,
@@ -74,6 +76,15 @@ public final class CurriculumParser {
         currentSheet = excelBook.getSheetAt(sheetNumber);
     }
 
+    /**
+     * This method parses one excel row of curriculum, which contains
+     * one discipline item. Cell indexes (start from 0) must follow constants
+     * values with prefix "COL_" from this class.
+     * @param row POI Row object with data
+     * @param workloadType WorkloadType that will be assigned to the item
+     * @param loadCategory LoadCategory that will be assigned to the item
+     * @return CurriculumXLSRow object which contains parsed values
+     */
     private CurriculumXLSRow parseXLSEntry(Row row, WorkloadType workloadType, LoadCategory loadCategory) {
         //parse info
         String subjName = row.getCell(COL_DISCIPLINE).getStringCellValue();
@@ -135,6 +146,10 @@ public final class CurriculumParser {
         }
     }
 
+    /**
+     * Launch the Parse procedure for configured (by constructor) CurriculumParser.
+     * @return list of CurriculumXLSRow, that contain parsed values
+     */
     public List<CurriculumXLSRow> parse() {
         if ((itemStart < 0) || (itemEnd > currentSheet.getPhysicalNumberOfRows()-1)) {
             throw new IndexOutOfBoundsException();
@@ -145,9 +160,10 @@ public final class CurriculumParser {
         currentLoadCategory = LoadCategory.Normative;
 
         List<CurriculumXLSRow> entries = new ArrayList<CurriculumXLSRow>();
+
         //start reading excel rows
-        try {
-            for (int r = itemStart; r <= itemEnd; r++) {
+        for (int r = itemStart; r <= itemEnd; r++) {
+            try {
                 Row row = currentSheet.getRow(r);
 
                 //could not parse item
@@ -157,7 +173,7 @@ public final class CurriculumParser {
                     continue;
                 }
 
-                //if this item is not a Database entry, it might be the options
+                //if this item is not a Database entry, it might be the option (WorkloadType, LoadCategory)
                 if ((row.getCell(1) == null) || (row.getCell(1).toString().length() == 0)) {
                     String cellText = row.getCell(0).getStringCellValue().trim();
                     changeEntriesCategoryOrType(cellText);
@@ -165,31 +181,30 @@ public final class CurriculumParser {
                     entries.add(parseXLSEntry(row, currentWorkloadType, currentLoadCategory));
                 }
             }
+            finally {
+            }
         }
-        catch (Throwable e) {
-            e.printStackTrace();
-        }
-        finally {
-            return entries;
-        }
+
+        //get the result
+        return entries;
     }
 
     /* CONSTANTS */
-    //Excel index for Name of Discipline
+    /** Excel index for Name of Discipline */
     public static final int COL_DISCIPLINE = 1;
-    //Excel index for Cathedra of Discipline
+    /** Excel index for Cathedra of Discipline */
     public static final int COL_CATHEDRA = 2;
-    //Excel index for type of final control (exam, mark, differential mark, course)
+    /** Excel index for type of final control (exam, mark, differential mark, course) */
     public static final int COL_FINALCONTROL = 6;
-    //Excel index for types of individual tasks
+    /** Excel index for types of individual tasks */
     public static final int COL_INDIVIDUALTASKS = 9;
-    //Excel indexes for hours for the Discipline
+    /** Excel indexes for hours for the Discipline */
     public static final int COL_HOURS_LECTURE = 22;
     public static final int COL_HOURS_PRACTICE = 23;
     public static final int COL_HOURS_LAB = 24;
     public static final int COL_HOURS_INDIVIDUAL = 25;
     public static final int COL_HOURS_SELFWORK = 26;
-    //
+    /** Excel cells count for hours info of one semester */
     public static final int COL_HOUROFFSET = 6;
     //Workload Type Indexes
     public static final int WTID_HUMANITIES = 1;
