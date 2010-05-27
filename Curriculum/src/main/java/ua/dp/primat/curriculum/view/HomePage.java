@@ -25,7 +25,7 @@ public class HomePage extends WebPage {
     private StudentGroup chosenGroup;
     private Long chosenSemester;
     private final ListView<WorkloadEntry> disciplinesView;
-    private final int semesterCount = 8;
+    private static final int semesterCount = 8;
 
     public HomePage() {
         
@@ -38,14 +38,14 @@ public class HomePage extends WebPage {
         chosenGroup = groups.get(0);
         chosenSemester = Long.valueOf(1);
         
-        Form form = new ChooseGroupForm("form");
+        Form form = new Form("form");
         add(form);
-        DropDownChoice<StudentGroup> groupChoise = new GroupChoise("group",
+        DropDownChoice<StudentGroup> groupChoise = new CurriculumChoise<StudentGroup>("group",
                 new PropertyModel<StudentGroup>(this, "chosenGroup"),
                 new LoadableDetachableModelImpl(groups));
         form.add(groupChoise);
 
-        DropDownChoice<Long> semesterChoise = new DropDownChoice<Long>("semester",
+        DropDownChoice<Long> semesterChoise = new CurriculumChoise<Long>("semester",
                 new PropertyModel<Long>(this, "chosenSemester"),
                 new LoadableDetachableModel<List<Long>>(){
 
@@ -87,19 +87,6 @@ public class HomePage extends WebPage {
         }
     }
 
-    private class ChooseGroupForm extends Form {
-
-        public ChooseGroupForm(String id) {
-            super(id);
-        }
-
-        @Override
-        protected void onSubmit() {
-            disciplinesView.setList(workloadEntryRepository.getWorkloadEntries(chosenGroup, chosenSemester));
-            super.onSubmit();
-        }
-    }
-
     @SpringBean
     private StudentGroupRepository studentGroupRepository;
 
@@ -120,14 +107,15 @@ public class HomePage extends WebPage {
         }
     }
 
-    private class GroupChoise extends DropDownChoice<StudentGroup> {
+    private class CurriculumChoise<T> extends DropDownChoice<T> {
 
-        public GroupChoise(String id, IModel<StudentGroup> model, IModel<? extends List<? extends StudentGroup>> choices) {
+        public CurriculumChoise(String id, IModel<T> model, IModel<? extends List<? extends T>> choices) {
             super(id, model, choices);
         }
 
         @Override
-        protected void onSelectionChanged(StudentGroup newSelection) {
+        protected void onSelectionChanged(T newSelection) {
+            disciplinesView.setList(workloadEntryRepository.getWorkloadEntries(chosenGroup, chosenSemester));
             super.onSelectionChanged(newSelection);
         }
 

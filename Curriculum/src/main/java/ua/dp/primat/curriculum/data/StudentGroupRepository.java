@@ -6,5 +6,4 @@ public interface StudentGroupRepository {
     void store(StudentGroup studentGroup);
     void remove(StudentGroup studentGroup);
     List<StudentGroup> getGroups();
-    long getSemesterCount(StudentGroup group);
 }
