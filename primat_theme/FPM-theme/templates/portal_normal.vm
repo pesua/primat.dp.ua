@@ -73,6 +73,11 @@
 			</h1>
 
 		</hgroup>
+		
+		<div>
+			<p id="FPM">Факультет прикладної математики</p>
+			<p id="DNU">Дніпропетровський національній університет ім. О. Гончара</p>
+		</div>
 
 		#if(!$is_signed_in)
 			<a href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a>
