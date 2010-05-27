@@ -15,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.IndexColumn;
 
 @Entity
 @Table(name = "workloads")
@@ -42,6 +44,7 @@ public class Workload implements Serializable {
         @JoinColumn(name = "groupId"))
     private List<StudentGroup> groups = new ArrayList<StudentGroup>();
 
+    @IndexColumn(name="parentWorkloadIndex")
     @OneToMany(cascade = CascadeType.ALL, mappedBy="parentWorkload")
     private List<WorkloadEntry> entries = new ArrayList<WorkloadEntry>();
 

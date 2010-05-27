@@ -53,7 +53,7 @@ public class WorkloadEntry implements Serializable {
     @Column(name="cource_work")
     private Boolean courceWork;
 
-    @OneToMany(mappedBy="workloadEntry", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="workloadEntry")//, cascade = CascadeType.ALL
     private List<IndividualControl> individualControl = new ArrayList<IndividualControl>();
 
     public WorkloadEntry() {

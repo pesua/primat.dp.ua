@@ -34,7 +34,7 @@ public class Discipline implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private Cathedra cathedra;
     
-    @OneToMany(mappedBy = "discipline", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "discipline")//, cascade = CascadeType.ALL
     private List<Workload> workloads;
 
     public Discipline() {

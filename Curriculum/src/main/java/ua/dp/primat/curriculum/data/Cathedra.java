@@ -23,7 +23,7 @@ public class Cathedra implements Serializable {
     @Column(name = "name")
     private String name;
     
-    @OneToMany(mappedBy = "cathedra", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cathedra")//, cascade = CascadeType.ALL
     private Set<Discipline> disciplines;
 
     public Cathedra() {

@@ -193,6 +193,7 @@ public final class CurriculumXLSRow {
                 workloadEntry.setPracticeCount(new Long(Math.round(hoursForSemesters.get(i).getHoursPract())));
                 workloadEntry.setSemesterNumber(new Long(i));
                 workload.getEntries().add(workloadEntry);
+                workloadEntry.setParentWorkload(workload);
                 //individual controls
                 generateIndividualControls(workloadEntry);
             }
