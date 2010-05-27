@@ -6,12 +6,59 @@
 
 <head>
 	<title>$the_title - $company_name</title>
+	<style type=text/css>
+  		* {
+			  margin: 0;
+			  padding: 0;
+			}
+			html, body {
+				height: 100%;
+			}
+			#wholepage {
+			  position: relative;
+			  min-height: 100%;
+			}
+			* html #wholepage {
+			  height: 100%;
+			}
+			#footer_hook_text {
+			  padding-bottom: 90px;
+			}
+			#footer_dummy {
+				background-color: #99DDFF;
+			  position: relative;
+			  height: 90px;
+			  margin-top: -90px;
+			}
+			#footer_line {
+				width: 100%;
+				height: 1px;
+				background-color: #6699AA;
+			}
+			#footer_text {
+				font-family: Verdana;
+				padding-left: 10px;
+				padding-top: 10px;
+				padding-right: 15px;
+				padding-bottom: 0px;
+				font-size: 11px;
+			}
+			#footer_logo {
+				text-align: right;
+				margin-top: -58px;
+				vertical-align: top;
+			}
+			#footer_logo img {
+				border: 0;
+			}
+  </style>
 
 	$theme.include($top_head_include)
 </head>
 
 <body class="$css_class">
 
+<div id="wholepage">
 #if($is_signed_in)
 	#dockbar()
 #end
@@ -72,14 +119,29 @@
 			$theme.wrapPortlet("portlet.vm", $content_include)
 		#end
 	</div>
-
-	<footer id="footer" role="contentinfo">
-		<p align="bottom right">
-			<a href="http://www.exigenservices.ru" rel="external">Supported by Exigen</a>
-		</p>
-	</footer>
+	
+  <div id="footer_hook_text">
+  	#* $theme.include($bottom_include) *#
+	</div>
+</div>
 </div>
 
-$theme.include($bottom_include)
+<div id="footer_dummy" role="contentinfo">
+	<div id="footer_line"></div>
+	<div id="footer_text">
+		Copyright &copy; 2010 Exigen Agile Practices Students Team<br/>
+		Створено на основі <a href="http://liferay.com/" rel="external">Liferay Portal</a><br/><br/>
+		<img src="$images_folder/footer/vk.png" WIDTH="16" HEIGHT="16" alt="VKontakte" align="left">&nbsp;
+		<a href="http://vkontakte.ru/club638940">Група факультету ВКонтакті</a>
+		<div id="footer_logo">
+			За підтримки:<br/>
+			<a href="http://www.exigenservices.com.ua/">
+			<img src="$images_folder/footer/exigen_logo.png" WIDTH="121" HEIGHT="47" alt="Exigen Services">
+			</a>
+		</div>
+	</div>
+</div>
+
+</body>
 
 </html>
