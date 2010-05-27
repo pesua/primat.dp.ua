@@ -25,7 +25,7 @@ public class HomePage extends WebPage {
     private StudentGroup chosenGroup;
     private Long chosenSemester;
     private final ListView<WorkloadEntry> disciplinesView;
-    private static final int semesterCount = 8;
+    private static final int SEMESTER_COUNT = 8;
 
     public HomePage() {
         
@@ -52,7 +52,7 @@ public class HomePage extends WebPage {
             @Override
             protected List<Long> load() {
                 List<Long> l = new ArrayList<Long>();
-                for (int i = 1; i <= semesterCount; i++) {
+                for (int i = 1; i <= SEMESTER_COUNT; i++) {
                     l.add(Long.valueOf(i));
                 }
                 return l;
