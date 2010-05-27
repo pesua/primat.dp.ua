@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -20,7 +21,7 @@ import javax.persistence.Table;
 public class Workload implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="id")
+    @Column
     private Long workloadId;
 
     @ManyToOne
@@ -34,11 +35,11 @@ public class Workload implements Serializable {
     private LoadCategory loadCategory;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    /*@JoinTable(name = "groups",
+    @JoinTable(name = "workloads_groups",
         joinColumns =
         @JoinColumn(name = "workloadId"),
         inverseJoinColumns =
-        @JoinColumn(name = "groupId"))*/
+        @JoinColumn(name = "groupId"))
     private List<StudentGroup> groups = new ArrayList<StudentGroup>();
 
     @OneToMany(mappedBy="workloadEntryPK.workloadId", cascade = CascadeType.ALL)

@@ -26,7 +26,7 @@ public class StudentGroup implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="id")
+    @Column
     private Long groupId;
 
     @Column(name="code", length=CODE_LENGTH)
@@ -97,6 +97,5 @@ public class StudentGroup implements Serializable {
         DecimalFormat format = new DecimalFormat("00");
         String yearCode = format.format(getYear() % YEAR_MASK);
         return String.format("%s-%s-%d", getCode(), yearCode, getNumber());
-        //getCode() + "-" + (yearPart.substring(yearPart.length() - yearDigitCount)) + "-" + getNumber();
     }
 }
