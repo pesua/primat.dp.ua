@@ -157,7 +157,7 @@ public final class CurriculumXLSRow {
         workload.setDiscipline(discipline);
         workload.setLoadCategory(loadCategory);
         workload.setType(workloadType);
-        workload.getGroups().add(group);
+        //workload.getGroups().add(group);
         group.getWorkloads().add(workload);
     }
 
