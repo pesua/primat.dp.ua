@@ -121,7 +121,7 @@
 	
 </div>
 
-	<div id="footer_hook_text">#* $theme.include($bottom_include) *#</div>
+	<div id="footer_hook_text">$theme.include($bottom_include)</div>
 </div>
 
 <div id="footer_dummy" role="contentinfo">
