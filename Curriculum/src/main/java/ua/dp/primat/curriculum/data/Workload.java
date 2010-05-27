@@ -24,7 +24,7 @@ public class Workload implements Serializable {
     @Column
     private Long workloadId;
 
-    @ManyToOne
+    @ManyToOne(cascade= CascadeType.ALL)
     @JoinColumn(name="discipline_fk")
     private Discipline discipline;
 
@@ -42,8 +42,7 @@ public class Workload implements Serializable {
         @JoinColumn(name = "groupId"))
     private List<StudentGroup> groups = new ArrayList<StudentGroup>();
 
-    @OneToMany(mappedBy="workloadEntryPK.workloadId", cascade = CascadeType.ALL)
-    @Column(name="entries")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="parentWorkload")
     private List<WorkloadEntry> entries = new ArrayList<WorkloadEntry>();
 
     public Workload() {

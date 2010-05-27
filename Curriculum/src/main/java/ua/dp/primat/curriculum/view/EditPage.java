@@ -169,7 +169,11 @@ public class EditPage extends WebPage {
             }
 
             //commit info to the database
+            
+            studentGroupRepository.store(parseGroup);
+          
             String parserLog = "";
+
             for (int i=0;i<listParsed.size();i++) {
                 Workload workload = listParsed.get(i).getWorkload();
                 workloadRepository.store(workload);
@@ -204,6 +208,9 @@ public class EditPage extends WebPage {
     }
 
     private StudentGroup parseGroup;
+
+    @SpringBean
+    private StudentGroupRepository studentGroupRepository;
 
     @SpringBean
     private WorkloadRepository workloadRepository;

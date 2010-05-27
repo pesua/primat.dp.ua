@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -38,7 +40,12 @@ public class StudentGroup implements Serializable {
     @Column(name="group_year")
     private Long year;
 
-    @ManyToMany(mappedBy = "groups", cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "workloads_groups",
+        joinColumns =
+        @JoinColumn(name = "groupId"),
+        inverseJoinColumns =
+        @JoinColumn(name = "workloadId"))
     private List<Workload> workloads = new ArrayList<Workload>();
 
     public StudentGroup() {

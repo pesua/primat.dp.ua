@@ -1,7 +1,3 @@
-/*
- *  This unit tests all data logic for Curriculum.
- */
-
 package ua.dp.primat;
 
 import java.util.Iterator;
