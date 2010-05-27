@@ -1,18 +1,21 @@
-/*
- *  
- */
-
 package ua.dp.primat.curriculum.data;
 
-/**
- *
- * @author Administrator
- */
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public enum LoadCategory {
     Normative, Selective, AlternativeForWar;
 
     @Override
     public String toString() {
-        return super.toString();
+        ResourceBundle localization = ResourceBundle.getBundle("dimainModel", new Locale("uk"));
+        switch(this) {
+            case Normative:
+                return localization.getString("loadCategory.Normative");
+            case Selective:
+                return localization.getString("loadCategory.Selective");
+            default:
+                return localization.getString("loadCategory.AlternativeForWar");
+        }
     }
 }

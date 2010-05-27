@@ -11,16 +11,16 @@ public enum FinalControlType {
 
     @Override
     public String toString(){
-        ResourceBundle localization = ResourceBundle.getBundle("FinalControlType", new Locale("uk"));
+        ResourceBundle localization = ResourceBundle.getBundle("dimainModel", new Locale("uk"));
         switch(this) {
             case Exam:
-                return localization.getString("Exam");
+                return localization.getString("finalControl.Exam");
             case DifferentiableSetoff:
-                return localization.getString("DiffSetoff");
+                return localization.getString("finalControl.DiffSetoff");
             case Setoff:
-                return localization.getString("Setoff");
+                return localization.getString("finalControl.Setoff");
             default:
-                return localization.getString("Nothing");
+                return localization.getString("finalControl.Nothing");
         }
     }
 }

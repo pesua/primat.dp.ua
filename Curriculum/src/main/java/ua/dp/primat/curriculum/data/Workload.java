@@ -21,7 +21,7 @@ import javax.persistence.Table;
 public class Workload implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="workloadId")
+    @Column(name="id")
     private Long workloadId;
 
     @ManyToOne
