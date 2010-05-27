@@ -408,6 +408,13 @@ body.lfr-has-sidebar
 	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
+#navigation .child-menu li a
+{
+	-moz-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.0);
+	-webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.0);
+	box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.0);
+}
+
 .aui-combobox .aui-toolbar-first
 {
 	-moz-border-radius-topleft: 0;
