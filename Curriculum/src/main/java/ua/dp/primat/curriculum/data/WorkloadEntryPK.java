@@ -51,8 +51,8 @@ public class WorkloadEntryPK implements Serializable {
 
     @Override
     public int hashCode() {
-        @SuppressWarnings("MagicNumber")
-        int hash = 5;
+        final int START_HASH_VALUE = 5;
+        int hash = START_HASH_VALUE;
         final int root = 97;
         hash = root * hash + (this.workloadId != null ? this.workloadId.hashCode() : 0);
         hash = root * hash + (this.semesterNumber != null ? this.semesterNumber.hashCode() : 0);

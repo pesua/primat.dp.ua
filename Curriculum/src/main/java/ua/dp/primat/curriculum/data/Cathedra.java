@@ -20,7 +20,7 @@ public class Cathedra implements Serializable {
     private Long cathedraId;
 
     @SuppressWarnings("MagicNumber")
-    @Column(name = "name", length = 255)
+    @Column(name = "name")
     private String name;
     
     @OneToMany(mappedBy = "cathedra", cascade = CascadeType.ALL)

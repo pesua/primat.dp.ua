@@ -17,7 +17,7 @@ public class IndividualControl implements Serializable {
     private Long id;
 
     @SuppressWarnings("MagicNumber")
-    @Column(name="type", length=100)
+    @Column(name="type")
     private String type;
 
     @Column(name="week_num")

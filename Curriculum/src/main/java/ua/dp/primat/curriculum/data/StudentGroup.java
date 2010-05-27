@@ -1,7 +1,9 @@
 package ua.dp.primat.curriculum.data;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,13 +22,14 @@ import javax.persistence.Table;
     @NamedQuery(name="getGroups", query="select n from StudentGroup n")
 })
 public class StudentGroup implements Serializable {
+    public static final int CODE_LENGTH = 2;
+
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="id")
     private Long groupId;
 
-    @SuppressWarnings("MagicNumber")
-    @Column(name="code", length=3)
+    @Column(name="code", length=CODE_LENGTH)
     private String code;
 
     @Column(name="number")
@@ -90,9 +93,10 @@ public class StudentGroup implements Serializable {
 
     @Override
     public String toString() {
-        //final int yearDigitCount = 2;
-        
-        return String.format(getCode() + "-%0$2d-%d", getYear()%100, getNumber());
+        final int YEAR_MASK = 100;
+        DecimalFormat format = new DecimalFormat("00");
+        String yearCode = format.format(getYear() % YEAR_MASK);
+        return String.format("%s-%s-%d", getCode(), yearCode, getNumber());
         //getCode() + "-" + (yearPart.substring(yearPart.length() - yearDigitCount)) + "-" + getNumber();
     }
 }
