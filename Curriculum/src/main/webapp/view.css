@@ -26,4 +26,10 @@
     border-bottom-width: 2px;
     border-bottom-color: black;
 }
-
+#centered {
+    text-align: center;
+    vertical-align: middle;
+}
+#tickImg {
+    height: 18px;
+}

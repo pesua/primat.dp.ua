@@ -7,10 +7,12 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import ua.dp.primat.curriculum.data.StudentGroup;
@@ -82,7 +84,14 @@ public class HomePage extends WebPage {
             li.add(new Label("practice", entry.getPracticeCount().toString()));
             li.add(new Label("labs", entry.getLabCount().toString()));
             li.add(new Label("selfwork", entry.getIndCount().toString()));
-            li.add(new Label("course", entry.getCourceWork().toString()));
+            li.add(new Image("course"){
+
+                @Override
+                public boolean isVisible() {
+                    return entry.getCourceWork();
+                }
+
+            });
             li.add(new Label("finalcontrol", entry.getFinalControl().toString()));
         }
     }
