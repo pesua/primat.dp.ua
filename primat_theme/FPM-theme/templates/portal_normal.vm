@@ -45,8 +45,7 @@
 			}
 			#footer_logo {
 				text-align: right;
-				margin-top: -58px;
-				vertical-align: top;
+				margin-top: -55px;
 			}
 			#footer_logo img {
 				border: 0;
@@ -120,10 +119,9 @@
 		#end
 	</div>
 	
-  <div id="footer_hook_text">
-  	#* $theme.include($bottom_include) *#
-	</div>
 </div>
+
+	<div id="footer_hook_text">#* $theme.include($bottom_include) *#</div>
 </div>
 
 <div id="footer_dummy" role="contentinfo">
