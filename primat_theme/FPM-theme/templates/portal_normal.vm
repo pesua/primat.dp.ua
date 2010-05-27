@@ -63,7 +63,6 @@
 #end
 
 <div id="wrapper">
-#*	<a href="#main-content" id="skip-to-content">#language("skip-to-content")</a>*#
 
 	<header id="banner" role="banner">
 		<hgroup id="heading">
@@ -73,15 +72,6 @@
 				</a>
 			</h1>
 
-	#*		<h2 class="community-title">
-				<a href="$community_default_url" title="#language("go-to") $community_name">
-					<span>$community_name</span>
-				</a>
-			</h2>
-
-			<h3 class="page-title">
-				<span>$the_title</span>
-			</h3>*#
 		</hgroup>
 
 		#if(!$is_signed_in)
@@ -100,13 +90,6 @@
 	</header>
 
 	<div id="content" style="height:80%;">
-	#*	<nav class="site-breadcrumbs" id="breadcrumbs">
-			<h1>
-				<span>#language("breadcrumbs")</span>
-			</h1>
-
-			#breadcrumbs()
-		</nav>*#
 
 		#if ($selectable)
 			$theme.include($content_include)
