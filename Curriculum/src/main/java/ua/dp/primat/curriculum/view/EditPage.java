@@ -29,6 +29,7 @@ public class EditPage extends WebPage {
         final Form form = new FileUploadForm("formUploadXLS");
         add(form);
 
+        //add feed back panel for system information output
         final FeedbackPanel feedback = new FeedbackPanel("feedback");
         add(feedback);
     }
@@ -48,7 +49,8 @@ public class EditPage extends WebPage {
         private TextField<Integer> textGroupNumber;
 
         /**
-         * Construct.
+         * Constructor of form
+         * @param name
          */
         public FileUploadForm(String name)
         {
@@ -97,6 +99,11 @@ public class EditPage extends WebPage {
             setMaxSize(Bytes.megabytes(MAX_FILESIZE));
         }
 
+        /**
+         * Upload the file on server into the getUploadFolder() returned path.
+         * @param upload
+         * @return The absolute path to the uploaded file on server.
+         */
         private String makeUploadedFile(FileUpload upload) {
             if (upload != null)
             {
@@ -123,7 +130,9 @@ public class EditPage extends WebPage {
         }
 
         /**
-         * @see org.apache.wicket.markup.html.form.Form#onSubmit()
+         * Overriden method onSubmit for the FileUpload form.
+         * It takes input fields arguments, uploads file, than parses it, stores
+         * to the database and output the result.
          */
         @Override
         protected void onSubmit()
@@ -173,10 +182,9 @@ public class EditPage extends WebPage {
     }
 
     /**
-     * Check whether the file allready exists, and if so, try to delete it.
-     *
+     * Check whether the file already exists, and if so, try to delete it.
      * @param newFile
-     *            the file to check
+     *          the file to check
      */
     private void checkFileExists(File newFile)
     {
@@ -196,9 +204,6 @@ public class EditPage extends WebPage {
     }
 
     private StudentGroup parseGroup;
-
-    @SpringBean
-    private StudentGroupRepository studentGroupRepository;
 
     @SpringBean
     private WorkloadRepository workloadRepository;

@@ -27,8 +27,13 @@ import ua.dp.primat.curriculum.data.WorkloadType;
  */
 public final class CurriculumParser {
 
-    private void languageLoad() {
-        ResourceBundle parserConstants = ResourceBundle.getBundle("parser", new Locale("uk"));
+    /**
+     * Load language resources from .properties file
+     * @param lang
+     *          language identification (like "en", "uk" etc)
+     */
+    private void languageLoad(String lang) {
+        ResourceBundle parserConstants = ResourceBundle.getBundle("parser", new Locale(lang));
         disciplineCategorySelective = parserConstants.getString("category.selective");
         disciplineCategoryAlternativeWar = parserConstants.getString("category.alternativewar");
         diffSetOff = parserConstants.getString("differentialsetoff");
@@ -42,7 +47,7 @@ public final class CurriculumParser {
         this.sheetNumber = sheetNum;
         this.semestersCount = semCount;
 
-        languageLoad();
+        languageLoad("uk");
     }
 
     /**
@@ -56,7 +61,7 @@ public final class CurriculumParser {
      * @param fileName Excel file name with input curriculum
      */
     public CurriculumParser(StudentGroup group, int sheetNum,
-            int itemStart, int itemEnd, int semCount, String fileName) throws FileNotFoundException, IOException {
+            int itemStart, int itemEnd, int semCount, String fileName) throws IOException {
         //run general constructor
         this(group, sheetNum, itemStart, itemEnd, semCount);
 
@@ -118,6 +123,11 @@ public final class CurriculumParser {
                 workloadType, loadCategory, diffSetOff);
     }
 
+    /**
+     * Set the value of currentLoadCategory or currentWorkloadType, parsed from cell value.
+     * @param cellText
+     *          cell string value
+     */
     private void changeEntriesCategoryOrType(String cellText) {
         if ( cellText.indexOf('.') > -1 ) {
             int dtype = Integer.parseInt( cellText.substring(0, cellText.indexOf('.')) );
@@ -134,8 +144,7 @@ public final class CurriculumParser {
                 case WTID_PROFPRACTUNIVER:currentWorkloadType = WorkloadType.wtProfPractUniver;
                     break;
             }
-        }
-        else {
+        } else {
             if (cellText.contains(disciplineCategoryAlternativeWar)) {
                 currentLoadCategory = LoadCategory.AlternativeForWar;
             } else if (cellText.contains(disciplineCategorySelective)) {
@@ -163,28 +172,24 @@ public final class CurriculumParser {
 
         //start reading excel rows
         for (int r = itemStart; r <= itemEnd; r++) {
-            try {
-                Row row = currentSheet.getRow(r);
+            Row row = currentSheet.getRow(r);
 
-                //could not parse item
-                if ((row == null) ||
-                    (row.getPhysicalNumberOfCells() == 0) ||
-                    (row.getCell(0).toString().length() == 0)) {
-                    continue;
-                }
-
-                //if this item is not a Database entry, it might be the option (WorkloadType, LoadCategory)
-                if ((row.getCell(1) == null) || (row.getCell(1).toString().length() == 0)) {
-                    String cellText = row.getCell(0).getStringCellValue().trim();
-                    changeEntriesCategoryOrType(cellText);
-                } else {
-                    entries.add(parseXLSEntry(row, currentWorkloadType, currentLoadCategory));
-                }
+            //could not parse item
+            if ((row == null) ||
+                (row.getPhysicalNumberOfCells() == 0) ||
+                (row.getCell(0).toString().length() == 0)) {
+                continue;
             }
-            finally {
+
+            //if this item is not a Database entry, it might be the option (WorkloadType, LoadCategory)
+            if ((row.getCell(1) == null) || (row.getCell(1).toString().length() == 0)) {
+                String cellText = row.getCell(0).getStringCellValue().trim();
+                changeEntriesCategoryOrType(cellText);
+            } else {
+                entries.add(parseXLSEntry(row, currentWorkloadType, currentLoadCategory));
             }
         }
-
+        
         //get the result
         return entries;
     }
