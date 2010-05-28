@@ -3,7 +3,6 @@ package ua.dp.primat.curriculum.data;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -100,9 +99,9 @@ public class StudentGroup implements Serializable {
 
     @Override
     public String toString() {
-        final int YEAR_MASK = 100;
+        final int yearMask = 100;
         DecimalFormat format = new DecimalFormat("00");
-        String yearCode = format.format(getYear() % YEAR_MASK);
+        String yearCode = format.format(getYear() % yearMask);
         return String.format("%s-%s-%d", getCode(), yearCode, getNumber());
     }
 }
