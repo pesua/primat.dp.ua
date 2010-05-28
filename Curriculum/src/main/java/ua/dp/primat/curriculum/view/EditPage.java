@@ -171,16 +171,17 @@ public class EditPage extends WebPage {
             //commit info to the database
             
             studentGroupRepository.store(parseGroup);
-          
+            
             String parserLog = "";
-
-            for (int i=0;i<listParsed.size();i++) {
-                Workload workload = listParsed.get(i).getWorkload();
-                workloadRepository.store(workload);
-                parserLog = listParsed.get(i).toString();
-                this.info(parserLog);
+            try {
+                for (int i = 0; i < listParsed.size(); i++) {
+                    Workload workload = listParsed.get(i).getWorkload();
+                    workloadRepository.store(workload);
+                    parserLog = listParsed.get(i).toString();
+                    this.info(parserLog);
+                }
+            } catch (Throwable e) {
             }
-
             this.info(String.format("Curriculum in '%s' was successfully parsed\n into database (%d items).", uploadedFileName, listParsed.size()));
         }
     }
