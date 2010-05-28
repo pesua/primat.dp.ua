@@ -40,11 +40,11 @@ public class TestPOI {
     @Test
     public void testIt() {
         int semesters = 8;
-        StudentGroup pz081 = new StudentGroup("PZ", new Long(1), new Long(2008));
+        StudentGroup pm082 = new StudentGroup("PM", new Long(2), new Long(2008));
         List<CurriculumXLSRow> listParsed = null;
         try {
-            CurriculumParser cParser = new CurriculumParser(pz081, 0, 8, 83, semesters,
-                "src/test/resources/PZ_B.07_08_140307_lev4.xls");
+            CurriculumParser cParser = new CurriculumParser(pm082, 0, 8, 89, semesters,
+                "src/test/resources/PM_Bachelor_0708_2.xls");
             listParsed = cParser.parse();
         }
         catch (IOException ioe) {
