@@ -6,6 +6,7 @@
 
 <head>
 	<title>$the_title - $company_name</title>
+	$theme.include($top_head_include)
 	<style type=text/css>
   		* {
 			  margin: 0;
@@ -51,8 +52,32 @@
 				border: 0;
 			}
   </style>
+	#set ($groupLocalService = $serviceLocator.findService("com.liferay.portal.service.GroupLocalService"))
 
-	$theme.include($top_head_include)
+	#set ($guestGroup = $groupLocalService.getGroup($company_id, "Guest"))
+
+	#set ($journalTemplateLocalService = $serviceLocator.findService("com.liferay.portlet.journal.service.JournalTemplateLocalService"))
+
+	#set ($journalTemplateId = $theme_settings.getProperty("css-template-id"))
+
+	#if ($journalTemplateLocalService.hasTemplate($guestGroup.getGroupId(), $journalTemplateId))
+
+		## Instead of reference the URL, just insert the content to save an
+		## extra HTTP request.
+
+		## <link rel="stylesheet" type="text/css" href="$theme_display.getPathMain()/journal/get_template?groupId=$guestGroup.getGroupId()&templateId=$journalTemplateId" />-->
+
+		#set ($journalTemplate = $journalTemplateLocalService.getTemplate($guestGroup.getGroupId(), $journalTemplateId))
+
+		<style type="text/css">
+			#set ($cssTemplate = $journalTemplate.getXsl())
+			#set ($cssTemplate = $stringUtil.replace($cssTemplate, "@root_path@", $themeDisplay.getPathContext()))
+			#set ($cssTemplate = $stringUtil.replace($cssTemplate, "@image_path@", $themeDisplay.getPathImage()))
+			#set ($cssTemplate = $stringUtil.stripBetween($cssTemplate, "/*", "*/"))
+
+			$cssTemplate
+		</style>
+	
 </head>
 
 <body class="$css_class">

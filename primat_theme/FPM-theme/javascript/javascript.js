@@ -1,3 +1,30 @@
+var FPMSearch = function () {
+	var $ = jQuery;
+	return {
+		init: function() {
+			var instance = this;
+			
+			instance.handleSearchForm();
+		},
+		
+		handleSearchForm: function() {
+			var searchForm = $('#banner .search');	
+			
+			var searchInput = searchForm.find('input[type=image]');
+			var searchLink = $('<a class="search-input-link" href="javascript:;"></a>');
+			
+			searchLink.click(
+				function() {
+					$(this).parents('form')[0].submit();
+				}
+			);
+			
+			searchInput.hide();
+			searchInput.before(searchLink);
+		}
+	};
+}();
+
 AUI().ready(
 
 	/*
@@ -6,6 +33,7 @@ AUI().ready(
 	*/
 
 	function() {
+		FPMSearch.init();
 	}
 );
 
@@ -32,3 +60,4 @@ Liferay.on(
 	function() {
 	}
 );
+

@@ -13,6 +13,55 @@
 	left: 40%;
 	top: 100px;
 }
+
+/* ---------- Search ---------- */
+#banner .search
+{
+	position: absolute;
+	right: 0px;
+	top: 130px;
+}
+
+#banner .search form
+{
+	padding-right: 0px;
+	padding-top: 2px;
+	position: relative;
+	margin-top:-34px;
+}
+
+#banner .search input
+{
+	border: none;
+	font-size: 1.2em;
+	height: 15px;
+	margin: 33px 0 0;
+	padding: 6px 3px;
+	width: 163px;
+}
+
+#banner .search input[type=image]
+{
+	display: none;
+}
+
+#banner .search .search-input-link
+{
+	background: url(../images/search/search.png) no-repeat;
+	display: block;
+	height: 26px;
+	position: absolute;
+	right: 0;
+	top: 2px;
+	width: 39px;
+	z-index: 200;
+}
+
+.ie7 #wrapper #banner .search .search-input-link
+{
+	top: 34px;
+}
+
 /* ---------- Base styles ---------- */
 body
 {
@@ -20,7 +69,7 @@ body
 	background-image: url(../images/Addition/top.png);
 	background-position:center top;
 	background-repeat: repeat-x;
-	font-size: 11px;
+	font-size: 12px;
 }
 
 a
@@ -243,7 +292,7 @@ body #banner .logo a
 /* ---------- Portlet wrapper and icons ---------- */
 .portlet
 {
-	background-color: #afe1f1;
+	background-color: ##63B8FF;
 	border: 1px solid #bbeafa;
 	margin: 0 0 10px;
 	padding: 3px;
