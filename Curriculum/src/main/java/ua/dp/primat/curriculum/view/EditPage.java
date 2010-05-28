@@ -37,8 +37,8 @@ public class EditPage extends WebPage {
     /**
      * Form for uploads.
      */
-    private class FileUploadForm extends Form<Void>
-    {
+    private class FileUploadForm extends Form<Void> {
+
         private FileUploadField fileUploadField;
         private TextField<Integer> textParseSheet;
         private TextField<Integer> textParseStart;
@@ -52,8 +52,7 @@ public class EditPage extends WebPage {
          * Constructor of form
          * @param name
          */
-        public FileUploadForm(String name)
-        {
+        public FileUploadForm(String name) {
             super(name);
             // set this form to multipart mode (allways needed for uploads!)
             setMultiPart(true);
@@ -89,7 +88,7 @@ public class EditPage extends WebPage {
             textGroupYear.setRequired(true);
             textGroupYear.add(new RangeValidator<Integer>(MIN_YEAR, MAX_YEAR));
             add(textGroupYear);
-            
+
             textGroupNumber = new TextField<Integer>("groupNumber", new Model<Integer>(), Integer.class);
             textGroupNumber.setRequired(true);
             textGroupNumber.add(new RangeValidator<Integer>(1, MAX_GROUP_NUMBER));
@@ -105,23 +104,19 @@ public class EditPage extends WebPage {
          * @return The absolute path to the uploaded file on server.
          */
         private String makeUploadedFile(FileUpload upload) {
-            if (upload != null)
-            {
+            if (upload != null) {
                 // Create a new file
                 File newFile = new File(getUploadFolder(), upload.getClientFileName());
 
                 // Check new file, delete if it allready existed
                 checkFileExists(newFile);
-                try
-                {
+                try {
                     // Save to new file
                     newFile.createNewFile();
                     upload.writeTo(newFile);
                     //EditPage.this.info("saved file: " + upload.getClientFileName() + "\nOriginal saved in: " + newFile.getAbsolutePath());
                     return newFile.getAbsolutePath();
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     throw new IllegalStateException("Unable to write file");
                 }
             } else {
@@ -135,8 +130,7 @@ public class EditPage extends WebPage {
          * to the database and output the result.
          */
         @Override
-        protected void onSubmit()
-        {
+        protected void onSubmit() {
             Integer parseSheet = textParseSheet.getConvertedInput();
             Integer parseStart = textParseStart.getConvertedInput();
             Integer parseEnd = textParseEnd.getConvertedInput();
@@ -150,8 +144,7 @@ public class EditPage extends WebPage {
             String uploadedFileName = "";
             try {
                 uploadedFileName = makeUploadedFile(upload);
-            }
-            catch (IllegalStateException ise) {
+            } catch (IllegalStateException ise) {
                 this.error(ise);
             }
 
@@ -160,18 +153,17 @@ public class EditPage extends WebPage {
             List<CurriculumXLSRow> listParsed = null;
             try {
                 CurriculumParser cParser = new CurriculumParser(parseGroup,
-                    parseSheet, parseStart, parseEnd, parseSemesters,
-                    uploadedFileName);
+                        parseSheet, parseStart, parseEnd, parseSemesters,
+                        uploadedFileName);
                 listParsed = cParser.parse();
-            }
-            catch (IOException ioe) {
+            } catch (IOException ioe) {
                 this.error(ioe);
             }
 
             //commit info to the database
-            
+
             studentGroupRepository.store(parseGroup);
-            
+
             String parserLog = "";
             try {
                 for (int i = 0; i < listParsed.size(); i++) {
@@ -191,31 +183,20 @@ public class EditPage extends WebPage {
      * @param newFile
      *          the file to check
      */
-    private void checkFileExists(File newFile)
-    {
-        if (newFile.exists())
-        {
-            // Try to delete the file
-            if (!Files.remove(newFile))
-            {
-                throw new IllegalStateException("Unable to overwrite " + newFile.getAbsolutePath());
-            }
+    private void checkFileExists(File newFile) {
+        if ((newFile.exists()) && (!Files.remove(newFile))) {
+            throw new IllegalStateException("Unable to overwrite " + newFile.getAbsolutePath());
         }
     }
 
-    private Folder getUploadFolder()
-    {
-        return ((WicketApplication)Application.get()).getUploadFolder();
+    private Folder getUploadFolder() {
+        return ((WicketApplication) Application.get()).getUploadFolder();
     }
-
     private StudentGroup parseGroup;
-
     @SpringBean
     private StudentGroupRepository studentGroupRepository;
-
     @SpringBean
     private WorkloadRepository workloadRepository;
-
     private static final long serialVersionUID = 2L;
     private static final int MIN_YEAR = 1910;
     private static final int MAX_YEAR = 2110;
