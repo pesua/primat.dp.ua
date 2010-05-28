@@ -9,7 +9,7 @@
         <form wicket:id="formUploadXLS">
 	 <fieldset>
             <legend>Select file, configure for parsing, than start</legend>
-            <table border="0">
+            <table border="0" cellpadding="0" cellspacing="1">
                 <tr>
                     <td>
                         <label for="upload">XLS File: </label>
@@ -64,6 +64,16 @@
                 </tr>
 	    </table>
 	    <input type="submit" value="Start"/>
+	 </fieldset>
+        </form>
+        <br/>
+        <form wicket:id="formRemove">
+	 <fieldset>
+            <legend>Remove the group's curriculum, entered above</legend>
+	    <select id="group" wicket:id="group">
+                <option>some group</option>
+            </select>
+            <input type="submit" value="Remove"/>
 	 </fieldset>
         </form>
         <div id="feedbackPanel">

@@ -6,12 +6,14 @@ import java.util.List;
 import org.apache.wicket.Application;
 
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.markup.html.form.upload.*;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.util.file.Files;
 import org.apache.wicket.util.file.Folder;
 import org.apache.wicket.util.lang.*;
@@ -29,9 +31,55 @@ public class EditPage extends WebPage {
         final Form form = new FileUploadForm("formUploadXLS");
         add(form);
 
+        final Form remForm = new RemoveForm("formRemove");
+        add(remForm);
+
         //add feed back panel for system information output
         final FeedbackPanel feedback = new FeedbackPanel("feedback");
         add(feedback);
+    }
+
+    /**
+     * Form for removing.
+     */
+    private class RemoveForm extends Form<Void>
+    {
+
+        final List<StudentGroup> groups = studentGroupRepository.getGroups();
+        StudentGroup chosenGroup;
+
+        /**
+         * Constructor of form
+         * @param name
+         */
+        public RemoveForm(String name)
+        {
+            super(name);
+
+            if (groups.size() > 0) {
+                chosenGroup = groups.get(0);
+            }
+            DropDownChoice<StudentGroup> groupChoise = new DropDownChoice<StudentGroup>("group",
+                new PropertyModel<StudentGroup>(this, "chosenGroup"),
+                new HomePage.LoadableDetachableModelImpl(groups));
+            add(groupChoise);
+        }
+
+        /**
+         * Overriden method onSubmit for the form.
+         * It takes input fields arguments and removes group, if it exists.
+         */
+        @Override
+        protected void onSubmit()
+        {
+            if (chosenGroup != null) {
+                studentGroupRepository.remove(chosenGroup);
+                this.info(String.format("Curriculum has been removed"));
+            }
+            else {
+                this.info(String.format("No group selected"));
+            }
+        }
     }
 
     /**
