@@ -216,7 +216,7 @@ AssetEntry assetEntry = (AssetEntry)request.getAttribute("view_entry_content.jsp
 					target="_blank"
 				/>
 
-				<c:if test="<%= enableRatings %>">
+				<c:if test="<%= enableRatings&&user.getFullName().length()>1 %>">
 					<liferay-ui:ratings
 						className="<%= BlogsEntry.class.getName() %>"
 						classPK="<%= entry.getEntryId() %>"
