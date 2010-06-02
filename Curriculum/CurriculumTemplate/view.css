@@ -1,0 +1,33 @@
+#CurriculumTable
+{
+	margin-top: 10px;
+    border: thin solid black;
+	border-collapse: collapse;
+}
+#CurriculumTable tr, #CurriculumTable td, #CurriculumTable th
+{
+    padding: 2px 5px 2px 5px;
+	border: thin solid black;
+	text-align:Right;
+}
+
+#CurriculumTable th
+{
+	background-color: rgb(152, 183, 212);
+	text-align: Left;
+}
+
+#CurriculumTable tr:nth-child(2n)
+{
+	background-color: rgb(255, 255, 208);
+}
+
+#CurriculumTable tr:nth-child(2n+1)
+{
+	background-color: rgb(255, 255, 169);
+}
+
+img
+{
+	height: 18px;
+}
