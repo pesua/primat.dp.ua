@@ -26,15 +26,20 @@ public class IndividualControl implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private WorkloadEntry workloadEntry;
 
+    public IndividualControl() {
+    }
+
+    public IndividualControl(String type, Long weekNum) {
+        this.type = type;
+        this.weekNum = weekNum;
+    }
+
     public WorkloadEntry getWorkloadEntry() {
         return workloadEntry;
     }
 
     public void setWorkloadEntry(WorkloadEntry workloadEntry) {
         this.workloadEntry = workloadEntry;
-    }
-
-    public IndividualControl() {
     }
 
     public Long getId() {

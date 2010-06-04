@@ -13,6 +13,12 @@ public final class IndividualControlEntry {
     public IndividualControlEntry() {
     }
 
+    public IndividualControlEntry(int semester, String type, int weekNum) {
+        this.semester = semester;
+        this.type = type;
+        this.weekNum = weekNum;
+    }
+
     public int getSemester() {
         return semester;
     }
