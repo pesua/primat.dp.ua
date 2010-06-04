@@ -28,6 +28,8 @@ import ua.dp.primat.curriculum.planparser.CurriculumXLSRow;
 public class EditPage extends WebPage {
 
     public EditPage() {
+        super();
+
         final Form form = new FileUploadForm("formUploadXLS");
         add(form);
 
@@ -39,27 +41,40 @@ public class EditPage extends WebPage {
         add(feedback);
     }
 
+    private StudentGroup parseGroup;
+
+    @SpringBean
+    private StudentGroupRepository studentGroupRepository;
+
+    @SpringBean
+    private WorkloadRepository workloadRepository;
+
+    private static final long serialVersionUID = 2L;
+    private static final int MIN_YEAR = 1910;
+    private static final int MAX_YEAR = 2110;
+    private static final int MAX_GROUP_NUMBER = 20;
+    private static final int MAX_FILESIZE = 10; //in megabytes
+
     /**
      * Form for removing.
      */
-    private class RemoveForm extends Form<Void>
-    {
+    private class RemoveForm extends Form<Void> {
 
-        final List<StudentGroup> groups = studentGroupRepository.getGroups();
+        private List<StudentGroup> groups;
         StudentGroup chosenGroup;
 
         /**
-         * Constructor of form
+         * Constructor of form.
          * @param name
          */
-        public RemoveForm(String name)
-        {
+        public RemoveForm(String name) {
             super(name);
 
-            if (groups.size() > 0) {
+            groups = studentGroupRepository.getGroups();
+            if (!groups.isEmpty()) {
                 chosenGroup = groups.get(0);
             }
-            DropDownChoice<StudentGroup> groupChoise = new DropDownChoice<StudentGroup>("group",
+            final DropDownChoice<StudentGroup> groupChoise = new DropDownChoice<StudentGroup>("group",
                 new PropertyModel<StudentGroup>(this, "chosenGroup"),
                 new HomePage.LoadableDetachableModelImpl(groups));
             add(groupChoise);
@@ -70,14 +85,13 @@ public class EditPage extends WebPage {
          * It takes input fields arguments and removes group, if it exists.
          */
         @Override
-        protected void onSubmit()
-        {
-            if (chosenGroup != null) {
-                studentGroupRepository.remove(chosenGroup);
-                this.info(String.format("Curriculum has been removed"));
+        protected void onSubmit() {
+            if (chosenGroup == null) {
+                this.error(String.format("No group selected"));
             }
             else {
-                this.info(String.format("No group selected"));
+                studentGroupRepository.remove(chosenGroup);
+                this.info(String.format("Curriculum has been removed"));
             }
         }
     }
@@ -97,7 +111,7 @@ public class EditPage extends WebPage {
         private TextField<Integer> textGroupNumber;
 
         /**
-         * Constructor of form
+         * Constructor of form.
          * @param name
          */
         public FileUploadForm(String name) {
@@ -151,24 +165,31 @@ public class EditPage extends WebPage {
          * @param upload
          * @return The absolute path to the uploaded file on server.
          */
-        private String makeUploadedFile(FileUpload upload) {
-            if (upload != null) {
-                // Create a new file
-                File newFile = new File(getUploadFolder(), upload.getClientFileName());
-
-                // Check new file, delete if it allready existed
-                checkFileExists(newFile);
-                try {
-                    // Save to new file
-                    newFile.createNewFile();
-                    upload.writeTo(newFile);
-                    //EditPage.this.info("saved file: " + upload.getClientFileName() + "\nOriginal saved in: " + newFile.getAbsolutePath());
-                    return newFile.getAbsolutePath();
-                } catch (Exception e) {
-                    throw new IllegalStateException("Unable to write file");
-                }
-            } else {
+        private String makeUploadedFile(FileUpload upload) throws IOException {
+            if (upload == null) {
                 return null;
+            }
+            
+            // Create a new file
+            File newFile = new File(getUploadFolder(), upload.getClientFileName());
+
+            // Check new file, delete if it allready existed
+            checkFileExists(newFile);
+
+            // Save to new file
+            newFile.createNewFile();
+            upload.writeTo(newFile);
+            //EditPage.this.info("saved file: " + upload.getClientFileName() + "\nOriginal saved in: " + newFile.getAbsolutePath());
+            return newFile.getAbsolutePath();
+        }
+
+        /**
+         * Check whether the file already exists, and if so, try to delete it.
+         * @param newFile  the file to check
+         */
+        private void checkFileExists(File newFile) {
+            if ((newFile.exists()) && (!Files.remove(newFile))) {
+                throw new IllegalStateException("Unable to overwrite " + newFile.getAbsolutePath());
             }
         }
 
@@ -179,24 +200,24 @@ public class EditPage extends WebPage {
          */
         @Override
         protected void onSubmit() {
-            Integer parseSheet = textParseSheet.getConvertedInput();
-            Integer parseStart = textParseStart.getConvertedInput();
-            Integer parseEnd = textParseEnd.getConvertedInput();
-            Integer parseSemesters = textParseSemester.getConvertedInput();
-            String groupSpec = textGroupSpec.getConvertedInput();
-            Integer groupYear = textGroupYear.getConvertedInput();
-            Integer groupNumber = textGroupNumber.getConvertedInput();
-            FileUpload upload = fileUploadField.getFileUpload();
+            final Integer parseSheet = textParseSheet.getConvertedInput();
+            final Integer parseStart = textParseStart.getConvertedInput();
+            final Integer parseEnd = textParseEnd.getConvertedInput();
+            final Integer parseSemesters = textParseSemester.getConvertedInput();
+            final String groupSpec = textGroupSpec.getConvertedInput();
+            final Integer groupYear = textGroupYear.getConvertedInput();
+            final Integer groupNumber = textGroupNumber.getConvertedInput();
+            final FileUpload upload = fileUploadField.getFileUpload();
 
             //upload and create file on server
             String uploadedFileName = "";
             try {
                 uploadedFileName = makeUploadedFile(upload);
-            } catch (IllegalStateException ise) {
+            } catch (IOException ise) {
                 this.error(ise);
             }
 
-            parseGroup = new StudentGroup(groupSpec, new Long(groupNumber), new Long(groupYear));
+            parseGroup = new StudentGroup(groupSpec, Long.valueOf(groupNumber), Long.valueOf(groupYear));
             //parser launch
             List<CurriculumXLSRow> listParsed = null;
             try {
@@ -212,13 +233,11 @@ public class EditPage extends WebPage {
 
             studentGroupRepository.store(parseGroup);
 
-            String parserLog = "";
             try {
                 for (int i = 0; i < listParsed.size(); i++) {
                     Workload workload = listParsed.get(i).getWorkload();
                     workloadRepository.store(workload);
-                    parserLog = listParsed.get(i).toString();
-                    this.info(parserLog);
+                    this.info( listParsed.get(i).toString() );
                 }
             } catch (Throwable e) {
             }
@@ -226,28 +245,7 @@ public class EditPage extends WebPage {
         }
     }
 
-    /**
-     * Check whether the file already exists, and if so, try to delete it.
-     * @param newFile
-     *          the file to check
-     */
-    private void checkFileExists(File newFile) {
-        if ((newFile.exists()) && (!Files.remove(newFile))) {
-            throw new IllegalStateException("Unable to overwrite " + newFile.getAbsolutePath());
-        }
-    }
-
     private Folder getUploadFolder() {
         return ((WicketApplication) Application.get()).getUploadFolder();
     }
-    private StudentGroup parseGroup;
-    @SpringBean
-    private StudentGroupRepository studentGroupRepository;
-    @SpringBean
-    private WorkloadRepository workloadRepository;
-    private static final long serialVersionUID = 2L;
-    private static final int MIN_YEAR = 1910;
-    private static final int MAX_YEAR = 2110;
-    private static final int MAX_GROUP_NUMBER = 20;
-    private static final int MAX_FILESIZE = 10; //in megabytes
 }
