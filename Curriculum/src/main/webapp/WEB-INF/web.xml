@@ -26,7 +26,7 @@
         <param-name>org.apache.wicket.detectPortletContext</param-name>
         <param-value>true</param-value>
     </context-param>
-<!--
+
     <filter>
         <filter-name>openEntityManagerInViewFilter</filter-name>
         <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
@@ -39,7 +39,7 @@
         <dispatcher>FORWARD</dispatcher>
         <dispatcher>INCLUDE</dispatcher>
     </filter-mapping>
--->
+
     <filter>
         <filter-name>wicket.Curriculum</filter-name>
         <filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
