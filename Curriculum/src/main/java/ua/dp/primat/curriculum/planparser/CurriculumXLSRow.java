@@ -22,6 +22,28 @@ import ua.dp.primat.curriculum.data.StudentGroup;
  */
 public final class CurriculumXLSRow {
 
+    //PRIVATE Variables
+    private String diffSetOff;
+    private String disciplineName;
+    private String cathedraName;
+    private WorkloadType workloadType;
+    private LoadCategory loadCategory;
+    //final monitoring
+    private int[] fmExams;
+    private int[] fmDifTests;
+    private int[] fmTests;
+    private int[] fmCourses;
+    //individual works
+    private List<IndividualControlEntry> indWorks;
+    //hours info
+    private Map<Integer, WorkHours> hoursForSemesters;
+
+    //DataBase output objects
+    private StudentGroup group;
+    private Cathedra cathedra;
+    private Discipline discipline;
+    private Workload workload;
+
     /**
      * Constructor, that gets atomic info from one row and creates data entities
      * objects (Cathedra, Discipline, Workload).
@@ -112,28 +134,6 @@ public final class CurriculumXLSRow {
     public Workload getWorkload() {
         return workload;
     }
-
-    //Variables
-    private String diffSetOff;
-    private String disciplineName;
-    private String cathedraName;
-    private WorkloadType workloadType;
-    private LoadCategory loadCategory;
-    //final monitoring
-    private int[] fmExams;
-    private int[] fmDifTests;
-    private int[] fmTests;
-    private int[] fmCourses;
-    //individual works
-    private List<IndividualControlEntry> indWorks;
-    //hours info
-    private Map<Integer, WorkHours> hoursForSemesters;
-
-    //DataBase output objects
-    private StudentGroup group;
-    private Cathedra cathedra;
-    private Discipline discipline;
-    private Workload workload;
 
     /**
      * Parses a string like '1,2  ,3, 7', which is used in Curriculum. There is a

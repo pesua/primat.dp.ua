@@ -50,6 +50,22 @@ public final class CurriculumParser {
     public static final int WTID_PROFPRACTSTUDENT = 4;
     public static final int WTID_PROFPRACTUNIVER = 5;
 
+    /* PRIVATE VARIABLES */
+    private String diffSetOff;
+    private String disciplineCategorySelective;
+    private String disciplineCategoryAlternativeWar;
+
+    private WorkloadType currentWorkloadType;
+    private LoadCategory currentLoadCategory;
+
+    //pre-params
+    private StudentGroup group;
+    private int sheetNumber;
+    private int itemStart;
+    private int itemEnd;
+    private int semestersCount;
+    private String fileName;
+
     /**
      * Constructor, that takes parser options.
      * @param group StudentGroup Entity that all items from this plan will be assigned to.
@@ -155,22 +171,6 @@ public final class CurriculumParser {
     public void setSheetNumber(int sheetNumber) {
         this.sheetNumber = sheetNumber;
     }
-
-    /* VARIABLES */
-    private String diffSetOff;
-    private String disciplineCategorySelective;
-    private String disciplineCategoryAlternativeWar;
-
-    private WorkloadType currentWorkloadType;
-    private LoadCategory currentLoadCategory;
-
-    //pre-params
-    private StudentGroup group;
-    private int sheetNumber;
-    private int itemStart;
-    private int itemEnd;
-    private int semestersCount;
-    private String fileName;
 
     /**
      * Load language resources from .properties file.
