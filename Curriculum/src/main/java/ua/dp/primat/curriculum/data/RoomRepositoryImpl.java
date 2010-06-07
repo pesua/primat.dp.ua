@@ -4,7 +4,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-public class RoomRepositoryImpl {
+public class RoomRepositoryImpl implements RoomRepository {
 
     @PersistenceContext(unitName = "curriculum")
     private EntityManager em;
