@@ -3,7 +3,9 @@ package ua.dp.primat.schedule.data;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
 
+@Repository("roomRepository")
 public class RoomRepositoryImpl implements RoomRepository {
 
     @PersistenceContext(unitName = "curriculum")
