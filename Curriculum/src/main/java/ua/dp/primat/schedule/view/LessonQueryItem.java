@@ -1,5 +1,9 @@
 package ua.dp.primat.schedule.view;
 
+import ua.dp.primat.curriculum.data.DayOfWeek;
+import ua.dp.primat.curriculum.data.Lesson;
+import ua.dp.primat.curriculum.data.WeekType;
+
 /**
  * Item for the 'number of lesson' + 'week position (numerator, denominator)',
  * which contains lesson's info (or NULL) for 7 days
@@ -7,8 +11,8 @@ package ua.dp.primat.schedule.view;
  */
 public class LessonQueryItem {
 
-    private int pairnum;
-    private Long weekpos;
+    private int lessonNumber;
+    private WeekType weekType;
 
     private Lesson monday;
     private Lesson tuesday;
@@ -21,9 +25,9 @@ public class LessonQueryItem {
     public LessonQueryItem() {
     }
 
-    public LessonQueryItem(int pairnum, Long weekpos) {
-        this.pairnum = pairnum;
-        this.weekpos = weekpos;
+    public LessonQueryItem(int pairnum, WeekType weekType) {
+        this.lessonNumber = pairnum;
+        this.weekType = weekType;
     }
 
     public Lesson getFriday() {
@@ -42,12 +46,12 @@ public class LessonQueryItem {
         this.monday = monday;
     }
 
-    public int getPairnum() {
-        return pairnum;
+    public int getLessonNumber() {
+        return lessonNumber;
     }
 
-    public void setPairnum(int pairnum) {
-        this.pairnum = pairnum;
+    public void setLessonNumber(int lessonNumber) {
+        this.lessonNumber = lessonNumber;
     }
 
     public Lesson getSaturday() {
@@ -90,41 +94,41 @@ public class LessonQueryItem {
         this.wednesday = wednesday;
     }
 
-    public Long getWeekpos() {
-        return weekpos;
+    public WeekType getWeekType() {
+        return weekType;
     }
 
-    public void setWeekpos(Long weekpos) {
-        this.weekpos = weekpos;
+    public void setWeekType(WeekType weekType) {
+        this.weekType = weekType;
     }
 
-    public Lesson getLessonForDay(int day) {
-        switch (day) {
-            case 1: return getMonday();
-            case 2: return getTuesday();
-            case 3: return getWednesday();
-            case 4: return getThursday();
-            case 5: return getFriday();
-            case 6: return getSaturday();
+    public Lesson getLessonForDay(DayOfWeek dayOfWeek) {
+        switch (dayOfWeek) {
+            case MONDAY: return getMonday();
+            case TUESDAY: return getTuesday();
+            case WEDNESDAY: return getWednesday();
+            case THURSDAY: return getThursday();
+            case FRIDAY: return getFriday();
+            case SATURDAY: return getSaturday();
             default: return getSunday();
         }
     }
 
-    public void setLessonForDay(int day, Lesson lesson) {
-        switch (day) {
-            case 1: monday = lesson;
+    public void setLessonForDay(DayOfWeek dayOfWeek, Lesson lesson) {
+        switch (dayOfWeek) {
+            case MONDAY: monday = lesson;
                 break;
-            case 2: tuesday = lesson;
+            case TUESDAY: tuesday = lesson;
                 break;
-            case 3: wednesday = lesson;
+            case WEDNESDAY: wednesday = lesson;
                 break;
-            case 4: thursday = lesson;
+            case THURSDAY: thursday = lesson;
                 break;
-            case 5: friday = lesson;
+            case FRIDAY: friday = lesson;
                 break;
-            case 6: saturday = lesson;
+            case SATURDAY: saturday = lesson;
                 break;
-            case 7: sunday = lesson;
+            case SUNDAY: sunday = lesson;
                 break;
         }
     }

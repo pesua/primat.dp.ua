@@ -22,9 +22,18 @@ public class Lesson implements Serializable {
     @ManyToOne
     Room room;
 
-    //LessonDescription lessonDescriptin;
+    @ManyToOne
+    LessonDescription lessonDescription;
 
     public Lesson() {
+    }
+
+    public Lesson(Long lessonNumber, WeekType weekType, DayOfWeek dayOfWeek, Room room, LessonDescription lessonDescription) {
+        this.lessonNumber = lessonNumber;
+        this.weekType = weekType;
+        this.dayOfWeek = dayOfWeek;
+        this.room = room;
+        this.lessonDescription = lessonDescription;
     }
 
     public DayOfWeek getDayOfWeek() {
@@ -65,5 +74,13 @@ public class Lesson implements Serializable {
 
     public void setWeekType(WeekType weekType) {
         this.weekType = weekType;
+    }
+
+    public LessonDescription getLessonDescription() {
+        return lessonDescription;
+    }
+
+    public void setLessonDescription(LessonDescription lessonDescription) {
+        this.lessonDescription = lessonDescription;
     }
 }

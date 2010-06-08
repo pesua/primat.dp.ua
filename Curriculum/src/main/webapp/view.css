@@ -33,3 +33,27 @@
 #tickImg {
     height: 18px;
 }
+
+#scheduleTable table {
+    width: 100%;
+    padding: 3px 3px 3px 3px;
+    text-align: center;
+    border: 2px solid;
+    border-color: #445947;
+}
+
+#scheduleTable th {
+    background-color: #FFFCBA;
+}
+
+#scheduleTable th, td {
+    border: 1px solid;
+    border-color: #445947;
+    padding: 3px 3px 3px 3px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.lecturer {
+    color: #752428;
+}

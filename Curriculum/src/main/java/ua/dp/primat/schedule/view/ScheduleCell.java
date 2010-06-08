@@ -1,4 +1,6 @@
 package ua.dp.primat.schedule.view;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import ua.dp.primat.curriculum.data.Lesson;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 
@@ -14,11 +16,14 @@ public final class ScheduleCell extends Panel {
         super(id);
         if (lesson == null) {
             add(new Label("cellSubject", "-"));
-            add(new Label("cellLecturer", "-"));
+            add(new Label("cellType", ""));
+            add(new Label("cellLecturer", ""));
         } else {
-            add(new Label("cellSubject", lesson.getSubject_name()));
-            add(new Label("cellLecturer", lesson.getLecturer()));
+            add(new Label("cellSubject", lesson.getLessonDescription().getDiscipline().getName()));
+            add(new Label("cellType", "("+lesson.getLessonDescription().getLessonType().toString()+")"));
+            add(new Label("cellLecturer", lesson.getLessonDescription().getLecturerNames()));
         }
+        //add(new WebMarkupContainer("viewcss"));
     }
 
 }

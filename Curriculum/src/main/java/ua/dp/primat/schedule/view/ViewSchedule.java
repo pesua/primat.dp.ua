@@ -1,4 +1,5 @@
 package ua.dp.primat.schedule.view;
+import ua.dp.primat.curriculum.data.Lesson;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
@@ -11,8 +12,16 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import ua.dp.primat.curriculum.data.Cathedra;
+import ua.dp.primat.curriculum.data.DayOfWeek;
+import ua.dp.primat.curriculum.data.Discipline;
+import ua.dp.primat.curriculum.data.Lecturer;
+import ua.dp.primat.curriculum.data.LessonDescription;
+import ua.dp.primat.curriculum.data.LessonType;
+import ua.dp.primat.curriculum.data.Room;
 import ua.dp.primat.curriculum.data.StudentGroup;
 import ua.dp.primat.curriculum.data.StudentGroupRepository;
+import ua.dp.primat.curriculum.data.WeekType;
 
 /**
  * View page for the Schedule portlet.
@@ -36,7 +45,7 @@ public final class ViewSchedule extends WebPage {
     private DropDownChoice<StudentGroup> groupChoice;
     private ListView<LessonQueryItem> lessonView;
 
-    //constant of day names
+    //constant of day names (for wicket)
     //TODO: reorganize it in a more common way
     private static final String[] days = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
 
@@ -44,11 +53,28 @@ public final class ViewSchedule extends WebPage {
     //TODO: remove it, when there will be an entity repository with this operation
     private List<Lesson> getLessons(StudentGroup studentGroup) {
         List<Lesson> list  = new ArrayList<Lesson>();
-        list.add(new Lesson("one lesson", Long.valueOf(0), Long.valueOf(0), 1, "lecturer1", Long.valueOf(2)));
-        list.add(new Lesson("2 lesson", Long.valueOf(0), Long.valueOf(2), 1, "lecturer2", Long.valueOf(3)));
-        list.add(new Lesson("3 lesson", Long.valueOf(1), Long.valueOf(2), 2, "lecturer3", Long.valueOf(1)));
-        list.add(new Lesson("4 lesson", Long.valueOf(2), Long.valueOf(1), 5, "lecturer4", Long.valueOf(1)));
-        list.add(new Lesson("5 lesson", Long.valueOf(2), Long.valueOf(2), 3, "lecturer5", Long.valueOf(1)));
+        
+        Cathedra cathedra = new Cathedra();
+        cathedra.setName("Math.EOM");
+        
+        Room room45 = new Room(Long.valueOf(3), Long.valueOf(45));
+        Room room31 = new Room(Long.valueOf(3), Long.valueOf(31));
+
+        Discipline d1 = new Discipline("Database", cathedra);
+        Discipline d2 = new Discipline("ArchEOM", cathedra);
+
+        Lecturer teacher1 = new Lecturer("Mashenko Leonid Vladimirovich", cathedra);
+        Lecturer teacher2 = new Lecturer("Efimov Viktor Nikolaevich", cathedra);
+        Lecturer teacher3 = new Lecturer("Bulana Tatyana Mihailovna", cathedra);
+        Lecturer teacher4 = new Lecturer("Archangelska Uliya Mihailovna", cathedra);
+
+        LessonDescription ld1 = new LessonDescription(d1, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher1, null);
+        LessonDescription ld2 = new LessonDescription(d2, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher2, null);
+        LessonDescription ld3 = new LessonDescription(d2, studentGroup, Long.valueOf(4), LessonType.LABORATORY, teacher3, teacher4);
+
+        list.add(new Lesson(Long.valueOf(3), WeekType.BOTH, DayOfWeek.MONDAY, room31, ld1));
+        list.add(new Lesson(Long.valueOf(3), WeekType.BOTH, DayOfWeek.TUESDAY, room31, ld2));
+        list.add(new Lesson(Long.valueOf(4), WeekType.NUMERATOR, DayOfWeek.THURSDAY, room45, ld3));
         return list;
     }
 
@@ -62,14 +88,13 @@ public final class ViewSchedule extends WebPage {
     private List<LessonQueryItem> getLessonQuery(List<Lesson> listLesson) {
         List<LessonQueryItem> list  = new ArrayList<LessonQueryItem>();
         for (int i=1;i<=LESSONSCOUNT;i++) {
-            for (int j=0;j<2;j++) {
-                list.add(new LessonQueryItem(i, Long.valueOf(j)));
-            }
+            list.add(new LessonQueryItem(i, WeekType.NUMERATOR));
+            list.add(new LessonQueryItem(i, WeekType.DENOMINATOR));
         }
         for (Lesson l : listLesson) {
-            long pn = l.getPairnum();
-            long wp = l.getWeekpos() % 2;
-            list.get((int)(pn*2+wp)).setLessonForDay(l.getDay(), l);
+            long pn = l.getLessonNumber()-1;
+            long wp = l.getWeekType().ordinal() % 2;
+            list.get((int)(pn*2+wp)).setLessonForDay(l.getDayOfWeek(), l);
         }
         return list;
     }
@@ -141,19 +166,20 @@ public final class ViewSchedule extends WebPage {
 
             //format the number of lesson (because of table structure, which has
             //  two cells per day/lesson (depends on lesson's weekpos).
-            Label labelNum = new Label("num", entry.getPairnum() + "");
-            labelNum.setVisible(entry.getWeekpos() != 1);
+            Label labelNum = new Label("num", entry.getLessonNumber() + "");
+            labelNum.setVisible(entry.getWeekType() != WeekType.DENOMINATOR);
             labelNum.add(new SimpleAttributeModifier("rowspan", "2"));
             li.add(labelNum);
 
             //output the lesson's info in SchedulePanel for every day
             for (int i=0;i<days.length;i++) {
-                Panel labelDay = new ScheduleCell(days[i], entry.getLessonForDay(i+1));
+                DayOfWeek dayOfWeek = DayOfWeek.values()[i];
+                Panel labelDay = new ScheduleCell(days[i], entry.getLessonForDay(dayOfWeek));
                 labelDay.setVisible(true);
-                if ((previous != null) && (previous.getLessonForDay(i+1) != null)) {
-                    labelDay.setVisible(previous.getLessonForDay(i+1).getWeekpos() != 2);
+                if ((previous != null) && (previous.getLessonForDay(dayOfWeek) != null)) {
+                    labelDay.setVisible(previous.getLessonForDay(dayOfWeek).getWeekType() != WeekType.BOTH);
                 }
-                if ((entry.getLessonForDay(i+1) != null) && (entry.getLessonForDay(i+1).getWeekpos() == 2)) {
+                if ((entry.getLessonForDay(dayOfWeek) != null) && (entry.getLessonForDay(dayOfWeek).getWeekType() == WeekType.BOTH)) {
                     labelDay.add(new SimpleAttributeModifier("rowspan", "2"));
                 }
                 li.add(labelDay);

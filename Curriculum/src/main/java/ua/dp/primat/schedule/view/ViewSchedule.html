@@ -3,14 +3,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title><wicket:message key="page.title">Schedule</wicket:message></title>
-        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <link href="view.css" type="text/css" rel="stylesheet"/>
     </head>
     <body>
         <label wicket:id="groupLabel" for="group"></label>
         <select wicket:id="group"/>
         &nbsp;
         <br/>
-        <table border="1">
+        <div id="scheduleTable">
+        <table>
             <thead>
                 <tr>
                     <th>#</th>
@@ -36,5 +37,6 @@
                 </tr>
             </tbody>
         </table>
+        </div>
     </body>
 </html>

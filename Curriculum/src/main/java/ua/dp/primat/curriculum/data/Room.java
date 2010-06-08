@@ -50,4 +50,9 @@ public class Room implements Serializable {
     public void setNumber(Long number) {
         this.number = number;
     }
+
+    @Override
+    public String toString() {
+        return building + "/" + number;
+    }
 }

@@ -37,6 +37,11 @@ public class Discipline implements Serializable {
     public Discipline() {
     }
 
+    public Discipline(String name, Cathedra cathedra) {
+        this.name = name;
+        this.cathedra = cathedra;
+    }
+
     public Cathedra getCathedra() {
         return cathedra;
     }
