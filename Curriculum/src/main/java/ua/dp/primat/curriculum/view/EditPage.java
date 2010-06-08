@@ -24,6 +24,7 @@ import ua.dp.primat.curriculum.data.WorkloadRepository;
 import ua.dp.primat.curriculum.data.Workload;
 import ua.dp.primat.curriculum.planparser.CurriculumParser;
 import ua.dp.primat.curriculum.planparser.CurriculumXLSRow;
+import ua.dp.primat.utils.view.GroupsLoadableDetachableModel;
 
 public class EditPage extends WebPage {
 
@@ -62,7 +63,7 @@ public class EditPage extends WebPage {
             }
             final DropDownChoice<StudentGroup> groupChoise = new DropDownChoice<StudentGroup>("group",
                 new PropertyModel<StudentGroup>(this, "chosenGroup"),
-                new HomePage.LoadableDetachableModelImpl(groups));
+                new GroupsLoadableDetachableModel(groups));
             add(groupChoise);
         }
 

@@ -23,29 +23,13 @@ import ua.dp.primat.curriculum.data.StudentGroup;
 import ua.dp.primat.curriculum.data.StudentGroupRepository;
 import ua.dp.primat.schedule.data.LecturerType;
 import ua.dp.primat.schedule.data.WeekType;
+import ua.dp.primat.utils.view.GroupsLoadableDetachableModel;
 
 /**
  * View page for the Schedule portlet.
  * @author fdevelop
  */
 public final class ViewSchedule extends WebPage {
-
-    /**
-     * LoadableDetachableModel for student groups combo.
-     */
-    static class LoadableDetachableModelImpl extends LoadableDetachableModel<List<StudentGroup>> {
-
-        private final List<StudentGroup> groups;
-
-        public LoadableDetachableModelImpl(List<StudentGroup> groups) {
-            this.groups = groups;
-        }
-
-        @Override
-        protected List<StudentGroup> load() {
-            return groups;
-        }
-    }
 
     /**
      * ListView, that outputs generated LessonQueryItem list into the table.
@@ -103,6 +87,7 @@ public final class ViewSchedule extends WebPage {
 
     //setup the total values of lessons per day
     private static final int LESSONSCOUNT = 6;
+    private static final int WEEKTYPECOUNT = 2;
 
     //constant of day names (for wicket)
     //TODO: reorganize it in a more common way
@@ -116,33 +101,75 @@ public final class ViewSchedule extends WebPage {
     //list of all retrieved lessons
     private List<LessonQueryItem> lessons;
 
+    /**
+     * Constructor for page.
+     */
+    public ViewSchedule() {
+        super();
+
+        final List<StudentGroup> groups = studentGroupRepository.getGroups();
+        if (!groups.isEmpty()) {
+            studentGroup = groups.get(0);
+            lessons = getLessonQuery(getLessons(studentGroup));
+        }
+
+        final DropDownChoice<StudentGroup> groupChoice = new DropDownChoice<StudentGroup>("group",
+                new PropertyModel<StudentGroup>(this, "studentGroup"),
+                new GroupsLoadableDetachableModel(groups)) {
+
+            @Override
+            protected void onSelectionChanged(StudentGroup newSelection) {
+                studentGroup = newSelection;
+                lessons = getLessonQuery(getLessons(studentGroup));
+                super.onSelectionChanged(newSelection);
+            }
+
+        };
+        add(groupChoice);
+        add(new Label("groupLabel", "Group:"));
+
+        final ListView<LessonQueryItem> lessonView = new ScheduleListView("row", lessons);
+        add(lessonView);
+    }
+
     //TEMPORARY method for returning the list of lessons
     //TODO: remove it, when there will be an entity repository with this operation
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("all")
     private List<Lesson> getLessons(StudentGroup studentGroup) {
         List<Lesson> list  = new ArrayList<Lesson>();
-        
+
         Cathedra cathedra = new Cathedra();
         cathedra.setName("Math.EOM");
-        
+
+        Room room46 = new Room(Long.valueOf(3), Long.valueOf(46));
         Room room45 = new Room(Long.valueOf(3), Long.valueOf(45));
         Room room31 = new Room(Long.valueOf(3), Long.valueOf(31));
 
         Discipline d1 = new Discipline("Database", cathedra);
         Discipline d2 = new Discipline("ArchEOM", cathedra);
+        Discipline d3 = new Discipline("Assembler", cathedra);
+        Discipline d4 = new Discipline("K.I.T.", cathedra);
 
-        Lecturer teacher1 = new Lecturer("Mashenko Leonid Vladimirovich", cathedra, LecturerType.ASSIATANT);
-        Lecturer teacher2 = new Lecturer("Efimov Viktor Nikolaevich", cathedra, LecturerType.ASSIATANT);
+        Lecturer teacher1 = new Lecturer("Mashenko Leonid Vladimirovich", cathedra, LecturerType.SENIORLECTURER);
+        Lecturer teacher2 = new Lecturer("Efimov Viktor Nikolaevich", cathedra, LecturerType.SENIORLECTURER);
         Lecturer teacher3 = new Lecturer("Bulana Tatyana Mihailovna", cathedra, LecturerType.ASSIATANT);
         Lecturer teacher4 = new Lecturer("Archangelska Uliya Mihailovna", cathedra, LecturerType.ASSIATANT);
+        Lecturer teacher5 = new Lecturer("Segeda Nadegda Evstahievna", cathedra, LecturerType.SENIORLECTURER);
+        Lecturer teacher6 = new Lecturer("Kuznecov Konstantin Anatolievich", cathedra, LecturerType.DOCENT);
 
         LessonDescription ld1 = new LessonDescription(d1, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher1, null);
         LessonDescription ld2 = new LessonDescription(d2, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher2, null);
         LessonDescription ld3 = new LessonDescription(d2, studentGroup, Long.valueOf(4), LessonType.LABORATORY, teacher3, teacher4);
+        LessonDescription ld4 = new LessonDescription(d3, studentGroup, Long.valueOf(4), LessonType.LABORATORY, teacher5, teacher4);
+        LessonDescription ld5 = new LessonDescription(d4, studentGroup, Long.valueOf(4), LessonType.LABORATORY, teacher6, teacher3);
+        LessonDescription ld6 = new LessonDescription(d4, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher6, null);
 
         list.add(new Lesson(Long.valueOf(3), WeekType.BOTH, DayOfWeek.MONDAY, room31, ld1));
         list.add(new Lesson(Long.valueOf(3), WeekType.BOTH, DayOfWeek.TUESDAY, room31, ld2));
         list.add(new Lesson(Long.valueOf(4), WeekType.NUMERATOR, DayOfWeek.THURSDAY, room45, ld3));
+        list.add(new Lesson(Long.valueOf(4), WeekType.BOTH, DayOfWeek.WEDNESDAY, room45, ld4));
+        list.add(new Lesson(Long.valueOf(2), WeekType.BOTH, DayOfWeek.THURSDAY, room45, ld5));
+        list.add(new Lesson(Long.valueOf(3), WeekType.BOTH, DayOfWeek.FRIDAY, room46, ld6));
         return list;
     }
 
@@ -160,9 +187,8 @@ public final class ViewSchedule extends WebPage {
             list.add(new LessonQueryItem(i, WeekType.DENOMINATOR));
         }
 
-        final int WEEKTYPECOUNT = 2;
-        long oneLessonNumber = 0;
-        long oneWeekType = 0;
+        long oneLessonNumber;
+        long oneWeekType;
         for (Lesson l : listLesson) {
             oneLessonNumber = l.getLessonNumber()-1;
             oneWeekType = l.getWeekType().ordinal() % WEEKTYPECOUNT;
@@ -170,37 +196,6 @@ public final class ViewSchedule extends WebPage {
             list.get((int)(oneLessonNumber*WEEKTYPECOUNT + oneWeekType)).setLessonForDay(l.getDayOfWeek(), l);
         }
         return list;
-    }
-
-    /**
-     * Constructor for page.
-     */
-    public ViewSchedule() {
-        super();
-
-        final List<StudentGroup> groups = studentGroupRepository.getGroups();
-        if (!groups.isEmpty()) {
-            studentGroup = groups.get(0);
-            lessons = getLessonQuery(getLessons(studentGroup));
-        }
-
-        final DropDownChoice<StudentGroup> groupChoice = new DropDownChoice<StudentGroup>("group",
-                new PropertyModel<StudentGroup>(this, "studentGroup"),
-                new LoadableDetachableModelImpl(groups)) {
-
-            @Override
-            protected void onSelectionChanged(StudentGroup newSelection) {
-                studentGroup = newSelection;
-                lessons = getLessonQuery(getLessons(studentGroup));
-                super.onSelectionChanged(newSelection);
-            }
-
-        };
-        add(groupChoice);
-        add(new Label("groupLabel", "Group:"));
-
-        final ListView<LessonQueryItem> lessonView = new ScheduleListView("row", lessons);
-        add(lessonView);
     }
 
 }

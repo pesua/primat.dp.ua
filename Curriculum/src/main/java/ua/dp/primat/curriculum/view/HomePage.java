@@ -18,15 +18,23 @@ import ua.dp.primat.curriculum.data.StudentGroup;
 import ua.dp.primat.curriculum.data.StudentGroupRepository;
 import ua.dp.primat.curriculum.data.WorkloadEntry;
 import ua.dp.primat.curriculum.data.WorkloadEntryRepository;
+import ua.dp.primat.utils.view.GroupsLoadableDetachableModel;
 
 public class HomePage extends WebPage {
 
     private static final long serialVersionUID = 1L;
 
+    private static final int SEMESTER_COUNT = 8;
+
+    @SpringBean
+    private StudentGroupRepository studentGroupRepository;
+
+    @SpringBean
+    private WorkloadEntryRepository workloadEntryRepository;
+
     private StudentGroup chosenGroup;
     private Long chosenSemester;
     private final ListView<WorkloadEntry> disciplinesView;
-    private static final int SEMESTER_COUNT = 8;
 
     public HomePage() {
         
@@ -43,7 +51,7 @@ public class HomePage extends WebPage {
         add(form);
         DropDownChoice<StudentGroup> groupChoise = new CurriculumChoise<StudentGroup>("group",
                 new PropertyModel<StudentGroup>(this, "chosenGroup"),
-                new LoadableDetachableModelImpl(groups));
+                new GroupsLoadableDetachableModel(groups));
         form.add(groupChoise);
 
         DropDownChoice<Long> semesterChoise = new CurriculumChoise<Long>("semester",
@@ -92,26 +100,6 @@ public class HomePage extends WebPage {
 
             });
             li.add(new Label("finalcontrol", entry.getFinalControl().toString()));
-        }
-    }
-
-    @SpringBean
-    private StudentGroupRepository studentGroupRepository;
-
-    @SpringBean
-    private WorkloadEntryRepository workloadEntryRepository;
-
-    static class LoadableDetachableModelImpl extends LoadableDetachableModel<List<StudentGroup>> {
-
-        private final List<StudentGroup> groups;
-
-        public LoadableDetachableModelImpl(List<StudentGroup> groups) {
-            this.groups = groups;
-        }
-
-        @Override
-        protected List<StudentGroup> load() {
-            return groups;
         }
     }
 
