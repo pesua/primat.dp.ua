@@ -13,7 +13,7 @@
 
     <context:annotation-config/>
 
-    <context:component-scan base-package="ua.dp.primat.curriculum"/>
+    <context:component-scan base-package="ua.dp.primat"/>
 
     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 
