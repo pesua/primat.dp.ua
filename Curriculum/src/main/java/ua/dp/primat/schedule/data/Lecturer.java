@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import ua.dp.primat.curriculum.data.Cathedra;
 
 /**
@@ -12,7 +14,13 @@ import ua.dp.primat.curriculum.data.Cathedra;
  * @author fdevelop
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name=Lecturer.GET_ALL_LECTURERS, query="from Lecturer"),
+    @NamedQuery(name=Lecturer.GET_LECTURERS_BY_CATHEDRA, query="from Lecturer where cathedra=:Cathedra")
+})
 public class Lecturer implements Serializable {
+    public static final String GET_ALL_LECTURERS = "getAllLecrurers";
+    public static final String GET_LECTURERS_BY_CATHEDRA = "getLecturersByCathedra";
 
     @Id
     @GeneratedValue
@@ -23,12 +31,31 @@ public class Lecturer implements Serializable {
     @ManyToOne
     private Cathedra cathedra;
 
+    private LecturerType lecturerType;
+
     public Lecturer() {
     }
 
-    public Lecturer(String name, Cathedra cathedra) {
+    public Lecturer(String name, Cathedra cathedra, LecturerType lecturerType) {
         this.name = name;
         this.cathedra = cathedra;
+        this.lecturerType = lecturerType;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LecturerType getLecturerType() {
+        return lecturerType;
+    }
+
+    public void setLecturerType(LecturerType lecturerType) {
+        this.lecturerType = lecturerType;
     }
 
     public Cathedra getCathedra() {
