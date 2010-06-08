@@ -1,8 +1,12 @@
 package ua.dp.primat.schedule.view;
 
+import javax.portlet.PortletMode;
 import org.apache.wicket.Page;
+import org.apache.wicket.RequestContext;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.protocol.http.portlet.PortletRequestContext;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
+import ua.dp.primat.schedule.admin.AdminHomePage;
 
 /**
  * Root point for wicket portlet apllication, that shows schedule.
@@ -15,11 +19,20 @@ public class Application extends WebApplication {
     @Override
     protected void init() {
         super.init();
+
+        mountBookmarkablePage("/view", ViewSchedule.class);
+        mountBookmarkablePage("/edit", AdminHomePage.class);
+
         addComponentInstantiationListener(new SpringComponentInjector(this));
     }
 
     @Override
     public Class<? extends Page> getHomePage() {
+        PortletRequestContext prc = (PortletRequestContext)RequestContext.get();
+	if (prc.getPortletRequest().getPortletMode().equals(PortletMode.EDIT))
+	{
+            return AdminHomePage.class;
+	}
         return ViewSchedule.class;
     }
 
