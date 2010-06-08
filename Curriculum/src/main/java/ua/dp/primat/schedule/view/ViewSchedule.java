@@ -29,28 +29,95 @@ import ua.dp.primat.schedule.data.WeekType;
  */
 public final class ViewSchedule extends WebPage {
 
-    @SpringBean
-    private StudentGroupRepository studentGroupRepository;
+    /**
+     * LoadableDetachableModel for student groups combo.
+     */
+    static class LoadableDetachableModelImpl extends LoadableDetachableModel<List<StudentGroup>> {
+
+        private final List<StudentGroup> groups;
+
+        public LoadableDetachableModelImpl(List<StudentGroup> groups) {
+            this.groups = groups;
+        }
+
+        @Override
+        protected List<StudentGroup> load() {
+            return groups;
+        }
+    }
+
+    /**
+     * ListView, that outputs generated LessonQueryItem list into the table.
+     */
+    private static class ScheduleListView extends ListView<LessonQueryItem> {
+
+        final SimpleAttributeModifier rowspanAttrModifier = new SimpleAttributeModifier("rowspan", "2");
+
+        public ScheduleListView(String string, List<? extends LessonQueryItem> list) {
+            super(string, list);
+        }
+
+        @Override
+        protected void populateItem(ListItem<LessonQueryItem> li) {
+            final LessonQueryItem entry = li.getModelObject();
+
+            //get the previous item.
+            LessonQueryItem previous;
+            if (li.getIndex() > 0) {
+                previous = (LessonQueryItem)this.getList().get(li.getIndex()-1);
+            } else {
+                previous = null;
+            }
+
+            //format the number of lesson (because of table structure, which has
+            //  two cells per day/lesson (depends on lesson's weekpos).
+            final Label labelNum = new Label("num", Integer.toString(entry.getLessonNumber()));
+
+            //set visible, which is depended on entry's weekType
+            labelNum.setVisible(entry.getWeekType() != WeekType.DENOMINATOR);
+
+            //modify the rowspan property (it will be applied to the visible items)
+            labelNum.add(rowspanAttrModifier);
+            
+            li.add(labelNum);
+
+            //output the lesson's info in SchedulePanel for every day
+            for (int i=0;i<DAYKEYS.length;i++) {
+                final DayOfWeek dayOfWeek = DayOfWeek.values()[i];
+                final Panel labelDay = new ScheduleCell(DAYKEYS[i], entry.getLessonForDay(dayOfWeek));
+                labelDay.setVisible(true);
+                if ((previous != null) && (previous.getLessonForDay(dayOfWeek) != null)) {
+                    labelDay.setVisible(previous.getLessonForDay(dayOfWeek).getWeekType() != WeekType.BOTH);
+                }
+                if ((entry.getLessonForDay(dayOfWeek) != null) && (entry.getLessonForDay(dayOfWeek).getWeekType() == WeekType.BOTH)) {
+                    labelDay.add(rowspanAttrModifier);
+                }
+                li.add(labelDay);
+            }
+        }
+
+    }
+
+    private static final long serialVersionUID = 1L;
 
     //setup the total values of lessons per day
     private static final int LESSONSCOUNT = 6;
 
+    //constant of day names (for wicket)
+    //TODO: reorganize it in a more common way
+    private static final String[] DAYKEYS = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
+
+    @SpringBean
+    private StudentGroupRepository studentGroupRepository;
+
     //choosen student group
     private StudentGroup studentGroup;
-    //list of all available StudentGroups
-    private List<StudentGroup> groups;
     //list of all retrieved lessons
     private List<LessonQueryItem> lessons;
 
-    private DropDownChoice<StudentGroup> groupChoice;
-    private ListView<LessonQueryItem> lessonView;
-
-    //constant of day names (for wicket)
-    //TODO: reorganize it in a more common way
-    private static final String[] days = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
-
     //TEMPORARY method for returning the list of lessons
     //TODO: remove it, when there will be an entity repository with this operation
+    @SuppressWarnings("unchecked")
     private List<Lesson> getLessons(StudentGroup studentGroup) {
         List<Lesson> list  = new ArrayList<Lesson>();
         
@@ -86,15 +153,20 @@ public final class ViewSchedule extends WebPage {
      * @return list of extacly LESSONSCOUNT*2 items
      */
     private List<LessonQueryItem> getLessonQuery(List<Lesson> listLesson) {
-        List<LessonQueryItem> list  = new ArrayList<LessonQueryItem>();
+        final List<LessonQueryItem> list  = new ArrayList<LessonQueryItem>();
         for (int i=1;i<=LESSONSCOUNT;i++) {
             list.add(new LessonQueryItem(i, WeekType.NUMERATOR));
             list.add(new LessonQueryItem(i, WeekType.DENOMINATOR));
         }
+
+        final int WEEKTYPECOUNT = 2;
+        long oneLessonNumber = 0;
+        long oneWeekType = 0;
         for (Lesson l : listLesson) {
-            long pn = l.getLessonNumber()-1;
-            long wp = l.getWeekType().ordinal() % 2;
-            list.get((int)(pn*2+wp)).setLessonForDay(l.getDayOfWeek(), l);
+            oneLessonNumber = l.getLessonNumber()-1;
+            oneWeekType = l.getWeekType().ordinal() % WEEKTYPECOUNT;
+            //calculate absolute index of the item
+            list.get((int)(oneLessonNumber*WEEKTYPECOUNT + oneWeekType)).setLessonForDay(l.getDayOfWeek(), l);
         }
         return list;
     }
@@ -103,13 +175,15 @@ public final class ViewSchedule extends WebPage {
      * Constructor for page.
      */
     public ViewSchedule() {
-        groups = studentGroupRepository.getGroups();
+        super();
+
+        final List<StudentGroup> groups = studentGroupRepository.getGroups();
         if (!groups.isEmpty()) {
             studentGroup = groups.get(0);
             lessons = getLessonQuery(getLessons(studentGroup));
         }
 
-        groupChoice = new DropDownChoice<StudentGroup>("group",
+        final DropDownChoice<StudentGroup> groupChoice = new DropDownChoice<StudentGroup>("group",
                 new PropertyModel<StudentGroup>(this, "studentGroup"),
                 new LoadableDetachableModelImpl(groups)) {
 
@@ -124,68 +198,9 @@ public final class ViewSchedule extends WebPage {
         add(groupChoice);
         add(new Label("groupLabel", "Group:"));
 
-        lessonView = new ScheduleListView("row", lessons);
+        final ListView<LessonQueryItem> lessonView = new ScheduleListView("row", lessons);
         add(lessonView);
     }
 
-    /**
-     * LoadableDetachableModel for student groups combo.
-     */
-    static class LoadableDetachableModelImpl extends LoadableDetachableModel<List<StudentGroup>> {
-
-        private final List<StudentGroup> groups;
-
-        public LoadableDetachableModelImpl(List<StudentGroup> groups) {
-            this.groups = groups;
-        }
-
-        @Override
-        protected List<StudentGroup> load() {
-            return groups;
-        }
-    }
-
-    /**
-     * ListView, that outputs generated LessonQueryItem list into the table.
-     */
-    private static class ScheduleListView extends ListView<LessonQueryItem> {
-
-        public ScheduleListView(String string, List<? extends LessonQueryItem> list) {
-            super(string, list);
-        }
-
-        @Override
-        protected void populateItem(ListItem<LessonQueryItem> li) {
-            final LessonQueryItem entry = li.getModelObject();
-            
-            //get the previous item.
-            LessonQueryItem previous = null;
-            if (li.getIndex() > 0) {
-                previous = (LessonQueryItem)this.getList().get(li.getIndex()-1);
-            }
-
-            //format the number of lesson (because of table structure, which has
-            //  two cells per day/lesson (depends on lesson's weekpos).
-            Label labelNum = new Label("num", entry.getLessonNumber() + "");
-            labelNum.setVisible(entry.getWeekType() != WeekType.DENOMINATOR);
-            labelNum.add(new SimpleAttributeModifier("rowspan", "2"));
-            li.add(labelNum);
-
-            //output the lesson's info in SchedulePanel for every day
-            for (int i=0;i<days.length;i++) {
-                DayOfWeek dayOfWeek = DayOfWeek.values()[i];
-                Panel labelDay = new ScheduleCell(days[i], entry.getLessonForDay(dayOfWeek));
-                labelDay.setVisible(true);
-                if ((previous != null) && (previous.getLessonForDay(dayOfWeek) != null)) {
-                    labelDay.setVisible(previous.getLessonForDay(dayOfWeek).getWeekType() != WeekType.BOTH);
-                }
-                if ((entry.getLessonForDay(dayOfWeek) != null) && (entry.getLessonForDay(dayOfWeek).getWeekType() == WeekType.BOTH)) {
-                    labelDay.add(new SimpleAttributeModifier("rowspan", "2"));
-                }
-                li.add(labelDay);
-            }
-        }
-
-    }
 }
 

@@ -27,20 +27,6 @@ import ua.dp.primat.curriculum.planparser.CurriculumXLSRow;
 
 public class EditPage extends WebPage {
 
-    public EditPage() {
-        super();
-
-        final Form form = new FileUploadForm("formUploadXLS");
-        add(form);
-
-        final Form remForm = new RemoveForm("formRemove");
-        add(remForm);
-
-        //add feed back panel for system information output
-        final FeedbackPanel feedback = new FeedbackPanel("feedback");
-        add(feedback);
-    }
-
     private StudentGroup parseGroup;
 
     @SpringBean
@@ -61,7 +47,7 @@ public class EditPage extends WebPage {
     private class RemoveForm extends Form<Void> {
 
         private List<StudentGroup> groups;
-        StudentGroup chosenGroup;
+        private StudentGroup chosenGroup;
 
         /**
          * Constructor of form.
@@ -171,7 +157,7 @@ public class EditPage extends WebPage {
             }
             
             // Create a new file
-            File newFile = new File(getUploadFolder(), upload.getClientFileName());
+            final File newFile = new File(getUploadFolder(), upload.getClientFileName());
 
             // Check new file, delete if it allready existed
             checkFileExists(newFile);
@@ -209,40 +195,53 @@ public class EditPage extends WebPage {
             final Integer groupNumber = textGroupNumber.getConvertedInput();
             final FileUpload upload = fileUploadField.getFileUpload();
 
-            //upload and create file on server
-            String uploadedFileName = "";
-            try {
-                uploadedFileName = makeUploadedFile(upload);
-            } catch (IOException ise) {
-                this.error(ise);
-            }
-
             parseGroup = new StudentGroup(groupSpec, Long.valueOf(groupNumber), Long.valueOf(groupYear));
+
             //parser launch
-            List<CurriculumXLSRow> listParsed = null;
             try {
+                //upload and create file on server
+                final String uploadedFileName = makeUploadedFile(upload);
+
+                //create and run parser
                 CurriculumParser cParser = new CurriculumParser(parseGroup,
                         parseSheet, parseStart, parseEnd, parseSemesters,
                         uploadedFileName);
-                listParsed = cParser.parse();
-            } catch (IOException ioe) {
-                this.error(ioe);
-            }
+                final List<CurriculumXLSRow> listParsed = cParser.parse();
 
-            //commit info to the database
+                //commit group, if no exceptions handled
+                studentGroupRepository.store(parseGroup);
 
-            studentGroupRepository.store(parseGroup);
-
-            try {
+                //commit parsed objects
                 for (int i = 0; i < listParsed.size(); i++) {
                     Workload workload = listParsed.get(i).getWorkload();
                     workloadRepository.store(workload);
                     this.info( listParsed.get(i).toString() );
                 }
+
+                this.info(String.format("Curriculum in '%s' was successfully" +
+                        " parsed\n into database (%d items).",
+                        uploadedFileName, listParsed.size()));
+
+            } catch (IOException ioe) {
+                this.error(ioe);
             } catch (Throwable e) {
+                this.info("Curriculum has been parsed, but Throwable was catched...");
             }
-            this.info(String.format("Curriculum in '%s' was successfully parsed\n into database (%d items).", uploadedFileName, listParsed.size()));
         }
+    }
+
+    public EditPage() {
+        super();
+
+        final Form form = new FileUploadForm("formUploadXLS");
+        add(form);
+
+        final Form remForm = new RemoveForm("formRemove");
+        add(remForm);
+
+        //add feed back panel for system information output
+        final FeedbackPanel feedback = new FeedbackPanel("feedback");
+        add(feedback);
     }
 
     private Folder getUploadFolder() {
