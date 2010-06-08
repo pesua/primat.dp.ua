@@ -46,7 +46,7 @@
     background-color: #FFFCBA;
 }
 
-#scheduleTable th, td {
+#scheduleTable th, #scheduleTable td {
     border: 1px solid;
     border-color: #445947;
     padding: 3px 3px 3px 3px;
@@ -56,4 +56,9 @@
 
 .lecturer {
     color: #752428;
+}
+
+.room {
+    color: #116611;
+    font-size: 90%;
 }
