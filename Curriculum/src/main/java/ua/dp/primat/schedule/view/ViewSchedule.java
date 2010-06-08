@@ -21,6 +21,7 @@ import ua.dp.primat.schedule.data.LessonType;
 import ua.dp.primat.schedule.data.Room;
 import ua.dp.primat.curriculum.data.StudentGroup;
 import ua.dp.primat.curriculum.data.StudentGroupRepository;
+import ua.dp.primat.schedule.data.LecturerType;
 import ua.dp.primat.schedule.data.WeekType;
 
 /**
@@ -130,10 +131,10 @@ public final class ViewSchedule extends WebPage {
         Discipline d1 = new Discipline("Database", cathedra);
         Discipline d2 = new Discipline("ArchEOM", cathedra);
 
-        Lecturer teacher1 = new Lecturer("Mashenko Leonid Vladimirovich", cathedra);
-        Lecturer teacher2 = new Lecturer("Efimov Viktor Nikolaevich", cathedra);
-        Lecturer teacher3 = new Lecturer("Bulana Tatyana Mihailovna", cathedra);
-        Lecturer teacher4 = new Lecturer("Archangelska Uliya Mihailovna", cathedra);
+        Lecturer teacher1 = new Lecturer("Mashenko Leonid Vladimirovich", cathedra, LecturerType.ASSIATANT);
+        Lecturer teacher2 = new Lecturer("Efimov Viktor Nikolaevich", cathedra, LecturerType.ASSIATANT);
+        Lecturer teacher3 = new Lecturer("Bulana Tatyana Mihailovna", cathedra, LecturerType.ASSIATANT);
+        Lecturer teacher4 = new Lecturer("Archangelska Uliya Mihailovna", cathedra, LecturerType.ASSIATANT);
 
         LessonDescription ld1 = new LessonDescription(d1, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher1, null);
         LessonDescription ld2 = new LessonDescription(d2, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher2, null);
