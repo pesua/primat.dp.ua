@@ -224,7 +224,7 @@ public class EditPage extends WebPage {
 
             } catch (IOException ioe) {
                 this.error(ioe);
-            } catch (Throwable e) {
+            } catch (Exception e) {
                 this.info("Curriculum has been parsed, but Throwable was catched...");
             }
         }
