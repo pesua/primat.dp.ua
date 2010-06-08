@@ -8,9 +8,11 @@
     <body>
         <h3><wicket:message key="schedule.management">Schedule management</wicket:message></h3>
         <wicket:link>
-            <a href="EditRooms"><wicket:message key="rooms">Rooms</wicket:message></a>
-            <a href="EditRooms"><wicket:message key="lecturers">Lecturers</wicket:message></a>
-            <a href="EditRooms"><wicket:message key="schedule">Schedule</wicket:message></a>
+            <ul>
+                <li><a href="ManageRooms.html"><wicket:message key="rooms">Rooms</wicket:message></a></li>
+                <li><a href="ManageLecturersPage.html"><wicket:message key="lecturers">Lecturers</wicket:message></a></li>
+                <li><a href="EditSchedule.html"><wicket:message key="schedule">Schedule</wicket:message></a></li>
+            </ul>
         </wicket:link>
     </body>
 </html>

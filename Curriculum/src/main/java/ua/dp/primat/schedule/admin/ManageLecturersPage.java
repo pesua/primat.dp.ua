@@ -11,12 +11,12 @@ import org.apache.wicket.markup.html.WebPage;
  *
  * @author Administrator
  */
-public final class EditRooms extends WebPage {
-    public EditRooms() {
+public final class ManageLecturersPage extends WebPage {
+    public ManageLecturersPage() {
         super ();
     }
 
-    public EditRooms(PageParameters params) {
+    public ManageLecturersPage(PageParameters params) {
         //TODO:  process page parameters
     }
 }

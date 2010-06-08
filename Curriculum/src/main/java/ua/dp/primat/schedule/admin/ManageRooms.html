@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:wicket="http://wicket.apache.org">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>EditRooms</title>
+        <link rel="stylesheet" type="text/css" href="style.css"/>
+    </head>
+    <body>
+        <wicket:link><a href="EditRoomPage.html">Add Room</a></wicket:link>
+        <table class="dataview" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Building</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr wicket:id="repeating">
+                    <td wicket:id="number"></td>
+                    <td wicket:id="building"></td>
+                    <td wicket:id="actions"></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
