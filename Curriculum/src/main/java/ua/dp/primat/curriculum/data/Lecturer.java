@@ -1,21 +1,25 @@
 package ua.dp.primat.curriculum.data;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  * Entity for a custom lecturer
  * @author fdevelop
  */
 @Entity
-public class Lecturer {
+public class Lecturer implements Serializable {
 
     @Id
     @GeneratedValue
     private Long id;
 
     private String name;
+
+    @ManyToOne
     private Cathedra cathedra;
 
     public Lecturer() {
