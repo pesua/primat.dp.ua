@@ -1,5 +1,5 @@
 package ua.dp.primat.schedule.view;
-import ua.dp.primat.curriculum.data.Lesson;
+import ua.dp.primat.schedule.data.Lesson;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 

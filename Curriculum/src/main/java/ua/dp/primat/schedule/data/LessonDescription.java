@@ -1,10 +1,12 @@
-package ua.dp.primat.curriculum.data;
+package ua.dp.primat.schedule.data;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import ua.dp.primat.curriculum.data.Discipline;
+import ua.dp.primat.curriculum.data.StudentGroup;
 
 /**
  * Entity, which contains common information about lesson for one group,

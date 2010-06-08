@@ -1,4 +1,4 @@
-package ua.dp.primat.curriculum.data;
+package ua.dp.primat.schedule.data;
 
 import java.util.List;
 import javax.persistence.EntityManager;

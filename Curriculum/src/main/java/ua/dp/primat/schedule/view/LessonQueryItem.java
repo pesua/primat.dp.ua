@@ -1,8 +1,8 @@
 package ua.dp.primat.schedule.view;
 
-import ua.dp.primat.curriculum.data.DayOfWeek;
-import ua.dp.primat.curriculum.data.Lesson;
-import ua.dp.primat.curriculum.data.WeekType;
+import ua.dp.primat.schedule.data.DayOfWeek;
+import ua.dp.primat.schedule.data.Lesson;
+import ua.dp.primat.schedule.data.WeekType;
 
 /**
  * Item for the 'number of lesson' + 'week position (numerator, denominator)',

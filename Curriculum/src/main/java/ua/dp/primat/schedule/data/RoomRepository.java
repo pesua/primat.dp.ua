@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package ua.dp.primat.curriculum.data;
+package ua.dp.primat.schedule.data;
 
 import java.util.List;
 

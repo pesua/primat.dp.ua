@@ -1,5 +1,5 @@
 package ua.dp.primat.schedule.view;
-import ua.dp.primat.curriculum.data.Lesson;
+import ua.dp.primat.schedule.data.Lesson;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
@@ -13,15 +13,15 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import ua.dp.primat.curriculum.data.Cathedra;
-import ua.dp.primat.curriculum.data.DayOfWeek;
+import ua.dp.primat.schedule.data.DayOfWeek;
 import ua.dp.primat.curriculum.data.Discipline;
-import ua.dp.primat.curriculum.data.Lecturer;
-import ua.dp.primat.curriculum.data.LessonDescription;
-import ua.dp.primat.curriculum.data.LessonType;
-import ua.dp.primat.curriculum.data.Room;
+import ua.dp.primat.schedule.data.Lecturer;
+import ua.dp.primat.schedule.data.LessonDescription;
+import ua.dp.primat.schedule.data.LessonType;
+import ua.dp.primat.schedule.data.Room;
 import ua.dp.primat.curriculum.data.StudentGroup;
 import ua.dp.primat.curriculum.data.StudentGroupRepository;
-import ua.dp.primat.curriculum.data.WeekType;
+import ua.dp.primat.schedule.data.WeekType;
 
 /**
  * View page for the Schedule portlet.

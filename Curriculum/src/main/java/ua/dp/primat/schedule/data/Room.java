@@ -1,4 +1,4 @@
-package ua.dp.primat.curriculum.data;
+package ua.dp.primat.schedule.data;
 
 import java.io.Serializable;
 import javax.persistence.Entity;

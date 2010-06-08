@@ -1,10 +1,11 @@
-package ua.dp.primat.curriculum.data;
+package ua.dp.primat.schedule.data;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import ua.dp.primat.curriculum.data.Cathedra;
 
 /**
  * Entity for a custom lecturer
