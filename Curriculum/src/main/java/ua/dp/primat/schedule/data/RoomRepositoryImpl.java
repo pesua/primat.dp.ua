@@ -4,18 +4,17 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository("roomRepository")
+@Transactional
 public class RoomRepositoryImpl implements RoomRepository {
 
-    @PersistenceContext(unitName = "curriculum")
-    private EntityManager em;
-
     public void store(Room room) {
-        if (em.contains(em)) {
-            em.merge(em);
+        if (em.contains(room)) {
+            em.merge(room);
         } else {
-            em.persist(em);
+            em.persist(room);
         }
     }
 
@@ -25,8 +24,11 @@ public class RoomRepositoryImpl implements RoomRepository {
     }
 
     public void delete(Room room) {
-        if (em.contains(em)) {
-            em.remove(em);
+        if (em.contains(room)) {
+            em.remove(room);
         }
     }
+
+    @PersistenceContext(unitName = "curriculum")
+    private EntityManager em;
 }
