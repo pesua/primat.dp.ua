@@ -34,6 +34,11 @@
     height: 18px;
 }
 
+#scheduleTable {
+    font-size: 14px;
+    font-family: verdana;
+}
+
 #scheduleTable table {
     width: 100%;
     padding: 3px 3px 3px 3px;
@@ -54,11 +59,27 @@
     vertical-align: middle;
 }
 
-.lecturer {
+#scheduleTable .lecturer {
     color: #752428;
 }
 
-.room {
+#scheduleTable .room {
     color: #116611;
     font-size: 90%;
+}
+
+#choosePanel {
+    font-size: 14px;
+    font-family: verdana;
+    padding: 3px 3px 3px 3px;
+    border-bottom-color: #AAAAAA;
+    border-right-style: none;
+    border-left-style: none;
+    border-top-style: none;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+#choosePanel select {
+    border: 1px solid gray;
 }

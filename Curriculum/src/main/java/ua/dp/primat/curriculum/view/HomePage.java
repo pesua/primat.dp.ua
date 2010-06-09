@@ -15,65 +15,36 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import ua.dp.primat.curriculum.data.StudentGroup;
-import ua.dp.primat.curriculum.data.StudentGroupRepository;
 import ua.dp.primat.curriculum.data.WorkloadEntry;
 import ua.dp.primat.curriculum.data.WorkloadEntryRepository;
-import ua.dp.primat.utils.view.GroupsLoadableDetachableModel;
+import ua.dp.primat.utils.view.ChoosePanel;
 
 public class HomePage extends WebPage {
 
     private static final long serialVersionUID = 1L;
 
-    private static final int SEMESTER_COUNT = 8;
-
-    @SpringBean
-    private StudentGroupRepository studentGroupRepository;
-
     @SpringBean
     private WorkloadEntryRepository workloadEntryRepository;
 
-    private StudentGroup chosenGroup;
-    private Long chosenSemester;
-    private final ListView<WorkloadEntry> disciplinesView;
+    private ListView<WorkloadEntry> workloadsView;
+    private List<WorkloadEntry> workloadEntries;
 
     public HomePage() {
         
-        final List<StudentGroup> groups = studentGroupRepository.getGroups();
-
-        if (groups.isEmpty()) {
-            throw new RestartResponseAtInterceptPageException(NoCurriculumsPage.class);
-        }
-             
-        chosenGroup = groups.get(0);
-        chosenSemester = Long.valueOf(1);
-        
-        Form form = new Form("form");
-        add(form);
-        DropDownChoice<StudentGroup> groupChoise = new CurriculumChoise<StudentGroup>("group",
-                new PropertyModel<StudentGroup>(this, "chosenGroup"),
-                new GroupsLoadableDetachableModel(groups));
-        form.add(groupChoise);
-
-        DropDownChoice<Long> semesterChoise = new CurriculumChoise<Long>("semester",
-                new PropertyModel<Long>(this, "chosenSemester"),
-                new LoadableDetachableModel<List<Long>>(){
+        final ChoosePanel choosePanel = new ChoosePanel("choosePanel") {
 
             @Override
-            protected List<Long> load() {
-                List<Long> l = new ArrayList<Long>();
-                for (int i = 1; i <= SEMESTER_COUNT; i++) {
-                    l.add(Long.valueOf(i));
+            protected void executeAction(StudentGroup studentGroup, Long semester) {
+                workloadEntries = workloadEntryRepository.getWorkloadEntries(studentGroup, semester);
+                if (workloadsView != null) {
+                    workloadsView.setList(workloadEntries);
                 }
-                return l;
             }
-        });
+        };
+        add(choosePanel);
 
-        form.add(semesterChoise);
-
-        List<WorkloadEntry> workloadEntries = workloadEntryRepository.getWorkloadEntries(chosenGroup, chosenSemester);
-        disciplinesView = new WorkloadsListView("disciplineRow", workloadEntries);
-
-        add(disciplinesView);
+        workloadsView = new WorkloadsListView("disciplineRow", workloadEntries);
+        add(workloadsView);
     }
 
     private static class WorkloadsListView extends ListView<WorkloadEntry> {
@@ -103,21 +74,4 @@ public class HomePage extends WebPage {
         }
     }
 
-    private class CurriculumChoise<T> extends DropDownChoice<T> {
-
-        public CurriculumChoise(String id, IModel<T> model, IModel<? extends List<? extends T>> choices) {
-            super(id, model, choices);
-        }
-
-        @Override
-        protected void onSelectionChanged(T newSelection) {
-            disciplinesView.setList(workloadEntryRepository.getWorkloadEntries(chosenGroup, chosenSemester));
-            super.onSelectionChanged(newSelection);
-        }
-
-        @Override
-        protected boolean wantOnSelectionChangedNotifications() {
-            return true;
-        }
-    }
 }

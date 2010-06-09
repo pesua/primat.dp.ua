@@ -6,12 +6,8 @@ import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.spring.injection.annot.SpringBean;
 import ua.dp.primat.curriculum.data.Cathedra;
 import ua.dp.primat.schedule.data.DayOfWeek;
 import ua.dp.primat.curriculum.data.Discipline;
@@ -20,10 +16,9 @@ import ua.dp.primat.schedule.data.LessonDescription;
 import ua.dp.primat.schedule.data.LessonType;
 import ua.dp.primat.schedule.data.Room;
 import ua.dp.primat.curriculum.data.StudentGroup;
-import ua.dp.primat.curriculum.data.StudentGroupRepository;
 import ua.dp.primat.schedule.data.LecturerType;
 import ua.dp.primat.schedule.data.WeekType;
-import ua.dp.primat.utils.view.GroupsLoadableDetachableModel;
+import ua.dp.primat.utils.view.ChoosePanel;
 
 /**
  * View page for the Schedule portlet.
@@ -36,7 +31,7 @@ public final class ViewSchedule extends WebPage {
      */
     private static class ScheduleListView extends ListView<LessonQueryItem> {
 
-        final SimpleAttributeModifier rowspanAttrModifier = new SimpleAttributeModifier("rowspan", "2");
+        private final SimpleAttributeModifier rowspanAttrModifier = new SimpleAttributeModifier("rowspan", "2");
 
         public ScheduleListView(String string, List<? extends LessonQueryItem> list) {
             super(string, list);
@@ -93,12 +88,8 @@ public final class ViewSchedule extends WebPage {
     //TODO: reorganize it in a more common way
     private static final String[] DAYKEYS = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
 
-    @SpringBean
-    private StudentGroupRepository studentGroupRepository;
-
-    //choosen student group
-    private StudentGroup studentGroup;
     //list of all retrieved lessons
+    private ListView<LessonQueryItem> lessonView;
     private List<LessonQueryItem> lessons;
 
     /**
@@ -107,62 +98,52 @@ public final class ViewSchedule extends WebPage {
     public ViewSchedule() {
         super();
 
-        final List<StudentGroup> groups = studentGroupRepository.getGroups();
-        if (!groups.isEmpty()) {
-            studentGroup = groups.get(0);
-            lessons = getLessonQuery(getLessons(studentGroup));
-        }
-
-        final DropDownChoice<StudentGroup> groupChoice = new DropDownChoice<StudentGroup>("group",
-                new PropertyModel<StudentGroup>(this, "studentGroup"),
-                new GroupsLoadableDetachableModel(groups)) {
+        final ChoosePanel choosePanel = new ChoosePanel("choosePanel") {
 
             @Override
-            protected void onSelectionChanged(StudentGroup newSelection) {
-                studentGroup = newSelection;
-                lessons = getLessonQuery(getLessons(studentGroup));
-                super.onSelectionChanged(newSelection);
+            protected void executeAction(StudentGroup studentGroup, Long semester) {
+                lessons = getLessonQuery(getLessons(studentGroup, semester));
+                if (lessonView != null) {
+                    lessonView.setList(lessons);
+                }
             }
-
         };
-        add(groupChoice);
-        add(new Label("groupLabel", "Group:"));
+        add(choosePanel);
 
-        final ListView<LessonQueryItem> lessonView = new ScheduleListView("row", lessons);
+        lessonView = new ScheduleListView("row", lessons);
         add(lessonView);
     }
 
     //TEMPORARY method for returning the list of lessons
     //TODO: remove it, when there will be an entity repository with this operation
-    @SuppressWarnings("all")
-    private List<Lesson> getLessons(StudentGroup studentGroup) {
-        List<Lesson> list  = new ArrayList<Lesson>();
+    private List<Lesson> getLessons(StudentGroup studentGroup, Long semester) {
+        final List<Lesson> list  = new ArrayList<Lesson>();
 
-        Cathedra cathedra = new Cathedra();
+        final Cathedra cathedra = new Cathedra();
         cathedra.setName("Math.EOM");
 
-        Room room46 = new Room(Long.valueOf(3), Long.valueOf(46));
-        Room room45 = new Room(Long.valueOf(3), Long.valueOf(45));
-        Room room31 = new Room(Long.valueOf(3), Long.valueOf(31));
+        final Room room46 = new Room(Long.valueOf(3), Long.valueOf(46));
+        final Room room45 = new Room(Long.valueOf(3), Long.valueOf(45));
+        final Room room31 = new Room(Long.valueOf(3), Long.valueOf(31));
 
-        Discipline d1 = new Discipline("Database", cathedra);
-        Discipline d2 = new Discipline("ArchEOM", cathedra);
-        Discipline d3 = new Discipline("Assembler", cathedra);
-        Discipline d4 = new Discipline("K.I.T.", cathedra);
+        final Discipline d1 = new Discipline("Database", cathedra);
+        final Discipline d2 = new Discipline("ArchEOM", cathedra);
+        final Discipline d3 = new Discipline("Assembler", cathedra);
+        final Discipline d4 = new Discipline("K.I.T.", cathedra);
 
-        Lecturer teacher1 = new Lecturer("Mashenko Leonid Vladimirovich", cathedra, LecturerType.SENIORLECTURER);
-        Lecturer teacher2 = new Lecturer("Efimov Viktor Nikolaevich", cathedra, LecturerType.SENIORLECTURER);
-        Lecturer teacher3 = new Lecturer("Bulana Tatyana Mihailovna", cathedra, LecturerType.ASSIATANT);
-        Lecturer teacher4 = new Lecturer("Archangelska Uliya Mihailovna", cathedra, LecturerType.ASSIATANT);
-        Lecturer teacher5 = new Lecturer("Segeda Nadegda Evstahievna", cathedra, LecturerType.SENIORLECTURER);
-        Lecturer teacher6 = new Lecturer("Kuznecov Konstantin Anatolievich", cathedra, LecturerType.DOCENT);
+        final Lecturer teacher1 = new Lecturer("Mashenko Leonid Vladimirovich", cathedra, LecturerType.SENIORLECTURER);
+        final Lecturer teacher2 = new Lecturer("Efimov Viktor Nikolaevich", cathedra, LecturerType.SENIORLECTURER);
+        final Lecturer teacher3 = new Lecturer("Bulana Tatyana Mihailovna", cathedra, LecturerType.ASSIATANT);
+        final Lecturer teacher4 = new Lecturer("Archangelska Uliya Mihailovna", cathedra, LecturerType.ASSIATANT);
+        final Lecturer teacher5 = new Lecturer("Segeda Nadegda Evstahievna", cathedra, LecturerType.SENIORLECTURER);
+        final Lecturer teacher6 = new Lecturer("Kuznecov Konstantin Anatolievich", cathedra, LecturerType.DOCENT);
 
-        LessonDescription ld1 = new LessonDescription(d1, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher1, null);
-        LessonDescription ld2 = new LessonDescription(d2, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher2, null);
-        LessonDescription ld3 = new LessonDescription(d2, studentGroup, Long.valueOf(4), LessonType.LABORATORY, teacher3, teacher4);
-        LessonDescription ld4 = new LessonDescription(d3, studentGroup, Long.valueOf(4), LessonType.LABORATORY, teacher5, teacher4);
-        LessonDescription ld5 = new LessonDescription(d4, studentGroup, Long.valueOf(4), LessonType.LABORATORY, teacher6, teacher3);
-        LessonDescription ld6 = new LessonDescription(d4, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher6, null);
+        final LessonDescription ld1 = new LessonDescription(d1, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher1, null);
+        final LessonDescription ld2 = new LessonDescription(d2, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher2, null);
+        final LessonDescription ld3 = new LessonDescription(d2, studentGroup, Long.valueOf(4), LessonType.LABORATORY, teacher3, teacher4);
+        final LessonDescription ld4 = new LessonDescription(d3, studentGroup, Long.valueOf(4), LessonType.LABORATORY, teacher5, teacher4);
+        final LessonDescription ld5 = new LessonDescription(d4, studentGroup, Long.valueOf(4), LessonType.LABORATORY, teacher6, teacher3);
+        final LessonDescription ld6 = new LessonDescription(d4, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher6, null);
 
         list.add(new Lesson(Long.valueOf(3), WeekType.BOTH, DayOfWeek.MONDAY, room31, ld1));
         list.add(new Lesson(Long.valueOf(3), WeekType.BOTH, DayOfWeek.TUESDAY, room31, ld2));
@@ -170,6 +151,7 @@ public final class ViewSchedule extends WebPage {
         list.add(new Lesson(Long.valueOf(4), WeekType.BOTH, DayOfWeek.WEDNESDAY, room45, ld4));
         list.add(new Lesson(Long.valueOf(2), WeekType.BOTH, DayOfWeek.THURSDAY, room45, ld5));
         list.add(new Lesson(Long.valueOf(3), WeekType.BOTH, DayOfWeek.FRIDAY, room46, ld6));
+        
         return list;
     }
 

@@ -5,16 +5,8 @@
         <link rel="stylesheet" type="text/css" href="view.css" />
     </head>
     <body>
-        <form wicket:id="form">
-            <label for="group"><wicket:message key="form.group">group</wicket:message></label>
-            <select id="group" wicket:id="group">
-                <option>some group</option>
-            </select>
-            <label for="semester"><wicket:message key="form.semester">semester number</wicket:message></label>
-            <select id="semester" wicket:id="semester">
-                <option>some numger</option>
-            </select>
-        </form>
+        <span wicket:id="choosePanel"></span>
+        <br/>
         <table id="curriculumTable">
             <thead>
                 <tr>
