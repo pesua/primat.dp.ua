@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class RoomRepositoryImpl implements RoomRepository {
 
     public void store(Room room) {
-        if (em.contains(room)) {
+        if (em.contains(room) || (room.getId() != null)) {
             em.merge(room);
         } else {
             em.persist(room);
@@ -24,9 +24,15 @@ public class RoomRepositoryImpl implements RoomRepository {
     }
 
     public void delete(Room room) {
-        if (em.contains(room)) {
-            em.remove(room);
+        //load(room.id);
+        Room r = em.find(Room.class, room.getId());
+        if (em.contains(r)) {
+            em.remove(r);
         }
+    }
+
+    public Room load(Long id){
+        return em.find(Room.class, id);
     }
 
     @PersistenceContext(unitName = "curriculum")
