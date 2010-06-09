@@ -42,6 +42,7 @@ public final class EditRoomPage extends WebPage {
         protected void onSubmit() {
             super.onSubmit();
             roomRepository.store(room);
+            setResponsePage(ManageRooms.class);
         }
     }
 
