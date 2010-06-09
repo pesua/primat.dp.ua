@@ -2,8 +2,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ua.dp.primat.schedule.admin;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -35,20 +35,10 @@ import ua.dp.primat.schedule.data.RoomRepositoryImpl;
  * @author Administrator
  */
 public final class ManageRooms extends WebPage {
+
     public ManageRooms() {
-        super ();
+        super();
         final List<Room> rooms = roomRepository.getRooms();
-
-        /*add(new PageLink("addRoomLink", new IPageLink() {
-
-            public Page getPage() {
-                return new EditRoom();
-            }
-
-            public Class<? extends Page> getPageIdentity() {
-                return EditRoom.class;
-            }
-        }));*/
 
         ListView<Room> roomView = new ListView<Room>("repeating", rooms) {
 
@@ -78,7 +68,6 @@ public final class ManageRooms extends WebPage {
         };
         add(roomView);
     }
-
     @SpringBean
     private RoomRepository roomRepository;
 }

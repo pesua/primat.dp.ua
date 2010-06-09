@@ -22,15 +22,13 @@ import ua.dp.primat.utils.view.ChoosePanel;
 public class HomePage extends WebPage {
 
     private static final long serialVersionUID = 1L;
-
     @SpringBean
     private WorkloadEntryRepository workloadEntryRepository;
-
     private ListView<WorkloadEntry> workloadsView;
     private List<WorkloadEntry> workloadEntries;
 
     public HomePage() {
-        
+
         final ChoosePanel choosePanel = new ChoosePanel("choosePanel") {
 
             @Override
@@ -62,16 +60,14 @@ public class HomePage extends WebPage {
             li.add(new Label("practice", entry.getPracticeCount().toString()));
             li.add(new Label("labs", entry.getLabCount().toString()));
             li.add(new Label("selfwork", entry.getIndCount().toString()));
-            li.add(new Image("course"){
+            li.add(new Image("course") {
 
                 @Override
                 public boolean isVisible() {
                     return entry.getCourceWork();
                 }
-
             });
             li.add(new Label("finalcontrol", entry.getFinalControl().toString()));
         }
     }
-
 }
