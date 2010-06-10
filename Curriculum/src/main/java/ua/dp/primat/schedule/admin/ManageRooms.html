@@ -7,7 +7,7 @@
         <link rel="stylesheet" type="text/css" href="style.css"/>
     </head>
     <body>
-        <wicket:link><a href="EditRoomPage.html">Add Room</a></wicket:link>
+        <wicket:link><a href="EditRoomPage.html"><img src="images/add.png"/>Add Room</a></wicket:link>
         <table class="dataview" cellspacing="0">
             <thead>
                 <tr>
@@ -18,7 +18,8 @@
             <tbody>
                 <tr wicket:id="repeating">
                     <td wicket:id="room"></td>
-                    <td> <a wicket:id="editRoom">edit</a> <a wicket:id="deleteRoom">delete</a></td>
+                    <td> <a wicket:id="editRoom"><img src="images/edit.png" wicket:id="editImage"/> edit</a>
+                        <a wicket:id="deleteRoom"><img src="images/delete.png"wicket:id="deleteImage"/> delete</a></td>
                 </tr>
             </tbody>
         </table>

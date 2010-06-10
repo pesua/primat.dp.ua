@@ -11,8 +11,38 @@
             <ul>
                 <li><a href="ManageRooms.html"><wicket:message key="rooms">Rooms</wicket:message></a></li>
                 <li><a href="ManageLecturersPage.html"><wicket:message key="lecturers">Lecturers</wicket:message></a></li>
-                <li><a href="EditSchedule.html"><wicket:message key="schedule">Schedule</wicket:message></a></li>
             </ul>
         </wicket:link>
+
+        <div>
+            <form wicket:id="editScheduleForm">
+                Edit schedule
+                <select wicket:id="group">
+                    <option>PZ-08-1</option>
+                    <option>PS-03-1</option>
+                </select>
+                Semester number 
+                <select wicket:id="semester">
+                    <option>1</option>
+                    <option>2</option>
+                </select>
+                <input type="submit"/>
+            </form>
+        </div>
+
+        <div>
+            <form wicket:id="newScheduleForm">
+                Create new schedule
+                <input type="text" wicket:id="groupCode"/>
+                <input type="text" wicket:id="groupYear" />
+                <input type="text" wicket:id="groupNumber" />
+                Semester number
+                <select wicket:id="semester">
+                    <option>1</option>
+                    <option>2</option>
+                </select>
+                <input type="submit"/>
+            </form>
+        </div>
     </body>
 </html>

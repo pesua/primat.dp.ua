@@ -18,33 +18,29 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="groups")
+@Table(name = "groups")
 @NamedQueries({
-    @NamedQuery(name="getGroups", query="select n from StudentGroup n")
+    @NamedQuery(name = "getGroups", query = "select n from StudentGroup n")
 })
 public class StudentGroup implements Serializable {
-    public static final int CODE_LENGTH = 2;
 
+    public static final int CODE_LENGTH = 2;
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     private Long groupId;
-
-    @Column(name="code", length=CODE_LENGTH)
+    @Column(name = "code", length = CODE_LENGTH)
     private String code;
-
-    @Column(name="number")
+    @Column(name = "number")
     private Long number;
-
-    @Column(name="group_year")
+    @Column(name = "group_year")
     private Long year;
-
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "workloads_groups",
-        joinColumns =
-        @JoinColumn(name = "groupId"),
-        inverseJoinColumns =
-        @JoinColumn(name = "workloadId"))
+    joinColumns =
+    @JoinColumn(name = "groupId"),
+    inverseJoinColumns =
+    @JoinColumn(name = "workloadId"))
     private List<Workload> workloads = new ArrayList<Workload>();
 
     public StudentGroup() {
@@ -55,7 +51,18 @@ public class StudentGroup implements Serializable {
         this.number = number;
         this.year = year;
     }
-    
+
+    public StudentGroup(String fullCode) {
+        try {
+            int firstDefis = fullCode.indexOf("-");
+            int secondDefis = fullCode.indexOf("-", firstDefis + 1);
+            this.code = fullCode.substring(0, firstDefis);
+            this.year = 2000 + Long.parseLong(fullCode.substring(firstDefis + 1, secondDefis));
+            this.number = Long.parseLong(fullCode.substring(secondDefis + 1));
+        } catch (IndexOutOfBoundsException e) {
+            throw new IllegalArgumentException();
+        }
+    }
 
     public String getCode() {
         return code;
