@@ -13,6 +13,11 @@
                         <portlet-mode>VIEW</portlet-mode>
                         <portlet-mode>EDIT</portlet-mode>
 		</supports>
+		<supports>
+			<mime-type>text/xml</mime-type>
+                        <portlet-mode>VIEW</portlet-mode>
+                        <portlet-mode>EDIT</portlet-mode>
+		</supports>
 		<portlet-info>
 			<title>Portlet which show curriculums</title>
 			<short-title>Curriculum</short-title>
@@ -29,6 +34,11 @@
                 </init-param>
 		<supports>
 			<mime-type>text/html</mime-type>
+                        <portlet-mode>VIEW</portlet-mode>
+                        <portlet-mode>EDIT</portlet-mode>
+		</supports>
+		<supports>
+			<mime-type>text/xml</mime-type>
                         <portlet-mode>VIEW</portlet-mode>
                         <portlet-mode>EDIT</portlet-mode>
 		</supports>
