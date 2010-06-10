@@ -56,12 +56,12 @@ table.ViewTable th
 	font-style: italic;
 }
 
-table.ViewTable tr:nth-child(2n)
+table.ViewTable tr:nth-child(2n) td
 {
 	background-color: rgb(222, 241, 251);
 }
 
-table.ViewTable tr:nth-child(2n+1)
+table.ViewTable tr:nth-child(2n+1) td
 {
 	background-color: rgb(173, 217, 251);
 }
