@@ -1,28 +1,42 @@
 package ua.dp.primat.schedule.data;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="Lessons")
+//some problem here
+//@NamedQueries({
+//    @NamedQuery(name="getLessons", query="select lesson from Lessons lesson join LessonDiscription ld where ld.studentGroup = :group")
+//})
 public class Lesson implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column
     Long id;
 
+    @Column(name="lesson_number")
     Long lessonNumber;
 
+    @Column(name="week_type")
     WeekType weekType;
 
+    @Column(name="day_of_week")
     DayOfWeek dayOfWeek;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     Room room;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     LessonDescription lessonDescription;
 
     public Lesson() {
