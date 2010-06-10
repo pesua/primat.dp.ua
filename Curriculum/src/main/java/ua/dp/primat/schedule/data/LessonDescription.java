@@ -1,10 +1,12 @@
 package ua.dp.primat.schedule.data;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import ua.dp.primat.curriculum.data.Discipline;
 import ua.dp.primat.curriculum.data.StudentGroup;
 
@@ -14,6 +16,7 @@ import ua.dp.primat.curriculum.data.StudentGroup;
  * @author fdevelop
  */
 @Entity
+@Table(name="LesoonDiscription")
 public class LessonDescription implements Serializable {
 
     @Id
@@ -32,7 +35,7 @@ public class LessonDescription implements Serializable {
     @ManyToOne
     private Lecturer lecturer;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Lecturer assistant;
 
     public LessonDescription() {
