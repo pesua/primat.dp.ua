@@ -11,8 +11,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Rooms")
-@NamedQueries(@NamedQuery(name=Room.GET_ALL_ROOMS_QUERY, query="from Room"))
+@NamedQueries(
+    @NamedQuery(name=Room.GET_ALL_ROOMS_QUERY, query="from Room")
+)
 public class Room implements Serializable {
     public static final String GET_ALL_ROOMS_QUERY = "getAllRooms";
 
@@ -20,10 +21,8 @@ public class Room implements Serializable {
     @GeneratedValue(strategy=GenerationType.AUTO)
     Long id;
 
-    @Column(name="building")
     Long building;
 
-    @Column(name="number")
     Long number;
 
     public Room() {

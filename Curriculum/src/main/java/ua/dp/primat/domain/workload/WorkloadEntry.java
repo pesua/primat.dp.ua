@@ -21,7 +21,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="WorkloadEntry")
 @NamedQueries({
     @NamedQuery(name="getWorkloadEntries", query="select we from WorkloadEntry we join we.parentWorkload w join w.groups g where we.semesterNumber = :semester and g = :group")
 })
@@ -29,29 +28,22 @@ public class WorkloadEntry implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long workloadEntryPk;
-    //private WorkloadEntryPK workloadEntryPK = new WorkloadEntryPK();
 
     private Long semesterNumber;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Workload parentWorkload;
 
-    @Column(name="lection_count")
     private Long lectionCount;
 
-    @Column(name="practice_count")
     private Long practiceCount;
 
-    @Column(name="lab_count")
     private Long labCount;
 
-    @Column(name="ind_count")
     private Long indCount;
 
-    @Column(name="final_control")
     private FinalControlType finalControl;
 
-    @Column(name="cource_work")
     private Boolean courceWork;
 
     @OneToMany(mappedBy="workloadEntry")//, cascade = CascadeType.ALL

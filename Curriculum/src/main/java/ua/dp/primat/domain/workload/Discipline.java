@@ -6,7 +6,6 @@ package ua.dp.primat.domain.workload;
 
 import java.io.Serializable;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 import ua.dp.primat.domain.Cathedra;
 
 /**
@@ -22,18 +20,15 @@ import ua.dp.primat.domain.Cathedra;
  * @author EniSh
  */
 @Entity
-@Table(name="discipline")
-@NamedQueries(
-@NamedQuery(name=Discipline.GET_ALL_DISCIPLINES_QUERY, query="from Discipline")
-)
+@NamedQueries({
+    @NamedQuery(name=Discipline.GET_ALL_DISCIPLINES_QUERY, query="from Discipline")
+})
 public class Discipline implements Serializable {
     public static final String GET_ALL_DISCIPLINES_QUERY = "getAllDisciplines";
     @Id
-    @Column(name="id")
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long disciplineId;
 
-    @Column(name="name")
     private String name;
     
     @ManyToOne(cascade = CascadeType.ALL)

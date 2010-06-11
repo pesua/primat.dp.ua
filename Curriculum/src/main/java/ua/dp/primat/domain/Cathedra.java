@@ -3,23 +3,18 @@ package ua.dp.primat.domain;
 import ua.dp.primat.domain.workload.Discipline;
 import java.io.Serializable;
 import java.util.Set;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "Cathedra")
 public class Cathedra implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "cathedra_id")
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long cathedraId;
 
-    @Column(name = "name")
     private String name;
     
     @OneToMany(mappedBy = "cathedra")

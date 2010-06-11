@@ -14,14 +14,11 @@ import javax.persistence.ManyToOne;
 public class IndividualControl implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="id")
     private Long id;
 
     @SuppressWarnings("MagicNumber")
-    @Column(name="type")
     private String type;
 
-    @Column(name="week_num")
     private Long weekNum;
 
     @ManyToOne(cascade = CascadeType.ALL)

@@ -1,6 +1,5 @@
 package ua.dp.primat.domain.lesson;
 
-import ua.dp.primat.domain.Lecturer;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -9,9 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import ua.dp.primat.domain.workload.Discipline;
-import ua.dp.primat.domain.workload.Discipline;
 import ua.dp.primat.domain.Lecturer;
-import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.domain.StudentGroup;
 
 /**

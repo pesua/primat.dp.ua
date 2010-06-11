@@ -16,32 +16,30 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "groups")
 @NamedQueries({
     @NamedQuery(name = "getGroups", query = "select n from StudentGroup n")
 })
 public class StudentGroup implements Serializable {
-
     public static final int CODE_LENGTH = 2;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column
     private Long groupId;
-    @Column(name = "code", length = CODE_LENGTH)
+
+    @Column(length = CODE_LENGTH)
     private String code;
-    @Column(name = "number")
+
     private Long number;
-    @Column(name = "group_year")
+
     private Long year;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "workloads_groups",
-    joinColumns =
-    @JoinColumn(name = "groupId"),
-    inverseJoinColumns =
-    @JoinColumn(name = "workloadId"))
+        joinColumns =
+            @JoinColumn(name = "groupId"),
+        inverseJoinColumns =
+            @JoinColumn(name = "workloadId"))
     private List<Workload> workloads = new ArrayList<Workload>();
 
     public StudentGroup() {

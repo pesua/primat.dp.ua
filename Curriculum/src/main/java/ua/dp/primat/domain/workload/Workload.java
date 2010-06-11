@@ -14,26 +14,21 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import org.hibernate.annotations.IndexColumn;
 import ua.dp.primat.domain.StudentGroup;
 
 @Entity
-@Table(name = "workloads")
 public class Workload implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column
     private Long workloadId;
 
     @ManyToOne(cascade= CascadeType.ALL)
     @JoinColumn(name="discipline_fk")
     private Discipline discipline;
 
-    @Column(name="type")
     private WorkloadType type;
 
-    @Column(name="load_category")
     private LoadCategory loadCategory;
 
     @ManyToMany(cascade = CascadeType.ALL)

@@ -32,10 +32,10 @@ public class Lesson implements Serializable {
 
     DayOfWeek dayOfWeek;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     Room room;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     LessonDescription lessonDescription;
 
     public Lesson() {
