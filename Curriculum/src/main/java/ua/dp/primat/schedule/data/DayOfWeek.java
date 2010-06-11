@@ -11,6 +11,10 @@ public enum DayOfWeek {
             return BUNDLE.getString("day.monday");
         }
 
+        @Override
+        public int getNumber() {
+            return 0;
+        }
     },
     TUESDAY {
 
@@ -19,6 +23,10 @@ public enum DayOfWeek {
             return BUNDLE.getString("day.tuesday");
         }
 
+        @Override
+        public int getNumber() {
+            return 1;
+        }
     },
     WEDNESDAY {
 
@@ -27,6 +35,10 @@ public enum DayOfWeek {
             return BUNDLE.getString("day.wednesday");
         }
 
+        @Override
+        public int getNumber() {
+            return 2;
+        }
     },
     THURSDAY {
 
@@ -35,6 +47,10 @@ public enum DayOfWeek {
             return BUNDLE.getString("day.thursday");
         }
 
+        @Override
+        public int getNumber() {
+            return 3;
+        }
     },
     FRIDAY {
 
@@ -43,6 +59,10 @@ public enum DayOfWeek {
             return BUNDLE.getString("day.friday");
         }
 
+        @Override
+        public int getNumber() {
+            return 4;
+        }
     },
     SATURDAY {
 
@@ -51,6 +71,10 @@ public enum DayOfWeek {
             return BUNDLE.getString("day.saturday");
         }
 
+        @Override
+        public int getNumber() {
+            return 5;
+        }
     },
     SUNDAY {
 
@@ -59,7 +83,17 @@ public enum DayOfWeek {
             return BUNDLE.getString("day.sunday");
         }
 
+        @Override
+        public int getNumber() {
+            return 6;
+        }
     };
+
+    /*
+     * gets number of day. E.g. Monday is first day of week, method returns 0.
+     * @return day's number of week (numeration from 0)
+     */
+    public abstract int getNumber();
 
     private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("dimainModel", new Locale("uk"));
 }
