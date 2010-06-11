@@ -3,13 +3,21 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>EditRoom</title>
-        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <link rel="stylesheet" type="text/css" href="adminstyle.css"/>
     </head>
     <body>
         <form wicket:id="room">
-            Number <input wicket:id="number"/> <br/>
-            Building <input wicket:id="building"/> <br/>
-            <input type="submit" value="OK"/>
+			<table id="tableRoom">
+				<tr>
+					<td>Number</td>
+					<td><input wicket:id="number"/> <br/></td>
+				</tr>
+				<tr>
+					<td>Building</td>
+					<td><input wicket:id="building"/> <br/></td>
+				</tr>
+				<tr><td></td><td><input type="submit" value="OK"/></td></tr>
+			</table>
         </form>
     </body>
 </html>

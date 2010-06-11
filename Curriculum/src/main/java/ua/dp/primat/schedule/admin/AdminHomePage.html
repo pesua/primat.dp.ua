@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>Schedule Admin Home Page</title>
-        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <link rel="stylesheet" type="text/css" href="adminstyle.css"/>
     </head>
     <body>
         <h3><wicket:message key="schedule.management">Schedule management</wicket:message></h3>
@@ -15,33 +15,56 @@
         </wicket:link>
 
         <div>
-            <form wicket:id="editScheduleForm">
-                Edit schedule
-                <select wicket:id="group">
-                    <option>PZ-08-1</option>
-                    <option>PS-03-1</option>
-                </select>
-                Semester number 
-                <select wicket:id="semester">
-                    <option>1</option>
-                    <option>2</option>
-                </select>
-                <input type="submit"/>
+            <form wicket:id="editScheduleForm" id="editSF">
+                <table>
+					<tr>
+						<td>Edit schedule</td>
+						<td><select wicket:id="group">
+							<option>PZ-08-1</option>
+							<option>PS-03-1</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>Semester number</td>
+						<td><select wicket:id="semester">
+							<option>1</option>
+							<option>2</option>
+						</select></td>
+					</tr>
+					<tr><td></td><td><input type="submit"/></td></tr>
+				</table>
             </form>
         </div>
 
         <div>
             <form wicket:id="newScheduleForm">
-                Create new schedule
-                <input type="text" wicket:id="groupCode"/>
-                <input type="text" wicket:id="groupYear" />
-                <input type="text" wicket:id="groupNumber" />
-                Semester number
-                <select wicket:id="semester">
-                    <option>1</option>
-                    <option>2</option>
-                </select>
-                <input type="submit"/>
+				<table id="createSF">
+					<tr><th colspan=3>Create new schedule</th></tr>
+					<tr>
+						<td>Group code</td>
+						<td><input type="text" wicket:id="groupCode"/></td>
+					</tr>
+					<tr>
+						<td>Group year</td>
+						<td><input type="text" wicket:id="groupYear"/></td>
+					</tr>
+					<tr>
+						<td>Group number</td>
+						<td><input type="text" wicket:id="groupNumber"/></td>
+					</tr>
+					<tr>
+						<td>Semester number</td>
+						<td>
+							<select wicket:id="semester">
+								<option>1</option>
+								<option>2</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td></td><td><input type="submit"/></td>
+					</tr>
+				</table>
             </form>
         </div>
     </body>

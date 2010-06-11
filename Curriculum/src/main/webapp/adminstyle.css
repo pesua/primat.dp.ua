@@ -1,0 +1,84 @@
+/* Home page */
+#editSF select
+{
+	margin-left: 30px;
+	width: 80px;
+}
+
+#editSF input
+{
+	margin-left: 10px;
+	width: 100px;
+}
+
+#createSF th
+{
+	text-align: center;
+}
+
+#createSF select
+{
+	width: 150px;
+}
+
+#createSF input[type=submit]
+{
+	margin-left: 50px;
+	width: 100px;
+}
+
+/* Edit room */
+#tableRoom input
+{
+	width: 150px;
+}
+
+#tableRoom input[type=submit]
+{
+	width: 60px;
+	margin-left: 95px;
+}
+
+/* Lecture room */
+#lectureN
+{
+	text-align: center;
+	border: none;
+}
+
+#lectureN th
+{
+	background-color: rgb(152, 183, 212);
+	font-style: italic;
+	font-variant: small-caps;
+}
+
+#lectureN tr:nth-child(2n) td
+{
+	background-color: rgb(222, 241, 251);
+}
+
+#lectureN tr:nth-child(2n+1) td
+{
+	background-color: rgb(173, 217, 251);
+}
+
+#t1
+{
+	width: 120px;
+}
+
+#t2
+{
+	width: 60px;
+}
+
+#t3
+{
+	width: 120px;
+}
+
+#t4
+{
+	width: 90px;
+}

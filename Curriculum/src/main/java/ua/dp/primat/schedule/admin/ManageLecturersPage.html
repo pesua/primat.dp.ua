@@ -1,20 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns:wicket="http://wicket.apache.org">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>ManageTeachers</title>
-        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <link rel="stylesheet" type="text/css" href="adminstyle.css"/>
     </head>
     <body>
         <wicket:link><a href="EditLecturerPage.html"><img src="images/add.png" wicket:id="addLecturerImage"/>Add lecturer</a></wicket:link>
-        <table>
+        <table id="lectureN">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Cathedra</th>
-                    <th>Type</th>
-                    <th>Actions</th>
+                    <th id="t1">Name</th>
+                    <th id="t2">Cathedra</th>
+                    <th id="t3">Type</th>
+                    <th id="t4">Actions</th>
                 </tr>
             </thead>
             <tbody wicket:id="lecturerRow">
