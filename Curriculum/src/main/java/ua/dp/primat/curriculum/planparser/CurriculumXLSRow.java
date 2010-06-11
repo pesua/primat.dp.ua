@@ -10,7 +10,7 @@ import ua.dp.primat.domain.workload.LoadCategory;
 import ua.dp.primat.domain.workload.WorkloadType;
 import ua.dp.primat.domain.Cathedra;
 import ua.dp.primat.domain.workload.Discipline;
-import ua.dp.primat.domain.workload.Workload;
+import ua.dp.primat.domain.workload.WorkloadOld;
 import ua.dp.primat.domain.workload.WorkloadEntry;
 import ua.dp.primat.domain.workload.IndividualControl;
 import ua.dp.primat.domain.StudentGroup;
@@ -42,11 +42,11 @@ public final class CurriculumXLSRow {
     private StudentGroup group;
     private Cathedra cathedra;
     private Discipline discipline;
-    private Workload workload;
+    private WorkloadOld workload;
 
     /**
      * Constructor, that gets atomic info from one row and creates data entities
-     * objects (Cathedra, Discipline, Workload).
+     * objects (Cathedra, Discipline, WorkloadOld).
      * @param group
      * @param disciplineName
      * @param cathedraName
@@ -131,7 +131,7 @@ public final class CurriculumXLSRow {
         return discipline;
     }
 
-    public Workload getWorkload() {
+    public WorkloadOld getWorkload() {
         return workload;
     }
 
@@ -285,16 +285,16 @@ public final class CurriculumXLSRow {
     }
 
     /**
-     * Creates new entity Workload for specified Discipline.
+     * Creates new entity WorkloadOld for specified Discipline.
      * @param discipline
      */
     private void generateWorkload(Discipline discipline) {
-        workload = new Workload();
+        workload = new WorkloadOld();
         workload.setDiscipline(discipline);
         workload.setLoadCategory(loadCategory);
         workload.setType(workloadType);
-        //workload.getGroups().add(group);
-        group.getWorkloads().add(workload);
+        workload.getGroups().add(group);
+        //group.getWorkloads().add(workload);
     }
 
     /**
@@ -312,10 +312,10 @@ public final class CurriculumXLSRow {
     }
 
     /**
-     * Generates list of WorkloadEntry for specified Workload.
+     * Generates list of WorkloadEntry for specified WorkloadOld.
      * @param workload
      */
-    private void generateWorkloadEntries(Workload workload) {
+    private void generateWorkloadEntries(WorkloadOld workload) {
         for (Integer i : hoursForSemesters.keySet()) {
             if (hoursForSemesters.get(i) != null) {
                 final WorkloadEntry workloadEntry = new WorkloadEntry();

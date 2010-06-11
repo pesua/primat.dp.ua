@@ -12,7 +12,7 @@ import ua.dp.primat.domain.workload.FinalControlType;
 import ua.dp.primat.domain.workload.IndividualControl;
 import ua.dp.primat.domain.workload.LoadCategory;
 import ua.dp.primat.domain.StudentGroup;
-import ua.dp.primat.domain.workload.Workload;
+import ua.dp.primat.domain.workload.WorkloadOld;
 import ua.dp.primat.domain.workload.WorkloadEntry;
 import ua.dp.primat.domain.workload.WorkloadType;
 
@@ -72,7 +72,7 @@ public class TestDataModel {
         subj1.setCathedra(pmz);
         em.persist(subj1);
 
-        Workload wl = new Workload();
+        WorkloadOld wl = new WorkloadOld();
         wl.setDiscipline(subj1);
         wl.setLoadCategory(LoadCategory.Normative);
         wl.setType(WorkloadType.wtProfPract);

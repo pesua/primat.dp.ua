@@ -4,12 +4,10 @@
 
 package ua.dp.primat.domain.workload;
 
-import ua.dp.primat.domain.workload.Workload;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Entity
 @NamedQueries({
@@ -32,7 +29,7 @@ public class WorkloadEntry implements Serializable {
     private Long semesterNumber;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private Workload parentWorkload;
+    private WorkloadOld parentWorkload;
 
     private Long lectionCount;
 
@@ -46,17 +43,18 @@ public class WorkloadEntry implements Serializable {
 
     private Boolean courceWork;
 
+    //TODO mappedBy="workloadEntry" o_O, WTF?
     @OneToMany(mappedBy="workloadEntry")//, cascade = CascadeType.ALL
     private List<IndividualControl> individualControl = new ArrayList<IndividualControl>();
 
     public WorkloadEntry() {
     }
 
-    public Workload getParentWorkload() {
+    public WorkloadOld getParentWorkload() {
         return parentWorkload;
     }
 
-    public void setParentWorkload(Workload parentWorkload) {
+    public void setParentWorkload(WorkloadOld parentWorkload) {
         this.parentWorkload = parentWorkload;
     }
 
@@ -76,11 +74,11 @@ public class WorkloadEntry implements Serializable {
         this.semesterNumber = semesterNumber;
     }
 
-    public Workload getWorkload() {
+    public WorkloadOld getWorkload() {
         return parentWorkload;
     }
 
-    public void setWorkload(Workload workload) {
+    public void setWorkload(WorkloadOld workload) {
         parentWorkload = workload;
     }
 
@@ -138,5 +136,23 @@ public class WorkloadEntry implements Serializable {
 
     public void setPracticeCount(Long practiceCount) {
         this.practiceCount = practiceCount;
+    }
+
+    public Workload toNew(){
+        Workload w = new Workload();
+        w.setCourseWork(courceWork);
+        w.setDiscipline(parentWorkload.getDiscipline());
+        w.setFinalControlType(finalControl);
+        w.setIndividualControl(individualControl);
+        w.setLaboratoryHours(labCount);
+        w.setLectionHours(lectionCount);
+        w.setLoadCategory(parentWorkload.getLoadCategory());
+        w.setPracticeHours(practiceCount);
+        w.setSelfworkHours(indCount);
+        w.setSemesterNumber(semesterNumber);
+        w.setStudentGroup(parentWorkload.getGroups().get(0));
+        w.setType(parentWorkload.getType());
+
+        return w;
     }
 }

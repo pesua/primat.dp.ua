@@ -2,9 +2,9 @@ package ua.dp.primat.curriculum.view;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.Application;
-
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.TextField;
@@ -21,9 +21,12 @@ import org.apache.wicket.validation.validator.RangeValidator;
 import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.repositories.StudentGroupRepository;
 import ua.dp.primat.repositories.WorkloadRepository;
-import ua.dp.primat.domain.workload.Workload;
+import ua.dp.primat.domain.workload.WorkloadOld;
 import ua.dp.primat.curriculum.planparser.CurriculumParser;
 import ua.dp.primat.curriculum.planparser.CurriculumXLSRow;
+import ua.dp.primat.domain.workload.Workload;
+import ua.dp.primat.domain.workload.WorkloadEntry;
+import ua.dp.primat.services.WorkloadService;
 import ua.dp.primat.utils.view.GroupsLoadableDetachableModel;
 
 public class EditPage extends WebPage {
@@ -33,8 +36,6 @@ public class EditPage extends WebPage {
     @SpringBean
     private StudentGroupRepository studentGroupRepository;
 
-    @SpringBean
-    private WorkloadRepository workloadRepository;
 
     private static final long serialVersionUID = 2L;
     private static final int MIN_YEAR = 1910;
@@ -209,15 +210,16 @@ public class EditPage extends WebPage {
                         uploadedFileName);
                 final List<CurriculumXLSRow> listParsed = cParser.parse();
 
-                //commit group, if no exceptions handled
-                studentGroupRepository.store(parseGroup);
-
                 //commit parsed objects
+                List<Workload> workloads = new ArrayList<Workload>();
                 for (int i = 0; i < listParsed.size(); i++) {
-                    Workload workload = listParsed.get(i).getWorkload();
-                    workloadRepository.store(workload);
-                    this.info( listParsed.get(i).toString() );
+                    WorkloadOld workload = listParsed.get(i).getWorkload();
+                    for (WorkloadEntry we : workload.getEntries()) {
+                        workloads.add(we.toNew());
+                    }
+                    //this.info( listParsed.get(i).toString() );
                 }
+                workloadService.storeWorkloads(workloads);
 
                 this.info(String.format("Curriculum in '%s' was successfully" +
                         " parsed\n into database (%d items).",
@@ -225,9 +227,9 @@ public class EditPage extends WebPage {
 
             } catch (IOException ioe) {
                 this.error(ioe);
-            } catch (Exception e) {
-                this.info("Curriculum has been parsed, but Throwable was catched...");
-            }
+            }// catch (Exception e) {
+            //    this.info("Curriculum has been parsed, but Throwable was catched...");
+            //}
         }
     }
 
@@ -248,4 +250,7 @@ public class EditPage extends WebPage {
     private Folder getUploadFolder() {
         return ((WicketApplication) Application.get()).getUploadFolder();
     }
+    
+    @SpringBean
+    private WorkloadService workloadService;
 }

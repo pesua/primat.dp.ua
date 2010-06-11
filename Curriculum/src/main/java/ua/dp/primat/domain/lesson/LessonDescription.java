@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import ua.dp.primat.domain.workload.Discipline;
 import ua.dp.primat.domain.Lecturer;
 import ua.dp.primat.domain.StudentGroup;
@@ -17,7 +16,6 @@ import ua.dp.primat.domain.StudentGroup;
  * @author fdevelop
  */
 @Entity
-@Table(name="LesoonDiscription")
 public class LessonDescription implements Serializable {
 
     @Id

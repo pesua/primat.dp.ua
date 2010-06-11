@@ -7,6 +7,7 @@
     <class>ua.dp.primat.domain.Cathedra</class>
     <class>ua.dp.primat.domain.workload.IndividualControl</class>
     <class>ua.dp.primat.domain.workload.Workload</class>
+    <class>ua.dp.primat.domain.workload.WorkloadOld</class>
     <class>ua.dp.primat.domain.workload.WorkloadEntry</class>
     <class>ua.dp.primat.domain.Room</class>
     <class>ua.dp.primat.domain.Lecturer</class>

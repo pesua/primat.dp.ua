@@ -1,19 +1,12 @@
 package ua.dp.primat.domain;
 
-import ua.dp.primat.domain.workload.Workload;
 import java.io.Serializable;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
@@ -34,13 +27,13 @@ public class StudentGroup implements Serializable {
     private Long number;
 
     private Long year;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "workloads_groups",
-        joinColumns =
-            @JoinColumn(name = "groupId"),
-        inverseJoinColumns =
-            @JoinColumn(name = "workloadId"))
-    private List<Workload> workloads = new ArrayList<Workload>();
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "workloads_groups",
+//        joinColumns =
+//            @JoinColumn(name = "groupId"),
+//        inverseJoinColumns =
+//            @JoinColumn(name = "workloadId"))
+//    private List<WorkloadOld> workloads = new ArrayList<WorkloadOld>();
 
     public StudentGroup() {
     }
@@ -87,13 +80,13 @@ public class StudentGroup implements Serializable {
         this.number = number;
     }
 
-    public List<Workload> getWorkloads() {
-        return workloads;
-    }
-
-    public void setWorkloads(List<Workload> workloads) {
-        this.workloads = workloads;
-    }
+//    public List<WorkloadOld> getWorkloads() {
+//        return workloads;
+//    }
+//
+//    public void setWorkloads(List<WorkloadOld> workloads) {
+//        this.workloads = workloads;
+//    }
 
     public Long getYear() {
         return year;
