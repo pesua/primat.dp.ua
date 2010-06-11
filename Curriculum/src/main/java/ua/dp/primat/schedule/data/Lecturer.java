@@ -90,4 +90,9 @@ public class Lecturer implements Serializable {
         }
     }
 
+    @Override
+    public String toString() {
+        return getShortName();
+    }
+
 }

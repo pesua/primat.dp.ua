@@ -1,8 +1,11 @@
 package ua.dp.primat.schedule.services;
 
+import java.io.Serializable;
 import ua.dp.primat.curriculum.data.Discipline;
+import ua.dp.primat.schedule.data.DayOfWeek;
 import ua.dp.primat.schedule.data.Lecturer;
 import ua.dp.primat.schedule.data.Lesson;
+import ua.dp.primat.schedule.data.LessonDescription;
 import ua.dp.primat.schedule.data.Room;
 import ua.dp.primat.schedule.data.WeekType;
 
@@ -10,7 +13,7 @@ import ua.dp.primat.schedule.data.WeekType;
  * 
  * @author Administrator
  */
-public class EditableLesson {
+public class EditableLesson implements Serializable {
 
     public static EditableLesson fromLesson(Lesson lesson) {
         EditableLesson el = new EditableLesson();
@@ -76,6 +79,24 @@ public class EditableLesson {
 
     public void setWeekType(WeekType weekType) {
         this.weekType = weekType;
+    }
+
+    public Lesson toLesson(DayOfWeek day, Long lessonNum) {
+        Lesson lesson = new Lesson();
+        lesson.setId(id);
+        lesson.setRoom(room);
+        lesson.setWeekType(weekType);
+        lesson.setDayOfWeek(day);
+        lesson.setLessonNumber(lessonNum);
+
+        LessonDescription description = new LessonDescription();
+        description.setAssistant(asistant);
+        description.setLecturer(lecturer);
+        description.setDiscipline(discipline);
+        //description.set
+
+        lesson.setLessonDescription(description);
+        return lesson;
     }
     
     

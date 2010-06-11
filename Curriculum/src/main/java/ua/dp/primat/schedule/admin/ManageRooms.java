@@ -4,31 +4,19 @@
  */
 package ua.dp.primat.schedule.admin;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import org.apache.wicket.Page;
-import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
-import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
-import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
-import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
-import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.IPageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.link.PageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.markup.repeater.RepeatingView;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import ua.dp.primat.schedule.data.Room;
 import ua.dp.primat.schedule.data.RoomRepository;
-import ua.dp.primat.schedule.data.RoomRepositoryImpl;
 
 /**
  *
@@ -64,6 +52,9 @@ public final class ManageRooms extends WebPage {
                         rooms.remove(room);
                     }
                 });
+
+                add(new Image("editImage"));
+                add(new Image("deleteImage"));
             }
         };
         add(roomView);

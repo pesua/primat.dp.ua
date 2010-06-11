@@ -94,6 +94,17 @@ public enum DayOfWeek {
      * @return day's number of week (numeration from 0)
      */
     public abstract int getNumber();
+    public static DayOfWeek fromNumber(int num) {
+        switch(num) {
+            case 0: return MONDAY;
+            case 1: return TUESDAY;
+            case 2: return WEDNESDAY;
+            case 3: return THURSDAY;
+            case 4: return FRIDAY;
+            case 5: return SATURDAY;
+            default: return SUNDAY;
+        }
+    }
 
     private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("dimainModel", new Locale("uk"));
 }

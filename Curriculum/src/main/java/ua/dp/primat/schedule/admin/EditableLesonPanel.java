@@ -13,7 +13,6 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import ua.dp.primat.curriculum.data.Discipline;
 import ua.dp.primat.schedule.data.Lecturer;
 import ua.dp.primat.schedule.data.LecturerRepository;
-import ua.dp.primat.schedule.data.Lesson;
 import ua.dp.primat.schedule.data.Room;
 import ua.dp.primat.schedule.data.RoomRepository;
 import ua.dp.primat.schedule.services.EditableLesson;
@@ -33,7 +32,7 @@ public class EditableLesonPanel extends Panel {
         add(new DropDownChoice<Discipline>("discipline", new PropertyModel<Discipline>(lesson, "discipline"), disciplines));
         add(new DropDownChoice<Room>("room", new PropertyModel<Room>(lesson, "room"), rooms));
         add(new DropDownChoice<Lecturer>("lecturer", new PropertyModel<Lecturer>(lesson, "lecturer"), lecturers));
-        add(new DropDownChoice<Lecturer>("assistant", new PropertyModel<Lecturer>(lesson, "assistant"), lecturers));
+        add(new DropDownChoice<Lecturer>("asistant", new PropertyModel<Lecturer>(lesson, "asistant"), lecturers));
     }
 
 

@@ -1,5 +1,6 @@
 package ua.dp.primat.schedule.services;
 
+import java.io.Serializable;
 import ua.dp.primat.schedule.data.Lesson;
 import ua.dp.primat.schedule.data.WeekType;
 
@@ -7,7 +8,13 @@ import ua.dp.primat.schedule.data.WeekType;
  *
  * @author Administrator
  */
-public class LessonItem {
+public class LessonItem implements Serializable {
+
+    public LessonItem() {
+        numerator = new EditableLesson();
+        denominator = new EditableLesson();
+    }
+
 
     public void setOneLesson() {
         getNumerator().setWeekType(WeekType.BOTH);

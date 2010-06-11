@@ -12,9 +12,9 @@ public class WeekLessonColection {
 
     public WeekLessonColection() {
         lessonItems = new LessonItem[7][5];
-        for (LessonItem[] lis : lessonItems) {
-            for (LessonItem li : lis) {
-                li = new LessonItem();
+        for (int i = 0; i < lessonItems.length; i++) {
+            for (int j = 0; j < lessonItems[i].length; j++){
+                lessonItems[i][j] = new LessonItem();
             }
         }
     }
@@ -32,6 +32,10 @@ public class WeekLessonColection {
             list.add(li);
         }
         return list;
+    }
+
+    public LessonItem[][] getLessonItems() {
+        return lessonItems;
     }
 
     private LessonItem[][] lessonItems;

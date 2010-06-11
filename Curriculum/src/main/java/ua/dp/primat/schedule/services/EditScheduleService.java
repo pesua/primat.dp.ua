@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.dp.primat.curriculum.data.StudentGroup;
+import ua.dp.primat.schedule.data.DayOfWeek;
 import ua.dp.primat.schedule.data.Lesson;
 import ua.dp.primat.schedule.data.LessonRepository;
 
@@ -20,8 +21,14 @@ public class EditScheduleService {
         return new WeekLessonColection(lessons);
     }
 
-    public void setSchedule(StudentGroup group) {
-
+    public void setSchedule(StudentGroup group, Long semester, WeekLessonColection lessonColection) {
+        LessonItem[][] lessonItems = lessonColection.getLessonItems();
+        for (int i = 0; i < lessonItems.length; i++) {
+            for (int j = 0; j < lessonItems[i].length; j++) {
+                LessonItem lessonItem = lessonItems[i][j];
+                lessonItem.getNumerator().toLesson(DayOfWeek.MONDAY, Long.valueOf(j));
+            }
+        }
     }
 
     @Resource
