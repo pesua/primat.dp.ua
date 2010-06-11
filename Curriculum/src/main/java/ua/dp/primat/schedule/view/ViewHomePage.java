@@ -12,6 +12,7 @@ import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import ua.dp.primat.curriculum.data.Cathedra;
 import ua.dp.primat.schedule.data.DayOfWeek;
 import ua.dp.primat.curriculum.data.Discipline;
@@ -20,7 +21,11 @@ import ua.dp.primat.schedule.data.LessonDescription;
 import ua.dp.primat.schedule.data.LessonType;
 import ua.dp.primat.schedule.data.Room;
 import ua.dp.primat.curriculum.data.StudentGroup;
+import ua.dp.primat.curriculum.data.StudentGroupRepository;
+import ua.dp.primat.curriculum.data.StudentGroupRepositoryImpl;
 import ua.dp.primat.schedule.data.LecturerType;
+import ua.dp.primat.schedule.data.LessonRepository;
+import ua.dp.primat.schedule.data.LessonRepositoryimpl;
 import ua.dp.primat.schedule.data.WeekType;
 import ua.dp.primat.utils.view.ChoosePanel;
 import ua.dp.primat.utils.view.RefreshablePanel;
@@ -105,29 +110,29 @@ public final class ViewHomePage extends WebPage {
         final List<Lesson> list  = new ArrayList<Lesson>();
 
         final Cathedra cathedra = new Cathedra();
-        cathedra.setName("Math.EOM");
+        cathedra.setName("Мат.заб. ЕОМ.");
 
         final Room room46 = new Room(Long.valueOf(3), Long.valueOf(46));
         final Room room45 = new Room(Long.valueOf(3), Long.valueOf(45));
         final Room room31 = new Room(Long.valueOf(3), Long.valueOf(31));
         final Room room22 = new Room(Long.valueOf(2), Long.valueOf(25));
 
-        final Discipline d1 = new Discipline("Database", cathedra);
-        final Discipline d2 = new Discipline("ArchEOM", cathedra);
-        final Discipline d3 = new Discipline("Assembler", cathedra);
-        final Discipline d4 = new Discipline("K.I.T.", cathedra);
-        final Discipline d5 = new Discipline("Physical culture", cathedra);
-        final Discipline d6 = new Discipline("Metematichniy analyz", cathedra);
+        final Discipline d1 = new Discipline("Організація баз даних та знань", cathedra);
+        final Discipline d2 = new Discipline("Архітектура ЕОМ", cathedra);
+        final Discipline d3 = new Discipline("Асемблер", cathedra);
+        final Discipline d4 = new Discipline("Методи і.т.", cathedra);
+        final Discipline d5 = new Discipline("Фізична культура", cathedra);
+        final Discipline d6 = new Discipline("Математичний аналіз", cathedra);
 
-        final Lecturer teacher1 = new Lecturer("Mashenko Leonid Vladimirovich", cathedra, LecturerType.SENIORLECTURER);
-        final Lecturer teacher2 = new Lecturer("Efimov Viktor Nikolaevich", cathedra, LecturerType.SENIORLECTURER);
-        final Lecturer teacher3 = new Lecturer("Bulana Tatyana Mihailovna", cathedra, LecturerType.ASSIATANT);
-        final Lecturer teacher4 = new Lecturer("Archangelska Uliya Mihailovna", cathedra, LecturerType.ASSIATANT);
-        final Lecturer teacher5 = new Lecturer("Segeda Nadegda Evstahievna", cathedra, LecturerType.SENIORLECTURER);
-        final Lecturer teacher6 = new Lecturer("Kuznecov Konstantin Anatolievich", cathedra, LecturerType.DOCENT);
-        final Lecturer teacher7 = new Lecturer("Zayceva Valentina Nikolaevna", cathedra, LecturerType.SENIORLECTURER);
-        final Lecturer teacher8 = new Lecturer("Tonkoshkur Iliya Sergeevich", cathedra, LecturerType.DOCENT);
-        final Lecturer teacher9 = new Lecturer("Emeliyanenko Tatyana Georgievna", cathedra, LecturerType.DOCENT);
+        final Lecturer teacher1 = new Lecturer("Мащенко Л. В.", cathedra, LecturerType.SENIORLECTURER);
+        final Lecturer teacher2 = new Lecturer("Єфімов В. М.", cathedra, LecturerType.SENIORLECTURER);
+        final Lecturer teacher3 = new Lecturer("Булана Т. М.", cathedra, LecturerType.ASSIATANT);
+        final Lecturer teacher4 = new Lecturer("Архангельська Ю. М.", cathedra, LecturerType.ASSIATANT);
+        final Lecturer teacher5 = new Lecturer("Сегеда Н. Є.", cathedra, LecturerType.SENIORLECTURER);
+        final Lecturer teacher6 = new Lecturer("Кузнєцов К. А.", cathedra, LecturerType.DOCENT);
+        final Lecturer teacher7 = new Lecturer("Зайцева В. М.", cathedra, LecturerType.SENIORLECTURER);
+        final Lecturer teacher8 = new Lecturer("Тонкошкур І. С.", cathedra, LecturerType.DOCENT);
+        final Lecturer teacher9 = new Lecturer("Ємельяненко Т. Г.", cathedra, LecturerType.DOCENT);
 
         final LessonDescription ld1 = new LessonDescription(d1, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher1, null);
         final LessonDescription ld2 = new LessonDescription(d2, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher2, null);
@@ -140,7 +145,7 @@ public final class ViewHomePage extends WebPage {
         final LessonDescription ld9 = new LessonDescription(d6, studentGroup, Long.valueOf(4), LessonType.PRACTICE, teacher8, null);
         final LessonDescription ld0 = new LessonDescription(d3, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher9, null);
 
-        if (semester == 4) {
+        if ((semester == 4) && (studentGroup.getCode().equalsIgnoreCase("ПЗ"))) {
             list.add(new Lesson(Long.valueOf(2), WeekType.BOTH, DayOfWeek.THURSDAY, room45, ld5));
             list.add(new Lesson(Long.valueOf(2), WeekType.BOTH, DayOfWeek.MONDAY, room22, ld7));
             list.add(new Lesson(Long.valueOf(2), WeekType.BOTH, DayOfWeek.FRIDAY, room22, ld7));
@@ -158,4 +163,3 @@ public final class ViewHomePage extends WebPage {
     }
 
 }
-

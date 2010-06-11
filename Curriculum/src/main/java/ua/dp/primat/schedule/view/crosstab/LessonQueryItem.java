@@ -1,5 +1,6 @@
 package ua.dp.primat.schedule.view.crosstab;
 
+import java.io.Serializable;
 import ua.dp.primat.schedule.data.DayOfWeek;
 import ua.dp.primat.schedule.data.Lesson;
 import ua.dp.primat.schedule.data.WeekType;
@@ -9,7 +10,7 @@ import ua.dp.primat.schedule.data.WeekType;
  * which contains lesson's info (or NULL) for 7 days
  * @author fdevelop
  */
-public class LessonQueryItem {
+public class LessonQueryItem implements Serializable {
 
     private int lessonNumber;
     private WeekType weekType;

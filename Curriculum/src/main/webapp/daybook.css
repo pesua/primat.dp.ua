@@ -15,7 +15,7 @@
 }
 
 #scheduleDaybook .dayTitle {
-    width: 97%;
+    width: 100%;
     border: 1px solid gray;
     padding: 2px 5px 2px 5px;
     background-color: rgb(152, 183, 212);
