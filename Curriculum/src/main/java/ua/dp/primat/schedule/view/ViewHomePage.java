@@ -145,7 +145,7 @@ public final class ViewHomePage extends WebPage {
         final LessonDescription ld9 = new LessonDescription(d6, studentGroup, Long.valueOf(4), LessonType.PRACTICE, teacher8, null);
         final LessonDescription ld0 = new LessonDescription(d3, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher9, null);
 
-        if ((semester == 4) && (studentGroup.getCode().equalsIgnoreCase("ог"))) {
+        if (semester == 4) {
             list.add(new Lesson(Long.valueOf(2), WeekType.BOTH, DayOfWeek.THURSDAY, room45, ld5));
             list.add(new Lesson(Long.valueOf(2), WeekType.BOTH, DayOfWeek.MONDAY, room22, ld7));
             list.add(new Lesson(Long.valueOf(2), WeekType.BOTH, DayOfWeek.FRIDAY, room22, ld7));
