@@ -2,7 +2,7 @@
 #csearch
 {
 	position: relative;
-	right: -940px;
+	left: 85em;
 	top: -22px;
 	height: 12px;
 }
@@ -207,7 +207,7 @@ body #banner .logo a
 	background: #414445 url(../images/navigation/bg.png) repeat-x 0 0;
 	clear: both;
 	margin: 0 auto 5px;
-	min-height: 2.2em;
+	max-height: 2.6em;
 	padding: 0 5px;
 }
 
