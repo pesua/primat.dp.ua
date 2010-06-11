@@ -2,16 +2,16 @@
 <persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence     http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
   <persistence-unit name="curriculum">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <class>ua.dp.primat.curriculum.data.StudentGroup</class>
-    <class>ua.dp.primat.curriculum.data.Discipline</class>
-    <class>ua.dp.primat.curriculum.data.Cathedra</class>
-    <class>ua.dp.primat.curriculum.data.IndividualControl</class>
-    <class>ua.dp.primat.curriculum.data.Workload</class>
-    <class>ua.dp.primat.curriculum.data.WorkloadEntry</class>
-    <class>ua.dp.primat.schedule.data.Room</class>
-    <class>ua.dp.primat.schedule.data.Lecturer</class>
-    <class>ua.dp.primat.schedule.data.Lesson</class>
-    <class>ua.dp.primat.schedule.data.LessonDescription</class>
+    <class>ua.dp.primat.domain.StudentGroup</class>
+    <class>ua.dp.primat.domain.workload.Discipline</class>
+    <class>ua.dp.primat.domain.Cathedra</class>
+    <class>ua.dp.primat.domain.workload.IndividualControl</class>
+    <class>ua.dp.primat.domain.workload.Workload</class>
+    <class>ua.dp.primat.domain.workload.WorkloadEntry</class>
+    <class>ua.dp.primat.domain.Room</class>
+    <class>ua.dp.primat.domain.Lecturer</class>
+    <class>ua.dp.primat.domain.lesson.Lesson</class>
+    <class>ua.dp.primat.domain.lesson.LessonDescription</class>
     <properties>
       <property name="hibernate.archive.autodetection" value="class, hbm"/>
       <property name="hibernate.show_sql" value="true"/>

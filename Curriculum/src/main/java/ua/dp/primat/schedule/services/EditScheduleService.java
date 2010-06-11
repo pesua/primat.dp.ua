@@ -4,10 +4,10 @@ import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.dp.primat.curriculum.data.StudentGroup;
-import ua.dp.primat.schedule.data.DayOfWeek;
-import ua.dp.primat.schedule.data.Lesson;
-import ua.dp.primat.schedule.data.LessonRepository;
+import ua.dp.primat.domain.StudentGroup;
+import ua.dp.primat.domain.lesson.DayOfWeek;
+import ua.dp.primat.domain.lesson.Lesson;
+import ua.dp.primat.repositories.LessonRepository;
 
 /**
  * Service which helps get and edit schedule

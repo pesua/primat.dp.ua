@@ -2,7 +2,7 @@ package ua.dp.primat.schedule.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import ua.dp.primat.schedule.data.Lesson;
+import ua.dp.primat.domain.lesson.Lesson;
 
 /**
  *

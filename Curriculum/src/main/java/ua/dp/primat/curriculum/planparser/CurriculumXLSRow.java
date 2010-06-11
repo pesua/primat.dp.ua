@@ -5,15 +5,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Arrays;
 
-import ua.dp.primat.curriculum.data.FinalControlType;
-import ua.dp.primat.curriculum.data.LoadCategory;
-import ua.dp.primat.curriculum.data.WorkloadType;
-import ua.dp.primat.curriculum.data.Cathedra;
-import ua.dp.primat.curriculum.data.Discipline;
-import ua.dp.primat.curriculum.data.Workload;
-import ua.dp.primat.curriculum.data.WorkloadEntry;
-import ua.dp.primat.curriculum.data.IndividualControl;
-import ua.dp.primat.curriculum.data.StudentGroup;
+import ua.dp.primat.domain.workload.FinalControlType;
+import ua.dp.primat.domain.workload.LoadCategory;
+import ua.dp.primat.domain.workload.WorkloadType;
+import ua.dp.primat.domain.Cathedra;
+import ua.dp.primat.domain.workload.Discipline;
+import ua.dp.primat.domain.workload.Workload;
+import ua.dp.primat.domain.workload.WorkloadEntry;
+import ua.dp.primat.domain.workload.IndividualControl;
+import ua.dp.primat.domain.StudentGroup;
 
 /**
  * Object, which represents the one curriculum row and

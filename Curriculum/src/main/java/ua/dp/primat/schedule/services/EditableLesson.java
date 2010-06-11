@@ -1,13 +1,13 @@
 package ua.dp.primat.schedule.services;
 
 import java.io.Serializable;
-import ua.dp.primat.curriculum.data.Discipline;
-import ua.dp.primat.schedule.data.DayOfWeek;
-import ua.dp.primat.schedule.data.Lecturer;
-import ua.dp.primat.schedule.data.Lesson;
-import ua.dp.primat.schedule.data.LessonDescription;
-import ua.dp.primat.schedule.data.Room;
-import ua.dp.primat.schedule.data.WeekType;
+import ua.dp.primat.domain.workload.Discipline;
+import ua.dp.primat.domain.lesson.DayOfWeek;
+import ua.dp.primat.domain.Lecturer;
+import ua.dp.primat.domain.lesson.Lesson;
+import ua.dp.primat.domain.lesson.LessonDescription;
+import ua.dp.primat.domain.Room;
+import ua.dp.primat.domain.lesson.WeekType;
 
 /**
  * 

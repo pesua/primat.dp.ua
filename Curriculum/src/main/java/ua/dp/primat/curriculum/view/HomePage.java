@@ -14,9 +14,9 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import ua.dp.primat.curriculum.data.StudentGroup;
-import ua.dp.primat.curriculum.data.WorkloadEntry;
-import ua.dp.primat.curriculum.data.WorkloadEntryRepository;
+import ua.dp.primat.domain.StudentGroup;
+import ua.dp.primat.domain.workload.WorkloadEntry;
+import ua.dp.primat.repositories.WorkloadEntryRepository;
 import ua.dp.primat.utils.view.ChoosePanel;
 
 public class HomePage extends WebPage {

@@ -1,6 +1,6 @@
 package ua.dp.primat.schedule.view.daybook;
 import org.apache.wicket.markup.html.list.ListItem;
-import ua.dp.primat.schedule.data.Lesson;
+import ua.dp.primat.domain.lesson.Lesson;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
@@ -8,8 +8,8 @@ import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
-import ua.dp.primat.schedule.data.DayOfWeek;
-import ua.dp.primat.schedule.data.WeekType;
+import ua.dp.primat.domain.lesson.DayOfWeek;
+import ua.dp.primat.domain.lesson.WeekType;
 import ua.dp.primat.utils.view.RefreshablePanel;
 
 /**

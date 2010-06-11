@@ -12,8 +12,8 @@ import junit.framework.TestCase;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import ua.dp.primat.curriculum.data.Cathedra;
-import ua.dp.primat.curriculum.data.Discipline;
+import ua.dp.primat.domain.Cathedra;
+import ua.dp.primat.domain.workload.Discipline;
 
 /**
  *

@@ -2,7 +2,7 @@ package ua.dp.primat.utils.view;
 
 import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
-import ua.dp.primat.schedule.data.Lesson;
+import ua.dp.primat.domain.lesson.Lesson;
 
 /**
  * Class, that extends wicket Panel with abstract method refreshView for panel's

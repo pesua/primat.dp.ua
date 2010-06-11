@@ -3,8 +3,8 @@ package ua.dp.primat.schedule.view.daybook;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import ua.dp.primat.schedule.data.DayOfWeek;
-import ua.dp.primat.schedule.data.Lesson;
+import ua.dp.primat.domain.lesson.DayOfWeek;
+import ua.dp.primat.domain.lesson.Lesson;
 
 /**
  *

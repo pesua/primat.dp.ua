@@ -7,7 +7,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import ua.dp.primat.curriculum.data.StudentGroup;
+import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.curriculum.planparser.CurriculumParser;
 import ua.dp.primat.curriculum.planparser.CurriculumXLSRow;
 import static org.junit.Assert.*;

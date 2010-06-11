@@ -1,5 +1,5 @@
 package ua.dp.primat.schedule.view.crosstab;
-import ua.dp.primat.schedule.data.Lesson;
+import ua.dp.primat.domain.lesson.Lesson;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
@@ -7,8 +7,8 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import ua.dp.primat.schedule.data.DayOfWeek;
-import ua.dp.primat.schedule.data.WeekType;
+import ua.dp.primat.domain.lesson.DayOfWeek;
+import ua.dp.primat.domain.lesson.WeekType;
 import ua.dp.primat.utils.view.RefreshablePanel;
 
 /**

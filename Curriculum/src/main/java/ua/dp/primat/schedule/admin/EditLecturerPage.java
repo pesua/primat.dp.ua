@@ -14,9 +14,9 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.ComponentPropertyModel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import ua.dp.primat.schedule.data.Lecturer;
-import ua.dp.primat.schedule.data.LecturerRepositoryImpl;
-import ua.dp.primat.schedule.data.LecturerType;
+import ua.dp.primat.domain.Lecturer;
+import ua.dp.primat.repositories.LecturerRepositoryImpl;
+import ua.dp.primat.domain.LecturerType;
 
 /**
  *

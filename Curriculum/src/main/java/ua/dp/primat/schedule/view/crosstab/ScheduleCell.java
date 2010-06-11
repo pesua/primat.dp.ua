@@ -1,6 +1,6 @@
 package ua.dp.primat.schedule.view.crosstab;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
-import ua.dp.primat.schedule.data.Lesson;
+import ua.dp.primat.domain.lesson.Lesson;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 

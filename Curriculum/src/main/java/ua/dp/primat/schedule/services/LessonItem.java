@@ -1,8 +1,8 @@
 package ua.dp.primat.schedule.services;
 
 import java.io.Serializable;
-import ua.dp.primat.schedule.data.Lesson;
-import ua.dp.primat.schedule.data.WeekType;
+import ua.dp.primat.domain.lesson.Lesson;
+import ua.dp.primat.domain.lesson.WeekType;
 
 /**
  *

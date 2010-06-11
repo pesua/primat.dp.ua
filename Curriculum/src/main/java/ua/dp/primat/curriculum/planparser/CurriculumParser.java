@@ -15,9 +15,9 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import ua.dp.primat.curriculum.data.LoadCategory;
-import ua.dp.primat.curriculum.data.StudentGroup;
-import ua.dp.primat.curriculum.data.WorkloadType;
+import ua.dp.primat.domain.workload.LoadCategory;
+import ua.dp.primat.domain.StudentGroup;
+import ua.dp.primat.domain.workload.WorkloadType;
 
 /**
  *

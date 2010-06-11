@@ -1,7 +1,7 @@
 package ua.dp.primat.schedule.view.daybook;
 
 import java.util.ArrayList;
-import ua.dp.primat.schedule.data.Lesson;
+import ua.dp.primat.domain.lesson.Lesson;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 import java.util.List;

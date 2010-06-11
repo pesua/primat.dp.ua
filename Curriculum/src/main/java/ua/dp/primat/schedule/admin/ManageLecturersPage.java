@@ -16,8 +16,8 @@ import org.apache.wicket.markup.html.link.PageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import ua.dp.primat.schedule.data.Lecturer;
-import ua.dp.primat.schedule.data.LecturerRepository;
+import ua.dp.primat.domain.Lecturer;
+import ua.dp.primat.repositories.LecturerRepository;
 
 /**
  *
