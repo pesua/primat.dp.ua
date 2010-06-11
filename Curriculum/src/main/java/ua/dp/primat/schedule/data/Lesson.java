@@ -13,11 +13,13 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@NamedQueries(
-    @NamedQuery(name=Lesson.GET_LESSONS_BY_GROUP, query="select lesson from Lesson lesson join lesson.lessonDescription ld where ld.studentGroup = :group")
-)
+@NamedQueries({
+    @NamedQuery(name=Lesson.GET_LESSONS_BY_GROUP_QUERY, query="select lesson from Lesson lesson join lesson.lessonDescription ld where ld.studentGroup = :group"),
+    @NamedQuery(name=Lesson.GET_LESSONS_BY_GROUP_AND_SEMESTER_QUERY, query="select lesson from Lesson lesson join lesson.lessonDescription ld where ld.studentGroup = :group and ld.semester=:semester")
+})
 public class Lesson implements Serializable {
-    public static final String GET_LESSONS_BY_GROUP = "getLessons";
+    public static final String GET_LESSONS_BY_GROUP_QUERY = "getLessons";
+    public static final String GET_LESSONS_BY_GROUP_AND_SEMESTER_QUERY = "getLessonsBySemesterAndGroup";
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)

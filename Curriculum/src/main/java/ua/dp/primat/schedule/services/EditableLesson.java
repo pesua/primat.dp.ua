@@ -12,7 +12,7 @@ import ua.dp.primat.schedule.data.WeekType;
  */
 public class EditableLesson {
 
-    public static EditableLesson FromLesson(Lesson lesson) {
+    public static EditableLesson fromLesson(Lesson lesson) {
         EditableLesson el = new EditableLesson();
 
         if (lesson != null) {

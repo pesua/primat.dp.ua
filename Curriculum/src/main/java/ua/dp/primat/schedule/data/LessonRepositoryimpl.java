@@ -23,7 +23,6 @@ public class LessonRepositoryimpl implements LessonRepository {
     @PersistenceContext(unitName = "curriculum")
     private EntityManager em;
 
-    @Transactional
     public void store(Lesson lesson) {
         if (em.contains(lesson)) {
             em.merge(lesson);
@@ -33,17 +32,22 @@ public class LessonRepositoryimpl implements LessonRepository {
         }
     }
 
-    @Transactional
     public void remove(Lesson lesson) {
         if (em.contains(lesson)) {
             em.remove(lesson);
         }
     }
 
-    @Override
     public List<Lesson> getLessons(StudentGroup group) {
-        Query query = ((Session)em.getDelegate()).getNamedQuery(Lesson.GET_LESSONS_BY_GROUP);
+        Query query = ((Session)em.getDelegate()).getNamedQuery(Lesson.GET_LESSONS_BY_GROUP_QUERY);
         query.setParameter("group", group);
+        return query.list();
+    }
+
+    public List<Lesson> getLessonsByGroupAndSemester(StudentGroup group, Long semester) {
+        Query query = ((Session)em.getDelegate()).getNamedQuery(Lesson.GET_LESSONS_BY_GROUP_AND_SEMESTER_QUERY);
+        query.setParameter("group", group);
+        query.setParameter("semester", semester);
         return query.list();
     }
 

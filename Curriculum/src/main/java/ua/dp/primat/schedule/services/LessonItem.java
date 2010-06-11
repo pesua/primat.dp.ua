@@ -1,5 +1,6 @@
 package ua.dp.primat.schedule.services;
 
+import ua.dp.primat.schedule.data.Lesson;
 import ua.dp.primat.schedule.data.WeekType;
 
 /**
@@ -35,6 +36,14 @@ public class LessonItem {
 
     public void setNumerator(EditableLesson numerator) {
         this.numerator = numerator;
+    }
+
+    public void mergeWithLesson(Lesson lesson) {
+        if (lesson.getWeekType()==WeekType.DENOMINATOR) {
+            denominator = EditableLesson.fromLesson(lesson);
+        } else {
+            numerator = EditableLesson.fromLesson(lesson);
+        }
     }
     
     private EditableLesson numerator;
