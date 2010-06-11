@@ -12,7 +12,7 @@ import ua.dp.primat.schedule.admin.AdminHomePage;
  * Root point for wicket portlet apllication, that shows schedule.
  * It initializes Spring component injector (init)
  * and shows the wicket page ViewSchedule in getHomePage() method.
- * @author fdevelop
+ * @author enish, fdevelop
  */
 public class Application extends WebApplication {
 
@@ -20,7 +20,7 @@ public class Application extends WebApplication {
     protected void init() {
         super.init();
 
-        mountBookmarkablePage("/view", ViewSchedule.class);
+        mountBookmarkablePage("/view", ViewHomePage.class);
         mountBookmarkablePage("/edit", AdminHomePage.class);
 
         addComponentInstantiationListener(new SpringComponentInjector(this));
@@ -33,7 +33,7 @@ public class Application extends WebApplication {
 	{
             return AdminHomePage.class;
 	}
-        return ViewSchedule.class;
+        return ViewHomePage.class;
     }
 
 }

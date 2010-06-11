@@ -30,7 +30,7 @@
 		<portlet-class>org.apache.wicket.protocol.http.portlet.WicketPortlet</portlet-class>
                 <init-param>
                         <name>wicketFilterPath</name>
-                        <value>/schedule/</value>
+                        <value>/Schedule</value>
                 </init-param>
 		<supports>
 			<mime-type>text/html</mime-type>

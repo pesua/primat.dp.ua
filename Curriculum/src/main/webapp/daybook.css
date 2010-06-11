@@ -1,0 +1,65 @@
+/* Time-table */
+#weekTypeSection {
+    padding: 3px 3px 3px 3px;
+    width: 100%;
+    border-bottom: 1px solid #eee;
+}
+
+#scheduleDaybook {
+    font-size: 14px;
+    font-family: verdana;
+    padding: 3px 3px 3px 3px;
+    width: 360px;
+    height: 280px;
+    float: left;
+}
+
+#scheduleDaybook .dayTitle {
+    width: 97%;
+    border: 1px solid gray;
+    padding: 2px 5px 2px 5px;
+    background-color: rgb(152, 183, 212);
+    text-align: center;
+    font-weight: bold;
+    -moz-border-radius: 6px;
+}
+
+table.ViewTable
+{
+    border-spacing: 2px;
+    margin: 3px;
+    border-style: none;
+    border-collapse: separate;
+}
+table.ViewTable tr, table.ViewTable td, table.ViewTable th
+{
+    border-width: 1px;
+    padding: 2px 5px 2px 5px;
+    border-style: solid;
+    border-color: gray;
+    text-align: center;
+    -moz-border-radius: 6px;
+}
+
+#fields td
+{
+    font-variant: small-caps;
+}
+
+/* colors */
+table.ViewTable th
+{
+    background-color: rgb(152, 183, 212);
+    font-style: italic;
+}
+
+table.ViewTable tr:nth-child(2n) td
+{
+    background-color: rgb(222, 241, 251);
+}
+
+table.ViewTable tr:nth-child(2n+1) td
+{
+    background-color: rgb(173, 217, 251);
+}
+/* colors */

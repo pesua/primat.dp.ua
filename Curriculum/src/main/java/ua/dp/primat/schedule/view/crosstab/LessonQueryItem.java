@@ -1,4 +1,4 @@
-package ua.dp.primat.schedule.view;
+package ua.dp.primat.schedule.view.crosstab;
 
 import ua.dp.primat.schedule.data.DayOfWeek;
 import ua.dp.primat.schedule.data.Lesson;
