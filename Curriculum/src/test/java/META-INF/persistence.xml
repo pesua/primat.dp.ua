@@ -8,6 +8,10 @@
     <class>ua.dp.primat.curriculum.data.IndividualControl</class>
     <class>ua.dp.primat.curriculum.data.Workload</class>
     <class>ua.dp.primat.curriculum.data.WorkloadEntry</class>
+    <class>ua.dp.primat.schedule.data.Room</class>
+    <class>ua.dp.primat.schedule.data.Lecturer</class>
+    <class>ua.dp.primat.schedule.data.Lesson</class>
+    <class>ua.dp.primat.schedule.data.LessonDescription</class>
     <properties>
       <property name="hibernate.archive.autodetection" value="class, hbm"/>
       <property name="hibernate.show_sql" value="true"/>
@@ -18,5 +22,5 @@
       <property name="hibernate.connection.url" value="jdbc:hsqldb:mem:curriculum"/>
       <property name="hibernate.hbm2ddl.auto" value="update"/>
     </properties>
-  </persistence-unit>
+  </persistence-unit>  
 </persistence>
