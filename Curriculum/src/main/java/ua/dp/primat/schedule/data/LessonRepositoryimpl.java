@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ua.dp.primat.curriculum.data.StudentGroup;
 
@@ -17,6 +18,7 @@ import ua.dp.primat.curriculum.data.StudentGroup;
  *
  * @author pesua
  */
+@Repository
 public class LessonRepositoryimpl implements LessonRepository {
     @PersistenceContext(unitName = "curriculum")
     private EntityManager em;
@@ -40,7 +42,7 @@ public class LessonRepositoryimpl implements LessonRepository {
 
     @Override
     public List<Lesson> getLessons(StudentGroup group) {
-        Query query = ((Session)em.getDelegate()).getNamedQuery("getLessons");
+        Query query = ((Session)em.getDelegate()).getNamedQuery(Lesson.GET_LESSONS_BY_GROUP);
         query.setParameter("group", group);
         return query.list();
     }
