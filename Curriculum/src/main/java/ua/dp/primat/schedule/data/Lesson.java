@@ -13,24 +13,20 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Lessons")
-//some problem here
-//@NamedQueries({
-//    @NamedQuery(name="getLessons", query="select lesson from Lessons lesson join LessonDiscription ld where ld.studentGroup = :group")
-//})
+@NamedQueries(
+    @NamedQuery(name=Lesson.GET_LESSONS_BY_GROUP, query="select lesson from Lesson lesson join lesson.lessonDescription ld where ld.studentGroup = :group")
+)
 public class Lesson implements Serializable {
+    public static final String GET_LESSONS_BY_GROUP = "getLessons";
+
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column
     Long id;
 
-    @Column(name="lesson_number")
     Long lessonNumber;
 
-    @Column(name="week_type")
     WeekType weekType;
 
-    @Column(name="day_of_week")
     DayOfWeek dayOfWeek;
 
     @ManyToOne(cascade = CascadeType.ALL)
