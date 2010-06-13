@@ -15,8 +15,8 @@ import org.apache.wicket.markup.html.link.PageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import ua.dp.primat.curriculum.data.Discipline;
-import ua.dp.primat.curriculum.data.DisciplineRepository;
+import ua.dp.primat.domain.workload.Discipline;
+import ua.dp.primat.repositories.DisciplineRepository;
 
 /**
  *

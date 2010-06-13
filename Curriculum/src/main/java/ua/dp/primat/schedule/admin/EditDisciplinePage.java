@@ -11,9 +11,9 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import ua.dp.primat.curriculum.data.Cathedra;
-import ua.dp.primat.curriculum.data.Discipline;
-import ua.dp.primat.curriculum.data.DisciplineRepository;
+import ua.dp.primat.domain.Cathedra;
+import ua.dp.primat.domain.workload.Discipline;
+import ua.dp.primat.repositories.DisciplineRepository;
 import ua.dp.primat.utils.view.ChoosePanel;
 /**
  *
