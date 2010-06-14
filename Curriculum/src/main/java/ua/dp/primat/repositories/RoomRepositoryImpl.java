@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ua.dp.primat.domain.Room;
 
-@Repository("roomRepository")
+@Repository
 @Transactional
 public class RoomRepositoryImpl implements RoomRepository {
 
@@ -25,7 +25,6 @@ public class RoomRepositoryImpl implements RoomRepository {
     }
 
     public void delete(Room room) {
-        //load(room.id);
         Room r = em.find(Room.class, room.getId());
         if (em.contains(r)) {
             em.remove(r);

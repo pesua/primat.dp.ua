@@ -5,15 +5,14 @@ import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
 public class Cathedra implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long cathedraId;
+    @GeneratedValue
+    private Long id;
 
     private String name;
     
@@ -23,12 +22,12 @@ public class Cathedra implements Serializable {
     public Cathedra() {
     }
 
-    public Long getCathedraId() {
-        return cathedraId;
+    public Long getId() {
+        return id;
     }
 
-    public void setCathedraId(Long cathedraId) {
-        this.cathedraId = cathedraId;
+    public void setId(Long cathedraId) {
+        this.id = cathedraId;
     }
 
     public Set<Discipline> getDisciplines() {

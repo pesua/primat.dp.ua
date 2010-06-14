@@ -21,6 +21,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import ua.dp.primat.domain.workload.Workload;
 import static org.junit.Assert.*;
 
 /**
@@ -60,7 +61,7 @@ public class TestDataModel {
         //logic
         em.getTransaction().begin();
 
-        StudentGroup sg = new StudentGroup("PZ", new Long(1), new Long(2008));
+        StudentGroup sg = new StudentGroup("PZ", Long.valueOf(1), Long.valueOf(2008));
         em.persist(sg);
 
         Cathedra pmz = new Cathedra();
@@ -72,35 +73,30 @@ public class TestDataModel {
         subj1.setCathedra(pmz);
         em.persist(subj1);
 
-        WorkloadOld wl = new WorkloadOld();
-        wl.setDiscipline(subj1);
-        wl.setLoadCategory(LoadCategory.Normative);
-        wl.setType(WorkloadType.wtProfPract);
-        wl.getGroups().add(sg);
-        em.persist(wl);
-
-        WorkloadEntry wle = new WorkloadEntry();
-        wle.setWorkload(wl);
-        wle.setSemesterNumber(new Long(2));
-        wle.setCourceWork(Boolean.TRUE);
-        wle.setFinalControl(FinalControlType.Exam);
-        wle.setIndCount(new Long(3));
-        wle.setLabCount(new Long(3));
-        wle.setLectionCount(new Long(3));
-        wle.setPracticeCount(new Long(3));
-        em.persist(wle);
+        Workload w = new Workload();
+        w.setDiscipline(subj1);
+        w.setLoadCategory(LoadCategory.Normative);
+        w.setType(WorkloadType.wtProfPract);
+        w.setStudentGroup(sg);
+        w.setSemesterNumber(Long.valueOf(2));
+        w.setCourseWork(Boolean.TRUE);
+        w.setFinalControlType(FinalControlType.Setoff);
+        w.setSelfworkHours(Long.valueOf(3));
+        w.setLaboratoryHours(Long.valueOf(3));
+        w.setLectionHours(Long.valueOf(3));
+        w.setPracticeHours(Long.valueOf(3));
 
         IndividualControl ic = new IndividualControl();
-        ic.setWorkloadEntry(wle);
         ic.setType("kr");
         ic.setWeekNum(new Long(17));
-        em.persist(ic);
-
+        w.getIndividualControl().add(ic);
+        
         IndividualControl ic2 = new IndividualControl();
-        ic2.setWorkloadEntry(wle);
         ic2.setType("AO");
         ic2.setWeekNum(new Long(9));
-        em.persist(ic2);
+        w.getIndividualControl().add(ic2);
+        
+        em.persist(w);
 
         //commit
         em.getTransaction().commit();
@@ -116,10 +112,7 @@ public class TestDataModel {
         for ( Iterator iter = caths.iterator(); iter.hasNext(); ) {
             cItems++;
             IndividualControl c = (IndividualControl)iter.next();
-            System.out.println( c.getWorkloadEntry().getWorkload().getDiscipline().getName() +
-                    "|" + c.getWorkloadEntry().getSemesterNumber() +
-                    "|" + c.getType() +
-                    "|" + c.getWeekNum());
+            System.out.println( c.getType() + "|" + c.getWeekNum());
         }
         //em.getTransaction().commit();
         em.close();

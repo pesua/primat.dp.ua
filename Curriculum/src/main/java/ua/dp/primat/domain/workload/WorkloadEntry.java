@@ -1,34 +1,13 @@
-/*
- *  
- */
-
 package ua.dp.primat.domain.workload;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 
-@Entity
-@NamedQueries({
-    @NamedQuery(name="getWorkloadEntries", query="select we from WorkloadEntry we join we.parentWorkload w join w.groups g where we.semesterNumber = :semester and g = :group")
-})
-public class WorkloadEntry implements Serializable {
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+public class WorkloadEntry {
     private Long workloadEntryPk;
 
     private Long semesterNumber;
 
-    @ManyToOne(cascade = CascadeType.ALL)
     private WorkloadOld parentWorkload;
 
     private Long lectionCount;
@@ -43,8 +22,6 @@ public class WorkloadEntry implements Serializable {
 
     private Boolean courceWork;
 
-    //TODO mappedBy="workloadEntry" o_O, WTF?
-    @OneToMany(mappedBy="workloadEntry")//, cascade = CascadeType.ALL
     private List<IndividualControl> individualControl = new ArrayList<IndividualControl>();
 
     public WorkloadEntry() {

@@ -1,14 +1,9 @@
-/*
- *  
- */
-
 package ua.dp.primat.domain.workload;
 
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -16,7 +11,7 @@ import javax.persistence.NamedQuery;
 import ua.dp.primat.domain.Cathedra;
 
 /**
- *
+ * Represent academic discipline in university.
  * @author EniSh
  */
 @Entity
@@ -26,8 +21,8 @@ import ua.dp.primat.domain.Cathedra;
 public class Discipline implements Serializable {
     public static final String GET_ALL_DISCIPLINES_QUERY = "getAllDisciplines";
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long disciplineId;
+    @GeneratedValue
+    private Long id;
 
     private String name;
     
@@ -50,12 +45,12 @@ public class Discipline implements Serializable {
         this.cathedra = cathedra;
     }
 
-    public Long getDisciplineId() {
-        return disciplineId;
+    public Long getId() {
+        return id;
     }
 
-    public void setDisciplineId(Long disciplineId) {
-        this.disciplineId = disciplineId;
+    public void setId(Long disciplineId) {
+        this.id = disciplineId;
     }
 
     public String getName() {

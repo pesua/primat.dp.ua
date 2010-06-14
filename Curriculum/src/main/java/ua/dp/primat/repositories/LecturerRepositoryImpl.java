@@ -10,7 +10,7 @@ import ua.dp.primat.domain.Cathedra;
 
 /**
  *
- * @author Administrator
+ * @author EniSh
  */
 @Repository("lecturerRepository")
 @Transactional

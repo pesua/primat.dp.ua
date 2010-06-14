@@ -1,28 +1,23 @@
 package ua.dp.primat.domain.workload;
 
-import ua.dp.primat.domain.workload.WorkloadEntry;
 import java.io.Serializable;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
+/*
+ * Represent individual control of every student at some lesson. E.g. workload "history"
+ * can has a control work at second week and coloqium at third week
+ */
 @Entity
 public class IndividualControl implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
-    @SuppressWarnings("MagicNumber")
     private String type;
 
     private Long weekNum;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    private WorkloadEntry workloadEntry;
 
     public IndividualControl() {
     }
@@ -30,14 +25,6 @@ public class IndividualControl implements Serializable {
     public IndividualControl(String type, Long weekNum) {
         this.type = type;
         this.weekNum = weekNum;
-    }
-
-    public WorkloadEntry getWorkloadEntry() {
-        return workloadEntry;
-    }
-
-    public void setWorkloadEntry(WorkloadEntry workloadEntry) {
-        this.workloadEntry = workloadEntry;
     }
 
     public Long getId() {

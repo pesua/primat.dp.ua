@@ -21,7 +21,7 @@ import ua.dp.primat.domain.workload.Discipline;
 public class DisciplineRepositoryimpl implements DisciplineRepository {
 
     public void store(Discipline discipline) {
-        if (em.contains(discipline) || (discipline.getDisciplineId() != null)) {
+        if (em.contains(discipline) || (discipline.getId() != null)) {
             em.merge(discipline);
         } else {
             em.persist(discipline);
@@ -29,13 +29,14 @@ public class DisciplineRepositoryimpl implements DisciplineRepository {
     }
 
     @SuppressWarnings("unchecked")
+    @Transactional(readOnly=true)
     public List<Discipline> getDisciplines() {
         return em.createNamedQuery(Discipline.GET_ALL_DISCIPLINES_QUERY).getResultList();
     }
 
     public void delete(Discipline discipline) {
         //load(discipline.id);
-        Discipline r = em.find(Discipline.class, discipline.getDisciplineId());
+        Discipline r = em.find(Discipline.class, discipline.getId());
         if (em.contains(r)) {
             em.remove(r);
         }

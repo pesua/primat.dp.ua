@@ -1,11 +1,11 @@
 package ua.dp.primat.domain.workload;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -133,7 +133,7 @@ public class Workload implements Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
     @ManyToOne(cascade=CascadeType.ALL)
@@ -161,5 +161,5 @@ public class Workload implements Serializable {
     private Boolean courseWork;
 
     @OneToMany(cascade=CascadeType.ALL)
-    private List<IndividualControl> individualControl;
+    private List<IndividualControl> individualControl = new ArrayList<IndividualControl>();
 }

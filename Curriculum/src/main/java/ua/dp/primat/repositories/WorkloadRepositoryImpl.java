@@ -18,7 +18,7 @@ public class WorkloadRepositoryImpl implements WorkloadRepository {
         em.persist(workload);
     }
 
-    @Transactional
+    @Transactional(readOnly=true)
     public List<Workload> getWorkloadsByGroupAndSemester(StudentGroup group, Long semester) {
         Query q = em.createNamedQuery(Workload.GET_WORKLOAD_BY_GROUP_AND_SEMESTER);
         q.setParameter("group", group);

@@ -1,17 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ua.dp.primat.repositories;
 
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.hibernate.Query;
-import org.hibernate.Session;
+import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.domain.lesson.Lesson;
 
@@ -40,16 +33,16 @@ public class LessonRepositoryimpl implements LessonRepository {
     }
 
     public List<Lesson> getLessons(StudentGroup group) {
-        Query query = ((Session)em.getDelegate()).getNamedQuery(Lesson.GET_LESSONS_BY_GROUP_QUERY);
+        Query query = em.createNamedQuery(Lesson.GET_LESSONS_BY_GROUP_QUERY);
         query.setParameter("group", group);
-        return query.list();
+        return query.getResultList();
     }
 
     public List<Lesson> getLessonsByGroupAndSemester(StudentGroup group, Long semester) {
-        Query query = ((Session)em.getDelegate()).getNamedQuery(Lesson.GET_LESSONS_BY_GROUP_AND_SEMESTER_QUERY);
+        Query query = em.createNamedQuery(Lesson.GET_LESSONS_BY_GROUP_AND_SEMESTER_QUERY);
         query.setParameter("group", group);
         query.setParameter("semester", semester);
-        return query.list();
+        return query.getResultList();
     }
 
 }

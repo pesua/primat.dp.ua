@@ -5,21 +5,21 @@ import java.text.DecimalFormat;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "getGroups", query = "select n from StudentGroup n")
+    @NamedQuery(name = StudentGroup.GET_GROUPS_QUERY, query = "select n from StudentGroup n")
 })
 public class StudentGroup implements Serializable {
+    public static final String GET_GROUPS_QUERY = "getGroups";
     public static final int CODE_LENGTH = 2;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long groupId;
+    @GeneratedValue
+    private Long id;
 
     @Column(length = CODE_LENGTH)
     private String code;
@@ -27,13 +27,6 @@ public class StudentGroup implements Serializable {
     private Long number;
 
     private Long year;
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(name = "workloads_groups",
-//        joinColumns =
-//            @JoinColumn(name = "groupId"),
-//        inverseJoinColumns =
-//            @JoinColumn(name = "workloadId"))
-//    private List<WorkloadOld> workloads = new ArrayList<WorkloadOld>();
 
     public StudentGroup() {
     }
@@ -64,12 +57,12 @@ public class StudentGroup implements Serializable {
         this.code = code;
     }
 
-    public Long getGroupId() {
-        return groupId;
+    public Long getId() {
+        return id;
     }
 
-    public void setGroupId(Long groupId) {
-        this.groupId = groupId;
+    public void setId(Long groupId) {
+        this.id = groupId;
     }
 
     public Long getNumber() {
@@ -80,14 +73,6 @@ public class StudentGroup implements Serializable {
         this.number = number;
     }
 
-//    public List<WorkloadOld> getWorkloads() {
-//        return workloads;
-//    }
-//
-//    public void setWorkloads(List<WorkloadOld> workloads) {
-//        this.workloads = workloads;
-//    }
-
     public Long getYear() {
         return year;
     }
@@ -97,6 +82,7 @@ public class StudentGroup implements Serializable {
     }
 
     @Override
+    //TODO must be simple
     public String toString() {
         final int yearMask = 100;
         DecimalFormat format = new DecimalFormat("00");

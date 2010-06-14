@@ -73,7 +73,7 @@ public class TestCathedra extends TestCase {
         for ( Iterator iter = caths.iterator(); iter.hasNext(); ) {
             cathItems++;
             Cathedra c = (Cathedra)iter.next();
-            System.out.println( c.getCathedraId() + "|" + c.getName() );
+            System.out.println( c.getId() + "|" + c.getName() );
         }
         //em.getTransaction().commit();
         em.close();
