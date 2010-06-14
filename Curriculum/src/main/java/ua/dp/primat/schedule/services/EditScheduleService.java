@@ -10,7 +10,7 @@ import ua.dp.primat.domain.lesson.Lesson;
 import ua.dp.primat.repositories.LessonRepository;
 
 /**
- * Service which helps get and edit schedule
+ * Service which helps get and edit schedule.
  * @author EniSh
  */
 @Service

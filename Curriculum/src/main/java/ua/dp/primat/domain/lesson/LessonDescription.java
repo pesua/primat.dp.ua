@@ -18,22 +18,18 @@ import ua.dp.primat.domain.StudentGroup;
 @Entity
 public class LessonDescription implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
     private Long id;
-
     @ManyToOne
     private Discipline discipline;
-
     @ManyToOne
     private StudentGroup studentGroup;
-
     private Long semester;
     private LessonType lessonType;
-
     @ManyToOne
     private Lecturer lecturer;
-
     @ManyToOne(cascade = CascadeType.ALL)
     private Lecturer assistant;
 
@@ -106,7 +102,7 @@ public class LessonDescription implements Serializable {
     }
 
     /**
-     * Returns a string representation of lecturers names for this lesson
+     * Returns a string representation of lecturers names for this lesson.
      * @return string value like "Name A.A., Name2 B.B."
      */
     public String getLecturerNames() {
@@ -119,5 +115,4 @@ public class LessonDescription implements Serializable {
             return lecturer.getShortName() + ", " + assistant.getShortName();
         }
     }
-
 }

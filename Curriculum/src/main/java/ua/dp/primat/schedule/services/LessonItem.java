@@ -9,6 +9,7 @@ import ua.dp.primat.domain.lesson.WeekType;
  * @author Administrator
  */
 public class LessonItem implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     public LessonItem() {
         numerator = new EditableLesson();

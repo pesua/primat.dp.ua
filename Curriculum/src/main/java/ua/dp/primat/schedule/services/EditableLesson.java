@@ -14,6 +14,7 @@ import ua.dp.primat.domain.lesson.WeekType;
  * @author Administrator
  */
 public class EditableLesson implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     public static EditableLesson fromLesson(Lesson lesson) {
         EditableLesson el = new EditableLesson();

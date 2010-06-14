@@ -11,28 +11,24 @@ import ua.dp.primat.domain.Room;
 
 @Entity
 @NamedQueries({
-    @NamedQuery(name=Lesson.GET_LESSONS_BY_GROUP_QUERY, query="select lesson from Lesson lesson join lesson.lessonDescription ld where ld.studentGroup = :group"),
-    @NamedQuery(name=Lesson.GET_LESSONS_BY_GROUP_AND_SEMESTER_QUERY, query="select lesson from Lesson lesson join lesson.lessonDescription ld where ld.studentGroup = :group and ld.semester=:semester")
+    @NamedQuery(name = Lesson.GET_LESSONS_BY_GROUP_QUERY, query = "select lesson from Lesson lesson join lesson.lessonDescription ld where ld.studentGroup = :group"),
+    @NamedQuery(name = Lesson.GET_LESSONS_BY_GROUP_AND_SEMESTER_QUERY, query = "select lesson from Lesson lesson join lesson.lessonDescription ld where ld.studentGroup = :group and ld.semester=:semester")
 })
 public class Lesson implements Serializable {
+
     public static final String GET_LESSONS_BY_GROUP_QUERY = "getLessons";
     public static final String GET_LESSONS_BY_GROUP_AND_SEMESTER_QUERY = "getLessonsBySemesterAndGroup";
-
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
-    Long id;
-
-    Long lessonNumber;
-
-    WeekType weekType;
-
-    DayOfWeek dayOfWeek;
-
+    private Long id;
+    private Long lessonNumber;
+    private WeekType weekType;
+    private DayOfWeek dayOfWeek;
     @ManyToOne
-    Room room;
-
+    private Room room;
     @ManyToOne
-    LessonDescription lessonDescription;
+    private LessonDescription lessonDescription;
 
     public Lesson() {
     }

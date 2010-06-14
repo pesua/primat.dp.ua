@@ -24,6 +24,7 @@ import ua.dp.primat.domain.StudentGroup;
 })
 public class Workload implements Serializable {
     public static final String GET_WORKLOAD_BY_GROUP_AND_SEMESTER = "getWowkloadByGroupAndSemester";
+    private static final long serialVersionUID = 1L;
 
     public Workload() {
     }

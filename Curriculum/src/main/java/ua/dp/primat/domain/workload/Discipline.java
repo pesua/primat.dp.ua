@@ -20,6 +20,7 @@ import ua.dp.primat.domain.Cathedra;
 })
 public class Discipline implements Serializable {
     public static final String GET_ALL_DISCIPLINES_QUERY = "getAllDisciplines";
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
     private Long id;

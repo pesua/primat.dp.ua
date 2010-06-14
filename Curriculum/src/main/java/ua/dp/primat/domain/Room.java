@@ -9,18 +9,16 @@ import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries(
-    @NamedQuery(name=Room.GET_ALL_ROOMS_QUERY, query="from Room")
-)
+@NamedQuery(name = Room.GET_ALL_ROOMS_QUERY, query = "from Room"))
 public class Room implements Serializable {
-    public static final String GET_ALL_ROOMS_QUERY = "getAllRooms";
 
+    public static final String GET_ALL_ROOMS_QUERY = "getAllRooms";
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
-    Long id;
-
-    Long building;
-
-    Long number;
+    private Long id;
+    private Long building;
+    private Long number;
 
     public Room() {
     }

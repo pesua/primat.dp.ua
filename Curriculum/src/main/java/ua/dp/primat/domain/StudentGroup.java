@@ -14,18 +14,16 @@ import javax.persistence.NamedQuery;
     @NamedQuery(name = StudentGroup.GET_GROUPS_QUERY, query = "select n from StudentGroup n")
 })
 public class StudentGroup implements Serializable {
+
     public static final String GET_GROUPS_QUERY = "getGroups";
     public static final int CODE_LENGTH = 2;
-
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
     private Long id;
-
     @Column(length = CODE_LENGTH)
     private String code;
-
     private Long number;
-
     private Long year;
 
     public StudentGroup() {
@@ -39,13 +37,14 @@ public class StudentGroup implements Serializable {
 
     public StudentGroup(String fullCode) {
         try {
-            int firstDefis = fullCode.indexOf("-");
-            int secondDefis = fullCode.indexOf("-", firstDefis + 1);
+            final char separator = ' ';
+            int firstDefis = fullCode.indexOf(separator);
+            int secondDefis = fullCode.indexOf(separator, firstDefis + 1);
             this.code = fullCode.substring(0, firstDefis);
             this.year = 2000 + Long.parseLong(fullCode.substring(firstDefis + 1, secondDefis));
             this.number = Long.parseLong(fullCode.substring(secondDefis + 1));
         } catch (IndexOutOfBoundsException e) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(e);
         }
     }
 

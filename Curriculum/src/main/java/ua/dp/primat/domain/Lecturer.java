@@ -9,27 +9,25 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 /**
- * Entity for a custom lecturer
+ * Entity for a custom lecturer.
  * @author fdevelop
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name=Lecturer.GET_ALL_LECTURERS, query="from Lecturer"),
-    @NamedQuery(name=Lecturer.GET_LECTURERS_BY_CATHEDRA, query="from Lecturer where cathedra=:Cathedra")
+    @NamedQuery(name = Lecturer.GET_ALL_LECTURERS, query = "from Lecturer"),
+    @NamedQuery(name = Lecturer.GET_LECTURERS_BY_CATHEDRA, query = "from Lecturer where cathedra=:Cathedra")
 })
 public class Lecturer implements Serializable {
+
     public static final String GET_ALL_LECTURERS = "getAllLecrurers";
     public static final String GET_LECTURERS_BY_CATHEDRA = "getLecturersByCathedra";
-
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
     private Long id;
-
     private String name;
-
     @ManyToOne
     private Cathedra cathedra;
-
     private LecturerType lecturerType;
 
     public Lecturer() {
@@ -74,17 +72,18 @@ public class Lecturer implements Serializable {
     }
 
     /**
-     * Returns the short form of the person's name
+     * Returns the short form of the person's name.
      * @return string like 'Surname A.B.'
      */
     public String getShortName() {
         try {
-            String short1 = name.charAt(name.indexOf(" ")+1) + ".";
-            String short2 = name.charAt(name.lastIndexOf(" ")+1) + ".";
-            return name.substring(0, name.indexOf(" ")) + " "
-                + short1 + " " + short2;
-        }
-        catch (IndexOutOfBoundsException ie) {
+            final char wordSeparator = ' ';
+            final String point = ".";
+            String short1 = name.charAt(name.indexOf(wordSeparator) + 1) + point;
+            String short2 = name.charAt(name.lastIndexOf(wordSeparator) + 1) + point;
+            return name.substring(0, name.indexOf(wordSeparator)) + wordSeparator
+                    + short1 + wordSeparator + short2;
+        } catch (IndexOutOfBoundsException ie) {
             return name;
         }
     }
@@ -93,5 +92,4 @@ public class Lecturer implements Serializable {
     public String toString() {
         return getShortName();
     }
-
 }
