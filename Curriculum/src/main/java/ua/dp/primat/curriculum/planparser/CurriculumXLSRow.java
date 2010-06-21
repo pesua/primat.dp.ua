@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Arrays;
+import java.util.HashMap;
+import org.apache.poi.ss.usermodel.Row;
 
 import ua.dp.primat.domain.workload.FinalControlType;
 import ua.dp.primat.domain.workload.LoadCategory;
 import ua.dp.primat.domain.workload.WorkloadType;
 import ua.dp.primat.domain.Cathedra;
 import ua.dp.primat.domain.workload.Discipline;
-import ua.dp.primat.domain.workload.WorkloadOld;
-import ua.dp.primat.domain.workload.WorkloadEntry;
+import ua.dp.primat.domain.workload.Workload;
 import ua.dp.primat.domain.workload.IndividualControl;
 import ua.dp.primat.domain.StudentGroup;
 
@@ -21,6 +22,24 @@ import ua.dp.primat.domain.StudentGroup;
  * @author fdevelop
  */
 public final class CurriculumXLSRow {
+
+    /* CONSTANTS */
+    /** Excel index for Name of Discipline. */
+    public static final int COL_DISCIPLINE = 1;
+    /** Excel index for Cathedra of Discipline. */
+    public static final int COL_CATHEDRA = 2;
+    /** Excel index for type of final control (exam, setoff, differential setoff, course). */
+    public static final int COL_FINALCONTROL = 6;
+    /** Excel index for types of individual tasks. */
+    public static final int COL_INDIVIDUALTASKS = 9;
+    /** Excel indexes for hours for the Discipline. */
+    public static final int COL_HOURS_LECTURE = 22;
+    public static final int COL_HOURS_PRACTICE = 23;
+    public static final int COL_HOURS_LAB = 24;
+    public static final int COL_HOURS_INDIVIDUAL = 25;
+    public static final int COL_HOURS_SELFWORK = 26;
+    /** Excel cells count for hours info of one semester. */
+    public static final int COL_HOUROFFSET = 6;
 
     //PRIVATE Variables
     private String diffSetOff;
@@ -42,37 +61,28 @@ public final class CurriculumXLSRow {
     private StudentGroup group;
     private Cathedra cathedra;
     private Discipline discipline;
-    private WorkloadOld workload;
+    private List<Workload> workloadList = new ArrayList<Workload>();
 
     /**
      * Constructor, that gets atomic info from one row and creates data entities
-     * objects (Cathedra, Discipline, WorkloadOld).
-     * @param group
-     * @param disciplineName
-     * @param cathedraName
-     * @param sfmExams
-     * @param sfmTests
-     * @param sfmCourses
-     * @param siwSemester
-     * @param siwForm
-     * @param siwWeek
-     * @param semesterHours
-     * @param workloadType
-     * @param loadCategory
-     * @param diffSetOff
+     * objects (Cathedra, Discipline, Workload).
      */
-    public CurriculumXLSRow(StudentGroup group, String disciplineName, String cathedraName,
-                            String sfmExams, String sfmTests, String sfmCourses,
-                            String siwSemester, String siwForm, String siwWeek,
-                            Map<Integer, WorkHours> semesterHours,
-                            WorkloadType workloadType, LoadCategory loadCategory,
-                            String diffSetOff) {
-        this.diffSetOff = diffSetOff;
+    public CurriculumXLSRow(StudentGroup group, Row row,
+            WorkloadType workloadType, LoadCategory loadCategory,
+            int semestersCount, String diffSetOffSymbol) {
 
-        this.disciplineName = disciplineName;
-        this.cathedraName = cathedraName;
+        //get general info
+        this.disciplineName = row.getCell(COL_DISCIPLINE).getStringCellValue();
+        this.cathedraName = row.getCell(COL_CATHEDRA).getStringCellValue();
         this.workloadType = workloadType;
         this.loadCategory = loadCategory;
+        this.diffSetOff = diffSetOffSymbol;
+        this.group = group;
+
+        //get info for Exams, Setoffs, Course works
+        final String sfmExams = row.getCell(COL_FINALCONTROL).toString();
+        final String sfmTests = row.getCell(COL_FINALCONTROL+1).toString();
+        final String sfmCourses = row.getCell(COL_FINALCONTROL+2).toString();
 
         this.fmExams = parseNumValues(sfmExams, true);
         Arrays.sort(fmExams);
@@ -83,46 +93,31 @@ public final class CurriculumXLSRow {
         this.fmDifTests = parseNumValues(sfmTests, false);
         Arrays.sort(fmDifTests);
 
+        //get info for individual works
+        final String siwSemester = row.getCell(COL_INDIVIDUALTASKS).toString();
+        final String siwForm = row.getCell(COL_INDIVIDUALTASKS+1).toString();
+        final String siwWeek = row.getCell(COL_INDIVIDUALTASKS+2).toString();
         this.indWorks = createIndividualWorkList(siwSemester, siwForm, siwWeek);
-        this.hoursForSemesters = semesterHours;
 
-        this.group = group;
-
-        //generate database entries
-        generateDatabaseEntries();
-    }
-
-    /**
-     * toString() overriden method for plain representation of the parsed item.
-     * @return
-     */
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        final String eolChar = String.format("%n");
-
-        result.append("Discipline: "+this.getDiscipline().getName() + eolChar);
-        result.append("Category: "+this.getWorkload().getLoadCategory() + eolChar);
-        result.append("Type: "+this.getWorkload().getType() + eolChar);
-        for (int j=0;j<this.getWorkload().getEntries().size();j++) {
-            result.append("-> Semester:"+this.getWorkload().getEntries().get(j).getSemesterNumber()
-                    + "| FinalControl:" + this.getWorkload().getEntries().get(j).getFinalControl()
-                    + "| CourseWork:" + this.getWorkload().getEntries().get(j).getCourceWork()
-                    + "| IndividualControlCount:" + this.getWorkload().getEntries().get(j).getIndividualControl().size()
-                    + eolChar);
-
-            for (int k=0;k<this.getWorkload().getEntries().get(j).getIndividualControl().size();k++) {
-                result.append("---> IndividualControl: " + this.getWorkload().getEntries().get(j).getIndividualControl().get(k).getType());
-                result.append(", " + this.getWorkload().getEntries().get(j).getIndividualControl().get(k).getWeekNum());
-                result.append(eolChar);
+        //get info for hours
+        hoursForSemesters = new HashMap<Integer, WorkHours>();
+        for (int sem=0; sem < semestersCount; sem++) {
+            final WorkHours semesterHoursInfo = new WorkHours();
+            semesterHoursInfo.setHoursLec(row.getCell(COL_HOURS_LECTURE+COL_HOUROFFSET*sem).getNumericCellValue());
+            semesterHoursInfo.setHoursPract(row.getCell(COL_HOURS_PRACTICE+COL_HOUROFFSET*sem).getNumericCellValue());
+            semesterHoursInfo.setHoursLab(row.getCell(COL_HOURS_LAB+COL_HOUROFFSET*sem).getNumericCellValue());
+            semesterHoursInfo.setHoursInd(row.getCell(COL_HOURS_INDIVIDUAL+COL_HOUROFFSET*sem).getNumericCellValue());
+            semesterHoursInfo.setHoursSam(row.getCell(COL_HOURS_SELFWORK+COL_HOUROFFSET*sem).getNumericCellValue());
+            if (semesterHoursInfo.getSum() > 0) {
+                hoursForSemesters.put(sem+1, semesterHoursInfo);
             }
         }
 
-        return result.toString();
+        //run the generation process
+        generateDatabaseEntries();
     }
 
     /* getters */
-    
     public Cathedra getCathedra() {
         return cathedra;
     }
@@ -131,8 +126,8 @@ public final class CurriculumXLSRow {
         return discipline;
     }
 
-    public WorkloadOld getWorkload() {
-        return workload;
+    public List<Workload> getWorkloadList() {
+        return workloadList;
     }
 
     /**
@@ -267,6 +262,15 @@ public final class CurriculumXLSRow {
     }
 
     /**
+     * Executes the generation methods for database objects.
+     */
+    private void generateDatabaseEntries() {
+        generateCathedra();
+        generateDiscipline(cathedra);
+        generateWorkloadEntries(discipline);
+    }
+
+    /**
      * Creates new entity Cathedra.
      */
     private void generateCathedra() {
@@ -285,63 +289,45 @@ public final class CurriculumXLSRow {
     }
 
     /**
-     * Creates new entity WorkloadOld for specified Discipline.
-     * @param discipline
-     */
-    private void generateWorkload(Discipline discipline) {
-        workload = new WorkloadOld();
-        workload.setDiscipline(discipline);
-        workload.setLoadCategory(loadCategory);
-        workload.setType(workloadType);
-        workload.getGroups().add(group);
-        //group.getWorkloads().add(workload);
-    }
-
-    /**
-     * Generates list of IndividualControls for specified WorkloadEntry.
-     * @param workloadEntry
-     */
-    private void generateIndividualControls(WorkloadEntry workloadEntry) {
-        for (IndividualControlEntry ice : indWorks) {
-            if (workloadEntry.getSemesterNumber() == ice.getSemester()) {
-                final IndividualControl ic = new IndividualControl(ice.getType(),
-                        Long.valueOf(ice.getWeekNum()));
-                workloadEntry.getIndividualControl().add(ic);
-            }
-        }
-    }
-
-    /**
-     * Generates list of WorkloadEntry for specified WorkloadOld.
+     * Generates list of IndividualControls for specified Workload.
      * @param workload
      */
-    private void generateWorkloadEntries(WorkloadOld workload) {
-        for (Integer i : hoursForSemesters.keySet()) {
-            if (hoursForSemesters.get(i) != null) {
-                final WorkloadEntry workloadEntry = new WorkloadEntry();
-                workloadEntry.setCourceWork(getCourseInSemester(i));
-                workloadEntry.setFinalControl(getFinalControlTypeInSemester(i));
-                workloadEntry.setIndCount(Long.valueOf(Math.round(hoursForSemesters.get(i).getHoursSam()
-                        + hoursForSemesters.get(i).getHoursInd())));
-                workloadEntry.setLabCount(Long.valueOf(Math.round(hoursForSemesters.get(i).getHoursLab())));
-                workloadEntry.setLectionCount(Long.valueOf(Math.round(hoursForSemesters.get(i).getHoursLec())));
-                workloadEntry.setPracticeCount(Long.valueOf(Math.round(hoursForSemesters.get(i).getHoursPract())));
-                workloadEntry.setSemesterNumber(Long.valueOf(i));
-                workload.getEntries().add(workloadEntry);
-                workloadEntry.setParentWorkload(workload);
-                //individual controls
-                generateIndividualControls(workloadEntry);
+    private void generateIndividualControls(Workload workload) {
+        for (IndividualControlEntry ice : indWorks) {
+            if (workload.getSemesterNumber() == ice.getSemester()) {
+                final IndividualControl ic = new IndividualControl(ice.getType(),
+                        Long.valueOf(ice.getWeekNum()));
+                workload.getIndividualControl().add(ic);
             }
         }
     }
 
     /**
-     * Executes the generation methods for database objects.
+     * Generates list of Workload for the row.
+     * @param workload
      */
-    private void generateDatabaseEntries() {
-        generateCathedra();
-        generateDiscipline(cathedra);
-        generateWorkload(discipline);
-        generateWorkloadEntries(workload);
+    private void generateWorkloadEntries(Discipline discipline) {
+        workloadList.clear();
+        for (Integer i : hoursForSemesters.keySet()) {
+            if (hoursForSemesters.get(i) != null) {
+                final Workload workload = new Workload();
+                workload.setDiscipline(discipline);
+                workload.setLoadCategory(loadCategory);
+                workload.setType(workloadType);
+                workload.setStudentGroup(group);
+                workload.setCourseWork(getCourseInSemester(i));
+                workload.setFinalControlType(getFinalControlTypeInSemester(i));
+                workload.setSelfworkHours(Long.valueOf(Math.round(hoursForSemesters.get(i).getHoursSam()
+                        + hoursForSemesters.get(i).getHoursInd())));
+                workload.setLaboratoryHours(Long.valueOf(Math.round(hoursForSemesters.get(i).getHoursLab())));
+                workload.setLectionHours(Long.valueOf(Math.round(hoursForSemesters.get(i).getHoursLec())));
+                workload.setPracticeHours(Long.valueOf(Math.round(hoursForSemesters.get(i).getHoursPract())));
+                workload.setSemesterNumber(Long.valueOf(i));
+                //individual controls
+                generateIndividualControls(workload);
+                //add to the result
+                workloadList.add(workload);
+            }
+        }
     }
 }

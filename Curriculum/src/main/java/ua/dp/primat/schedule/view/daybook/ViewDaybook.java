@@ -2,14 +2,18 @@ package ua.dp.primat.schedule.view.daybook;
 import org.apache.wicket.markup.html.list.ListItem;
 import ua.dp.primat.domain.lesson.Lesson;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import javax.annotation.Resource;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import ua.dp.primat.domain.lesson.DayOfWeek;
 import ua.dp.primat.domain.lesson.WeekType;
+import ua.dp.primat.schedule.services.LessonService;
 import ua.dp.primat.utils.view.RefreshablePanel;
 
 /**
@@ -25,14 +29,10 @@ public final class ViewDaybook extends RefreshablePanel {
 
     //list of all retrieved lessons
     private List<Lesson> lessons;
-    private List<DayInfo> listDataProv;
-    private ListView<DayInfo> listView;
+    private DayPanel[] listDataPanel = new DayPanel[DayOfWeek.values().length-1];
 
     public ViewDaybook(String id) {
         super(id);
-
-        //prepare for the first display
-        refreshView(lessons);
 
         //add the weekType choice group combo
         final List<WeekType> weekTypeValues = new ArrayList<WeekType>();
@@ -65,17 +65,14 @@ public final class ViewDaybook extends RefreshablePanel {
         };
         add(weekTypeChoice);
 
-        //add the list view
-        listView = new ListView<DayInfo>("dayRow", listDataProv) {
+        //add the 6-day-week
+        for (int i = 0; i < listDataPanel.length; i++) {
+            listDataPanel[i] = new DayPanel("oneDay"+i, DayOfWeek.fromNumber(i));
+            add(listDataPanel[i]);
+        }
 
-            @Override
-            protected void populateItem(ListItem<DayInfo> li) {
-                final DayInfo dayInfo = li.getModelObject();
-                li.add(new Label("oneDayName", dayInfo.getDayOfWeek().toString()));
-                li.add(new DayPanel("oneDayPanel", dayInfo.getListLessons()));
-            }
-        };
-        add(listView);
+        //prepare for the first display
+        refreshView(null);
     }
 
     /**
@@ -85,43 +82,13 @@ public final class ViewDaybook extends RefreshablePanel {
     @Override
     public void refreshView(List<Lesson> data) {
         lessons = data;
-        if (lessons != null) {
-            listDataProv = new ArrayList<DayInfo>();
-            for (DayOfWeek dw : DayOfWeek.values()) {
-                if ((dw != DayOfWeek.SUNDAY) && (dw != DayOfWeek.SATURDAY)) {
-                    listDataProv.add(new DayInfo(dw, getLessonsPerDay(lessons, dw, weekType)));
-                }
-            }
-            if (listView != null) {
-                listView.setList(listDataProv);
-            }
+        for (int i = 0; i<listDataPanel.length; i++) {
+            listDataPanel[i].updateInfo(lessonService.getLessonsPerDay(lessons, DayOfWeek.fromNumber(i), weekType));
         }
     }
 
-    /**
-     * TEMPORARY query, that returns lessons for one DayOfWeek and specified WeekType.
-     * @param listLesson  data to search in
-     * @param day
-     * @param week
-     * @return the list of Lesson, which are accepted by parameters
-     */
-    private List<Lesson> getLessonsPerDay(List<Lesson> listLesson, DayOfWeek day, WeekType week) {
-        List<Lesson> list = new ArrayList<Lesson>();
-        
-        if (listLesson == null) {
-            return list;
-        }
-
-        for (Lesson l : listLesson) {
-            if ((l.getDayOfWeek() == day)
-                    && ((l.getWeekType() == week)
-                    || (l.getWeekType() == WeekType.BOTH))) {
-                list.add(l);
-            }
-        }
-
-        return list;
-    }
+    @SpringBean
+    LessonService lessonService;
 
 }
 

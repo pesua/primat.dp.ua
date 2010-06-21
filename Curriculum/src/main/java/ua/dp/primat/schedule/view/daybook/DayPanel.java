@@ -7,6 +7,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import java.util.List;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import ua.dp.primat.domain.lesson.DayOfWeek;
 
 /**
  * Panel, that outputs one schedule cell for specified Lesson.
@@ -15,6 +16,8 @@ import org.apache.wicket.markup.html.list.ListView;
  * @author fdevelop
  */
 public final class DayPanel extends Panel {
+
+    private ListView dayListView;
 
     /**
      * ListView, that outputs one day.
@@ -28,21 +31,41 @@ public final class DayPanel extends Panel {
         @Override
         protected void populateItem(ListItem<Lesson> li) {
             final Lesson entry = li.getModelObject();
-            final String strDisciplineWithType = String.format("%s (%s)", entry.getLessonDescription().getDiscipline().getName(), entry.getLessonDescription().getLessonType());
             li.add(new Label("num", entry.getLessonNumber().toString()));
-            li.add(new Label("discipline", strDisciplineWithType));
-            li.add(new Label("teacher", entry.getLessonDescription().getLecturerNames()));
-            li.add(new Label("room", entry.getRoom().toString()));
+
+            if (entry.getLessonDescription() == null) {
+                li.add(new Label("discipline", ""));
+                li.add(new Label("teacher", ""));
+            } else {
+                final String strDisciplineWithType = String.format("%s (%s)", entry.getLessonDescription().getDiscipline().getName(), entry.getLessonDescription().getLessonType());
+                li.add(new Label("discipline", strDisciplineWithType));
+                li.add(new Label("teacher", entry.getLessonDescription().getLecturerNames()));
+            }
+
+            if (entry.getRoom() == null) {
+                li.add(new Label("room", ""));
+            } else {
+                li.add(new Label("room", entry.getRoom().toString()));
+            }
         }
 
     }
 
-    public DayPanel(final String id, List<Lesson> list) {
+    public DayPanel(final String id, DayOfWeek day) {
         super(id);
-        if (list == null) {
-            list = new ArrayList<Lesson>();
+        
+        add(new Label("oneDayName", day.toString()));
+
+        dayListView = new DayListView("row", new ArrayList<Lesson>());
+        add(dayListView);
+    }
+
+    public void updateInfo(List<Lesson> listLesson) {
+        if (listLesson == null) {
+            dayListView.setList(new ArrayList<Lesson>());
+        } else {
+            dayListView.setList(listLesson);
         }
-        add(new DayListView("row", list));
     }
 
 }

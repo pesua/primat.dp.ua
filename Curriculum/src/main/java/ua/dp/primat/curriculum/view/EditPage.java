@@ -213,11 +213,7 @@ public class EditPage extends WebPage {
                 //commit parsed objects
                 List<Workload> workloads = new ArrayList<Workload>();
                 for (int i = 0; i < listParsed.size(); i++) {
-                    WorkloadOld workload = listParsed.get(i).getWorkload();
-                    for (WorkloadEntry we : workload.getEntries()) {
-                        workloads.add(we.toNew());
-                    }
-                    //this.info( listParsed.get(i).toString() );
+                    workloads.addAll(listParsed.get(i).getWorkloadList());
                 }
                 workloadService.storeWorkloads(workloads);
 

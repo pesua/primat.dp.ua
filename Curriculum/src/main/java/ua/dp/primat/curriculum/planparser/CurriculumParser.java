@@ -26,23 +26,6 @@ import ua.dp.primat.domain.workload.WorkloadType;
  */
 public final class CurriculumParser {
 
-    /* CONSTANTS */
-    /** Excel index for Name of Discipline. */
-    public static final int COL_DISCIPLINE = 1;
-    /** Excel index for Cathedra of Discipline. */
-    public static final int COL_CATHEDRA = 2;
-    /** Excel index for type of final control (exam, mark, differential mark, course). */
-    public static final int COL_FINALCONTROL = 6;
-    /** Excel index for types of individual tasks. */
-    public static final int COL_INDIVIDUALTASKS = 9;
-    /** Excel indexes for hours for the Discipline. */
-    public static final int COL_HOURS_LECTURE = 22;
-    public static final int COL_HOURS_PRACTICE = 23;
-    public static final int COL_HOURS_LAB = 24;
-    public static final int COL_HOURS_INDIVIDUAL = 25;
-    public static final int COL_HOURS_SELFWORK = 26;
-    /** Excel cells count for hours info of one semester. */
-    public static final int COL_HOUROFFSET = 6;
     //Workload Type Indexes
     public static final int WTID_HUMANITIES = 1;
     public static final int WTID_NATURALSCIENCE = 2;
@@ -123,7 +106,9 @@ public final class CurriculumParser {
                 String cellText = row.getCell(0).getStringCellValue().trim();
                 changeEntriesCategoryOrType(cellText);
             } else {
-                entries.add(parseXLSEntry(row, currentWorkloadType, currentLoadCategory));
+                entries.add(new CurriculumXLSRow(group, row,
+                        currentWorkloadType, currentLoadCategory,
+                        semestersCount, diffSetOff));
             }
         }
         
@@ -156,14 +141,6 @@ public final class CurriculumParser {
         this.itemStart = itemStart;
     }
 
-    public int getSemestersCount() {
-        return semestersCount;
-    }
-
-    public void setSemestersCount(int semestersCount) {
-        this.semestersCount = semestersCount;
-    }
-
     public int getSheetNumber() {
         return sheetNumber;
     }
@@ -181,47 +158,6 @@ public final class CurriculumParser {
         disciplineCategorySelective = parserConstants.getString("category.selective");
         disciplineCategoryAlternativeWar = parserConstants.getString("category.alternativewar");
         diffSetOff = parserConstants.getString("differentialsetoff");
-    }
-
-    /**
-     * This method parses one excel row of curriculum, which contains
-     * one discipline item. Cell indexes (start from 0) must follow constants
-     * values with prefix "COL_" from this class.
-     * @param row POI Row object with data
-     * @param workloadType WorkloadType that will be assigned to the item
-     * @param loadCategory LoadCategory that will be assigned to the item
-     * @return CurriculumXLSRow object which contains parsed values
-     */
-    private CurriculumXLSRow parseXLSEntry(Row row, WorkloadType workloadType, LoadCategory loadCategory) {
-        //parse info
-        final String subjName = row.getCell(COL_DISCIPLINE).getStringCellValue();
-        final String subjCath = row.getCell(COL_CATHEDRA).getStringCellValue();
-        //entry
-        final String workCtrlExams = row.getCell(COL_FINALCONTROL).toString();
-        final String workCtrlMark = row.getCell(COL_FINALCONTROL+1).toString();
-        final String workCtrlCourse = row.getCell(COL_FINALCONTROL+2).toString();
-        //internal ind. control
-        final String workIndSem = row.getCell(COL_INDIVIDUALTASKS).toString();
-        final String workIndForm = row.getCell(COL_INDIVIDUALTASKS+1).toString();
-        final String workIndWeek = row.getCell(COL_INDIVIDUALTASKS+2).toString();
-        //hours
-        final Map<Integer, WorkHours> semesterWorkhours = new HashMap<Integer, WorkHours>();
-        for (int sem=0; sem < semestersCount; sem++) {
-            final WorkHours semesterHoursInfo = new WorkHours();
-            semesterHoursInfo.setHoursLec(row.getCell(COL_HOURS_LECTURE+COL_HOUROFFSET*sem).getNumericCellValue());
-            semesterHoursInfo.setHoursPract(row.getCell(COL_HOURS_PRACTICE+COL_HOUROFFSET*sem).getNumericCellValue());
-            semesterHoursInfo.setHoursLab(row.getCell(COL_HOURS_LAB+COL_HOUROFFSET*sem).getNumericCellValue());
-            semesterHoursInfo.setHoursInd(row.getCell(COL_HOURS_INDIVIDUAL+COL_HOUROFFSET*sem).getNumericCellValue());
-            semesterHoursInfo.setHoursSam(row.getCell(COL_HOURS_SELFWORK+COL_HOUROFFSET*sem).getNumericCellValue());
-            if (semesterHoursInfo.getSum() > 0) {
-                semesterWorkhours.put(sem+1, semesterHoursInfo);
-            }
-        }
-
-        return new CurriculumXLSRow(group, subjName, subjCath,
-                workCtrlExams, workCtrlMark, workCtrlCourse,
-                workIndSem, workIndForm, workIndWeek, semesterWorkhours,
-                workloadType, loadCategory, diffSetOff);
     }
 
     /**

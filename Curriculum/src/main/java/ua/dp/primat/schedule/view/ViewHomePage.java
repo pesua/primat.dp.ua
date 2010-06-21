@@ -21,12 +21,9 @@ import ua.dp.primat.domain.lesson.LessonDescription;
 import ua.dp.primat.domain.lesson.LessonType;
 import ua.dp.primat.domain.Room;
 import ua.dp.primat.domain.StudentGroup;
-import ua.dp.primat.repositories.StudentGroupRepository;
-import ua.dp.primat.repositories.StudentGroupRepositoryImpl;
 import ua.dp.primat.domain.LecturerType;
-import ua.dp.primat.repositories.LessonRepository;
-import ua.dp.primat.repositories.LessonRepositoryimpl;
 import ua.dp.primat.domain.lesson.WeekType;
+import ua.dp.primat.schedule.services.LessonService;
 import ua.dp.primat.utils.view.ChoosePanel;
 import ua.dp.primat.utils.view.RefreshablePanel;
 
@@ -35,16 +32,6 @@ import ua.dp.primat.utils.view.RefreshablePanel;
  * @author fdevelop
  */
 public final class ViewHomePage extends WebPage {
-
-    private static final long serialVersionUID = 1L;
-
-    private RefreshablePanel schedulePanel;
-    private RefreshablePanel daybookPanel;
-
-    private String tabScheduleText;
-    private String tabDaybookText;
-
-    private List<Lesson> queryResult;
 
     /**
      * Contructor for the home page, which adds tabs and choose panel
@@ -83,7 +70,7 @@ public final class ViewHomePage extends WebPage {
 
             @Override
             protected void executeAction(StudentGroup studentGroup, Long semester) {
-                queryResult = getLessons(studentGroup, semester);
+                queryResult = lessonService.getLessons(studentGroup, semester);
                 if (schedulePanel != null) {
                     schedulePanel.refreshView(queryResult);
                 }
@@ -104,62 +91,17 @@ public final class ViewHomePage extends WebPage {
         tabDaybookText = bundle.getString("tab.daybook");
     }
 
-    //TEMPORARY method for returning the list of lessons
-    //TODO: remove it, when there will be an entity repository with this operation
-    private List<Lesson> getLessons(StudentGroup studentGroup, Long semester) {
-        final List<Lesson> list  = new ArrayList<Lesson>();
+    private static final long serialVersionUID = 1L;
 
-        final Cathedra cathedra = new Cathedra();
-        cathedra.setName("���.���. ���.");
+    private RefreshablePanel schedulePanel;
+    private RefreshablePanel daybookPanel;
 
-        final Room room46 = new Room(Long.valueOf(3), Long.valueOf(46));
-        final Room room45 = new Room(Long.valueOf(3), Long.valueOf(45));
-        final Room room31 = new Room(Long.valueOf(3), Long.valueOf(31));
-        final Room room22 = new Room(Long.valueOf(2), Long.valueOf(25));
+    private String tabScheduleText;
+    private String tabDaybookText;
 
-        final Discipline d1 = new Discipline("���������� ��� ����� �� �����", cathedra);
-        final Discipline d2 = new Discipline("����������� ���", cathedra);
-        final Discipline d3 = new Discipline("��������", cathedra);
-        final Discipline d4 = new Discipline("������ �.�.", cathedra);
-        final Discipline d5 = new Discipline("Գ����� ��������", cathedra);
-        final Discipline d6 = new Discipline("������������ �����", cathedra);
+    private List<Lesson> queryResult;
 
-        final Lecturer teacher1 = new Lecturer("������� �. �.", cathedra, LecturerType.SENIORLECTURER);
-        final Lecturer teacher2 = new Lecturer("������ �. �.", cathedra, LecturerType.SENIORLECTURER);
-        final Lecturer teacher3 = new Lecturer("������ �. �.", cathedra, LecturerType.ASSIATANT);
-        final Lecturer teacher4 = new Lecturer("������������� �. �.", cathedra, LecturerType.ASSIATANT);
-        final Lecturer teacher5 = new Lecturer("������ �. �.", cathedra, LecturerType.SENIORLECTURER);
-        final Lecturer teacher6 = new Lecturer("������� �. �.", cathedra, LecturerType.DOCENT);
-        final Lecturer teacher7 = new Lecturer("������� �. �.", cathedra, LecturerType.SENIORLECTURER);
-        final Lecturer teacher8 = new Lecturer("��������� �. �.", cathedra, LecturerType.DOCENT);
-        final Lecturer teacher9 = new Lecturer("����������� �. �.", cathedra, LecturerType.DOCENT);
-
-        final LessonDescription ld1 = new LessonDescription(d1, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher1, null);
-        final LessonDescription ld2 = new LessonDescription(d2, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher2, null);
-        final LessonDescription ld3 = new LessonDescription(d2, studentGroup, Long.valueOf(4), LessonType.LABORATORY, teacher3, teacher4);
-        final LessonDescription ld4 = new LessonDescription(d3, studentGroup, Long.valueOf(4), LessonType.LABORATORY, teacher5, teacher4);
-        final LessonDescription ld5 = new LessonDescription(d4, studentGroup, Long.valueOf(4), LessonType.LABORATORY, teacher6, teacher3);
-        final LessonDescription ld6 = new LessonDescription(d4, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher6, null);
-        final LessonDescription ld7 = new LessonDescription(d5, studentGroup, Long.valueOf(4), LessonType.PRACTICE, teacher7, null);
-        final LessonDescription ld8 = new LessonDescription(d6, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher8, null);
-        final LessonDescription ld9 = new LessonDescription(d6, studentGroup, Long.valueOf(4), LessonType.PRACTICE, teacher8, null);
-        final LessonDescription ld0 = new LessonDescription(d3, studentGroup, Long.valueOf(4), LessonType.LECTURE, teacher9, null);
-
-        if (semester == 4) {
-            list.add(new Lesson(Long.valueOf(2), WeekType.BOTH, DayOfWeek.THURSDAY, room45, ld5));
-            list.add(new Lesson(Long.valueOf(2), WeekType.BOTH, DayOfWeek.MONDAY, room22, ld7));
-            list.add(new Lesson(Long.valueOf(2), WeekType.BOTH, DayOfWeek.FRIDAY, room22, ld7));
-            list.add(new Lesson(Long.valueOf(2), WeekType.BOTH, DayOfWeek.TUESDAY, room46, ld8));
-            list.add(new Lesson(Long.valueOf(3), WeekType.BOTH, DayOfWeek.MONDAY, room31, ld1));
-            list.add(new Lesson(Long.valueOf(3), WeekType.BOTH, DayOfWeek.TUESDAY, room31, ld2));
-            list.add(new Lesson(Long.valueOf(3), WeekType.BOTH, DayOfWeek.FRIDAY, room46, ld6));
-            list.add(new Lesson(Long.valueOf(4), WeekType.NUMERATOR, DayOfWeek.THURSDAY, room45, ld3));
-            list.add(new Lesson(Long.valueOf(4), WeekType.BOTH, DayOfWeek.WEDNESDAY, room45, ld4));
-            list.add(new Lesson(Long.valueOf(4), WeekType.BOTH, DayOfWeek.MONDAY, room46, ld0));
-            list.add(new Lesson(Long.valueOf(5), WeekType.DENOMINATOR, DayOfWeek.MONDAY, room46, ld9));
-        }
-
-        return list;
-    }
+    @SpringBean
+    private LessonService lessonService;
 
 }

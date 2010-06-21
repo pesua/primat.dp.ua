@@ -4,11 +4,21 @@
             <wicket:message key="select.weektype">Select week type:</wicket:message>
             <select wicket:id="weekType"></select>
         </div>
-        <span wicket:id="dayRow" id="scheduleDaybook">
-            <div class="dayTitle">
-                <span wicket:id="oneDayName"></span>
-            </div>
-            <span wicket:id="oneDayPanel"></span>
-        </span>
+        <table id="scheduleDaybook">
+            <tbody>
+            <tr>
+                <td wicket:id="oneDay0"></td>
+                <td wicket:id="oneDay3"></td>
+            </tr>
+            <tr>
+                <td wicket:id="oneDay1"></td>
+                <td wicket:id="oneDay4"></td>
+            </tr>
+            <tr>
+                <td wicket:id="oneDay2"></td>
+                <td wicket:id="oneDay5"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </wicket:panel>

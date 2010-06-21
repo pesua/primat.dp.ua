@@ -10,6 +10,7 @@ import org.junit.Test;
 import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.curriculum.planparser.CurriculumParser;
 import ua.dp.primat.curriculum.planparser.CurriculumXLSRow;
+import ua.dp.primat.domain.workload.Workload;
 import static org.junit.Assert.*;
 
 /**
@@ -51,11 +52,36 @@ public class TestPOI {
             System.out.println("Parser test error: " + ioe);
         }
         for (int i=0;i<listParsed.size();i++) {
-            System.out.println(listParsed.get(i).toString());
+            System.out.println(rowToString(listParsed.get(i)));
         }
 
         //check result
         assertEquals(String.format("We get extacly %d entries",listParsed.size()),true,listParsed.size() > 50);
+    }
+
+    private String rowToString(CurriculumXLSRow xlsRow) {
+        StringBuilder result = new StringBuilder();
+        final String eolChar = String.format("%n");
+
+        result.append("Discipline: ").append(xlsRow.getDiscipline().getName()).append(eolChar);
+        
+        for (Workload w : xlsRow.getWorkloadList()) {
+            result.append("Category: ").append(w.getLoadCategory()).append(eolChar);
+            result.append("Type: "+w.getType() + eolChar);
+            result.append("-> Semester:"+w.getSemesterNumber()
+                    + "| FinalControl:" + w.getFinalControlType()
+                    + "| CourseWork:" + w.getCourseWork()
+                    + "| IndividualControlCount:" + w.getIndividualControl().size()
+                    + eolChar);
+
+            for (int k=0;k<w.getIndividualControl().size();k++) {
+                result.append("---> IndividualControl: " + w.getIndividualControl().get(k).getType());
+                result.append(", " + w.getIndividualControl().get(k).getWeekNum());
+                result.append(eolChar);
+            }
+        }
+
+        return result.toString();
     }
 
 }

@@ -6,26 +6,20 @@
 }
 
 #scheduleDaybook {
+    width: 100%;
     font-size: 14px;
     font-family: verdana;
     padding: 3px 3px 3px 3px;
-    width: 360px;
-    height: 280px;
-    float: left;
 }
 
-#scheduleDaybook .dayTitle {
-    width: 100%;
-    border: 1px solid gray;
-    padding: 2px 5px 2px 5px;
-    background-color: rgb(152, 183, 212);
-    text-align: center;
-    font-weight: bold;
-    -moz-border-radius: 6px;
+#scheduleDaybook td {
+    vertical-align: top;
 }
 
 table.ViewTable
 {
+    width: 100%;
+    height: 100%;
     border-spacing: 2px;
     margin: 3px;
     border-style: none;
@@ -34,11 +28,18 @@ table.ViewTable
 table.ViewTable tr, table.ViewTable td, table.ViewTable th
 {
     border-width: 1px;
+    vertical-align: middle;
     padding: 2px 5px 2px 5px;
     border-style: solid;
     border-color: gray;
     text-align: center;
     -moz-border-radius: 6px;
+}
+
+table.ViewTable th
+{
+    background-color: #276173;
+    font-style: italic;
 }
 
 #fields td
@@ -47,11 +48,6 @@ table.ViewTable tr, table.ViewTable td, table.ViewTable th
 }
 
 /* colors */
-table.ViewTable th
-{
-    background-color: rgb(152, 183, 212);
-    font-style: italic;
-}
 
 table.ViewTable tr:nth-child(2n) td
 {
@@ -62,4 +58,3 @@ table.ViewTable tr:nth-child(2n+1) td
 {
     background-color: rgb(173, 217, 251);
 }
-/* colors */

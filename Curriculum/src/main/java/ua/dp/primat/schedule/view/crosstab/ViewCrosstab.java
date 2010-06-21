@@ -82,7 +82,8 @@ public final class ViewCrosstab extends RefreshablePanel {
     //constant of for wicket
     private static final String ROW_MARKUP = "row";
     private static final String NUM_COLUMN = "num";
-    private static final String[] DAY_WICKET_KEYS = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
+    private static final String DAYNAME_WICKET = "caption_";
+    private static final String[] DAY_WICKET_KEYS = {"monday", "tuesday", "wednesday", "thursday", "friday"};
 
     //list and view of all retrieved lessons
     private List<LessonQueryItem> lessons;
@@ -93,6 +94,11 @@ public final class ViewCrosstab extends RefreshablePanel {
      */
     public ViewCrosstab(String id) {
         super(id);
+
+        for (int i=0;i<DAY_WICKET_KEYS.length;i++) {
+            final Label labelDay = new Label(DAYNAME_WICKET + DAY_WICKET_KEYS[i], DayOfWeek.fromNumber(i).toString());
+            add(labelDay);
+        }
 
         lessonView = new ScheduleListView(ROW_MARKUP, lessons);
         add(lessonView);
