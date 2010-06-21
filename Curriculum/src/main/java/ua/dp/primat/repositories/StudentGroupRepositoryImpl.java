@@ -7,13 +7,13 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ua.dp.primat.domain.StudentGroup;
 
+@Transactional
 @Repository("studentGroupRepositoty")
 public class StudentGroupRepositoryImpl implements StudentGroupRepository {
 
     @PersistenceContext(unitName = "curriculum")
     private EntityManager em;
 
-    @Transactional(readOnly = true)
     public List<StudentGroup> getGroups() {
         return em.createNamedQuery(StudentGroup.GET_GROUPS_QUERY).getResultList();
     }
@@ -26,8 +26,16 @@ public class StudentGroupRepositoryImpl implements StudentGroupRepository {
         }
     }
 
-    @Transactional
     public void remove(StudentGroup studentGroup) {
         em.remove(studentGroup);
     }
+
+    public EntityManager getEm() {
+        return em;
+    }
+
+    public void setEm(EntityManager em) {
+        this.em = em;
+    }
+    
 }
