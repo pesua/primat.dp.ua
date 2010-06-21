@@ -4,88 +4,54 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public enum DayOfWeek {
-    MONDAY {
+
+    MONDAY(0) {
 
         @Override
         public String toString() {
             return BUNDLE.getString("day.monday");
         }
-
-        @Override
-        public int getNumber() {
-            return 0;
-        }
     },
-    TUESDAY {
+    TUESDAY(1) {
 
         @Override
         public String toString() {
             return BUNDLE.getString("day.tuesday");
         }
-
-        @Override
-        public int getNumber() {
-            return 1;
-        }
     },
-    WEDNESDAY {
+    WEDNESDAY(2) {
 
         @Override
         public String toString() {
             return BUNDLE.getString("day.wednesday");
         }
-
-        @Override
-        public int getNumber() {
-            return 2;
-        }
     },
-    THURSDAY {
+    THURSDAY(3) {
 
         @Override
         public String toString() {
             return BUNDLE.getString("day.thursday");
         }
-
-        @Override
-        public int getNumber() {
-            return 3;
-        }
     },
-    FRIDAY {
+    FRIDAY(4) {
 
         @Override
         public String toString() {
             return BUNDLE.getString("day.friday");
         }
-
-        @Override
-        public int getNumber() {
-            return 4;
-        }
     },
-    SATURDAY {
+    SATURDAY(5) {
 
         @Override
         public String toString() {
             return BUNDLE.getString("day.saturday");
         }
-
-        @Override
-        public int getNumber() {
-            return 5;
-        }
     },
-    SUNDAY {
+    SUNDAY(6) {
 
         @Override
         public String toString() {
             return BUNDLE.getString("day.sunday");
-        }
-
-        @Override
-        public int getNumber() {
-            return 6;
         }
     };
 
@@ -93,18 +59,23 @@ public enum DayOfWeek {
      * gets number of day. E.g. Monday is first day of week, method returns 0.
      * @return day's number of week (numeration from 0)
      */
-    public abstract int getNumber();
+    public int getNumber() {
+        return num;
+    }
+
     public static DayOfWeek fromNumber(int num) {
-        switch(num) {
-            case 0: return MONDAY;
-            case 1: return TUESDAY;
-            case 2: return WEDNESDAY;
-            case 3: return THURSDAY;
-            case 4: return FRIDAY;
-            case 5: return SATURDAY;
-            default: return SUNDAY;
+        for (DayOfWeek d : values()) {
+            if (num == d.num) {
+                return d;
+            }
         }
+        return SUNDAY;
+    }
+
+    private DayOfWeek(int number) {
+        num = number;
     }
 
     private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("dimainModel", new Locale("uk"));
+    private int num;
 }
