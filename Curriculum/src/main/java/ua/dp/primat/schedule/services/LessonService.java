@@ -48,7 +48,7 @@ public class LessonService {
                     && ((l.getWeekType() == week)
                     || (l.getWeekType() == WeekType.BOTH))) {
                 int lessonNumber = l.getLessonNumber().intValue();
-                dayLessons[lessonNumber] = l;
+                dayLessons[lessonNumber-1] = l;
             }
         }
 
@@ -61,6 +61,7 @@ public class LessonService {
      * @param semester
      * @return
      */
+    @SuppressWarnings("unchecked")
     public List<Lesson> getLessons(StudentGroup studentGroup, Long semester) {
         final List<Lesson> list  = new ArrayList<Lesson>();
 
@@ -118,5 +119,5 @@ public class LessonService {
     }
 
     @Resource
-    LessonRepository lessonRepository;
+    private LessonRepository lessonRepository;
 }

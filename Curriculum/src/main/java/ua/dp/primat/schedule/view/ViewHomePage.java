@@ -4,7 +4,6 @@ import ua.dp.primat.schedule.view.crosstab.ViewCrosstab;
 import ua.dp.primat.domain.lesson.Lesson;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import org.apache.wicket.extensions.ajax.markup.html.tabs.AjaxTabbedPanel;
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
@@ -13,16 +12,7 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import ua.dp.primat.domain.Cathedra;
-import ua.dp.primat.domain.lesson.DayOfWeek;
-import ua.dp.primat.domain.workload.Discipline;
-import ua.dp.primat.domain.Lecturer;
-import ua.dp.primat.domain.lesson.LessonDescription;
-import ua.dp.primat.domain.lesson.LessonType;
-import ua.dp.primat.domain.Room;
 import ua.dp.primat.domain.StudentGroup;
-import ua.dp.primat.domain.LecturerType;
-import ua.dp.primat.domain.lesson.WeekType;
 import ua.dp.primat.schedule.services.LessonService;
 import ua.dp.primat.utils.view.ChoosePanel;
 import ua.dp.primat.utils.view.RefreshablePanel;
@@ -34,16 +24,15 @@ import ua.dp.primat.utils.view.RefreshablePanel;
 public final class ViewHomePage extends WebPage {
 
     /**
-     * Contructor for the home page, which adds tabs and choose panel
+     * Contructor for the home page, which adds tabs and choose panel.
      */
     public ViewHomePage() {
         super();
         languageLoad();
 
         // create the tabbed panel
-        List<ITab> tabs = new ArrayList<ITab>();
-        tabs.add(new AbstractTab(new Model<String>(tabDaybookText))
-        {
+        final List<ITab> tabs = new ArrayList<ITab>();
+        tabs.add(new AbstractTab(new Model<String>(tabDaybookText)) {
                 @Override
                 public Panel getPanel(String panelId)
                 {
@@ -53,8 +42,7 @@ public final class ViewHomePage extends WebPage {
                 }
         });
 
-        tabs.add(new AbstractTab(new Model<String>(tabScheduleText))
-        {
+        tabs.add(new AbstractTab(new Model<String>(tabScheduleText)) {
                 @Override
                 public Panel getPanel(String panelId)
                 {
@@ -91,8 +79,6 @@ public final class ViewHomePage extends WebPage {
         tabDaybookText = bundle.getString("tab.daybook");
     }
 
-    private static final long serialVersionUID = 1L;
-
     private RefreshablePanel schedulePanel;
     private RefreshablePanel daybookPanel;
 
@@ -103,5 +89,7 @@ public final class ViewHomePage extends WebPage {
 
     @SpringBean
     private LessonService lessonService;
+
+    private static final long serialVersionUID = 1L;
 
 }

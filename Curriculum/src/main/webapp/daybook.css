@@ -1,14 +1,14 @@
 /* Time-table */
 #weekTypeSection {
-    padding: 3px 3px 3px 3px;
     width: 100%;
+    font-size: 14px;
+    padding: 3px 3px 3px 3px;
     border-bottom: 1px solid #eee;
 }
 
 #scheduleDaybook {
     width: 100%;
     font-size: 14px;
-    font-family: verdana;
     padding: 3px 3px 3px 3px;
 }
 
@@ -25,6 +25,19 @@ table.ViewTable
     border-style: none;
     border-collapse: separate;
 }
+
+table.ViewTable th
+{
+    height: 32px;
+    background-color: #276173;
+    font-style: italic;
+}
+
+table.ViewTable tr
+{
+    height: 48px;
+}
+
 table.ViewTable tr, table.ViewTable td, table.ViewTable th
 {
     border-width: 1px;
@@ -34,12 +47,6 @@ table.ViewTable tr, table.ViewTable td, table.ViewTable th
     border-color: gray;
     text-align: center;
     -moz-border-radius: 6px;
-}
-
-table.ViewTable th
-{
-    background-color: #276173;
-    font-style: italic;
 }
 
 #fields td

@@ -1,13 +1,8 @@
 package ua.dp.primat.schedule.view.daybook;
-import org.apache.wicket.markup.html.list.ListItem;
 import ua.dp.primat.domain.lesson.Lesson;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import javax.annotation.Resource;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -22,15 +17,11 @@ import ua.dp.primat.utils.view.RefreshablePanel;
  */
 public final class ViewDaybook extends RefreshablePanel {
 
-    private static final long serialVersionUID = 1L;
-
-    //week type to show
-    private WeekType weekType = WeekType.NUMERATOR;
-
-    //list of all retrieved lessons
-    private List<Lesson> lessons;
-    private DayPanel[] listDataPanel = new DayPanel[DayOfWeek.values().length-1];
-
+    /**
+     * Constructor, which creates wicket panel with 6 inner day-panels and
+     * the combobox to select the WeekType.
+     * @param id
+     */
     public ViewDaybook(String id) {
         super(id);
 
@@ -77,7 +68,7 @@ public final class ViewDaybook extends RefreshablePanel {
 
     /**
      * Method, which updates lessons, listDataProv and listView.
-     * @param data  lessons to fill into the table
+     * @param data - lessons to fill into the table
      */
     @Override
     public void refreshView(List<Lesson> data) {
@@ -87,8 +78,17 @@ public final class ViewDaybook extends RefreshablePanel {
         }
     }
 
+    //week type to show
+    private WeekType weekType = WeekType.NUMERATOR;
+
+    //list of all retrieved lessons
+    private List<Lesson> lessons;
+    private DayPanel[] listDataPanel = new DayPanel[DayOfWeek.values().length-1];
+
     @SpringBean
-    LessonService lessonService;
+    private LessonService lessonService;
+
+    private static final long serialVersionUID = 1L;
 
 }
 

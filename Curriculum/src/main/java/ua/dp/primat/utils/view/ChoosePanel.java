@@ -3,7 +3,6 @@ package ua.dp.primat.utils.view;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.LoadableDetachableModel;
@@ -14,19 +13,15 @@ import ua.dp.primat.repositories.StudentGroupRepository;
 import ua.dp.primat.curriculum.view.NoCurriculumsPage;
 
 /**
- *
+ * Wicket panel for the Group and Semester choosing.
  * @author fdevelop
  */
 public abstract class ChoosePanel extends Panel {
 
-    private static final int SEMESTERCOUNT = 8;
-
-    @SpringBean
-    private StudentGroupRepository studentGroupRepository;
-
-    private StudentGroup studentGroup;
-    private Long semester;
-
+    /**
+     * Constructor, that creates combo for groups and for semesters.
+     * @param id
+     */
     public ChoosePanel(String id) {
         super(id);
 
@@ -35,6 +30,7 @@ public abstract class ChoosePanel extends Panel {
             throw new RestartResponseAtInterceptPageException(NoCurriculumsPage.class);
         }
 
+        //set the default values
         studentGroup = groups.get(0);
         semester = Long.valueOf(1);
         executeAction(studentGroup, semester);
@@ -59,14 +55,14 @@ public abstract class ChoosePanel extends Panel {
         };
         add(groupChoice);
 
-        //that's horrible... but it works for now.
+        //semester combo
         DropDownChoice<Long> semesterChoise = new DropDownChoice<Long>("semester",
                 new PropertyModel<Long>(this, "semester"),
                 new LoadableDetachableModel<List<Long>>(){
 
             @Override
             protected List<Long> load() {
-                List<Long> l = new ArrayList<Long>();
+                final List<Long> l = new ArrayList<Long>();
                 for (int i = 1; i <= SEMESTERCOUNT; i++) {
                     l.add(Long.valueOf(i));
                 }
@@ -90,6 +86,19 @@ public abstract class ChoosePanel extends Panel {
         add(semesterChoise);
     }
 
+    /**
+     * Method, which invokes on changing selection of one of the comboboxes.
+     * @param studentGroup - choosed student group
+     * @param semester - choosed semester
+     */
     protected abstract void executeAction(StudentGroup studentGroup, Long semester);
+
+    private StudentGroup studentGroup;
+    private Long semester;
+
+    @SpringBean
+    private StudentGroupRepository studentGroupRepository;
+
+    private static final int SEMESTERCOUNT = 8;
 
 }

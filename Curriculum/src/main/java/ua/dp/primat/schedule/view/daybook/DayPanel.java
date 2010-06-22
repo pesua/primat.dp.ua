@@ -5,6 +5,7 @@ import ua.dp.primat.domain.lesson.Lesson;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 import java.util.List;
+import javassist.SerialVersionUID;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import ua.dp.primat.domain.lesson.DayOfWeek;
@@ -17,7 +18,26 @@ import ua.dp.primat.domain.lesson.DayOfWeek;
  */
 public final class DayPanel extends Panel {
 
+    public DayPanel(final String id, DayOfWeek day) {
+        super(id);
+        
+        add(new Label("oneDayName", day.toString()));
+
+        dayListView = new DayListView("row", new ArrayList<Lesson>());
+        add(dayListView);
+    }
+
+    public void updateInfo(List<Lesson> listLesson) {
+        if (listLesson == null) {
+            dayListView.setList(new ArrayList<Lesson>());
+        } else {
+            dayListView.setList(listLesson);
+        }
+    }
+
     private ListView dayListView;
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * ListView, that outputs one day.
@@ -49,23 +69,6 @@ public final class DayPanel extends Panel {
             }
         }
 
-    }
-
-    public DayPanel(final String id, DayOfWeek day) {
-        super(id);
-        
-        add(new Label("oneDayName", day.toString()));
-
-        dayListView = new DayListView("row", new ArrayList<Lesson>());
-        add(dayListView);
-    }
-
-    public void updateInfo(List<Lesson> listLesson) {
-        if (listLesson == null) {
-            dayListView.setList(new ArrayList<Lesson>());
-        } else {
-            dayListView.setList(listLesson);
-        }
     }
 
 }
