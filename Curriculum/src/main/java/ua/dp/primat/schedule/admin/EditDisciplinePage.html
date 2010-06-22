@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:wicket="http://wicket.apache.org">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>EditDisciplinePage</title>
+        <link rel="stylesheet" type="text/css" href="style.css"/>
+    </head>
+    <body>
+        <form wicket:id="discipline">
+            <table id="tableDiscipline" class="editEntityTable">
+                <tr>
+                    <td>Name</td>
+                    <td><input wicket:id="name"/></td>
+                </tr>
+                <tr>
+                    <td>Cathedra</td>
+                    <td>
+                        <select wicket:id="cathedra">
+                            <option>JJR</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr><td></td><td><input type="submit" value="OK"/></td></tr>
+            </table>
+        </form>
+    </body>
+</html>

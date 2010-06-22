@@ -1,9 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ua.dp.primat.schedule.admin;
+
 import java.util.List;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -13,11 +9,12 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import ua.dp.primat.domain.Cathedra;
 import ua.dp.primat.domain.workload.Discipline;
+import ua.dp.primat.repositories.CathedraRepository;
 import ua.dp.primat.repositories.DisciplineRepository;
-import ua.dp.primat.utils.view.ChoosePanel;
+
 /**
  *
- * @author pesua
+ * @author EniSh
  */
 public final class EditDisciplinePage extends WebPage {
 
@@ -26,33 +23,24 @@ public final class EditDisciplinePage extends WebPage {
     }
 
     public EditDisciplinePage(Discipline discipline) {
-        super();
-        this.discipline = discipline;
-
-        add(new EditDisciplineForm("discipline"));
+        add(new EditDisciplineForm("discipline", discipline));
     }
 
     private class EditDisciplineForm extends Form<Discipline> {
 
-        public EditDisciplineForm(String cName) {
-            super(cName, new CompoundPropertyModel<Discipline>(discipline));
+        public EditDisciplineForm(String id, Discipline discipline) {
+            super(id, new CompoundPropertyModel<Discipline>(discipline));
+            this.discipline = discipline;
 
             add(new TextField("name"));
-            //List<Cathedra> cathedra = CathedraRepository.getAllLecturers();
-            //add(new DropDownChoice("cathedra", cathedra));
-        }
 
-        @Override
-        protected void onSubmit() {
-            super.onSubmit();
-            disciplineRepository.store(discipline);
-            setResponsePage(ManageDisciplines.class);
+            List<Cathedra> cathedras = cathedraRepository.getCathedras();
+            add(new DropDownChoice("cathedra", cathedras));
         }
+        private Discipline discipline;
+        @SpringBean
+        private DisciplineRepository disciplineRepository;
+        @SpringBean
+        private CathedraRepository cathedraRepository;
     }
-
-    private Discipline discipline;
-
-    @SpringBean
-    private DisciplineRepository disciplineRepository;
 }
-

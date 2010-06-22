@@ -1,14 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ua.dp.primat.schedule.admin;
 
 import java.util.List;
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.IPageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.link.PageLink;
@@ -20,42 +16,52 @@ import ua.dp.primat.repositories.DisciplineRepository;
 
 /**
  *
- * @author pesua
+ * @author EniSh
  */
 public final class ManageDisciplines extends WebPage {
-
     public ManageDisciplines() {
-        super();
-        final List<Discipline> Disciplines = DisciplineRepository.getDisciplines();
+        super ();
 
-        ListView<Discipline> DisciplineView = new ListView<Discipline>("repeating", Disciplines) {
+        final List<Discipline> disciplines = disciplineRepository.getDisciplines();
+
+        ListView<Discipline> disciplineView = new ListView<Discipline>("repeating", disciplines) {
 
             @Override
             protected void populateItem(ListItem<Discipline> li) {
-                final Discipline Discipline = li.getModelObject();
-                li.add(new Label("Discipline", Discipline.toString()));
-                li.add(new PageLink("editDiscipline", new IPageLink() {
+                final Discipline discipline = li.getModelObject();
+                li.add(new Label("disciplineName", discipline.getName()));
+                li.add(new Label("disciplineCathedra", discipline.getCathedra().toString()));
+
+                Link editLink = new PageLink("editDiscipline", new IPageLink() {
 
                     public Page getPage() {
-                        return new EditDisciplinePage(Discipline);
+                        return new EditDisciplinePage(discipline);
                     }
 
                     public Class<? extends Page> getPageIdentity() {
                         return EditDisciplinePage.class;
                     }
-                }));
-                li.add(new Link("deleteDiscipline") {
+                });
+                editLink.add(new Image("editImage"));
+                li.add(editLink);
+
+                Link deleteLink = new Link("deleteDiscipline") {
 
                     @Override
                     public void onClick() {
-                        DisciplineRepository.delete(Discipline);
-                        Disciplines.remove(Discipline);
+                        disciplineRepository.delete(discipline);
+                        disciplines.remove(discipline);
                     }
-                });
+                };
+                deleteLink.add(new Image("deleteImage"));
+                li.add(deleteLink);
             }
         };
-        add(DisciplineView);
+
+        add(disciplineView);
     }
+
     @SpringBean
-    private DisciplineRepository DisciplineRepository;
+    private DisciplineRepository disciplineRepository;
 }
+
