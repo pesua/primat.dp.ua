@@ -1,6 +1,7 @@
 package ua.dp.primat.domain.lesson;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,22 +13,27 @@ import ua.dp.primat.domain.Room;
 @Entity
 @NamedQueries({
     @NamedQuery(name = Lesson.GET_LESSONS_BY_GROUP_QUERY, query = "select lesson from Lesson lesson join lesson.lessonDescription ld where ld.studentGroup = :group"),
+    @NamedQuery(name = Lesson.GET_LESSONS_BY_GROUP_AND_DAY_QUERY, query = "select lesson from Lesson lesson join lesson.lessonDescription ld where ld.studentGroup = :group and ld.semester=:semester and dayOfWeek=:day and weekType=:weekType"),
     @NamedQuery(name = Lesson.GET_LESSONS_BY_GROUP_AND_SEMESTER_QUERY, query = "select lesson from Lesson lesson join lesson.lessonDescription ld where ld.studentGroup = :group and ld.semester=:semester")
 })
 public class Lesson implements Serializable {
 
     public static final String GET_LESSONS_BY_GROUP_QUERY = "getLessons";
+    public static final String GET_LESSONS_BY_GROUP_AND_DAY_QUERY = "getLessonsByGroupAndDay";
     public static final String GET_LESSONS_BY_GROUP_AND_SEMESTER_QUERY = "getLessonsBySemesterAndGroup";
+
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue
     private Long id;
+
     private Long lessonNumber;
     private WeekType weekType;
     private DayOfWeek dayOfWeek;
     @ManyToOne
     private Room room;
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.REMOVE)
     private LessonDescription lessonDescription;
 
     public Lesson() {

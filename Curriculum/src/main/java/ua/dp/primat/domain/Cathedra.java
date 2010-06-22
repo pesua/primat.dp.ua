@@ -17,6 +17,10 @@ public class Cathedra implements Serializable {
     public Cathedra() {
     }
 
+    public Cathedra(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

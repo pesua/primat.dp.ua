@@ -30,7 +30,7 @@ public class LessonDescription implements Serializable {
     private LessonType lessonType;
     @ManyToOne
     private Lecturer lecturer;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Lecturer assistant;
 
     public LessonDescription() {
