@@ -6,14 +6,16 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 import ua.dp.primat.domain.StudentGroup;
+import ua.dp.primat.domain.lesson.DayOfWeek;
 import ua.dp.primat.domain.lesson.Lesson;
+import ua.dp.primat.domain.lesson.WeekType;
 
 /**
  *
  * @author pesua
  */
 @Repository
-public class LessonRepositoryimpl implements LessonRepository {
+public class LessonRepositoryImpl implements LessonRepository {
     @PersistenceContext(unitName = "curriculum")
     private EntityManager em;
 
@@ -43,6 +45,10 @@ public class LessonRepositoryimpl implements LessonRepository {
         query.setParameter("group", group);
         query.setParameter("semester", semester);
         return query.getResultList();
+    }
+
+    public List<Lesson> getLessonsByGroupAndDay(StudentGroup group, Long semester, DayOfWeek dayOfWeek, WeekType weekType) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }
