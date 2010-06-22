@@ -29,6 +29,12 @@ import ua.dp.primat.repositories.RoomRepository;
 public class LessonService {
 
     public void saveLesson(Lesson lesson) {
+        LessonDescription descr = lessonDescriptionRepository.find(lesson.getLessonDescription().getId());
+        if (descr != null) {
+            lesson.setLessonDescription(descr);
+        } else {
+            lessonDescriptionRepository.store(lesson.getLessonDescription());
+        }
         lessonRepository.store(lesson);
     }
 

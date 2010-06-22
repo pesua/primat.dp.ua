@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ua.dp.primat.schedule.admin;
 
 import java.util.List;
@@ -20,7 +16,7 @@ import ua.dp.primat.repositories.RoomRepository;
 
 /**
  *
- * @author Administrator
+ * @author EniSh
  */
 public final class ManageRooms extends WebPage {
 
@@ -34,7 +30,8 @@ public final class ManageRooms extends WebPage {
             protected void populateItem(ListItem<Room> li) {
                 final Room room = li.getModelObject();
                 li.add(new Label("room", room.toString()));
-                li.add(new PageLink("editRoom", new IPageLink() {
+                
+                Link editLink = new PageLink("editRoom", new IPageLink() {
 
                     public Page getPage() {
                         return new EditRoomPage(room);
@@ -43,18 +40,20 @@ public final class ManageRooms extends WebPage {
                     public Class<? extends Page> getPageIdentity() {
                         return EditRoomPage.class;
                     }
-                }));
-                li.add(new Link("deleteRoom") {
+                });
+                editLink.add(new Image("editImage"));
+                li.add(editLink);
+                
+                Link deleteLink = new Link("deleteRoom") {
 
                     @Override
                     public void onClick() {
                         roomRepository.delete(room);
                         rooms.remove(room);
                     }
-                });
-
-                add(new Image("editImage"));
-                add(new Image("deleteImage"));
+                };
+                deleteLink.add(new Image("deleteImage"));
+                li.add(deleteLink);
             }
         };
         add(roomView);

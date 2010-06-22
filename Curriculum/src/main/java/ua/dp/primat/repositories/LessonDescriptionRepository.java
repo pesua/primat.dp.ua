@@ -9,4 +9,5 @@ import ua.dp.primat.domain.lesson.LessonDescription;
 public interface LessonDescriptionRepository {
     void store(LessonDescription lessonDescription);
     void remove(LessonDescription lessonDescription);
+    LessonDescription find(Long id);
 }

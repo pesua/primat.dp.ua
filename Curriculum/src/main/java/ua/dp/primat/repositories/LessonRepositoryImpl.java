@@ -34,6 +34,10 @@ public class LessonRepositoryImpl implements LessonRepository {
         }
     }
 
+    public Lesson find(Long id) {
+        return em.find(Lesson.class, id);
+    }
+
     public List<Lesson> getLessons(StudentGroup group) {
         Query query = em.createNamedQuery(Lesson.GET_LESSONS_BY_GROUP_QUERY);
         query.setParameter("group", group);

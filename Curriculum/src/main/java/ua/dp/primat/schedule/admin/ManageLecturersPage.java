@@ -6,7 +6,6 @@ package ua.dp.primat.schedule.admin;
 
 import java.util.List;
 import org.apache.wicket.Page;
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.Image;
@@ -34,11 +33,11 @@ public final class ManageLecturersPage extends WebPage {
             @Override
             protected void populateItem(ListItem<Lecturer> li) {
                 final Lecturer lecturer = li.getModelObject();
-                add(new Label("name", lecturer.getShortName()));
-                add(new Label("cathedra", lecturer.getCathedra().toString()));
-                add(new Label("type", lecturer.getLecturerType().toString()));
+                li.add(new Label("name", lecturer.getShortName()));
+                li.add(new Label("cathedra", lecturer.getCathedra().toString()));
+                li.add(new Label("type", lecturer.getLecturerType().toString()));
 
-                add(new PageLink("editLink", new IPageLink() {
+                Link editLink = new PageLink("editLink", new IPageLink() {
 
                     public Page getPage() {
                         return new EditLecturerPage(lecturer);
@@ -47,17 +46,20 @@ public final class ManageLecturersPage extends WebPage {
                     public Class<? extends Page> getPageIdentity() {
                         return EditLecturerPage.class;
                     }
-                }));
+                });
+                li.add(editLink);
+                editLink.add(new Image("editImage"));
 
-                add(new Link("deleteLink") {
+                Link deleteLink = new Link("deleteLink") {
 
                     @Override
                     public void onClick() {
                         lecturerRepository.delete(lecturer);
                         lecturers.remove(lecturer);
                     }
-                });
-
+                };
+                li.add(deleteLink);
+                deleteLink.add(new Image("deleteImage"));
             }
         };
         add(lecturerView);
@@ -66,4 +68,3 @@ public final class ManageLecturersPage extends WebPage {
     @SpringBean
     private LecturerRepository lecturerRepository;
 }
-

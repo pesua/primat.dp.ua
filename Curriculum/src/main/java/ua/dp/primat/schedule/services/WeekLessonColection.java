@@ -1,5 +1,6 @@
 package ua.dp.primat.schedule.services;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import ua.dp.primat.domain.lesson.Lesson;
@@ -8,7 +9,7 @@ import ua.dp.primat.domain.lesson.Lesson;
  *
  * @author EniSh
  */
-public class WeekLessonColection {
+public class WeekLessonColection implements Serializable {
 
     public WeekLessonColection() {
         lessonItems = new LessonItem[7][5];

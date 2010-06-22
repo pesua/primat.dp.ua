@@ -1,9 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ua.dp.primat.schedule.admin;
+
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
@@ -14,7 +10,7 @@ import ua.dp.primat.repositories.RoomRepository;
 
 /**
  *
- * @author Administrator
+ * @author EniSh
  */
 public final class EditRoomPage extends WebPage {
 

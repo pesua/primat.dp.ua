@@ -16,4 +16,5 @@ public interface LessonRepository {
     List<Lesson> getLessons(StudentGroup group);
     List<Lesson> getLessonsByGroupAndDay(StudentGroup group, Long semester, DayOfWeek dayOfWeek, WeekType weekType);
     List<Lesson> getLessonsByGroupAndSemester(StudentGroup group, Long semester);
+    Lesson find(Long id);
 }

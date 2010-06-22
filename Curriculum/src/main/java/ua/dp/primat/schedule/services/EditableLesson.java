@@ -34,6 +34,10 @@ public class EditableLesson implements Serializable {
     public EditableLesson() {
     }
 
+    public boolean isEmpty() {
+        return discipline == null;
+    }
+
     public Lecturer getAsistant() {
         return asistant;
     }

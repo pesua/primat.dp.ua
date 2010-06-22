@@ -25,7 +25,10 @@ public class LessonDescriptionRepositoryImpl implements LessonDescriptionReposit
         }
     }
 
+    public LessonDescription find(Long id) {
+        return em.find(LessonDescription.class, id);
+    }
+
     @PersistenceContext(unitName = "curriculum")
     private EntityManager em;
-
 }

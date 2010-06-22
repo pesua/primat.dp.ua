@@ -14,19 +14,19 @@ import ua.dp.primat.domain.workload.Discipline;
 import ua.dp.primat.domain.Lecturer;
 import ua.dp.primat.repositories.LecturerRepository;
 import ua.dp.primat.domain.Room;
+import ua.dp.primat.repositories.DisciplineRepository;
 import ua.dp.primat.repositories.RoomRepository;
 import ua.dp.primat.schedule.services.EditableLesson;
 
 /**
  *
- * @author Administrator
+ * @author EniSh
  */
 public class EditableLesonPanel extends Panel {
     public EditableLesonPanel(String id, EditableLesson lesson) {
         super (id);
         List<Room> rooms = roomRepository.getRooms();
-        //TODO get disciplines for the current group and semester
-        List<Discipline> disciplines = new ArrayList<Discipline>();
+        List<Discipline> disciplines = disciplineRepository.getDisciplines();
         List<Lecturer> lecturers = lecturerRepository.getAllLecturers();
 
         add(new DropDownChoice<Discipline>("discipline", new PropertyModel<Discipline>(lesson, "discipline"), disciplines));
@@ -35,7 +35,8 @@ public class EditableLesonPanel extends Panel {
         add(new DropDownChoice<Lecturer>("asistant", new PropertyModel<Lecturer>(lesson, "asistant"), lecturers));
     }
 
-
+    @SpringBean
+    private DisciplineRepository disciplineRepository;
 
     @SpringBean
     private RoomRepository roomRepository;

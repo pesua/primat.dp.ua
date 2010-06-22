@@ -1,26 +1,22 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ua.dp.primat.schedule.admin;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.model.ComponentPropertyModel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import ua.dp.primat.domain.Cathedra;
 import ua.dp.primat.domain.Lecturer;
 import ua.dp.primat.repositories.LecturerRepositoryImpl;
 import ua.dp.primat.domain.LecturerType;
+import ua.dp.primat.repositories.CathedraRepository;
 
 /**
  *
- * @author Administrator
+ * @author EniSh
  */
 public final class EditLecturerPage extends WebPage {
 
@@ -38,13 +34,9 @@ public final class EditLecturerPage extends WebPage {
         public EditLecturerForm(String cname) {
             super(cname, new CompoundPropertyModel<Lecturer>(lecturer));
             add(new TextField("name"));
-            List<Lecturer> lecturers = lecturerRepository.getAllLecturers();
-            add(new DropDownChoice("cathedra", lecturers));
-            List<LecturerType> lecturerTypes = new ArrayList<LecturerType>();
-            lecturerTypes.add(LecturerType.ASSIATANT);
-            lecturerTypes.add(LecturerType.DOCENT);
-            lecturerTypes.add(LecturerType.PROFESSOR);
-            lecturerTypes.add(LecturerType.SENIORLECTURER);
+            List<Cathedra> cathedras = cathedraRepository.getCathedras();
+            add(new DropDownChoice("cathedra", cathedras));
+            List<LecturerType> lecturerTypes = Arrays.asList(LecturerType.values());
             add(new DropDownChoice("lecturerType", lecturerTypes));
         }
 
@@ -57,5 +49,7 @@ public final class EditLecturerPage extends WebPage {
     private Lecturer lecturer;
     @SpringBean
     private LecturerRepositoryImpl lecturerRepository;
+    @SpringBean
+    private CathedraRepository cathedraRepository;
 }
 
