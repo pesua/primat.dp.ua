@@ -4,10 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -25,29 +23,6 @@ import ua.dp.primat.domain.workload.WorkloadType;
  *
  */
 public final class CurriculumParser {
-
-    //Workload Type Indexes
-    public static final int WTID_HUMANITIES = 1;
-    public static final int WTID_NATURALSCIENCE = 2;
-    public static final int WTID_PROFPRACT = 3;
-    public static final int WTID_PROFPRACTSTUDENT = 4;
-    public static final int WTID_PROFPRACTUNIVER = 5;
-
-    /* PRIVATE VARIABLES */
-    private String diffSetOff;
-    private String disciplineCategorySelective;
-    private String disciplineCategoryAlternativeWar;
-
-    private WorkloadType currentWorkloadType;
-    private LoadCategory currentLoadCategory;
-
-    //pre-params
-    private StudentGroup group;
-    private int sheetNumber;
-    private int itemStart;
-    private int itemEnd;
-    private int semestersCount;
-    private String fileName;
 
     /**
      * Constructor, that takes parser options.
@@ -101,10 +76,9 @@ public final class CurriculumParser {
                 continue;
             }
 
-            //if this item is not a Database entry, it might be the option (WorkloadType, LoadCategory)
             if ((row.getCell(1) == null) || (row.getCell(1).toString().length() == 0)) {
-                String cellText = row.getCell(0).getStringCellValue().trim();
-                changeEntriesCategoryOrType(cellText);
+                //not a curriculum row, but information item
+                changeEntriesCategoryOrType(row.getCell(0).getStringCellValue().trim());
             } else {
                 entries.add(new CurriculumXLSRow(group, row,
                         currentWorkloadType, currentLoadCategory,
@@ -112,46 +86,12 @@ public final class CurriculumParser {
             }
         }
         
-        //get the result
         return entries;
-    }
-
-    //getters and setters
-    public StudentGroup getGroup() {
-        return group;
-    }
-
-    public void setGroup(StudentGroup group) {
-        this.group = group;
-    }
-
-    public int getItemEnd() {
-        return itemEnd;
-    }
-
-    public void setItemEnd(int itemEnd) {
-        this.itemEnd = itemEnd;
-    }
-
-    public int getItemStart() {
-        return itemStart;
-    }
-
-    public void setItemStart(int itemStart) {
-        this.itemStart = itemStart;
-    }
-
-    public int getSheetNumber() {
-        return sheetNumber;
-    }
-
-    public void setSheetNumber(int sheetNumber) {
-        this.sheetNumber = sheetNumber;
     }
 
     /**
      * Load language resources from .properties file.
-     * @param lang  language identification (like "en", "uk" etc)
+     * @param lang - language identification (like "en", "uk" etc)
      */
     private void languageLoad(String lang) {
         final ResourceBundle parserConstants = ResourceBundle.getBundle("parser", new Locale(lang));
@@ -162,31 +102,13 @@ public final class CurriculumParser {
 
     /**
      * Set the value of currentLoadCategory or currentWorkloadType, parsed from cell value.
-     * @param cellText  cell string value
+     * @param cellText - cell string value
      */
     private void changeEntriesCategoryOrType(String cellText) {
-        int dtype;
-        if ( cellText.indexOf('.') > -1 ) {
-            try {
-                dtype = Integer.parseInt( cellText.substring(0, cellText.indexOf('.')) );
-            }
-            catch (NumberFormatException nfe) {
-                dtype = 0;
-            }
+        if ( cellText.contains(".") ) {
+            int dtype = getWorkloadTypeInfoNumber(cellText);
             currentLoadCategory = LoadCategory.Normative;
-            switch (dtype) {
-                case WTID_HUMANITIES:currentWorkloadType = WorkloadType.wtHumanities;
-                    break;
-                case WTID_NATURALSCIENCE:currentWorkloadType = WorkloadType.wtNaturalScience;
-                    break;
-                case WTID_PROFPRACT:currentWorkloadType = WorkloadType.wtProfPract;
-                    break;
-                case WTID_PROFPRACTSTUDENT:currentWorkloadType = WorkloadType.wtProfPractStudent;
-                    break;
-                case WTID_PROFPRACTUNIVER:currentWorkloadType = WorkloadType.wtProfPractUniver;
-                    break;
-                default: currentWorkloadType = WorkloadType.wtProfPract;
-            }
+            currentWorkloadType = WorkloadType.fromNumber(dtype);
         } else {
             if (cellText.contains(disciplineCategoryAlternativeWar)) {
                 currentLoadCategory = LoadCategory.AlternativeForWar;
@@ -197,4 +119,34 @@ public final class CurriculumParser {
             }
         }
     }
+
+    /**
+     * Returns the number from the string like '1. Param-pam-pam'
+     * @param text - input string
+     * @return
+     */
+    private int getWorkloadTypeInfoNumber(String text) {
+        try {
+            return Integer.parseInt( text.substring(0, text.indexOf('.')) );
+        }
+        catch (NumberFormatException nfe) {
+            return 0;
+        }
+    }
+
+    /* PRIVATE VARIABLES */
+    private String diffSetOff;
+    private String disciplineCategorySelective;
+    private String disciplineCategoryAlternativeWar;
+
+    private WorkloadType currentWorkloadType;
+    private LoadCategory currentLoadCategory;
+
+    //pre-params
+    private StudentGroup group;
+    private int sheetNumber;
+    private int itemStart;
+    private int itemEnd;
+    private int semestersCount;
+    private String fileName;
 }

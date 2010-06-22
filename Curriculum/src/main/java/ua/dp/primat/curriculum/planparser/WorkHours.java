@@ -57,6 +57,13 @@ public final class WorkHours {
 
     @Override
     public String toString() {
-        return "[" + hoursLec + "/" + hoursPract + "/" + hoursLab + "/" + hoursInd + "/" + hoursSam + "/" + "]";
+        StringBuilder sb = new StringBuilder();
+        sb.append("[").append(hoursLec);
+        sb.append("/").append(hoursPract);
+        sb.append("/").append(hoursLab);
+        sb.append("/").append(hoursInd);
+        sb.append("/").append(hoursSam);
+        sb.append("]");
+        return sb.toString();
     }
 }

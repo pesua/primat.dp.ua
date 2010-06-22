@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 import org.apache.poi.ss.usermodel.Row;
 
 import ua.dp.primat.domain.workload.FinalControlType;
@@ -22,46 +23,6 @@ import ua.dp.primat.domain.StudentGroup;
  * @author fdevelop
  */
 public final class CurriculumXLSRow {
-
-    /* CONSTANTS */
-    /** Excel index for Name of Discipline. */
-    public static final int COL_DISCIPLINE = 1;
-    /** Excel index for Cathedra of Discipline. */
-    public static final int COL_CATHEDRA = 2;
-    /** Excel index for type of final control (exam, setoff, differential setoff, course). */
-    public static final int COL_FINALCONTROL = 6;
-    /** Excel index for types of individual tasks. */
-    public static final int COL_INDIVIDUALTASKS = 9;
-    /** Excel indexes for hours for the Discipline. */
-    public static final int COL_HOURS_LECTURE = 22;
-    public static final int COL_HOURS_PRACTICE = 23;
-    public static final int COL_HOURS_LAB = 24;
-    public static final int COL_HOURS_INDIVIDUAL = 25;
-    public static final int COL_HOURS_SELFWORK = 26;
-    /** Excel cells count for hours info of one semester. */
-    public static final int COL_HOUROFFSET = 6;
-
-    //PRIVATE Variables
-    private String diffSetOff;
-    private String disciplineName;
-    private String cathedraName;
-    private WorkloadType workloadType;
-    private LoadCategory loadCategory;
-    //final monitoring
-    private int[] fmExams;
-    private int[] fmDifTests;
-    private int[] fmTests;
-    private int[] fmCourses;
-    //individual works
-    private List<IndividualControlEntry> indWorks;
-    //hours info
-    private Map<Integer, WorkHours> hoursForSemesters;
-
-    //DataBase output objects
-    private StudentGroup group;
-    private Cathedra cathedra;
-    private Discipline discipline;
-    private List<Workload> workloadList = new ArrayList<Workload>();
 
     /**
      * Constructor, that gets atomic info from one row and creates data entities
@@ -140,30 +101,20 @@ public final class CurriculumXLSRow {
      *      will include only marked numbers (like '3d').
      */
     private int[] parseNumValues(String fmStr, boolean standard) {
-        final List<Integer> intValues = new ArrayList<Integer>();
-        final String[] values = fmStr.split(",");
+        System.out.println(fmStr);
+        final String[] values = fmStr.trim().split("\\s*,\\s*");
+        final int[] intValues = new int[values.length];
 
-        String valueWithoutMark;
-        for (int i=0;i<values.length;i++) {
-            valueWithoutMark = values[i].trim();
-            if (!standard) {
-                if (valueWithoutMark.indexOf(diffSetOff) > -1) {
-                    valueWithoutMark = valueWithoutMark.replaceAll(diffSetOff, "");
-                }
-            }
-            try {
-                intValues.add((int)Double.parseDouble(valueWithoutMark));
-            }
-            catch (NumberFormatException nfe) {
-                //could not be parsed, ignore it
+        int idx = 0;
+        Pattern digits = Pattern.compile("\\d+(\\.\\d+)?" + (standard ? "" : diffSetOff) );
+        for (int i = 0; i < values.length; i++) {
+            if (digits.matcher(values[i]).matches()) {
+                intValues[idx++] = (int)Double.parseDouble(values[i].replaceAll(diffSetOff, ""));
             }
         }
-
-        final int[] result = new int[intValues.size()];
-        for (int i=0;i<intValues.size();i++) {
-            result[i] = intValues.get(i);
-        }
-        return result;
+        int[] intResult = new int[idx];
+        System.arraycopy(intValues, 0, intResult, 0, intResult.length);
+        return intResult;
     }
 
     /**
@@ -330,4 +281,45 @@ public final class CurriculumXLSRow {
             }
         }
     }
+
+    /* CONSTANTS */
+    /** Excel index for Name of Discipline. */
+    public static final int COL_DISCIPLINE = 1;
+    /** Excel index for Cathedra of Discipline. */
+    public static final int COL_CATHEDRA = 2;
+    /** Excel index for type of final control (exam, setoff, differential setoff, course). */
+    public static final int COL_FINALCONTROL = 6;
+    /** Excel index for types of individual tasks. */
+    public static final int COL_INDIVIDUALTASKS = 9;
+    /** Excel indexes for hours for the Discipline. */
+    public static final int COL_HOURS_LECTURE = 22;
+    public static final int COL_HOURS_PRACTICE = 23;
+    public static final int COL_HOURS_LAB = 24;
+    public static final int COL_HOURS_INDIVIDUAL = 25;
+    public static final int COL_HOURS_SELFWORK = 26;
+    /** Excel cells count for hours info of one semester. */
+    public static final int COL_HOUROFFSET = 6;
+
+    //PRIVATE Variables
+    private String diffSetOff;
+    private String disciplineName;
+    private String cathedraName;
+    private WorkloadType workloadType;
+    private LoadCategory loadCategory;
+    //final monitoring
+    private int[] fmExams;
+    private int[] fmDifTests;
+    private int[] fmTests;
+    private int[] fmCourses;
+    //individual works
+    private List<IndividualControlEntry> indWorks;
+    //hours info
+    private Map<Integer, WorkHours> hoursForSemesters;
+
+    //DataBase output objects
+    private StudentGroup group;
+    private Cathedra cathedra;
+    private Discipline discipline;
+    private List<Workload> workloadList = new ArrayList<Workload>();
+
 }

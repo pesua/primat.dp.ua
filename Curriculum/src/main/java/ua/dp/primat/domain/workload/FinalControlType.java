@@ -7,26 +7,27 @@ public enum FinalControlType {
     Exam {
         @Override
         public String toString() {
-            return localization.getString("finalControl.Exam");
+            return LOCALIZATION.getString("finalControl.Exam");
         }
     },
     Setoff {
         @Override
         public String toString() {
-            return localization.getString("finalControl.Setoff");
+            return LOCALIZATION.getString("finalControl.Setoff");
         }
     },
     DifferentiableSetoff {
         @Override
         public String toString() {
-            return localization.getString("finalControl.DiffSetoff");
+            return LOCALIZATION.getString("finalControl.DiffSetoff");
         }
     },
     Nothing {
         @Override
         public String toString() {
-            return localization.getString("finalControl.Nothing");
+            return LOCALIZATION.getString("finalControl.Nothing");
         }
     };
-    public static final ResourceBundle localization = ResourceBundle.getBundle("dimainModel", new Locale("uk"));
+
+    private static final ResourceBundle LOCALIZATION = ResourceBundle.getBundle("dimainModel", new Locale("uk"));
 }

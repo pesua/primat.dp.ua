@@ -2,6 +2,7 @@ package ua.dp.primat.utils.view;
 
 import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
+import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.domain.lesson.Lesson;
 
 /**
@@ -16,9 +17,10 @@ public abstract class RefreshablePanel extends Panel {
     }
 
     /**
-     * Method for updating items in Panel
-     * @param data  updated items
+     * Method for updating data in Panel.
+     * @param studentGroup
+     * @param semester
      */
-    public abstract void refreshView(List<Lesson> data);
+    public abstract void refreshView(StudentGroup pstudentGroup, Long psemester);
 
 }

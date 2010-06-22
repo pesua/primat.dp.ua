@@ -9,22 +9,23 @@ public enum LoadCategory {
 
         @Override
         public String toString() {
-            return localization.getString("loadCategory.Normative");
+            return LOCALIZATION.getString("loadCategory.Normative");
         }
     },
     Selective {
 
         @Override
         public String toString() {
-            return localization.getString("loadCategory.Selective");
+            return LOCALIZATION.getString("loadCategory.Selective");
         }
     },
     AlternativeForWar {
 
         @Override
         public String toString() {
-            return localization.getString("loadCategory.AlternativeForWar");
+            return LOCALIZATION.getString("loadCategory.AlternativeForWar");
         }
     };
-    public static final ResourceBundle localization = ResourceBundle.getBundle("dimainModel", new Locale("uk"));
+
+    private static final ResourceBundle LOCALIZATION = ResourceBundle.getBundle("dimainModel", new Locale("uk"));
 }

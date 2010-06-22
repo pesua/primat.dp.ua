@@ -1,14 +1,15 @@
 package ua.dp.primat.schedule.view.crosstab;
-import ua.dp.primat.domain.lesson.Lesson;
-import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.domain.lesson.DayOfWeek;
 import ua.dp.primat.domain.lesson.WeekType;
+import ua.dp.primat.schedule.services.CrossTabService;
 import ua.dp.primat.utils.view.RefreshablePanel;
 
 /**
@@ -34,41 +35,15 @@ public final class ViewCrosstab extends RefreshablePanel {
 
     /**
      * Method, which updates lessons and lessonView.
-     * @param data  lessons to fill into the table
+     * @param pstudentGroup
+     * @param psemester 
      */
     @Override
-    public void refreshView(List<Lesson> data) {
-        lessons = getLessonQuery(data, LESSONSCOUNT, WEEKTYPECOUNT);
+    public void refreshView(StudentGroup pstudentGroup, Long psemester) {
+        lessons = crossTabService.getCrossTabItems(pstudentGroup, psemester, LESSONSCOUNT, WEEKTYPECOUNT);
         if (lessonView != null) {
             lessonView.setList(lessons);
         }
-    }
-
-    /**
-     * Method, that puts lessons in a specific cells in schedule-table, where
-     * row is represented as LessonQueryItem object.
-     * TODO: there could be a better solution.
-     * @param listLesson  lessons to put
-     * @return list of extacly LESSONSCOUNT*2 items
-     */
-    private List<LessonQueryItem> getLessonQuery(List<Lesson> listLesson, int lessonCount, int weekTypeCount) {
-        final List<LessonQueryItem> list  = new ArrayList<LessonQueryItem>();
-
-        //creates the crosstab structure
-        for (int i=1;i<=lessonCount;i++) {
-            // add extacly weekTypeCount items for each i
-            list.add(new LessonQueryItem(i, WeekType.NUMERATOR));
-            list.add(new LessonQueryItem(i, WeekType.DENOMINATOR));
-        }
-
-        //fill the crosstab with given data
-        for (Lesson l : listLesson) {
-            final long oneLessonNumber = l.getLessonNumber()-1;
-            final long oneWeekType = l.getWeekType().ordinal() % weekTypeCount;
-            //calculate absolute index of the item
-            list.get((int)(oneLessonNumber*weekTypeCount + oneWeekType)).setLessonForDay(l.getDayOfWeek(), l);
-        }
-        return list;
     }
 
     //list and view of all retrieved lessons
@@ -84,6 +59,9 @@ public final class ViewCrosstab extends RefreshablePanel {
     private static final String NUM_COLUMN = "num";
     private static final String DAYNAME_WICKET = "caption_";
     private static final String[] DAY_WICKET_KEYS = {"monday", "tuesday", "wednesday", "thursday", "friday"};
+
+    @SpringBean
+    private CrossTabService crossTabService;
 
     /**
      * ListView, that outputs generated LessonQueryItem list into the table.

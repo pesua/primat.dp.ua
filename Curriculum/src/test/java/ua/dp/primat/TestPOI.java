@@ -1,6 +1,7 @@
 package ua.dp.primat;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -10,7 +11,9 @@ import org.junit.Test;
 import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.curriculum.planparser.CurriculumParser;
 import ua.dp.primat.curriculum.planparser.CurriculumXLSRow;
+import ua.dp.primat.domain.workload.LoadCategory;
 import ua.dp.primat.domain.workload.Workload;
+import ua.dp.primat.domain.workload.WorkloadType;
 import static org.junit.Assert.*;
 
 /**
@@ -37,7 +40,7 @@ public class TestPOI {
     @After
     public void tearDown() {
     }
-    
+
     @Test
     public void testIt() {
         int semesters = 8;

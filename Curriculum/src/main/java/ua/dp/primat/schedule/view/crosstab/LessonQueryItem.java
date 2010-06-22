@@ -7,28 +7,33 @@ import ua.dp.primat.domain.lesson.WeekType;
 
 /**
  * Item for the 'number of lesson' + 'week position (numerator, denominator)',
- * which contains lesson's info (or NULL) for 7 days
+ * which contains lesson's info (or NULL) for 7 days.
  * @author fdevelop
  */
 public class LessonQueryItem implements Serializable {
 
-    private int lessonNumber;
-    private WeekType weekType;
-
-    private Lesson monday;
-    private Lesson tuesday;
-    private Lesson wednesday;
-    private Lesson thursday;
-    private Lesson friday;
-    private Lesson saturday;
-    private Lesson sunday;
-
     public LessonQueryItem() {
     }
 
-    public LessonQueryItem(int pairnum, WeekType weekType) {
-        this.lessonNumber = pairnum;
+    public LessonQueryItem(int lessonNum, WeekType weekType) {
+        this.lessonNumber = lessonNum;
         this.weekType = weekType;
+    }
+
+    public WeekType getWeekType() {
+        return weekType;
+    }
+
+    public void setWeekType(WeekType weekType) {
+        this.weekType = weekType;
+    }
+
+    public int getLessonNumber() {
+        return lessonNumber;
+    }
+
+    public void setLessonNumber(int lessonNumber) {
+        this.lessonNumber = lessonNumber;
     }
 
     public Lesson getFriday() {
@@ -45,14 +50,6 @@ public class LessonQueryItem implements Serializable {
 
     public void setMonday(Lesson monday) {
         this.monday = monday;
-    }
-
-    public int getLessonNumber() {
-        return lessonNumber;
-    }
-
-    public void setLessonNumber(int lessonNumber) {
-        this.lessonNumber = lessonNumber;
     }
 
     public Lesson getSaturday() {
@@ -95,14 +92,6 @@ public class LessonQueryItem implements Serializable {
         this.wednesday = wednesday;
     }
 
-    public WeekType getWeekType() {
-        return weekType;
-    }
-
-    public void setWeekType(WeekType weekType) {
-        this.weekType = weekType;
-    }
-
     public Lesson getLessonForDay(DayOfWeek dayOfWeek) {
         switch (dayOfWeek) {
             case MONDAY: return getMonday();
@@ -133,5 +122,18 @@ public class LessonQueryItem implements Serializable {
                 break;
         }
     }
+
+    private int lessonNumber;
+    private WeekType weekType;
+
+    private Lesson monday;
+    private Lesson tuesday;
+    private Lesson wednesday;
+    private Lesson thursday;
+    private Lesson friday;
+    private Lesson saturday;
+    private Lesson sunday;
+
+    private static final long serialVersionUID = 1L;
 
 }
