@@ -21,14 +21,6 @@ import ua.dp.primat.domain.Cathedra;
 public class Discipline implements Serializable {
     public static final String GET_ALL_DISCIPLINES_QUERY = "getAllDisciplines";
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    private String name;
-    
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Cathedra cathedra;
     
     public Discipline() {
     }
@@ -36,6 +28,11 @@ public class Discipline implements Serializable {
     public Discipline(String name, Cathedra cathedra) {
         this.name = name;
         this.cathedra = cathedra;
+    }
+
+    @Override
+    public String toString() {
+        return name + " (" + cathedra + ")";
     }
 
     public Cathedra getCathedra() {
@@ -61,4 +58,13 @@ public class Discipline implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private String name;
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Cathedra cathedra;
 }
