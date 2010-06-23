@@ -29,7 +29,8 @@ import ua.dp.primat.repositories.RoomRepository;
 public class LessonService {
 
     public void saveLesson(Lesson lesson) {
-        LessonDescription descr = lessonDescriptionRepository.find(lesson.getLessonDescription().getId());
+        Long id = lesson.getLessonDescription().getId();
+        LessonDescription descr = (id != null) ? lessonDescriptionRepository.find(id) : null;
         if (descr != null) {
             lesson.setLessonDescription(descr);
         } else {
@@ -38,7 +39,8 @@ public class LessonService {
         lessonRepository.store(lesson);
     }
 
-    public void deleteLesson(Lesson lesson) {
+    public void deleteLesson(Long id) {
+        Lesson lesson = lessonRepository.find(id);
         lessonRepository.remove(lesson);
     }
 

@@ -13,13 +13,14 @@ import ua.dp.primat.schedule.services.LessonItem;
 public final class EditableScheduleItemPanel extends Panel {
     public EditableScheduleItemPanel(String id, LessonItem li) {
         super (id);
-        add(new AjaxCheckBox("singleLesson") {
-
-            @Override
-            protected void onUpdate(AjaxRequestTarget art) {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-        });
+//        add(new AjaxCheckBox("singleLesson") {
+//
+//            @Override
+//            protected void onUpdate(AjaxRequestTarget art) {
+//                //TODO
+//                throw new UnsupportedOperationException("Not supported yet.");
+//            }
+//        });
 
         add(new EditableLesonPanel("numerator", li.getNumerator()));
         EditableLesonPanel elp = new EditableLesonPanel("denominator", li.getDenominator());

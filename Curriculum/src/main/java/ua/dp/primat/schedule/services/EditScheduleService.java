@@ -49,10 +49,14 @@ public class EditScheduleService {
         }
     }
 
-    private void saveEditableLesson(EditableLesson numerator, DayOfWeek day, int lessonNumber) {
-        if (!numerator.isEmpty()) {
-            Lesson lesson = numerator.toLesson(day, Long.valueOf(lessonNumber));
+    private void saveEditableLesson(EditableLesson editableLesson, DayOfWeek day, int lessonNumber) {
+        if (!editableLesson.isEmpty()) {
+            Lesson lesson = editableLesson.toLesson(day, Long.valueOf(lessonNumber));
             lessonService.saveLesson(lesson);
+        } else {
+            if (editableLesson.getId() != null) {
+                lessonService.deleteLesson(editableLesson.getId());
+            }
         }
     }
 

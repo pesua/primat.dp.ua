@@ -1,6 +1,5 @@
 package ua.dp.primat.schedule.admin;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
