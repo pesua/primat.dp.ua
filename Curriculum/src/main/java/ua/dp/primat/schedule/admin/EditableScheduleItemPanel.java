@@ -19,6 +19,8 @@ public final class EditableScheduleItemPanel extends Panel {
         elp.setVisible(!li.isOneLesson());
         elp.setOutputMarkupId(true);
         elp.setOutputMarkupPlaceholderTag(true);
+        setOutputMarkupId(true);
+        setOutputMarkupPlaceholderTag(true);
         add(elp);
 
         
