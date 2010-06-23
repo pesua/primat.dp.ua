@@ -3,15 +3,11 @@ package ua.dp.primat.schedule.admin;
 import java.util.List;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import ua.dp.primat.domain.workload.Discipline;
 import ua.dp.primat.domain.Lecturer;
 import ua.dp.primat.domain.Room;
-import ua.dp.primat.repositories.DisciplineRepository;
-import ua.dp.primat.repositories.LecturerRepository;
-import ua.dp.primat.repositories.RoomRepository;
 import ua.dp.primat.schedule.services.EditScheduleService;
 import ua.dp.primat.schedule.services.EditableLesson;
 
@@ -31,15 +27,6 @@ public class EditableLesonPanel extends Panel {
         add(new DropDownChoice<Lecturer>("lecturer", new PropertyModel<Lecturer>(lesson, "lecturer"), lecturers));
         add(new DropDownChoice<Lecturer>("asistant", new PropertyModel<Lecturer>(lesson, "asistant"), lecturers));
     }
-
-    @SpringBean
-    private DisciplineRepository disciplineRepository;
-
-    @SpringBean
-    private RoomRepository roomRepository;
-
-    @SpringBean
-    private LecturerRepository lecturerRepository;
 
     @SpringBean
     private EditScheduleService editScheduleService;
