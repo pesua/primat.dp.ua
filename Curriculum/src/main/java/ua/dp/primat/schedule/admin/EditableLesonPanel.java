@@ -7,10 +7,11 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import ua.dp.primat.domain.workload.Discipline;
 import ua.dp.primat.domain.Lecturer;
-import ua.dp.primat.repositories.LecturerRepository;
 import ua.dp.primat.domain.Room;
 import ua.dp.primat.repositories.DisciplineRepository;
+import ua.dp.primat.repositories.LecturerRepository;
 import ua.dp.primat.repositories.RoomRepository;
+import ua.dp.primat.schedule.services.EditScheduleService;
 import ua.dp.primat.schedule.services.EditableLesson;
 
 /**

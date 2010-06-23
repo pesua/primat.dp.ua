@@ -20,6 +20,8 @@ import ua.dp.primat.schedule.services.WeekLessonColection;
 public final class EditSchedulePage extends WebPage {
     public EditSchedulePage(final StudentGroup group, final Long semester) {
         super ();
+        editScheduleService.updateLists();
+
         add(new Label("group", group.toString()));
         add(new Label("semester", semester.toString()));
         final WeekLessonColection schedule = editScheduleService.getSchedule(group, semester);

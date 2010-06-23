@@ -1,13 +1,21 @@
 package ua.dp.primat.schedule.services;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.dp.primat.domain.Lecturer;
+import ua.dp.primat.domain.Room;
 import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.domain.lesson.DayOfWeek;
 import ua.dp.primat.domain.lesson.Lesson;
+import ua.dp.primat.domain.workload.Discipline;
+import ua.dp.primat.repositories.DisciplineRepository;
+import ua.dp.primat.repositories.LecturerRepository;
 import ua.dp.primat.repositories.LessonRepository;
+import ua.dp.primat.repositories.RoomRepository;
 
 /**
  * Service which helps get and edit schedule.
@@ -37,21 +45,25 @@ public class EditScheduleService {
         LessonItem[][] lessonItems = lessonColection.getLessonItems();
         for (DayOfWeek day : DayOfWeek.values()) {
             for (int j = 0; j < lessonItems[day.getNumber()].length; j++) {
-                saveLessonItem(lessonItems[day.getNumber()][j], day, j);
+                saveLessonItem(lessonItems[day.getNumber()][j], group, semester, day, j);
             }
         }
     }
 
-    private void saveLessonItem(LessonItem lessonItem, DayOfWeek day, int lessonNumber) {
-        saveEditableLesson(lessonItem.getNumerator(), day, lessonNumber);
+    private void saveLessonItem(LessonItem lessonItem, StudentGroup group, Long semester,
+                                DayOfWeek day, int lessonNumber) {
+        saveEditableLesson(lessonItem.getNumerator(), group, semester, day, lessonNumber);
         if (!lessonItem.isOneLesson()) {
-            saveEditableLesson(lessonItem.getDenominator(), day, lessonNumber);
+            saveEditableLesson(lessonItem.getDenominator(), group, semester, day, lessonNumber);
         }
     }
 
-    private void saveEditableLesson(EditableLesson editableLesson, DayOfWeek day, int lessonNumber) {
+    private void saveEditableLesson(EditableLesson editableLesson, StudentGroup group, Long semester,
+                                    DayOfWeek day, int lessonNumber) {
         if (!editableLesson.isEmpty()) {
             Lesson lesson = editableLesson.toLesson(day, Long.valueOf(lessonNumber));
+            lesson.getLessonDescription().setSemester(semester);
+            lesson.getLessonDescription().setStudentGroup(group);
             lessonService.saveLesson(lesson);
         } else {
             if (editableLesson.getId() != null) {
@@ -60,9 +72,40 @@ public class EditScheduleService {
         }
     }
 
+    public void updateLists() {
+        disciplines = disciplineRepository.getDisciplines();
+        lecturers = lecturerRepository.getAllLecturers();
+        rooms = roomRepository.getRooms();
+    }
+
+    public List<Discipline> getDisciplines() {
+        return disciplines;
+    }
+
+    public List<Lecturer> getLecturers() {
+        return lecturers;
+    }
+
+    public List<Room> getRooms() {
+        return rooms;
+    }
+
+    private List<Discipline> disciplines = new ArrayList<Discipline>();
+    private List<Lecturer> lecturers = new ArrayList<Lecturer>();
+    private List<Room> rooms = new ArrayList<Room>();
+
     @Resource
     private LessonService lessonService;
 
     @Resource
     private LessonRepository lessonRepository;
+
+    @Resource
+    private DisciplineRepository disciplineRepository;
+
+    @Resource
+    private RoomRepository roomRepository;
+
+    @Resource
+    private LecturerRepository lecturerRepository;
 }

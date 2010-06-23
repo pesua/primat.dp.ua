@@ -2,8 +2,8 @@ package ua.dp.primat.schedule.admin;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxCheckBox;
-import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.Model;
 import ua.dp.primat.schedule.services.LessonItem;
 
 /**
@@ -13,7 +13,7 @@ import ua.dp.primat.schedule.services.LessonItem;
 public final class EditableScheduleItemPanel extends Panel {
     public EditableScheduleItemPanel(String id, LessonItem li) {
         super (id);
-//        add(new AjaxCheckBox("singleLesson") {
+//        add(new AjaxCheckBox("singleLesson", new Model<Boolean>(lessonType)) {
 //
 //            @Override
 //            protected void onUpdate(AjaxRequestTarget art) {
@@ -27,4 +27,6 @@ public final class EditableScheduleItemPanel extends Panel {
         elp.setVisible(!li.isOneLesson());
         add(elp);
     }
+
+    private boolean lessonType;
 }
