@@ -101,7 +101,6 @@ public final class CurriculumXLSRow {
      *      will include only marked numbers (like '3d').
      */
     private int[] parseNumValues(String fmStr, boolean standard) {
-        System.out.println(fmStr);
         final String[] values = fmStr.trim().split("\\s*,\\s*");
         final int[] intValues = new int[values.length];
 

@@ -6,7 +6,6 @@ import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.domain.lesson.DayOfWeek;
 import ua.dp.primat.domain.lesson.WeekType;
 import ua.dp.primat.schedule.services.LessonService;
@@ -45,7 +44,7 @@ public final class ViewDaybook extends RefreshablePanel {
             protected void onSelectionChanged(WeekType newSelection) {
                 weekType = newSelection;
 
-                refreshView(studentGroup, semester);
+                refreshView(lessons);
                 super.onSelectionChanged(newSelection);
             }
 
@@ -59,7 +58,7 @@ public final class ViewDaybook extends RefreshablePanel {
 
         //add the 6-day-week
         for (int i = 0; i < listDataPanel.length; i++) {
-            listDataPanel[i] = new DayPanel("oneDay"+i, DayOfWeek.fromNumber(i));
+            listDataPanel[i] = new DayPanel("oneDay" + i, DayOfWeek.fromNumber(i));
             add(listDataPanel[i]);
         }
 
@@ -69,16 +68,14 @@ public final class ViewDaybook extends RefreshablePanel {
 
     /**
      * Method, which updates lessons, listDataProv and listView.
-     * @param pstudentGroup
-     * @param psemester
+     * @param 
      */
     @Override
-    public void refreshView(StudentGroup pstudentGroup, Long psemester) {
-        studentGroup = pstudentGroup;
-        semester = psemester;
-        lessons = lessonService.getLessons(studentGroup, semester);
+    public void refreshView(List<Lesson> listLesson) {
+        lessons = listLesson;
         for (int i = 0; i<listDataPanel.length; i++) {
-            listDataPanel[i].updateInfo(lessonService.getLessonsPerDay(lessons, DayOfWeek.fromNumber(i), weekType));
+            listDataPanel[i].updateInfo(lessonService.getLessonsPerDay(lessons,
+                    DayOfWeek.fromNumber(i), weekType));
         }
     }
 
@@ -87,8 +84,6 @@ public final class ViewDaybook extends RefreshablePanel {
 
     //list of all retrieved lessons
     private List<Lesson> lessons;
-    private StudentGroup studentGroup;
-    private Long semester;
     private DayPanel[] listDataPanel = new DayPanel[DayOfWeek.values().length-1];
 
     @SpringBean

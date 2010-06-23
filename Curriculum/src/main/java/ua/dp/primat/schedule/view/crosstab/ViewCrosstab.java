@@ -6,8 +6,8 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.domain.lesson.DayOfWeek;
+import ua.dp.primat.domain.lesson.Lesson;
 import ua.dp.primat.domain.lesson.WeekType;
 import ua.dp.primat.schedule.services.CrossTabService;
 import ua.dp.primat.utils.view.RefreshablePanel;
@@ -35,12 +35,11 @@ public final class ViewCrosstab extends RefreshablePanel {
 
     /**
      * Method, which updates lessons and lessonView.
-     * @param pstudentGroup
-     * @param psemester 
+     * @param listLesson
      */
     @Override
-    public void refreshView(StudentGroup pstudentGroup, Long psemester) {
-        lessons = crossTabService.getCrossTabItems(pstudentGroup, psemester, LESSONSCOUNT, WEEKTYPECOUNT);
+    public void refreshView(List<Lesson> listLesson) {
+        lessons = crossTabService.getCrossTabItems(listLesson, LESSONSCOUNT);
         if (lessonView != null) {
             lessonView.setList(lessons);
         }
@@ -53,7 +52,6 @@ public final class ViewCrosstab extends RefreshablePanel {
     private static final long serialVersionUID = 1L;
     //setup the total values of lessons per day
     private static final int LESSONSCOUNT = 6;
-    private static final int WEEKTYPECOUNT = 2;
     //constant of for wicket
     private static final String ROW_MARKUP = "row";
     private static final String NUM_COLUMN = "num";

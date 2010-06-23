@@ -37,7 +37,7 @@ public final class ViewHomePage extends WebPage {
                 public Panel getPanel(String panelId)
                 {
                     daybookPanel = new ViewDaybook(panelId);
-                    daybookPanel.refreshView(studentGroup, semester);
+                    daybookPanel.refreshView(queryResult);
                     return daybookPanel;
                 }
         });
@@ -47,7 +47,7 @@ public final class ViewHomePage extends WebPage {
                 public Panel getPanel(String panelId)
                 {
                     schedulePanel = new ViewCrosstab(panelId);
-                    schedulePanel.refreshView(studentGroup, semester);
+                    schedulePanel.refreshView(queryResult);
                     return schedulePanel;
                 }
         });
@@ -57,14 +57,13 @@ public final class ViewHomePage extends WebPage {
         final ChoosePanel choosePanel = new ChoosePanel("choosePanel") {
 
             @Override
-            protected void executeAction(StudentGroup pstudentGroup, Long psemester) {
-                studentGroup = pstudentGroup;
-                semester = psemester;
+            protected void executeAction(StudentGroup studentGroup, Long semester) {
+                queryResult = lessonService.getLessonsForGroupAndSemester(studentGroup, semester);
                 if (schedulePanel != null) {
-                    schedulePanel.refreshView(studentGroup, semester);
+                    schedulePanel.refreshView(queryResult);
                 }
                 if (daybookPanel != null) {
-                    daybookPanel.refreshView(studentGroup, semester);
+                    daybookPanel.refreshView(queryResult);
                 }
             }
         };
@@ -86,10 +85,7 @@ public final class ViewHomePage extends WebPage {
     private String tabScheduleText;
     private String tabDaybookText;
 
-    private StudentGroup studentGroup;
-    private Long semester;
-
-    //private List<Lesson> queryResult;
+    private List<Lesson> queryResult;
 
     @SpringBean
     private LessonService lessonService;

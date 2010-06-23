@@ -29,5 +29,7 @@ public enum WeekType {
 
     };
 
+    public static final int TYPECOUNT = 2;
+
     private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("dimainModel", new Locale("uk"));
 }

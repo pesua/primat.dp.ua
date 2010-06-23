@@ -21,32 +21,30 @@ public class CrossTabService {
      * into the schedule-table, where row is represented as
      * LessonQueryItem object.
      * @param listLesson - lessons to put
-     * @return list of extacly lessonCount*2 items
+     * @param lessonCount
+     * @return list of extacly lessonCount*WeekType.TYPECOUNT items
      */
-    public List<LessonQueryItem> getCrossTabItems(StudentGroup studentGroup, Long semester, int lessonCount, int weekTypeCount) {
+    public List<LessonQueryItem> getCrossTabItems(List<Lesson> listLesson,
+            int lessonCount) {
         final List<LessonQueryItem> list = new ArrayList<LessonQueryItem>();
 
         //creates the crosstab structure
         for (int i=1;i<=lessonCount;i++) {
-            // add extacly weekTypeCount items for each i
+            // add extacly WeekType.TYPECOUNT items for each i
             list.add(new LessonQueryItem(i, WeekType.NUMERATOR));
             list.add(new LessonQueryItem(i, WeekType.DENOMINATOR));
         }
 
         //fill the crosstab with given data
-        if (studentGroup != null) {
-            List<Lesson> listLesson = lessonService.getLessons(studentGroup, semester);
+        if (listLesson != null) {
             for (Lesson l : listLesson) {
                 final int oneLessonNumber = l.getLessonNumber().intValue()-1;
-                final int oneWeekType = l.getWeekType().ordinal() % weekTypeCount;
+                final int oneWeekType = l.getWeekType().ordinal() % WeekType.TYPECOUNT;
                 //calculate absolute index of the item
-                list.get(oneLessonNumber*weekTypeCount + oneWeekType).setLessonForDay(l.getDayOfWeek(), l);
+                list.get(oneLessonNumber*WeekType.TYPECOUNT + oneWeekType).setLessonForDay(l.getDayOfWeek(), l);
             }
         }
         return list;
     }
-
-    @Resource
-    private LessonService lessonService;
 
 }
