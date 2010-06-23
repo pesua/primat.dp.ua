@@ -5,55 +5,13 @@ import java.util.ResourceBundle;
 
 public enum DayOfWeek {
 
-    MONDAY(0) {
-
-        @Override
-        public String toString() {
-            return BUNDLE.getString("day.monday");
-        }
-    },
-    TUESDAY(1) {
-
-        @Override
-        public String toString() {
-            return BUNDLE.getString("day.tuesday");
-        }
-    },
-    WEDNESDAY(2) {
-
-        @Override
-        public String toString() {
-            return BUNDLE.getString("day.wednesday");
-        }
-    },
-    THURSDAY(3) {
-
-        @Override
-        public String toString() {
-            return BUNDLE.getString("day.thursday");
-        }
-    },
-    FRIDAY(4) {
-
-        @Override
-        public String toString() {
-            return BUNDLE.getString("day.friday");
-        }
-    },
-    SATURDAY(5) {
-
-        @Override
-        public String toString() {
-            return BUNDLE.getString("day.saturday");
-        }
-    },
-    SUNDAY(6) {
-
-        @Override
-        public String toString() {
-            return BUNDLE.getString("day.sunday");
-        }
-    };
+    MONDAY(0, "day.monday"),
+    TUESDAY(1, "day.tuesday"),
+    WEDNESDAY(2, "day.wednesday"),
+    THURSDAY(3, "day.thursday"),
+    FRIDAY(4, "day.friday"),
+    SATURDAY(5, "day.saturday"),
+    SUNDAY(6, "day.sunday");
 
     /*
      * gets number of day. E.g. Monday is first day of week, method returns 0.
@@ -61,6 +19,11 @@ public enum DayOfWeek {
      */
     public int getNumber() {
         return num;
+    }
+
+    @Override
+    public String toString() {
+        return BUNDLE.getString(localizationKey);
     }
 
     public static DayOfWeek fromNumber(int num) {
@@ -72,10 +35,12 @@ public enum DayOfWeek {
         return SUNDAY;
     }
 
-    private DayOfWeek(int number) {
+    private DayOfWeek(int number, String localizationKey) {
         num = number;
+        this.localizationKey = localizationKey;
     }
 
     private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("dimainModel", new Locale("uk"));
     private int num;
+    private String localizationKey;
 }
