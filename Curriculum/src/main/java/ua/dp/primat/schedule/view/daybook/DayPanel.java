@@ -5,19 +5,23 @@ import ua.dp.primat.domain.lesson.Lesson;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 import java.util.List;
-import javassist.SerialVersionUID;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import ua.dp.primat.domain.lesson.DayOfWeek;
 
 /**
- * Panel, that outputs one schedule cell for specified Lesson.
- * It outputs the subject name, lecturer etc.
- * TODO: format and finish it
+ * Panel, that outputs lessons for the one day.
+ * Each row outputs the subject name, lecturer etc.
  * @author fdevelop
  */
 public final class DayPanel extends Panel {
 
+    /**
+     * Constructor of wicket panel, which adds day name and list view
+     * of lessons.
+     * @param id
+     * @param day
+     */
     public DayPanel(final String id, DayOfWeek day) {
         super(id);
         
@@ -27,6 +31,10 @@ public final class DayPanel extends Panel {
         add(dayListView);
     }
 
+    /**
+     * Updates list of lessons for this day-panel.
+     * @param listLesson - new data
+     */
     public void updateInfo(List<Lesson> listLesson) {
         if (listLesson == null) {
             dayListView.setList(new ArrayList<Lesson>());
@@ -40,7 +48,7 @@ public final class DayPanel extends Panel {
     private static final long serialVersionUID = 1L;
 
     /**
-     * ListView, that outputs one day.
+     * ListView, that outputs lessons for one day.
      */
     private static class DayListView extends ListView<Lesson> {
 
@@ -51,22 +59,19 @@ public final class DayPanel extends Panel {
         @Override
         protected void populateItem(ListItem<Lesson> li) {
             final Lesson entry = li.getModelObject();
+
+            final String disciplineValue = (entry.getLessonDescription() == null)
+                    ? "" : String.format("%s (%s)",
+                        entry.getLessonDescription().getDiscipline().getName(),
+                        entry.getLessonDescription().getLessonType());
+            final String teacherValue = (entry.getLessonDescription() == null)
+                    ? "" : entry.getLessonDescription().getLecturerNames();
+            final String roomValue = (entry.getRoom() == null) ? "" : entry.getRoom().toString();
+
             li.add(new Label("num", entry.getLessonNumber().toString()));
-
-            if (entry.getLessonDescription() == null) {
-                li.add(new Label("discipline", ""));
-                li.add(new Label("teacher", ""));
-            } else {
-                final String strDisciplineWithType = String.format("%s (%s)", entry.getLessonDescription().getDiscipline().getName(), entry.getLessonDescription().getLessonType());
-                li.add(new Label("discipline", strDisciplineWithType));
-                li.add(new Label("teacher", entry.getLessonDescription().getLecturerNames()));
-            }
-
-            if (entry.getRoom() == null) {
-                li.add(new Label("room", ""));
-            } else {
-                li.add(new Label("room", entry.getRoom().toString()));
-            }
+            li.add(new Label("discipline", disciplineValue));
+            li.add(new Label("teacher", teacherValue));
+            li.add(new Label("room", roomValue));
         }
 
     }

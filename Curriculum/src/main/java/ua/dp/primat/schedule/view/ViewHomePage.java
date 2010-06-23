@@ -34,8 +34,7 @@ public final class ViewHomePage extends WebPage {
         final List<ITab> tabs = new ArrayList<ITab>();
         tabs.add(new AbstractTab(new Model<String>(tabDaybookText)) {
                 @Override
-                public Panel getPanel(String panelId)
-                {
+                public Panel getPanel(String panelId) {
                     daybookPanel = new ViewDaybook(panelId);
                     daybookPanel.refreshView(queryResult);
                     return daybookPanel;
@@ -44,8 +43,7 @@ public final class ViewHomePage extends WebPage {
 
         tabs.add(new AbstractTab(new Model<String>(tabScheduleText)) {
                 @Override
-                public Panel getPanel(String panelId)
-                {
+                public Panel getPanel(String panelId) {
                     schedulePanel = new ViewCrosstab(panelId);
                     schedulePanel.refreshView(queryResult);
                     return schedulePanel;

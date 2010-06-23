@@ -105,13 +105,13 @@ public final class CurriculumXLSRow {
         final int[] intValues = new int[values.length];
 
         int idx = 0;
-        Pattern digits = Pattern.compile("\\d+(\\.\\d+)?" + (standard ? "" : diffSetOff) );
+        final Pattern digits = Pattern.compile("\\d+(\\.\\d+)?" + (standard ? "" : diffSetOff) );
         for (int i = 0; i < values.length; i++) {
             if (digits.matcher(values[i]).matches()) {
                 intValues[idx++] = (int)Double.parseDouble(values[i].replaceAll(diffSetOff, ""));
             }
         }
-        int[] intResult = new int[idx];
+        final int[] intResult = new int[idx];
         System.arraycopy(intValues, 0, intResult, 0, intResult.length);
         return intResult;
     }

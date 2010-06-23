@@ -20,22 +20,50 @@ import org.apache.wicket.util.lang.*;
 import org.apache.wicket.validation.validator.RangeValidator;
 import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.repositories.StudentGroupRepository;
-import ua.dp.primat.repositories.WorkloadRepository;
-import ua.dp.primat.domain.workload.WorkloadOld;
 import ua.dp.primat.curriculum.planparser.CurriculumParser;
 import ua.dp.primat.curriculum.planparser.CurriculumXLSRow;
 import ua.dp.primat.domain.workload.Workload;
-import ua.dp.primat.domain.workload.WorkloadEntry;
 import ua.dp.primat.services.WorkloadService;
 import ua.dp.primat.utils.view.GroupsLoadableDetachableModel;
 
+/**
+ * Wicket page for portlet's EDIT mode. It is used for managing curriculums.
+ * @author fdevelop
+ */
 public class EditPage extends WebPage {
+
+    /**
+     * Constructor, that adds needed wicket components.
+     */
+    public EditPage() {
+        super();
+
+        final Form form = new FileUploadForm("formUploadXLS");
+        add(form);
+
+        final Form remForm = new RemoveForm("formRemove");
+        add(remForm);
+
+        //add feed back panel for system information output
+        final FeedbackPanel feedback = new FeedbackPanel("feedback");
+        add(feedback);
+    }
+
+    /**
+     * Returns the place for storing curriculums.
+     * @return wicket's Folder
+     */
+    private Folder getUploadFolder() {
+        return ((WicketApplication) Application.get()).getUploadFolder();
+    }
 
     private StudentGroup parseGroup;
 
     @SpringBean
     private StudentGroupRepository studentGroupRepository;
 
+    @SpringBean
+    private WorkloadService workloadService;
 
     private static final long serialVersionUID = 2L;
     private static final int MIN_YEAR = 1910;
@@ -89,17 +117,8 @@ public class EditPage extends WebPage {
      */
     private class FileUploadForm extends Form<Void> {
 
-        private FileUploadField fileUploadField;
-        private TextField<Integer> textParseSheet;
-        private TextField<Integer> textParseStart;
-        private TextField<Integer> textParseEnd;
-        private TextField<Integer> textParseSemester;
-        private TextField<String> textGroupSpec;
-        private TextField<Integer> textGroupYear;
-        private TextField<Integer> textGroupNumber;
-
         /**
-         * Constructor of form.
+         * Constructor of the form.
          * @param name
          */
         public FileUploadForm(String name) {
@@ -149,39 +168,6 @@ public class EditPage extends WebPage {
         }
 
         /**
-         * Upload the file on server into the getUploadFolder() returned path.
-         * @param upload
-         * @return The absolute path to the uploaded file on server.
-         */
-        private String makeUploadedFile(FileUpload upload) throws IOException {
-            if (upload == null) {
-                return null;
-            }
-            
-            // Create a new file
-            final File newFile = new File(getUploadFolder(), upload.getClientFileName());
-
-            // Check new file, delete if it allready existed
-            checkFileExists(newFile);
-
-            // Save to new file
-            newFile.createNewFile();
-            upload.writeTo(newFile);
-            //EditPage.this.info("saved file: " + upload.getClientFileName() + "\nOriginal saved in: " + newFile.getAbsolutePath());
-            return newFile.getAbsolutePath();
-        }
-
-        /**
-         * Check whether the file already exists, and if so, try to delete it.
-         * @param newFile  the file to check
-         */
-        private void checkFileExists(File newFile) {
-            if ((newFile.exists()) && (!Files.remove(newFile))) {
-                throw new IllegalStateException("Unable to overwrite " + newFile.getAbsolutePath());
-            }
-        }
-
-        /**
          * Overriden method onSubmit for the FileUpload form.
          * It takes input fields arguments, uploads file, than parses it, stores
          * to the database and output the result.
@@ -205,20 +191,20 @@ public class EditPage extends WebPage {
                 final String uploadedFileName = makeUploadedFile(upload);
 
                 //create and run parser
-                CurriculumParser cParser = new CurriculumParser(parseGroup,
+                final CurriculumParser cParser = new CurriculumParser(parseGroup,
                         parseSheet, parseStart, parseEnd, parseSemesters,
                         uploadedFileName);
                 final List<CurriculumXLSRow> listParsed = cParser.parse();
 
                 //commit parsed objects
-                List<Workload> workloads = new ArrayList<Workload>();
+                final List<Workload> workloads = new ArrayList<Workload>();
                 for (int i = 0; i < listParsed.size(); i++) {
                     workloads.addAll(listParsed.get(i).getWorkloadList());
                 }
                 workloadService.storeWorkloads(workloads);
 
-                this.info(String.format("Curriculum in '%s' was successfully" +
-                        " parsed\n into database (%d items).",
+                this.info(String.format("Curriculum in '%s' was successfully"
+                        + " parsed\n into database (%d items).",
                         uploadedFileName, listParsed.size()));
 
             } catch (IOException ioe) {
@@ -227,26 +213,48 @@ public class EditPage extends WebPage {
             //    this.info("Curriculum has been parsed, but Throwable was catched...");
             //}
         }
+
+        /**
+         * Upload the file on server into the getUploadFolder() returned path.
+         * @param upload
+         * @return The absolute path to the uploaded file on server.
+         */
+        private String makeUploadedFile(FileUpload upload) throws IOException {
+            if (upload == null) {
+                return null;
+            }
+
+            // Create a new file
+            final File newFile = new File(getUploadFolder(), upload.getClientFileName());
+
+            // Check new file, delete if it allready existed
+            checkFileExists(newFile);
+
+            // Save to new file
+            newFile.createNewFile();
+            upload.writeTo(newFile);
+            //EditPage.this.info("saved file: " + upload.getClientFileName() + "\nOriginal saved in: " + newFile.getAbsolutePath());
+            return newFile.getAbsolutePath();
+        }
+
+        /**
+         * Check whether the file already exists, and if so, try to delete it.
+         * @param newFile  the file to check
+         */
+        private void checkFileExists(File newFile) {
+            if ((newFile.exists()) && (!Files.remove(newFile))) {
+                throw new IllegalStateException("Unable to overwrite " + newFile.getAbsolutePath());
+            }
+        }
+
+        private FileUploadField fileUploadField;
+        private TextField<Integer> textParseSheet;
+        private TextField<Integer> textParseStart;
+        private TextField<Integer> textParseEnd;
+        private TextField<Integer> textParseSemester;
+        private TextField<String> textGroupSpec;
+        private TextField<Integer> textGroupYear;
+        private TextField<Integer> textGroupNumber;
     }
 
-    public EditPage() {
-        super();
-
-        final Form form = new FileUploadForm("formUploadXLS");
-        add(form);
-
-        final Form remForm = new RemoveForm("formRemove");
-        add(remForm);
-
-        //add feed back panel for system information output
-        final FeedbackPanel feedback = new FeedbackPanel("feedback");
-        add(feedback);
-    }
-
-    private Folder getUploadFolder() {
-        return ((WicketApplication) Application.get()).getUploadFolder();
-    }
-    
-    @SpringBean
-    private WorkloadService workloadService;
 }

@@ -90,7 +90,7 @@ public class LessonService {
      * @return the list of Lesson, which are accepted by parameters
      */
     public List<Lesson> getLessonsPerDay(List<Lesson> listLesson, DayOfWeek day, WeekType week) {
-        final Lesson[] dayLessons = new Lesson[6];
+        final Lesson[] dayLessons = new Lesson[LESSONCOUNT];
 
         //fill an array with empty items
         for (int i = 0; i < dayLessons.length; i++) {
@@ -128,4 +128,6 @@ public class LessonService {
 
     @Resource
     private LecturerRepository lecturerRepository;
+
+    public static final int LESSONCOUNT = 5;
 }

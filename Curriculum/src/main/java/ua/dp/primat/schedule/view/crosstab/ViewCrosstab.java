@@ -19,7 +19,7 @@ import ua.dp.primat.utils.view.RefreshablePanel;
 public final class ViewCrosstab extends RefreshablePanel {
 
     /**
-     * Constructor for page, add ScheduleListView onto the panel
+     * Constructor for page, add ScheduleListView onto the panel.
      */
     public ViewCrosstab(String id) {
         super(id);
@@ -39,7 +39,7 @@ public final class ViewCrosstab extends RefreshablePanel {
      */
     @Override
     public void refreshView(List<Lesson> listLesson) {
-        lessons = crossTabService.getCrossTabItems(listLesson, LESSONSCOUNT);
+        lessons = crossTabService.getCrossTabItems(listLesson);
         if (lessonView != null) {
             lessonView.setList(lessons);
         }
@@ -48,25 +48,22 @@ public final class ViewCrosstab extends RefreshablePanel {
     //list and view of all retrieved lessons
     private List<LessonQueryItem> lessons;
     private ListView<LessonQueryItem> lessonView;
-    
+
+    @SpringBean
+    private CrossTabService crossTabService;
+
     private static final long serialVersionUID = 1L;
-    //setup the total values of lessons per day
-    private static final int LESSONSCOUNT = 6;
-    //constant of for wicket
+
+    //constants for wicket
     private static final String ROW_MARKUP = "row";
     private static final String NUM_COLUMN = "num";
     private static final String DAYNAME_WICKET = "caption_";
     private static final String[] DAY_WICKET_KEYS = {"monday", "tuesday", "wednesday", "thursday", "friday"};
 
-    @SpringBean
-    private CrossTabService crossTabService;
-
     /**
      * ListView, that outputs generated LessonQueryItem list into the table.
      */
     private static class ScheduleListView extends ListView<LessonQueryItem> {
-
-        private final SimpleAttributeModifier rowspanAttrModifier = new SimpleAttributeModifier("rowspan", "2");
 
         public ScheduleListView(String string, List<? extends LessonQueryItem> list) {
             super(string, list);
@@ -76,45 +73,47 @@ public final class ViewCrosstab extends RefreshablePanel {
         protected void populateItem(ListItem<LessonQueryItem> li) {
             final LessonQueryItem entry = li.getModelObject();
 
-            //get the previous item.
-            LessonQueryItem previous;
-            if (li.getIndex() > 0) {
-                previous = (LessonQueryItem)this.getList().get(li.getIndex()-1);
-            } else {
-                previous = null;
-            }
-
             //format the number of lesson (because of table structure, which has
-            //  two cells per day/lesson (depends on lesson's weekpos).
+            //  two cells per day/lesson (depends on lesson's weekType).
             final Label labelNum = new Label(NUM_COLUMN, Integer.toString(entry.getLessonNumber()));
-
-            //set visible, which is depended on entry's weekType
             labelNum.setVisible(entry.getWeekType() != WeekType.DENOMINATOR);
-
-            //modify the rowspan property (it will be applied to the visible items)
             labelNum.add(rowspanAttrModifier);
-
             li.add(labelNum);
 
             //output the lesson's info in SchedulePanel for every day
             for (int i=0;i<DAY_WICKET_KEYS.length;i++) {
                 final DayOfWeek dayOfWeek = DayOfWeek.values()[i];
                 final Panel labelDay = new ScheduleCell(DAY_WICKET_KEYS[i], entry.getLessonForDay(dayOfWeek));
-                labelDay.setVisible(true);
-                if ((previous != null) && (previous.getLessonForDay(dayOfWeek) != null)) {
-                    labelDay.setVisible(previous.getLessonForDay(dayOfWeek).getWeekType() != WeekType.BOTH);
-                }
-                if ((entry.getLessonForDay(dayOfWeek) != null) && (entry.getLessonForDay(dayOfWeek).getWeekType() == WeekType.BOTH)) {
+                
+                labelDay.setVisible(isCellVisible(li.getIndex(), dayOfWeek));
+
+                if ((entry.getLessonForDay(dayOfWeek) != null)
+                        && (entry.getLessonForDay(dayOfWeek).getWeekType()
+                        == WeekType.BOTH)) {
                     labelDay.add(rowspanAttrModifier);
-                }
-                //hide sunday & saturday for now
-                if ((dayOfWeek == DayOfWeek.SUNDAY) || (dayOfWeek == DayOfWeek.SATURDAY)) {
-                    labelDay.setVisible(false);
                 }
 
                 li.add(labelDay);
             }
         }
+
+        /**
+         * Returns true, if the cell must be visible.
+         * @param currItemIndex - index of the cell's row
+         * @param day
+         * @return
+         */
+        private boolean isCellVisible(int currItemIndex, DayOfWeek day) {
+            if (currItemIndex > 0) {
+                LessonQueryItem previous = this.getList().get(currItemIndex-1);
+                if ((previous != null) && (previous.getLessonForDay(day) != null)) {
+                    return previous.getLessonForDay(day).getWeekType() != WeekType.BOTH;
+                }
+            }
+            return true;
+        }
+
+        private final SimpleAttributeModifier rowspanAttrModifier = new SimpleAttributeModifier("rowspan", "2");
 
     }
 

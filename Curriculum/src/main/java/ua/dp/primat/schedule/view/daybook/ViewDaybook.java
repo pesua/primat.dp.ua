@@ -43,8 +43,7 @@ public final class ViewDaybook extends RefreshablePanel {
             @Override
             protected void onSelectionChanged(WeekType newSelection) {
                 weekType = newSelection;
-
-                refreshView(lessons);
+                updateDataPanel();
                 super.onSelectionChanged(newSelection);
             }
 
@@ -67,12 +66,19 @@ public final class ViewDaybook extends RefreshablePanel {
     }
 
     /**
-     * Method, which updates lessons, listDataProv and listView.
-     * @param 
+     * Set new data for the lessons from listLessons and update view.
+     * @param listLesson
      */
     @Override
     public void refreshView(List<Lesson> listLesson) {
         lessons = listLesson;
+        updateDataPanel();
+    }
+
+    /**
+     * Update listDataPanel with the data from lessons.
+     */
+    private void updateDataPanel() {
         for (int i = 0; i<listDataPanel.length; i++) {
             listDataPanel[i].updateInfo(lessonService.getLessonsPerDay(lessons,
                     DayOfWeek.fromNumber(i), weekType));

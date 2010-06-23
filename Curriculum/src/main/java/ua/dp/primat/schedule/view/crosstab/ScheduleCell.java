@@ -1,5 +1,4 @@
 package ua.dp.primat.schedule.view.crosstab;
-import org.apache.wicket.behavior.SimpleAttributeModifier;
 import ua.dp.primat.domain.lesson.Lesson;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -14,10 +13,10 @@ public final class ScheduleCell extends Panel {
     public ScheduleCell(final String id, Lesson lesson) {
         super(id);
 
-        String cellSubject = ((lesson == null) ? "" : lesson.getLessonDescription().getDiscipline().getName());
-        String cellType = ((lesson == null) ? "" : "("+lesson.getLessonDescription().getLessonType().toString()+")");
-        String cellLecturer = ((lesson == null) ? "" : lesson.getLessonDescription().getLecturerNames());
-        String cellRoom = ((lesson == null) ? "" : lesson.getRoom().toString());
+        final String cellSubject = ((lesson == null) ? "" : lesson.getLessonDescription().getDiscipline().getName());
+        final String cellType = ((lesson == null) ? "" : "("+lesson.getLessonDescription().getLessonType().toString()+")");
+        final String cellLecturer = ((lesson == null) ? "" : lesson.getLessonDescription().getLecturerNames());
+        final String cellRoom = ((lesson == null) ? "" : lesson.getRoom().toString());
         
         add(new Label("cellSubject", cellSubject));
         add(new Label("cellType", cellType));

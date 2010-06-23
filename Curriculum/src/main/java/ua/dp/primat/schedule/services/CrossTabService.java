@@ -21,15 +21,13 @@ public class CrossTabService {
      * into the schedule-table, where row is represented as
      * LessonQueryItem object.
      * @param listLesson - lessons to put
-     * @param lessonCount
-     * @return list of extacly lessonCount*WeekType.TYPECOUNT items
+     * @return list of extacly LessonService.LESSONCOUNT*WeekType.TYPECOUNT items
      */
-    public List<LessonQueryItem> getCrossTabItems(List<Lesson> listLesson,
-            int lessonCount) {
+    public List<LessonQueryItem> getCrossTabItems(List<Lesson> listLesson) {
         final List<LessonQueryItem> list = new ArrayList<LessonQueryItem>();
 
         //creates the crosstab structure
-        for (int i=1;i<=lessonCount;i++) {
+        for (int i=1;i<=LessonService.LESSONCOUNT;i++) {
             // add extacly WeekType.TYPECOUNT items for each i
             list.add(new LessonQueryItem(i, WeekType.NUMERATOR));
             list.add(new LessonQueryItem(i, WeekType.DENOMINATOR));
