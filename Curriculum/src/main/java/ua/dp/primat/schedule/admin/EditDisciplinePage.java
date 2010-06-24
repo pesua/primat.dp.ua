@@ -41,6 +41,12 @@ public final class EditDisciplinePage extends WebPage {
             List<Cathedra> cathedras = cathedraRepository.getCathedras();
             add(new DropDownChoice("cathedra", cathedras));
         }
+
+        @Override
+        protected void onSubmit() {
+            disciplineRepository.store(discipline);
+        }
+
         private Discipline discipline;
         @SpringBean
         private DisciplineRepository disciplineRepository;
