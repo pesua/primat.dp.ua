@@ -1,3 +1,56 @@
+/* table standart */
+.strtTable {
+	border-width: 1px;
+	border-style: outset;
+	border-spacing: 2px;
+	font-style: verdana;
+	background-color: #def1fb;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-khtml-border-radius: 5px;
+}
+
+.strtTable tr, .strtTable td, .strtTable th {
+	border-width: none;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	-khtml-border-radius: 2px;
+	background-color: rgb(150, 204, 233);
+	padding: 2px 5px 2px 5px;
+}
+
+.strtTable th {
+	background-color: #2d9bbd;
+	padding: 0px 40px 0px 40px;
+	font-style: italic;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-khtml-border-radius: 3px;
+	color: #ffffff;
+	text-align: center;
+}
+
+/* EditRoomPage */
+#tableRoom {
+	background-color: transparent;
+}
+
+#tableRoom input {
+	width: 100px;
+}
+
+/* ManageRooms */
+#ManageRooms {
+	background-color: transparent;
+}
+
+#ManageRooms img{
+	width: 16px;
+}
+
 /* Admin Home page */
 .menuItem, .editForm {
     float: left;
