@@ -9,15 +9,16 @@
         <form wicket:id="lecturer">
             <span wicket:id="feedback"/>
             
-            Name <input wicket:id="name"/><br/>
-            Cathedra
+            <wicket:message key="name">Name:</wicket:message> <input wicket:id="name"/><br/>
+            <wicket:message key="cathedra">Cathedra:</wicket:message>
             <select wicket:id="cathedra">
                 <option>JJR</option>
             </select><br/>
-            Type <select wicket:id="lecturerType">
+            <wicket:message key="type">Type: </wicket:message>
+            <select wicket:id="lecturerType">
                 <option>assistant</option>
             </select><br/>
-            <input type="submit"/>
+            <input type="submit" value="OK"/>
         </form>
     </body>
 </html>
