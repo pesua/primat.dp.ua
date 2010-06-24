@@ -20,47 +20,56 @@ import ua.dp.primat.repositories.LecturerRepository;
  */
 public final class ManageLecturersPage extends WebPage {
 
+    private static final long serialVersionUID = 1L;
+
     public ManageLecturersPage() {
         super();
         final List<Lecturer> lecturers = lecturerRepository.getAllLecturers();
 
-        ListView<Lecturer> lecturerView = new ListView<Lecturer>("lecturerRow", lecturers) {
-
-            @Override
-            protected void populateItem(ListItem<Lecturer> li) {
-                final Lecturer lecturer = li.getModelObject();
-                li.add(new Label("name", lecturer.getShortName()));
-                li.add(new Label("cathedra", lecturer.getCathedra().toString()));
-                li.add(new Label("type", lecturer.getLecturerType().toString()));
-
-                Link editLink = new PageLink("editLink", new IPageLink() {
-
-                    public Page getPage() {
-                        return new EditLecturerPage(lecturer);
-                    }
-
-                    public Class<? extends Page> getPageIdentity() {
-                        return EditLecturerPage.class;
-                    }
-                });
-                li.add(editLink);
-                editLink.add(new Image("editImage"));
-
-                Link deleteLink = new Link("deleteLink") {
-
-                    @Override
-                    public void onClick() {
-                        lecturerRepository.delete(lecturer);
-                        lecturers.remove(lecturer);
-                    }
-                };
-                li.add(deleteLink);
-                deleteLink.add(new Image("deleteImage"));
-            }
-        };
+        final ListView<Lecturer> lecturerView = new LecturerListView("lecturerRow", lecturers, lecturers);
         add(lecturerView);
         add(new Image("addLecturerImage"));
     }
     @SpringBean
     private LecturerRepository lecturerRepository;
+
+    private class LecturerListView extends ListView<Lecturer> {
+
+        private final List<Lecturer> lecturers;
+
+        public LecturerListView(String id, List<? extends Lecturer> list, List<Lecturer> lecturers) {
+            super(id, list);
+            this.lecturers = lecturers;
+        }
+
+        @Override
+        protected void populateItem(ListItem<Lecturer> li) {
+            final Lecturer lecturer = li.getModelObject();
+            li.add(new Label("name", lecturer.getShortName()));
+            li.add(new Label("cathedra", lecturer.getCathedra().toString()));
+            li.add(new Label("type", lecturer.getLecturerType().toString()));
+            final Link editLink = new PageLink("editLink", new IPageLink() {
+
+                public Page getPage() {
+                    return new EditLecturerPage(lecturer);
+                }
+
+                public Class<? extends Page> getPageIdentity() {
+                    return EditLecturerPage.class;
+                }
+            });
+            li.add(editLink);
+            editLink.add(new Image("editImage"));
+            final Link deleteLink = new Link("deleteLink") {
+
+                @Override
+                public void onClick() {
+                    lecturerRepository.delete(lecturer);
+                    lecturers.remove(lecturer);
+                }
+            };
+            deleteLink.add(new Image("deleteImage"));
+            li.add(deleteLink);
+        }
+    }
 }

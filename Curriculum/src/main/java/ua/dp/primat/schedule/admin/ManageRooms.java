@@ -19,19 +19,20 @@ import ua.dp.primat.repositories.RoomRepository;
  * @author EniSh
  */
 public final class ManageRooms extends WebPage {
-
+    private static final long serialVersionUID = 1L;
+    
     public ManageRooms() {
         super();
         final List<Room> rooms = roomRepository.getRooms();
 
-        ListView<Room> roomView = new ListView<Room>("repeating", rooms) {
+        final ListView<Room> roomView = new ListView<Room>("repeating", rooms) {
 
             @Override
             protected void populateItem(ListItem<Room> li) {
                 final Room room = li.getModelObject();
                 li.add(new Label("room", room.toString()));
                 
-                Link editLink = new PageLink("editRoom", new IPageLink() {
+                final Link editLink = new PageLink("editRoom", new IPageLink() {
 
                     public Page getPage() {
                         return new EditRoomPage(room);
@@ -44,7 +45,7 @@ public final class ManageRooms extends WebPage {
                 editLink.add(new Image("editImage"));
                 li.add(editLink);
                 
-                Link deleteLink = new Link("deleteRoom") {
+                final Link deleteLink = new Link("deleteRoom") {
 
                     @Override
                     public void onClick() {
