@@ -52,6 +52,10 @@
 	width: 105px;
 }
 
+#tableDiscipline img {
+	width: 16px;
+}
+
 /* Admin Home page */
 .menuItem, .editForm {
     float: left;
