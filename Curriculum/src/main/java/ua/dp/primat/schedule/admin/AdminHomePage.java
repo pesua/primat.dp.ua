@@ -29,7 +29,7 @@ public final class AdminHomePage extends WebPage {
             final int semesterCount = 8;
             List<StudentGroup> groups = studentGroupRepository.getGroups();
             List<Long> semesters = new ArrayList<Long>();
-            for (int i = 0; i < semesterCount; i++) {
+            for (int i = 1; i <= semesterCount; i++) {
                 semesters.add(Long.valueOf(i));
             }
             add(new DropDownChoice<StudentGroup>("group", new PropertyModel(this, "group"), groups));
