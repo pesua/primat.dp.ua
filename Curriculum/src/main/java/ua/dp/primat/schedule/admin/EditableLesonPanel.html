@@ -7,26 +7,31 @@
     </head>
     <body>
         <wicket:panel>
-            Discipline:
+            <span wicket:id="feedback"/>
+            <wicket:message key="discipline">Discipline:</wicket:message>
             <select wicket:id="disciplineDDC">
                 <option>Mat an</option>
                 <option>TFKP</option>
             </select>
-            Room:
+            <wicket:message key="room">Room:</wicket:message>
             <select wicket:id="roomDDC">
                 <option>3/53</option>
                 <option>4/44</option>
             </select><br/>
-            Lecturer:
+            <wicket:message key="lecturer">Lecturer:</wicket:message>
             <select wicket:id="lecturerDDC">
                 <option>Tonkoshkur</option>
                 <option>Segeda</option>
             </select>
+            <wicket:message key="assistant">Assistant:</wicket:message>
             Assistant:
             <select wicket:id="asistantDDC">
                 <option>Tonkoshkur</option>
                 <option>Segeda</option>
-            </select>            
+            </select>
+            <wicket:message key="lessonType">Lesson type:</wicket:message>
+            <select wicket:id="typeDDC">
+            </select>
         </wicket:panel>
     </body>
 </html>
