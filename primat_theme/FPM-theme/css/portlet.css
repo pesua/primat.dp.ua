@@ -23,7 +23,7 @@ body.portlet
 
 .portlet-title-text
 {
-	
+
 }
 
 .portlet-title img
@@ -428,6 +428,7 @@ body.portlet
 .portlet-menu-item-hover-selected
 {
 }
+
 
 /* ---------- Normal, unselected menu item that has sub-menus ---------- */
 .portlet-menu-cascade-item
