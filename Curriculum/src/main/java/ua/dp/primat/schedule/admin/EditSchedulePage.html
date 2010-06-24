@@ -3,17 +3,21 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>EditSchedulePage</title>
-        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <link rel="stylesheet" type="text/css" href="adminstyle.css"/>
     </head>
     <body>
-        <h3>Editing schedule for <span wicket:id="group">AS-07-1</span></h3>
-        semester: <span wicket:id="semester">2</span> <br/>
-
-        <form wicket:id="editForm">
-            <span wicket:id="days">
-                <span wicket:id="dayLessons"></span>
-            </span>
-            <input type="submit"/>
-        </form>
+		<table class="strtTable">
+			<body>
+				<th><h3>Editing schedule for <span wicket:id="group">AS-07-1</span></h3>
+					semester: <span wicket:id="semester">2</span>
+				</th>
+				<form wicket:id="editForm">
+					<tr wicket:id="days">
+						<td><span wicket:id="dayLessons"></span></td>
+					</tr>
+					<tr><td align="right"><input type="submit"/></td></tr>
+				</form>
+			<body>
+		</table>
     </body>
 </html>

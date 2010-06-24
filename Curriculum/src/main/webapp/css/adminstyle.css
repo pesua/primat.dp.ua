@@ -9,6 +9,7 @@
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	-khtml-border-radius: 5px;
+	border-collapse: separate;
 }
 
 .strtTable tr, .strtTable td, .strtTable th {
