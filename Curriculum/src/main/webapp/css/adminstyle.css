@@ -43,6 +43,15 @@
 	width: 16px;
 }
 
+/* EditDisciplinePage */
+#tableDiscipline input {
+	width: 100px;
+}
+
+#tableDiscipline select {
+	width: 105px;
+}
+
 /* Admin Home page */
 .menuItem, .editForm {
     float: left;
