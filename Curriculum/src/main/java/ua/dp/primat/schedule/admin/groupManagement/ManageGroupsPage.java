@@ -53,16 +53,6 @@ public final class ManageGroupsPage extends WebPage {
                 };
                 deleteLink.add(new Image("deleteImage"));
                 li.add(deleteLink);
-
-                Link infoLink = new Link("groupInfo") {
-
-                    @Override
-                    public void onClick() {
-                        setResponsePage(new GroupInfoPage(group));
-                    }
-                };
-                infoLink.add(new Image("infoImage"));
-                li.add(infoLink);
             }
         };
         add(roomView);

@@ -6,20 +6,21 @@
         <link rel="stylesheet" type="text/css" href="style.css"/>
     </head>
     <body>
-        <wicket:link><a href="EditGroupPage.html"><img src="images/add.png"/>Add Group</a></wicket:link>
+        <wicket:link><a href="EditGroupPage.html"><img src="../images/add.png"/><wicket:message key="addGroup">Add Group</wicket:message></a></wicket:link>
         <table class="dataview">
             <thead>
                 <tr>
-                    <th>Student Group</th>
-                    <th>Actions</th>
+                    <th><wicket:message key="studentGroup">Student Group</wicket:message></th>
+                    <th><wicket:message key="actions">Actions</wicket:message></th>
                 </tr>
             </thead>
             <tbody>
                 <tr wicket:id="repeating">
                     <td wicket:id="group"></td>
-                    <td> <a wicket:id="editGroup"><img src="images/edit.png" wicket:id="editImage"/></a>
-                        <a wicket:id="deleteGroup"><img src="images/delete.png"wicket:id="deleteImage"/></a>
-                        <a wicket:id="groupInfo"><img src="images/info.png"wicket:id="infoImage"/></a></td>
+                    <td>
+                        <a wicket:id="editGroup"><img src="../images/edit.png" wicket:id="editImage"/></a>
+                        <a wicket:id="deleteGroup"><img src="../images/delete.png"wicket:id="deleteImage"/></a>
+                    </td>
                 </tr>
             </tbody>
         </table>
