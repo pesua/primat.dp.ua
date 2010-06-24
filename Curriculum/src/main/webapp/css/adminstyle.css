@@ -66,6 +66,11 @@
 	width: 105px;
 }
 
+/* ManageLecturePage */
+#ManageLecturePage img {
+	width: 16px;
+}
+
 /* Admin Home page */
 .menuItem, .editForm {
     float: left;

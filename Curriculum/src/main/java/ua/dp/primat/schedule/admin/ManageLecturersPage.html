@@ -3,11 +3,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>ManageTeachers</title>
-        <link rel="stylesheet" type="text/css" href="adminstyle.css"/>
+        <link rel="stylesheet" type="text/css" href="css/adminstyle.css"/>
     </head>
     <body>
-        <wicket:link><a href="EditLecturerPage.html"><img src="images/add.png" wicket:id="addLecturerImage"/>Add lecturer</a></wicket:link>
-        <table id="lectureN">
+        <table class="strtTable" id="ManageLecturePage">
             <thead>
                 <tr>
                     <th id="t1">Name</th>
@@ -25,6 +24,9 @@
                         <a wicket:id="deleteLink"><img src="images/delete.png"wicket:id="deleteImage"/></a>
                     </td>
                 </tr>
+				<tr>
+					<td colspan="4" align="right" style="font-size:12pt"><wicket:link><a href="EditLecturerPage.html"><img src="images/add.png" wicket:id="addLecturerImage"/>Add lecturer</a></wicket:link></td>
+				</tr>
             </tbody>
         </table>
     </body>
