@@ -18,6 +18,8 @@ import ua.dp.primat.schedule.services.WeekLessonColection;
  * @author EniSh
  */
 public final class EditSchedulePage extends WebPage {
+    private static final long serialVersionUID = 1L;
+    
     public EditSchedulePage(final StudentGroup group, final Long semester) {
         super ();
         editScheduleService.updateLists();
@@ -25,9 +27,9 @@ public final class EditSchedulePage extends WebPage {
         add(new Label("group", group.toString()));
         add(new Label("semester", semester.toString()));
         final WeekLessonColection schedule = editScheduleService.getSchedule(group, semester);
-        List<LessonItem[]> days = schedule.getDayList();
+        final List<LessonItem[]> days = schedule.getDayList();
 
-        Form editForm = new Form("editForm") {
+        final Form editForm = new Form("editForm") {
 
             @Override
             protected void onSubmit() {
@@ -37,7 +39,7 @@ public final class EditSchedulePage extends WebPage {
 
         };
         editForm.add(new ListView<LessonItem[]>("days", days){
-            int dayNum = 0;
+            private int dayNum = 0;
             
             @Override
             protected void populateItem(ListItem<LessonItem[]> li) {

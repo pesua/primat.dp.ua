@@ -1,14 +1,11 @@
 package ua.dp.primat.schedule.services;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.dp.primat.domain.Cathedra;
 import ua.dp.primat.domain.Lecturer;
-import ua.dp.primat.domain.LecturerType;
 import ua.dp.primat.domain.Room;
 import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.domain.lesson.*;
@@ -29,8 +26,8 @@ import ua.dp.primat.repositories.RoomRepository;
 public class LessonService {
 
     public void saveLesson(Lesson lesson) {
-        Long id = lesson.getLessonDescription().getId();
-        LessonDescription descr = (id != null) ? lessonDescriptionRepository.find(id) : null;
+        final Long id = lesson.getLessonDescription().getId();
+        final LessonDescription descr = (id != null) ? lessonDescriptionRepository.find(id) : null;
         if (descr != null) {
             lesson.setLessonDescription(descr);
         } else {

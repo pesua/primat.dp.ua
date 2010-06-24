@@ -16,16 +16,18 @@ import ua.dp.primat.schedule.services.EditableLesson;
  * @author EniSh
  */
 public class EditableLesonPanel extends Panel {
+private static final long serialVersionUID = 1L;
+
     public EditableLesonPanel(String id, EditableLesson lesson) {
         super (id);
-        List<Room> rooms = editScheduleService.getRooms();
-        List<Discipline> disciplines = editScheduleService.getDisciplines();
-        List<Lecturer> lecturers = editScheduleService.getLecturers();
+        final List<Room> rooms = editScheduleService.getRooms();
+        final List<Discipline> disciplines = editScheduleService.getDisciplines();
+        final List<Lecturer> lecturers = editScheduleService.getLecturers();
 
-        add(new DropDownChoice<Discipline>("discipline", new PropertyModel<Discipline>(lesson, "discipline"), disciplines));
-        add(new DropDownChoice<Room>("room", new PropertyModel<Room>(lesson, "room"), rooms));
-        add(new DropDownChoice<Lecturer>("lecturer", new PropertyModel<Lecturer>(lesson, "lecturer"), lecturers));
-        add(new DropDownChoice<Lecturer>("asistant", new PropertyModel<Lecturer>(lesson, "asistant"), lecturers));
+        add(new DropDownChoice<Discipline>("disciplineDDC", new PropertyModel<Discipline>(lesson, "discipline"), disciplines));
+        add(new DropDownChoice<Room>("roomDDC", new PropertyModel<Room>(lesson, "room"), rooms));
+        add(new DropDownChoice<Lecturer>("lecturerDDC", new PropertyModel<Lecturer>(lesson, "lecturer"), lecturers));
+        add(new DropDownChoice<Lecturer>("asistantDDC", new PropertyModel<Lecturer>(lesson, "asistant"), lecturers));
     }
 
     @SpringBean
