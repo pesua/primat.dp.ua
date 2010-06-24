@@ -26,7 +26,7 @@ public class WeekLessonColection implements Serializable {
         for (Lesson lesson : lessons) {
             int dayNumber = lesson.getDayOfWeek().getNumber();
             int lessonNumber = lesson.getLessonNumber().intValue();
-            lessonItems[dayNumber][lessonNumber].mergeWithLesson(lesson);
+            lessonItems[dayNumber][lessonNumber - 1].mergeWithLesson(lesson);
         }
     }
     

@@ -92,7 +92,7 @@ public class EditableLesson implements Serializable {
         lesson.setRoom(room);
         lesson.setWeekType(weekType);
         lesson.setDayOfWeek(day);
-        lesson.setLessonNumber(lessonNum);
+        lesson.setLessonNumber(lessonNum + 1);
 
         LessonDescription description = new LessonDescription();
         description.setAssistant(asistant);
