@@ -34,19 +34,11 @@
 }
 
 /* EditRoomPage */
-#tableRoom {
-	background-color: transparent;
-}
-
 #tableRoom input {
 	width: 100px;
 }
 
 /* ManageRooms */
-#ManageRooms {
-	background-color: transparent;
-}
-
 #ManageRooms img{
 	width: 16px;
 }
