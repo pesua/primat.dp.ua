@@ -3,11 +3,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>ManageDisciplines</title>
-        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <link rel="stylesheet" type="text/css" href="css/adminstyle.css"/>
     </head>
     <body>
-        <wicket:link><a href="EditDisciplinePage.html"><img src="images/add.png"/>Add Discipline</a></wicket:link>
-        <table class="dataview" cellspacing="0">
+        <table class="strtTable">
             <thead>
                 <tr>
                     <th>Discipline</th>
@@ -20,8 +19,9 @@
                     <td wicket:id="disciplineName"></td>
                     <td wicket:id="disciplineCathedra"></td>
                     <td> <a wicket:id="editDiscipline"><img src="images/edit.png" wicket:id="editImage"/></a>
-                        <a wicket:id="deleteDiscipline"><img src="images/delete.png"wicket:id="deleteImage"/></a></td>
+                         <a wicket:id="deleteDiscipline"><img src="images/delete.png"wicket:id="deleteImage"/></a></td>
                 </tr>
+				<tr><td colspan="3" align="right"><wicket:link><a href="EditDisciplinePage.html"><img src="images/add.png"/>Add Discipline</a></wicket:link></td></tr>
             </tbody>
         </table>
     </body>
