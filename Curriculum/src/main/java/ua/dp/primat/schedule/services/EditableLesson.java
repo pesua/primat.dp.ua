@@ -7,6 +7,7 @@ import ua.dp.primat.domain.Lecturer;
 import ua.dp.primat.domain.lesson.Lesson;
 import ua.dp.primat.domain.lesson.LessonDescription;
 import ua.dp.primat.domain.Room;
+import ua.dp.primat.domain.lesson.LessonType;
 import ua.dp.primat.domain.lesson.WeekType;
 
 /**
@@ -26,6 +27,7 @@ public class EditableLesson implements Serializable {
             el.setLecturer(lesson.getLessonDescription().getLecturer());
             el.setAsistant(lesson.getLessonDescription().getAssistant());
             el.setDiscipline(lesson.getLessonDescription().getDiscipline());
+            el.setLessonType(lesson.getLessonDescription().getLessonType());
         }
 
         return el;
@@ -44,6 +46,14 @@ public class EditableLesson implements Serializable {
 
     public void setAsistant(Lecturer asistant) {
         this.asistant = asistant;
+    }
+
+    public LessonType getLessonType() {
+        return lessonType;
+    }
+
+    public void setLessonType(LessonType lessonType) {
+        this.lessonType = lessonType;
     }
 
     public Discipline getDiscipline() {
@@ -98,7 +108,7 @@ public class EditableLesson implements Serializable {
         description.setAssistant(asistant);
         description.setLecturer(lecturer);
         description.setDiscipline(discipline);
-        //description.set
+        description.setLessonType(lessonType);
 
         lesson.setLessonDescription(description);
         return lesson;
@@ -110,6 +120,7 @@ public class EditableLesson implements Serializable {
     private Lecturer lecturer;
     private Lecturer asistant;
     private Room room;
+    private LessonType lessonType;
     private WeekType weekType;
 
 }

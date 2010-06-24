@@ -74,6 +74,7 @@ public class EditScheduleService {
 
     public void updateLists() {
         disciplines = disciplineRepository.getDisciplines();
+        disciplines.add(null);
         lecturers = lecturerRepository.getAllLecturers();
         rooms = roomRepository.getRooms();
     }

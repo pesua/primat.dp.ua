@@ -6,8 +6,11 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.validation.validator.PatternValidator;
+import org.apache.wicket.validation.validator.StringValidator.LengthBetweenValidator;
 import ua.dp.primat.domain.Cathedra;
 import ua.dp.primat.domain.Lecturer;
 import ua.dp.primat.repositories.LecturerRepositoryImpl;
@@ -33,7 +36,12 @@ public final class EditLecturerPage extends WebPage {
 
         public EditLecturerForm(String cname) {
             super(cname, new CompoundPropertyModel<Lecturer>(lecturer));
-            add(new TextField("name"));
+            add(new FeedbackPanel("feedback"));
+
+            TextField name = new TextField("name");
+            name.setRequired(true);
+            name.add(new LengthBetweenValidator(5, 60));
+            add(name);
             List<Cathedra> cathedras = cathedraRepository.getCathedras();
             add(new DropDownChoice("cathedra", cathedras));
             List<LecturerType> lecturerTypes = Arrays.asList(LecturerType.values());
