@@ -146,12 +146,36 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
 	<aui:fieldset>
     <aui:column>
       <liferay-ui:custom-attribute
-        className="com.liferay.portal.model.User"
-        classPK="<%= 0 %>"
-        editable="<%= true %>"
-        label="<%= true %>"
+        className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+        editable="<%= true %>" label="<%= true %>"
         name="company-name"
-      />
+      /><br/>
+      <liferay-ui:custom-attribute
+        className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+        editable="<%= true %>" label="<%= true %>"
+        name="company-activity"
+      /><br/><br/>
+      <hr/>
+      <liferay-ui:custom-attribute
+        className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+        editable="<%= true %>" label="<%= true %>"
+        name="company-phone"
+      /><br/>
+      <liferay-ui:custom-attribute
+        className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+        editable="<%= true %>" label="<%= true %>"
+        name="company-address"
+      /><br/>
+      <liferay-ui:custom-attribute
+        className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+        editable="<%= true %>" label="<%= true %>"
+        name="company-mail"
+      /><br/>
+      <liferay-ui:custom-attribute
+        className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+        editable="<%= true %>" label="<%= true %>"
+        name="company-web"
+      /><br/>
     </aui:column>
 	</aui:fieldset>
 	
