@@ -5,6 +5,7 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import ua.dp.primat.domain.Cathedra;
@@ -30,9 +31,12 @@ public final class EditDisciplinePage extends WebPage {
 
         public EditDisciplineForm(String id, Discipline discipline) {
             super(id, new CompoundPropertyModel<Discipline>(discipline));
+            add(new FeedbackPanel("feedback"));
+            
             this.discipline = discipline;
-
-            add(new TextField("name"));
+            TextField name = new TextField("name");
+            name.setRequired(true);
+            add(name);
 
             List<Cathedra> cathedras = cathedraRepository.getCathedras();
             add(new DropDownChoice("cathedra", cathedras));
