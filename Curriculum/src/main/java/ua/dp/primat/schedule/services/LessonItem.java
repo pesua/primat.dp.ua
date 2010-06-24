@@ -14,7 +14,7 @@ public class LessonItem implements Serializable {
 
     public LessonItem() {
         numerator = new EditableLesson();
-        numerator.setWeekType(WeekType.NUMERATOR);
+        numerator.setWeekType(WeekType.BOTH);
         denominator = new EditableLesson();
         denominator.setWeekType(WeekType.DENOMINATOR);
     }
