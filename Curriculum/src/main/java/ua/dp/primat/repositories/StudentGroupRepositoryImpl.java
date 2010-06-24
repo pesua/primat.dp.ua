@@ -19,7 +19,7 @@ public class StudentGroupRepositoryImpl implements StudentGroupRepository {
     }
 
     public void store(StudentGroup studentGroup) {
-        if (em.contains(studentGroup)) {
+        if (contains(studentGroup)) {
             em.merge(studentGroup);
         } else {
             em.persist(studentGroup);
@@ -37,5 +37,14 @@ public class StudentGroupRepositoryImpl implements StudentGroupRepository {
     public void setEm(EntityManager em) {
         this.em = em;
     }
-    
+
+    public boolean contains(StudentGroup studentGroup) {
+        if (studentGroup.getId() == null) {
+            return false;
+        }
+        if (em.find(StudentGroup.class, studentGroup) == null) {
+            return false;
+        }
+        return true;
+    }
 }

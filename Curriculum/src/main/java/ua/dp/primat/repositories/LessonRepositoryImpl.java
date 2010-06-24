@@ -20,7 +20,7 @@ public class LessonRepositoryImpl implements LessonRepository {
     private EntityManager em;
 
     public void store(Lesson lesson) {
-        if (em.contains(lesson)) {
+        if (contains(lesson)) {
             em.merge(lesson);
         }
         else {
@@ -55,4 +55,13 @@ public class LessonRepositoryImpl implements LessonRepository {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    public boolean contains(Lesson lesson) {
+        if (lesson.getId() == null) {
+            return false;
+        }
+        if (em.find(Lesson.class, lesson) == null) {
+            return false;
+        }
+        return true;
+    }
 }
