@@ -81,6 +81,10 @@
     text-align: left;
 }
 
+.editForm td {
+    font-size: 14pt;
+}
+
 #editSF select
 {
 	margin-left: 30px;
