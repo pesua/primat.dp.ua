@@ -3,8 +3,10 @@ package ua.dp.primat.schedule.admin;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.validation.validator.RangeValidator;
 import ua.dp.primat.domain.Room;
 import ua.dp.primat.repositories.RoomRepository;
 
@@ -29,9 +31,16 @@ public final class EditRoomPage extends WebPage {
 
         public EditRoomForm(String cName) {
             super(cName, new CompoundPropertyModel<Room>(room));
+            add(new FeedbackPanel("feedback"));
 
-            add(new TextField("number"));
-            add(new TextField("building"));
+            TextField number = new TextField("number");
+            number.setRequired(true);
+            number.add(new RangeValidator(1, 500));
+            add(number);
+            TextField building = new TextField("building");
+            building.setRequired(true);
+            building.add(new RangeValidator(1, 500));
+            add(building);
         }
 
         @Override
