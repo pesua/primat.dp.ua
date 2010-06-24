@@ -81,9 +81,10 @@ public final class ViewCrosstab extends RefreshablePanel {
             li.add(labelNum);
 
             //output the lesson's info in SchedulePanel for every day
-            for (int i=0;i<DAY_WICKET_KEYS.length;i++) {
+            for (int i = 0; i<DAY_WICKET_KEYS.length; i++) {
                 final DayOfWeek dayOfWeek = DayOfWeek.values()[i];
-                final Panel labelDay = new ScheduleCell(DAY_WICKET_KEYS[i], entry.getLessonForDay(dayOfWeek));
+                final Panel labelDay = new ScheduleCell(DAY_WICKET_KEYS[i],
+                        entry.getLessonForDay(dayOfWeek));
                 
                 labelDay.setVisible(isCellVisible(li.getIndex(), dayOfWeek));
 

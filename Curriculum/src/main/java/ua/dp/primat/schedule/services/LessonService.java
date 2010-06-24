@@ -79,8 +79,8 @@ public class LessonService {
     }
 
     /**
-     * Query, that returns extacly 6 lessons for the specified DayOfWeek and
-     * WeekType.
+     * Query, that returns extacly LESSONCOUNT lessons for the specified
+     * DayOfWeek and WeekType.
      * @param listLesson - data to search in
      * @param day
      * @param week
@@ -91,7 +91,7 @@ public class LessonService {
 
         //fill an array with empty items
         for (int i = 0; i < dayLessons.length; i++) {
-            dayLessons[i] = new Lesson(Long.valueOf(i+1), WeekType.BOTH, day, null, null);
+            dayLessons[i] = new Lesson(Long.valueOf(i), WeekType.BOTH, day, null, null);
         }
 
         //if no data - leave the method
@@ -104,7 +104,9 @@ public class LessonService {
                     && ((l.getWeekType() == week)
                     || (l.getWeekType() == WeekType.BOTH))) {
                 int lessonNumber = l.getLessonNumber().intValue();
-                dayLessons[lessonNumber-1] = l;
+                if ((lessonNumber > 0) && (lessonNumber <= LESSONCOUNT)) {
+                    dayLessons[lessonNumber-1] = l;
+                }
             }
         }
 
