@@ -91,7 +91,7 @@ public class LessonService {
 
         //fill an array with empty items
         for (int i = 0; i < dayLessons.length; i++) {
-            dayLessons[i] = new Lesson(Long.valueOf(i), WeekType.BOTH, day, null, null);
+            dayLessons[i] = new Lesson(Long.valueOf(i+1), WeekType.BOTH, day, null, null);
         }
 
         //if no data - leave the method
