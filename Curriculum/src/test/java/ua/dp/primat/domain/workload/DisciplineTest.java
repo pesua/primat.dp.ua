@@ -36,7 +36,7 @@ public class DisciplineTest {
         Object i = 1;
         assertFalse("Incorect compare with Integer", a.equals(i));
 
-        Discipline b = new Discipline("TestDisc", new Cathedra("TestCath"));
+        Discipline b = new Discipline("TestDisc1", new Cathedra("TestCath"));
         assertFalse("Incorect compare by null key", a.equals(b));
 
         a.setId(Long.MIN_VALUE);
