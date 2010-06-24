@@ -1,4 +1,34 @@
-/* Home page */
+/* Admin Home page */
+.menuItem, .editForm {
+    float: left;
+    border-right-style: solid;
+    border-left-style: solid;
+    border-bottom-style: solid;
+    border-top-style: solid;
+    border-right-color: #00537d;
+    border-left-color: #00537d;
+    border-bottom-color: #00537d;
+    border-top-color: #00537d;
+    background-color: #f0f0f0;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.editForm {
+    clear: left;
+    width: 620px;
+}
+
 #editSF select
 {
 	margin-left: 30px;

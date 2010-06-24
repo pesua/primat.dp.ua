@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:wicket="http://wicket.apache.org">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>ManageGroupPage</title>
+        <link rel="stylesheet" type="text/css" href="style.css"/>
+    </head>
+    <body>
+        <wicket:link><a href="EditGroupPage.html"><img src="images/add.png"/>Add Group</a></wicket:link>
+        <table class="dataview">
+            <thead>
+                <tr>
+                    <th>Student Group</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr wicket:id="repeating">
+                    <td wicket:id="group"></td>
+                    <td> <a wicket:id="editGroup"><img src="images/edit.png" wicket:id="editImage"/></a>
+                        <a wicket:id="deleteGroup"><img src="images/delete.png"wicket:id="deleteImage"/></a>
+                        <a wicket:id="groupInfo"><img src="images/info.png"wicket:id="infoImage"/></a></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

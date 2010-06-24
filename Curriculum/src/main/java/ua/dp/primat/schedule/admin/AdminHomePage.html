@@ -3,69 +3,64 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>Schedule Admin Home Page</title>
-        <link rel="stylesheet" type="text/css" href="adminstyle.css"/>
+        <link rel="stylesheet" type="text/css" href="css/adminstyle.css"/>
     </head>
     <body>
         <h3><wicket:message key="schedule.management">Schedule management</wicket:message></h3>
-        <wicket:link>
-            <ul>
-                <li><a href="ManageRooms.html"><wicket:message key="rooms">Rooms</wicket:message></a></li>
-                <li><a href="ManageLecturersPage.html"><wicket:message key="lecturers">Lecturers</wicket:message></a></li>
-                <li><a href="ManageDisciplines.html"><wicket:message key="disciplines">Disciplines</wicket:message></a></li>
-            </ul>
-        </wicket:link>
-
         <div>
-            <form wicket:id="editScheduleForm" id="editSF">
+            <wicket:link>
+                <div class="menuItem"><a href="ManageLecturersPage.html">
+                        <img src="images/user.png"/><br/>
+                        <wicket:message key="lecturers">Lecturers</wicket:message></a>
+                </div>
+                <div class="menuItem"><a href="groupManagement/ManageGroupsPage.html">
+                        <img src="images/group.png"/><br/>
+                        <wicket:message key="groups">Groups</wicket:message></a>
+                </div>
+                <div class="menuItem"><a href="ManageRooms.html">
+                        <img src="images/home.png"/><br/>
+                        <wicket:message key="rooms">Manage rooms</wicket:message></a>
+                </div>
+                <div class="menuItem"><a href="ManageDisciplines.html">
+                        <img src="images/discipline.png"/><br/>
+                        <wicket:message key="disciplines">Disciplines</wicket:message></a>
+                </div>
+            </wicket:link>
+
+            <div class="editForm">
                 <table>
-					<tr>
-						<td>Edit schedule</td>
-						<td><select wicket:id="group">
-							<option>PZ-08-1</option>
-							<option>PS-03-1</option>
-						</select></td>
-					</tr>
-					<tr>
-						<td>Semester number</td>
-						<td><select wicket:id="semester">
-							<option>1</option>
-							<option>2</option>
-						</select></td>
-					</tr>
-					<tr><td></td><td><input type="submit"/></td></tr>
-				</table>
-            </form>
+                    <tr>
+                        <td><wicket:link><img src="images/schedule.png"/></wicket:link></td>
+                        <td>
+                            <form wicket:id="editScheduleForm" id="editSF">
+                                <table>
+                                    <tr>
+                                        <td>Edit schedule</td>
+                                        <td><select wicket:id="group">
+                                                <option>PZ-08-1</option>
+                                                <option>PS-03-1</option>
+                                            </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Semester number</td>
+                                        <td><select wicket:id="semester">
+                                                <option>1</option>
+                                                <option>2</option>
+                                            </select></td>
+                                    </tr>
+                                    <tr><td></td><td><input type="submit"/></td></tr>
+                                </table>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
-
+        <wicket:remove> <!-- I want to remove it, but it doesn't work without it --></wicket:remove>
         <div>
-            <form wicket:id="newScheduleForm">
-				<table id="createSF">
-					<tr><th colspan=3>Create new schedule</th></tr>
-					<tr>
-						<td>Group code</td>
-						<td><input type="text" wicket:id="groupCode"/></td>
-					</tr>
-					<tr>
-						<td>Group year</td>
-						<td><input type="text" wicket:id="groupYear"/></td>
-					</tr>
-					<tr>
-						<td>Group number</td>
-						<td><input type="text" wicket:id="groupNumber"/></td>
-					</tr>
-					<tr>
-						<td>Semester number</td>
-						<td>
-							<select wicket:id="semester">
-								<option>1</option>
-								<option>2</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td></td><td><input type="submit"/></td>
-					</tr>
-				</table>
+            <form>
+                <table id="createSF">
+                </table>
             </form>
         </div>
     </body>

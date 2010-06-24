@@ -19,12 +19,14 @@ import ua.dp.primat.repositories.DisciplineRepository;
  * @author EniSh
  */
 public final class ManageDisciplines extends WebPage {
+    private static final long serialVersionUID = 1L;
+    
     public ManageDisciplines() {
         super ();
 
         final List<Discipline> disciplines = disciplineRepository.getDisciplines();
 
-        ListView<Discipline> disciplineView = new ListView<Discipline>("repeating", disciplines) {
+        final ListView<Discipline> disciplineView = new ListView<Discipline>("repeating", disciplines) {
 
             @Override
             protected void populateItem(ListItem<Discipline> li) {
@@ -32,7 +34,7 @@ public final class ManageDisciplines extends WebPage {
                 li.add(new Label("disciplineName", discipline.getName()));
                 li.add(new Label("disciplineCathedra", discipline.getCathedra().toString()));
 
-                Link editLink = new PageLink("editDiscipline", new IPageLink() {
+                final Link editLink = new PageLink("editDiscipline", new IPageLink() {
 
                     public Page getPage() {
                         return new EditDisciplinePage(discipline);
