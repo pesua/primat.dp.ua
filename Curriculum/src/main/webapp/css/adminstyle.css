@@ -57,6 +57,15 @@
 	width: 16px;
 }
 
+/* EditLecturePage */
+#lecturePage input {
+	width: 100px;
+}
+
+#lecturePage select {
+	width: 105px;
+}
+
 /* Admin Home page */
 .menuItem, .editForm {
     float: left;

@@ -3,22 +3,34 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>EditLecturerPage</title>
-        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <link rel="stylesheet" type="text/css" href="adminstyle.css"/>
     </head>
     <body>
         <form wicket:id="lecturer">
-            <span wicket:id="feedback"/>
-            
-            <wicket:message key="name">Name:</wicket:message> <input wicket:id="name"/><br/>
-            <wicket:message key="cathedra">Cathedra:</wicket:message>
-            <select wicket:id="cathedra">
-                <option>JJR</option>
-            </select><br/>
-            <wicket:message key="type">Type: </wicket:message>
-            <select wicket:id="lecturerType">
-                <option>assistant</option>
-            </select><br/>
-            <input type="submit" value="OK"/>
+			<span wicket:id="feedback"/>
+			<table class="strtTable" id="lecturePage">
+				<tbody>
+					<tr>
+						<td><wicket:message key="name">Name:</wicket:message></td>
+						<td><input wicket:id="name"/></td>
+					</tr>
+					<tr>
+						<td><wicket:message key="cathedra">Cathedra:</wicket:message></td>
+						<td><select wicket:id="cathedra">
+								<option>JJR</option>
+							</select></td>
+					</tr>
+					<tr>
+						<td><wicket:message key="type">Type: </wicket:message></td>
+						<td><select wicket:id="lecturerType">
+								<option>assistant</option>
+							</select></td>
+					</tr>
+					<tr>
+						<td colspan="2" align="right"><input type="submit" value="OK"/></td>
+					</tr>
+				</tbody>
+			</table>
         </form>
     </body>
 </html>
