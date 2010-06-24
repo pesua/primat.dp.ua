@@ -115,6 +115,9 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
 			</c:if>
 
 			<aui:input bean="<%= user2 %>" model="<%= User.class %>" name="emailAddress" />
+          
+			<aui:input name="is-member-student-council" type="checkbox"/>
+        
 		</aui:column>
 
 		<aui:column>
@@ -169,7 +172,6 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
         }
         %>
         </aui:select>
-
 
 	<aui:button-row>
 		<aui:button type="submit" />
