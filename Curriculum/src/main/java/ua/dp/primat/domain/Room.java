@@ -28,6 +28,31 @@ public class Room implements Serializable {
         this.number = number;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Room other = (Room) obj;
+        if (this.id == null) {
+            return (this.getNumber() == other.getNumber()) && (this.getBuilding() == other.getBuilding());
+        }
+        if (this.id != other.id && !this.id.equals(other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
+    }
+
     public Long getBuilding() {
         return building;
     }
