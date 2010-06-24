@@ -35,11 +35,11 @@ public final class EditRoomPage extends WebPage {
 
             TextField number = new TextField("number");
             number.setRequired(true);
-            number.add(new RangeValidator(1, 500));
+            number.add(new RangeValidator<Long>(1L, 500L));
             add(number);
             TextField building = new TextField("building");
             building.setRequired(true);
-            building.add(new RangeValidator(1, 500));
+            building.add(new RangeValidator<Long>(1L, 500L));
             add(building);
         }
 
