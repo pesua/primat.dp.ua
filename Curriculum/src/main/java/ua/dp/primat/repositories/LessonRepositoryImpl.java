@@ -16,20 +16,21 @@ import ua.dp.primat.domain.lesson.WeekType;
  */
 @Repository
 public class LessonRepositoryImpl implements LessonRepository {
+
     @PersistenceContext(unitName = "curriculum")
     private EntityManager em;
 
     public void store(Lesson lesson) {
         if (contains(lesson)) {
             em.merge(lesson);
-        }
-        else {
+        } else {
             em.persist(lesson);
         }
     }
 
     public void remove(Lesson lesson) {
-        if (em.contains(lesson)) {
+        Lesson l = em.find(Lesson.class, lesson.getId());
+        if (l != null) {
             em.remove(lesson);
         }
     }
@@ -59,7 +60,7 @@ public class LessonRepositoryImpl implements LessonRepository {
         if (lesson.getId() == null) {
             return false;
         }
-        if (em.find(Lesson.class, lesson) == null) {
+        if (em.find(Lesson.class, lesson.getId()) == null) {
             return false;
         }
         return true;

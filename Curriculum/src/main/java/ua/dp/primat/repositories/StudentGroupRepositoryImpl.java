@@ -42,7 +42,7 @@ public class StudentGroupRepositoryImpl implements StudentGroupRepository {
         if (studentGroup.getId() == null) {
             return false;
         }
-        if (em.find(StudentGroup.class, studentGroup) == null) {
+        if (em.find(StudentGroup.class, studentGroup.getId()) == null) {
             return false;
         }
         return true;
