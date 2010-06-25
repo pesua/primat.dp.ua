@@ -3,26 +3,30 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>EditGroupPage</title>
-        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <link rel="stylesheet" type="text/css" href="adminstyle.css"/>
     </head>
     <body>
         <form wicket:id="form">
             <span wicket:id="feedback"/>
-            <table>
-                <tr>
-                    <td><wicket:message key="speciality">Speciality: </wicket:message></td>
-                    <td> <input wicket:id="code" type="text"/> </td>
-                </tr>
-                <tr>
-                    <td><wicket:message key="year">Year: </wicket:message></td>
-                    <td> <input wicket:id="year" type="text"/> </td>
-                </tr>
-                <tr>
-                    <td><wicket:message key="number">Number: </wicket:message></td>
-                    <td> <input wicket:id="number" type="text"/> </td>
-                </tr>
+            <table class="strtTable" id="EditGroup">
+				<tbody>
+					<tr>
+						<td><wicket:message key="speciality">Speciality: </wicket:message></td>
+						<td> <input wicket:id="code" type="text"/> </td>
+					</tr>
+					<tr>
+						<td><wicket:message key="year">Year: </wicket:message></td>
+						<td> <input wicket:id="year" type="text"/> </td>
+					</tr>
+					<tr>
+						<td><wicket:message key="number">Number: </wicket:message></td>
+						<td> <input wicket:id="number" type="text"/> </td>
+					</tr>
+					<tr>
+						<td colspan="2" align="right"><input type="submit" value="OK"/></td>
+					</tr>
+				</tbody>
             </table>
-            <input type="submit" value="OK"/>
         </form>
     </body>
 </html>

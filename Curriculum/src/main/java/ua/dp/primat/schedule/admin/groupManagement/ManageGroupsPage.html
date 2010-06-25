@@ -3,11 +3,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>ManageGroupPage</title>
-        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <link rel="stylesheet" type="text/css" href="css/adminstyle.css"/>
     </head>
     <body>
-        <wicket:link><a href="EditGroupPage.html"><img src="../images/add.png"/><wicket:message key="addGroup">Add Group</wicket:message></a></wicket:link>
-        <table class="dataview">
+        <table class="strtTable" id="ManageGroups">
             <thead>
                 <tr>
                     <th><wicket:message key="studentGroup">Student Group</wicket:message></th>
@@ -22,6 +21,9 @@
                         <a wicket:id="deleteGroup"><img src="../images/delete.png"wicket:id="deleteImage"/></a>
                     </td>
                 </tr>
+				<tr>
+					<td colspan="2" align="right" style="font-size:12pt"><wicket:link><a href="EditGroupPage.html"><img src="../images/add.png"/><wicket:message key="addGroup">Add Group</wicket:message></a></wicket:link></td>
+				</tr>
             </tbody>
         </table>
     </body>

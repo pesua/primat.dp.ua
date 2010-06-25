@@ -71,6 +71,20 @@
 	width: 16px;
 }
 
+/* ManageGroupsPage */
+#ManageGroups img {
+	width: 16px;
+}
+
+/* ManageGroupsPage */
+#ManageGroups img {
+	width: 16px;
+}
+
+#EditGroup input {
+	width: 100px;
+}
+
 /* Admin Home page */
 .menuItem, .editForm {
     float: left;
