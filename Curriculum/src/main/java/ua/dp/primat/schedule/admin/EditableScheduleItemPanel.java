@@ -2,9 +2,7 @@ package ua.dp.primat.schedule.admin;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
-import org.apache.wicket.ajax.markup.html.form.AjaxCheckBox;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.Model;
 import ua.dp.primat.schedule.services.LessonItem;
 
 /**
@@ -39,7 +37,7 @@ public final class EditableScheduleItemPanel extends Panel {
                     lessonItem.setOneLesson();
                 }
                 target.addComponent(elp);
-                target.addComponent(elp.getParent());
+                //target.addComponent(elp.getParent());
             }
         });
     }
