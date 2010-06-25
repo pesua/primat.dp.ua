@@ -86,7 +86,8 @@ body {
 	background-image: url(../images/Addition/top.png);
 	background-position:center top;
 	background-repeat: repeat-x;
-	font-size: 11px;
+	font-size: 12px;
+	text-indent: 30px;
 }
 
 a {
@@ -284,7 +285,7 @@ body #banner .logo a {
 }
 
 .portlet-topper {
-	background: #414445 url(../images/portlet/header_bg.png) repeat-x 0 0;
+	background: #414445 url(../images/portlet/header_bg_portlet.png) repeat-x 0 0;
 	border: 1px solid;
 	border-color:   #def1fb;
 	font-size: 1.1em;
