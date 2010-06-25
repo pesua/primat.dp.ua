@@ -28,7 +28,6 @@ public final class ManageLecturersPage extends WebPage {
 
         final ListView<Lecturer> lecturerView = new LecturerListView("lecturerRow", lecturers, lecturers);
         add(lecturerView);
-        add(new Image("addLecturerImage"));
     }
     @SpringBean
     private LecturerRepository lecturerRepository;
