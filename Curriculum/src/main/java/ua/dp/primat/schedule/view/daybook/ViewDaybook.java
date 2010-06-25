@@ -1,6 +1,6 @@
 package ua.dp.primat.schedule.view.daybook;
 import ua.dp.primat.domain.lesson.Lesson;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.model.LoadableDetachableModel;
@@ -26,9 +26,8 @@ public final class ViewDaybook extends RefreshablePanel {
         super(id);
 
         //add the weekType choice group combo
-        final List<WeekType> weekTypeValues = new ArrayList<WeekType>();
-        weekTypeValues.add(WeekType.NUMERATOR);
-        weekTypeValues.add(WeekType.DENOMINATOR);
+        final List<WeekType> weekTypeValues = Arrays.asList(WeekType.values());
+
         final DropDownChoice<WeekType> weekTypeChoice = new DropDownChoice<WeekType>("weekType",
                 new PropertyModel<WeekType>(this, "weekType"),
                 new LoadableDetachableModel<List<WeekType>>(weekTypeValues) {
