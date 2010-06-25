@@ -55,7 +55,7 @@ public class EditScheduleService {
         saveEditableLesson(lessonItem.getNumerator(), group, semester, day, lessonNumber);
         if (!lessonItem.isOneLesson()) {
             saveEditableLesson(lessonItem.getDenominator(), group, semester, day, lessonNumber);
-            throw new IllegalArgumentException(lessonItem.getDenominator().getDiscipline().toString());
+            throw new IllegalArgumentException(lessonItem.getNumerator().getDiscipline().toString());
         }
     }
 
