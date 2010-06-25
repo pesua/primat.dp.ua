@@ -102,58 +102,51 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
 
 	<aui:model-context bean="<%= contact2 %>" model="<%= Contact.class %>" />
 
-	<input type="radio" name="uv" value="radio1" CHECKED> User<br/>
-    <input type="radio" name="uv" value="radio2"> Company<br/>
-
 	<aui:fieldset>
 		<aui:column>
-			<table>
-				<tbody>
-					<tr height="25px"><td><aui:input name="firstName"/></td></tr>
-					<tr height="25px"><td><aui:input name="middleName"/></td></tr>
-					<tr height="25px"><td><aui:input name="lastName"/></td></tr>
-					<tr height="25px"><td><aui:input bean="<%= user2 %>" model="<%= User.class %>" name="emailAddress"/></td></tr>
-					<tr height="25px"><td><aui:input name="is-member-student-council" type="checkbox"/></td></tr>
-				</tbody>
-			</table>
+			<aui:input name="firstName" />
+
+			<aui:input name="middleName" />
+
+			<aui:input name="lastName" />
+
+			<aui:input bean="<%= user2 %>" model="<%= User.class %>" name="emailAddress" />
+            
+            <aui:input name="is-member-student-council" type="checkbox"/>
 		</aui:column>
 		<aui:column>
-			<table>
-				<tbody>
-					<c:if test="<%= PropsValues.LOGIN_CREATE_ACCOUNT_ALLOW_CUSTOM_PASSWORD %>">
-						<tr height="25px"><td><aui:input label="password" name="password1" size="30" type="password" value=""/></tr></td>
-						<tr height="25px"><td><aui:input label="enter-again" name="password2" size="30" type="password" value=""/></tr></td>
-					</c:if>
-					
-					<tr height="25px"><td>
-						<c:choose>
-							<c:when test="<%= PrefsPropsUtil.getBoolean(company.getCompanyId(), PropsKeys.FIELD_ENABLE_COM_LIFERAY_PORTAL_MODEL_CONTACT_BIRTHDAY) %>">
-								<aui:input name="birthday" value="<%= birthday %>" />
-							</c:when>
-							<c:otherwise>
-								<aui:input name="birthdayMonth" type="hidden" value="<%= Calendar.JANUARY %>"/>
-								<aui:input name="birthdayDay" type="hidden" value="1"/>
-								<aui:input name="birthdayYear" type="hidden" value="1970"/>
-							</c:otherwise>
-						</c:choose>
-					</td></tr>
-					
-					<c:if test="<%= PrefsPropsUtil.getBoolean(company.getCompanyId(), PropsKeys.FIELD_ENABLE_COM_LIFERAY_PORTAL_MODEL_CONTACT_MALE) %>">
-						<tr height="25px"><td>
-							<aui:select label="gender" name="male">
-								<aui:option label="male" value="1" />
-								<aui:option label="female" selected="<%= !male %>" value="0" />
-							</aui:select>
-						</td></tr>
-					</c:if>
-					
-					<c:if test="<%= !PrefsPropsUtil.getBoolean(company.getCompanyId(), PropsKeys.USERS_SCREEN_NAME_ALWAYS_AUTOGENERATE) %>">
-						<tr height="25px"><td><aui:input bean="<%= user2 %>" model="<%= User.class %>" name="screenName" /></td></tr>
-					</c:if>
-					
-					<tr height="25px"><td>
-						<aui:select label="student-groups" name="student-groups">
-                        <%List groups = GroupLocalServiceUtil.getGroups(0,GroupLocalServiceUtil.getGroupsCount());
+      <c:if test="<%= PropsValues.LOGIN_CREATE_ACCOUNT_ALLOW_CUSTOM_PASSWORD %>">
+				<aui:input label="password" name="password1" size="30" type="password" value="" />
+
+				<aui:input label="enter-again" name="password2" size="30" type="password" value="" />
+			</c:if>
+
+			<c:choose>
+				<c:when test="<%= PrefsPropsUtil.getBoolean(company.getCompanyId(), PropsKeys.FIELD_ENABLE_COM_LIFERAY_PORTAL_MODEL_CONTACT_BIRTHDAY) %>">
+					<aui:input name="birthday" value="<%= birthday %>" />
+				</c:when>
+				<c:otherwise>
+					<aui:input name="birthdayMonth" type="hidden" value="<%= Calendar.JANUARY %>" />
+					<aui:input name="birthdayDay" type="hidden" value="1" />
+					<aui:input name="birthdayYear" type="hidden" value="1970" />
+				</c:otherwise>
+			</c:choose>
+
+			<c:if test="<%= PrefsPropsUtil.getBoolean(company.getCompanyId(), PropsKeys.FIELD_ENABLE_COM_LIFERAY_PORTAL_MODEL_CONTACT_MALE) %>">
+				<aui:select label="gender" name="male">
+					<aui:option label="male" value="1" />
+					<aui:option label="female" selected="<%= !male %>" value="0" />
+				</aui:select>
+			</c:if>
+			
+			<c:if test="<%= !PrefsPropsUtil.getBoolean(company.getCompanyId(), PropsKeys.USERS_SCREEN_NAME_ALWAYS_AUTOGENERATE) %>">
+				<aui:input bean="<%= user2 %>" model="<%= User.class %>" name="screenName" />
+			</c:if>
+
+                        
+                        <aui:select label="student-groups" name="student-groups">
+                        <%
+                        List groups = GroupLocalServiceUtil.getGroups(0,GroupLocalServiceUtil.getGroupsCount());
                         for (int i = 0; i < groups.size(); i++)
                         {
                             Group group = (Group)groups.get(i);
@@ -163,10 +156,10 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
                                 <aui:option label="<%= group.getName() %>" selected="false" value="<%= group.getGroupId() %>" />
                                 <%
                             }
-                        }%>
-					</td></tr>
-				<tbody>
-			</table>
+                        }
+                        %>
+	        </aui:select>
+
 		</aui:column>
 	</aui:fieldset>
 	
