@@ -12,12 +12,14 @@ import ua.dp.primat.schedule.services.LessonItem;
  * @author EniSh
  */
 public final class EditableScheduleItemPanel extends Panel {
-    public EditableScheduleItemPanel(String id, final LessonItem li) {
+    public EditableScheduleItemPanel(String id, LessonItem li) {
         super (id);
 
-        add(new EditableLesonPanel("numerator", li.getNumerator()));
-        final EditableLesonPanel elp = new EditableLesonPanel("denominator", li.getDenominator());
-        secondLessonVisible = !li.isOneLesson();
+        lessonItem = li;
+
+        add(new EditableLesonPanel("numerator", lessonItem.getNumerator()));
+        final EditableLesonPanel elp = new EditableLesonPanel("denominator", lessonItem.getDenominator());
+        secondLessonVisible = !lessonItem.isOneLesson();
         elp.setVisible(secondLessonVisible);
         elp.setOutputMarkupId(true);
         elp.setOutputMarkupPlaceholderTag(true);
@@ -32,9 +34,9 @@ public final class EditableScheduleItemPanel extends Panel {
                 secondLessonVisible = !secondLessonVisible;
                 elp.setVisible(secondLessonVisible);
                 if (secondLessonVisible) {
-                    li.setTwoLesson();
+                    lessonItem.setTwoLesson();
                 } else {
-                    li.setOneLesson();
+                    lessonItem.setOneLesson();
                 }
                 target.addComponent(elp);
                 target.addComponent(elp.getParent());
@@ -42,5 +44,6 @@ public final class EditableScheduleItemPanel extends Panel {
         });
     }
 
+    private LessonItem lessonItem;
     private boolean secondLessonVisible;
 }
