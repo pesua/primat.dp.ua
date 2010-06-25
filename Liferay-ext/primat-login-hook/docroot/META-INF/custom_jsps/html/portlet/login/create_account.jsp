@@ -142,7 +142,7 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
 			</c:if>
 
 
-                        <b>Group</b> <br>
+                        <b>student-groups</b> <br>
                         <aui:select label="" name="student-groups">
                         <%
                         List groups = GroupLocalServiceUtil.getGroups(0,GroupLocalServiceUtil.getGroupsCount());
