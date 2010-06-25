@@ -183,38 +183,12 @@ boolean deletePortrait = ParamUtil.getBoolean(request, "deletePortrait");
 </c:if>
 <aui:fieldset>
   <aui:column>
-    <br/>
-    <liferay-ui:custom-attribute
-      className="com.liferay.portal.model.User" classPK="<%= 0 %>"
-      editable="<%= true %>" label="<%= true %>"
-      name="company-name"
-    /><br/>
-    <liferay-ui:custom-attribute
-      className="com.liferay.portal.model.User" classPK="<%= 0 %>"
-      editable="<%= true %>" label="<%= true %>"
-      name="company-activity"
-    /><br/><br/>
-    <hr/>
-    <liferay-ui:custom-attribute
-      className="com.liferay.portal.model.User" classPK="<%= 0 %>"
-      editable="<%= true %>" label="<%= true %>"
-      name="company-phone"
-    /><br/>
-    <liferay-ui:custom-attribute
-      className="com.liferay.portal.model.User" classPK="<%= 0 %>"
-      editable="<%= true %>" label="<%= true %>"
-      name="company-address"
-    /><br/>
-    <liferay-ui:custom-attribute
-      className="com.liferay.portal.model.User" classPK="<%= 0 %>"
-      editable="<%= true %>" label="<%= true %>"
-      name="company-mail"
-    /><br/>
-    <liferay-ui:custom-attribute
-      className="com.liferay.portal.model.User" classPK="<%= 0 %>"
-      editable="<%= true %>" label="<%= true %>"
-      name="company-web"
-    /><br/>
+    <liferay-ui:custom-attribute-list
+		className="com.liferay.portal.model.User"
+		classPK="<%= (selUser != null) ? selUser.getUserId() : 0 %>"
+		editable="<%= true %>"
+		label="<%= true %>"
+	/>
   </aui:column>
 </aui:fieldset>
 
