@@ -24,7 +24,7 @@ import static org.junit.Assert.*;
 /**
  *
  * @author fdevelop
- *//*
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath:applicationContext-test.xml")
 public class LessonTest extends AbstractTransactionalJUnit4SpringContextTests {
@@ -99,4 +99,4 @@ public class LessonTest extends AbstractTransactionalJUnit4SpringContextTests {
         assertEquals(1, lessonCount);
     }
 
-}*/
+}

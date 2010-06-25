@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
 /**
  *
  * @author fdevelop
- *//*
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath:applicationContext-test.xml")
 public class SpringDomainTest extends AbstractTransactionalJUnit4SpringContextTests {
@@ -77,6 +77,6 @@ public class SpringDomainTest extends AbstractTransactionalJUnit4SpringContextTe
         final int preparedCount = 1;
         int totalCount = studentGroupRepository.getGroups().size();
         assertEquals("Test ready.", totalCount, preparedCount);
-    }
+    }*/
 
-}*/
+}
