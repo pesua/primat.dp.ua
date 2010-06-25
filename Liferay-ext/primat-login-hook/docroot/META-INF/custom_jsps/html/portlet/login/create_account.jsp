@@ -141,9 +141,8 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
 				<aui:input bean="<%= user2 %>" model="<%= User.class %>" name="screenName" />
 			</c:if>
 
-
-                        <b>student-groups</b> <br>
-                        <aui:select label="" name="student-groups">
+                        
+                        <aui:select label="student-groups" name="student-groups">
                         <%
                         List groups = GroupLocalServiceUtil.getGroups(0,GroupLocalServiceUtil.getGroupsCount());
                         for (int i = 0; i < groups.size(); i++)
