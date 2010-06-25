@@ -140,6 +140,25 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
 			<c:if test="<%= !PrefsPropsUtil.getBoolean(company.getCompanyId(), PropsKeys.USERS_SCREEN_NAME_ALWAYS_AUTOGENERATE) %>">
 				<aui:input bean="<%= user2 %>" model="<%= User.class %>" name="screenName" />
 			</c:if>
+
+
+                        <b>Group</b> <br>
+                        <aui:select label="" name="student-groups">
+                        <%
+                        List groups = GroupLocalServiceUtil.getGroups(0,GroupLocalServiceUtil.getGroupsCount());
+                        for (int i = 0; i < groups.size(); i++)
+                        {
+                            Group group = (Group)groups.get(i);
+                            if(group.isCommunity() && (!group.getName().equals("Control Panel")) && (!group.getName().equals("Guest")))
+                            {
+                                %>
+                                <aui:option label="<%= group.getName() %>" selected="false" value="<%= group.getGroupId() %>" />
+                                <%
+                            }
+                        }
+                        %>
+	        </aui:select>
+
 		</aui:column>
 	</aui:fieldset>
 	
