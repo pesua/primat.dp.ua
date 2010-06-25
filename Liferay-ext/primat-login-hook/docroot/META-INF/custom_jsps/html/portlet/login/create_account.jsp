@@ -111,6 +111,8 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
 			<aui:input name="lastName" />
 
 			<aui:input bean="<%= user2 %>" model="<%= User.class %>" name="emailAddress" />
+            
+            <aui:input name="is-member-student-council" type="checkbox"/>
 		</aui:column>
 		<aui:column>
       <c:if test="<%= PropsValues.LOGIN_CREATE_ACCOUNT_ALLOW_CUSTOM_PASSWORD %>">
