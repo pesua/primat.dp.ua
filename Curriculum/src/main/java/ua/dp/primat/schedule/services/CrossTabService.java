@@ -2,9 +2,7 @@ package ua.dp.primat.schedule.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
-import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.domain.lesson.Lesson;
 import ua.dp.primat.domain.lesson.WeekType;
 import ua.dp.primat.schedule.view.crosstab.LessonQueryItem;
