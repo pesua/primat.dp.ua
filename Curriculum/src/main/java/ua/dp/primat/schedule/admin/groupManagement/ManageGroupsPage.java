@@ -23,7 +23,7 @@ public final class ManageGroupsPage extends WebPage {
         super ();
         final List<StudentGroup> groups = studentGroupRepository.getGroups();
 
-        ListView<StudentGroup> roomView = new ListView<StudentGroup>("repeating", groups) {
+        final ListView<StudentGroup> roomView = new ListView<StudentGroup>("repeating", groups) {
 
             @Override
             protected void populateItem(ListItem<StudentGroup> li) {

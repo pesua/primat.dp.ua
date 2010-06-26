@@ -33,9 +33,9 @@ public class WicketApplication extends WebApplication {
 
     public final Class<? extends Page> getHomePage() {
         final PortletRequestContext prc = (PortletRequestContext)RequestContext.get();
-	if (prc.getPortletRequest().getPortletMode().equals(PortletMode.EDIT)) {
+        if (prc.getPortletRequest().getPortletMode().equals(PortletMode.EDIT)) {
             return EditPage.class;
-	}
+        }
         return HomePage.class;
     }
 }

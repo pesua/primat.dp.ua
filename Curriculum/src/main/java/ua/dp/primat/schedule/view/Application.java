@@ -31,7 +31,7 @@ public class Application extends WebApplication {
         final PortletRequestContext prc = (PortletRequestContext)RequestContext.get();
         if (prc.getPortletRequest().getPortletMode().equals(PortletMode.EDIT)) {
             return AdminHomePage.class;
-	}
+        }
         return ViewHomePage.class;
     }
 

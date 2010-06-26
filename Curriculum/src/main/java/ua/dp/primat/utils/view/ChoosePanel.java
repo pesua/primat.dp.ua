@@ -56,7 +56,7 @@ public abstract class ChoosePanel extends Panel {
         add(groupChoice);
 
         //semester combo
-        DropDownChoice<Long> semesterChoise = new DropDownChoice<Long>("semester",
+        final DropDownChoice<Long> semesterChoise = new DropDownChoice<Long>("semester",
                 new PropertyModel<Long>(this, "semester"),
                 new LoadableDetachableModel<List<Long>>(){
 
