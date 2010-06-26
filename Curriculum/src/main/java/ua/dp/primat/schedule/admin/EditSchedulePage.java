@@ -43,7 +43,7 @@ public final class EditSchedulePage extends WebPage {
             
             @Override
             protected void populateItem(ListItem<LessonItem[]> li) {
-                LessonItem[] lessons = li.getModelObject();
+                final LessonItem[] lessons = li.getModelObject();
                 li.add(new DayLessonsPanel("dayLessons", DayOfWeek.fromNumber(dayNum++), lessons));
             }
             

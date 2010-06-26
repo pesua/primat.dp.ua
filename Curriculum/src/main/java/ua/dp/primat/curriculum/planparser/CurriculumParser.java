@@ -106,7 +106,7 @@ public final class CurriculumParser {
      */
     private void changeEntriesCategoryOrType(String cellText) {
         if ( cellText.contains(".") ) {
-            int dtype = getWorkloadTypeInfoNumber(cellText);
+            final int dtype = getWorkloadTypeInfoNumber(cellText);
             currentLoadCategory = LoadCategory.Normative;
             currentWorkloadType = WorkloadType.fromNumber(dtype);
         } else {

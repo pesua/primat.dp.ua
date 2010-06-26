@@ -30,7 +30,7 @@ public final class ManageGroupsPage extends WebPage {
                 final StudentGroup group = li.getModelObject();
                 li.add(new Label("group", group.toString()));
 
-                Link editLink = new PageLink("editGroup", new IPageLink() {
+                final Link editLink = new PageLink("editGroup", new IPageLink() {
 
                     public Page getPage() {
                         return new EditGroupPage(group);
@@ -43,7 +43,7 @@ public final class ManageGroupsPage extends WebPage {
                 editLink.add(new Image("editImage"));
                 li.add(editLink);
 
-                Link deleteLink = new Link("deleteGroup") {
+                final Link deleteLink = new Link("deleteGroup") {
 
                     @Override
                     public void onClick() {

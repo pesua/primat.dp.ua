@@ -34,11 +34,11 @@ public final class EditDisciplinePage extends WebPage {
             add(new FeedbackPanel("feedback"));
             
             this.discipline = discipline;
-            TextField name = new TextField("name");
+            final TextField name = new TextField("name");
             name.setRequired(true);
             add(name);
 
-            List<Cathedra> cathedras = cathedraRepository.getCathedras();
+            final List<Cathedra> cathedras = cathedraRepository.getCathedras();
             add(new DropDownChoice("cathedra", cathedras));
         }
 

@@ -33,11 +33,11 @@ public final class EditRoomPage extends WebPage {
             super(cName, new CompoundPropertyModel<Room>(room));
             add(new FeedbackPanel("feedback"));
 
-            TextField number = new TextField("number");
+            final TextField number = new TextField("number");
             number.setRequired(true);
             number.add(new RangeValidator<Long>(1L, 500L));
             add(number);
-            TextField building = new TextField("building");
+            final TextField building = new TextField("building");
             building.setRequired(true);
             building.add(new RangeValidator<Long>(1L, 500L));
             add(building);

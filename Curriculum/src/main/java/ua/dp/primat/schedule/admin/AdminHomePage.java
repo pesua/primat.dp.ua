@@ -27,8 +27,8 @@ public final class AdminHomePage extends WebPage {
         public EditScheduleForm(String cname) {
             super(cname);
             final int semesterCount = 8;
-            List<StudentGroup> groups = studentGroupRepository.getGroups();
-            List<Long> semesters = new ArrayList<Long>();
+            final List<StudentGroup> groups = studentGroupRepository.getGroups();
+            final List<Long> semesters = new ArrayList<Long>();
             for (int i = 1; i <= semesterCount; i++) {
                 semesters.add(Long.valueOf(i));
             }

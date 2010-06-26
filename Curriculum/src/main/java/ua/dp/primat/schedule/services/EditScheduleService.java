@@ -30,7 +30,7 @@ public class EditScheduleService {
      * @return collection of lessons
      */
     public WeekLessonColection getSchedule(StudentGroup group, Long semester) {
-        List<Lesson> lessons = lessonRepository.getLessonsByGroupAndSemester(group, semester);
+        final List<Lesson> lessons = lessonRepository.getLessonsByGroupAndSemester(group, semester);
         return new WeekLessonColection(lessons);
     }
 
@@ -41,7 +41,7 @@ public class EditScheduleService {
      * @param lessonColection
      */
     public void setSchedule(StudentGroup group, Long semester, WeekLessonColection lessonColection) {
-        LessonItem[][] lessonItems = lessonColection.getLessonItems();
+        final LessonItem[][] lessonItems = lessonColection.getLessonItems();
         for (DayOfWeek day : DayOfWeek.values()) {
             for (int j = 0; j < lessonItems[day.getNumber()].length; j++) {
                 saveLessonItem(lessonItems[day.getNumber()][j], group, semester, day, j);
@@ -60,7 +60,7 @@ public class EditScheduleService {
     private void saveEditableLesson(EditableLesson editableLesson, StudentGroup group, Long semester,
                                     DayOfWeek day, int lessonNumber) {
         if (!editableLesson.isEmpty()) {
-            Lesson lesson = editableLesson.toLesson(day, Long.valueOf(lessonNumber));
+            final Lesson lesson = editableLesson.toLesson(day, Long.valueOf(lessonNumber));
             lesson.getLessonDescription().setSemester(semester);
             lesson.getLessonDescription().setStudentGroup(group);
             lessonService.saveLesson(lesson);

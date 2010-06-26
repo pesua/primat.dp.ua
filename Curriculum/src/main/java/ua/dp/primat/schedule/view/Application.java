@@ -28,9 +28,8 @@ public class Application extends WebApplication {
 
     @Override
     public Class<? extends Page> getHomePage() {
-        PortletRequestContext prc = (PortletRequestContext)RequestContext.get();
-	if (prc.getPortletRequest().getPortletMode().equals(PortletMode.EDIT))
-	{
+        final PortletRequestContext prc = (PortletRequestContext)RequestContext.get();
+        if (prc.getPortletRequest().getPortletMode().equals(PortletMode.EDIT)) {
             return AdminHomePage.class;
 	}
         return ViewHomePage.class;

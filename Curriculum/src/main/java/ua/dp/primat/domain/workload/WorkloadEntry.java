@@ -116,7 +116,7 @@ public class WorkloadEntry {
     }
 
     public Workload toNew(){
-        Workload w = new Workload();
+        final Workload w = new Workload();
         w.setCourseWork(courceWork);
         w.setDiscipline(parentWorkload.getDiscipline());
         w.setFinalControlType(finalControl);

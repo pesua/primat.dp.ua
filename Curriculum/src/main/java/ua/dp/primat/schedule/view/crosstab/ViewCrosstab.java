@@ -106,7 +106,7 @@ public final class ViewCrosstab extends RefreshablePanel {
          */
         private boolean isCellVisible(int currItemIndex, DayOfWeek day) {
             if (currItemIndex > 0) {
-                LessonQueryItem previous = this.getList().get(currItemIndex-1);
+                final LessonQueryItem previous = this.getList().get(currItemIndex-1);
                 if ((previous != null) && (previous.getLessonForDay(day) != null)) {
                     return previous.getLessonForDay(day).getWeekType() != WeekType.BOTH;
                 }

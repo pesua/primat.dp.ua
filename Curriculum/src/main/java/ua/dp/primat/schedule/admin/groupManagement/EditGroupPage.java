@@ -32,15 +32,15 @@ public final class EditGroupPage extends WebPage {
 
             add(new FeedbackPanel("feedback"));
 
-            RequiredTextField<String> speciality = new RequiredTextField<String>("code");
+            final RequiredTextField<String> speciality = new RequiredTextField<String>("code");
             speciality.add(new LengthBetweenValidator(2, 2));
             add(speciality);
 
-            RequiredTextField<Long> year = new RequiredTextField<Long>("year");
+            final RequiredTextField<Long> year = new RequiredTextField<Long>("year");
             year.add(new RangeValidator<Long>(1950L, 2050L));
             add(year);
 
-            RequiredTextField<Long> number = new RequiredTextField<Long>("number");
+            final RequiredTextField<Long> number = new RequiredTextField<Long>("number");
             number.add(new RangeValidator<Long>(1L, 10L));
             add(number);
         }

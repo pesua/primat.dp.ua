@@ -38,8 +38,8 @@ public class StudentGroup implements Serializable {
     public StudentGroup(String fullCode) {
         try {
             final char separator = ' ';
-            int firstDefis = fullCode.indexOf(separator);
-            int secondDefis = fullCode.indexOf(separator, firstDefis + 1);
+            final int firstDefis = fullCode.indexOf(separator);
+            final int secondDefis = fullCode.indexOf(separator, firstDefis + 1);
             this.code = fullCode.substring(0, firstDefis);
             this.year = 2000 + Long.parseLong(fullCode.substring(firstDefis + 1, secondDefis));
             this.number = Long.parseLong(fullCode.substring(secondDefis + 1));
@@ -84,8 +84,8 @@ public class StudentGroup implements Serializable {
     //TODO must be simple
     public String toString() {
         final int yearMask = 100;
-        DecimalFormat format = new DecimalFormat("00");
-        String yearCode = format.format(getYear() % yearMask);
+        final DecimalFormat format = new DecimalFormat("00");
+        final String yearCode = format.format(getYear() % yearMask);
         return String.format("%s-%s-%d", getCode(), yearCode, getNumber());
     }
 }

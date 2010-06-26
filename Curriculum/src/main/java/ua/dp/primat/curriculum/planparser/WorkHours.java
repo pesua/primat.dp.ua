@@ -57,7 +57,7 @@ public final class WorkHours {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append("[").append(hoursLec);
         sb.append("/").append(hoursPract);
         sb.append("/").append(hoursLab);

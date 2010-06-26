@@ -20,7 +20,7 @@ public class WorkloadRepositoryImpl implements WorkloadRepository {
 
     @Transactional(readOnly=true)
     public List<Workload> getWorkloadsByGroupAndSemester(StudentGroup group, Long semester) {
-        Query q = em.createNamedQuery(Workload.GET_WORKLOAD_BY_GROUP_AND_SEMESTER);
+        final Query q = em.createNamedQuery(Workload.GET_WORKLOAD_BY_GROUP_AND_SEMESTER);
         q.setParameter("group", group);
         q.setParameter("semester", semester);
         return q.getResultList();

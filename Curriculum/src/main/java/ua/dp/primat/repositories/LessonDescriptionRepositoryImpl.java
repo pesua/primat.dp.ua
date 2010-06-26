@@ -13,13 +13,13 @@ import ua.dp.primat.domain.lesson.LessonDescription;
 public class LessonDescriptionRepositoryImpl implements LessonDescriptionRepository {
 
     public void store(LessonDescription lessonDescription) {
-        LessonDescription merged = em.merge(lessonDescription);
+        final LessonDescription merged = em.merge(lessonDescription);
         em.flush();
         lessonDescription.setId(merged.getId());
     }
 
     public void remove(LessonDescription lessonDescription) {
-        LessonDescription l = em.find(LessonDescription.class, lessonDescription.getId());
+        final LessonDescription l = em.find(LessonDescription.class, lessonDescription.getId());
         if (l != null) {
             em.remove(lessonDescription);
         }

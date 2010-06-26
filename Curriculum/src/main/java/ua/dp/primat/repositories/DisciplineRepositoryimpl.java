@@ -36,7 +36,7 @@ public class DisciplineRepositoryimpl implements DisciplineRepository {
 
     public void delete(Discipline discipline) {
         //load(discipline.id);
-        Discipline r = em.find(Discipline.class, discipline.getId());
+        final Discipline r = em.find(Discipline.class, discipline.getId());
         if (em.contains(r)) {
             em.remove(r);
         }

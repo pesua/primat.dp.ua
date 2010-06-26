@@ -29,7 +29,7 @@ public class LessonRepositoryImpl implements LessonRepository {
     }
 
     public void remove(Lesson lesson) {
-        Lesson l = em.find(Lesson.class, lesson.getId());
+        final Lesson l = em.find(Lesson.class, lesson.getId());
         if (l != null) {
             em.remove(lesson);
         }
@@ -40,13 +40,13 @@ public class LessonRepositoryImpl implements LessonRepository {
     }
 
     public List<Lesson> getLessons(StudentGroup group) {
-        Query query = em.createNamedQuery(Lesson.GET_LESSONS_BY_GROUP_QUERY);
+        final Query query = em.createNamedQuery(Lesson.GET_LESSONS_BY_GROUP_QUERY);
         query.setParameter("group", group);
         return query.getResultList();
     }
 
     public List<Lesson> getLessonsByGroupAndSemester(StudentGroup group, Long semester) {
-        Query query = em.createNamedQuery(Lesson.GET_LESSONS_BY_GROUP_AND_SEMESTER_QUERY);
+        final Query query = em.createNamedQuery(Lesson.GET_LESSONS_BY_GROUP_AND_SEMESTER_QUERY);
         query.setParameter("group", group);
         query.setParameter("semester", semester);
         return query.getResultList();

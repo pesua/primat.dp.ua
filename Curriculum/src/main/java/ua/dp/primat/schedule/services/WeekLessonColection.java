@@ -24,14 +24,14 @@ public class WeekLessonColection implements Serializable {
     public WeekLessonColection(List<Lesson> lessons) {
         this();
         for (Lesson lesson : lessons) {
-            int dayNumber = lesson.getDayOfWeek().getNumber();
-            int lessonNumber = lesson.getLessonNumber().intValue();
+            final int dayNumber = lesson.getDayOfWeek().getNumber();
+            final int lessonNumber = lesson.getLessonNumber().intValue();
             lessonItems[dayNumber][lessonNumber - 1].mergeWithLesson(lesson);
         }
     }
     
     public List<LessonItem[]> getDayList() {
-        List<LessonItem[]> list = new ArrayList<LessonItem[]>();
+        final List<LessonItem[]> list = new ArrayList<LessonItem[]>();
         list.addAll(Arrays.asList(lessonItems));
         return list;
     }

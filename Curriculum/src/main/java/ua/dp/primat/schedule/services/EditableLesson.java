@@ -18,7 +18,7 @@ public class EditableLesson implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static EditableLesson fromLesson(Lesson lesson) {
-        EditableLesson el = new EditableLesson();
+        final EditableLesson el = new EditableLesson();
 
         if (lesson != null) {
             el.setId(lesson.getId());
@@ -97,14 +97,14 @@ public class EditableLesson implements Serializable {
     }
 
     public Lesson toLesson(DayOfWeek day, Long lessonNum) {
-        Lesson lesson = new Lesson();
+        final Lesson lesson = new Lesson();
         lesson.setId(id);
         lesson.setRoom(room);
         lesson.setWeekType(weekType);
         lesson.setDayOfWeek(day);
         lesson.setLessonNumber(lessonNum + 1);
 
-        LessonDescription description = new LessonDescription();
+        final LessonDescription description = new LessonDescription();
         description.setAssistant(asistant);
         description.setLecturer(lecturer);
         description.setDiscipline(discipline);

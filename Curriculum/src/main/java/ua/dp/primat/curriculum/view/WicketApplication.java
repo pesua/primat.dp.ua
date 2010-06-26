@@ -24,7 +24,7 @@ public class WicketApplication extends WebApplication {
 
         //Curriculum upload folder
         uploadFolder = new Folder(System.getProperty("java.io.tmpdir"), "curriculum-uploads");
-	uploadFolder.mkdirs();
+        uploadFolder.mkdirs();
 
         mountBookmarkablePage("/view", HomePage.class);
         mountBookmarkablePage("/edit", EditPage.class);
@@ -32,9 +32,8 @@ public class WicketApplication extends WebApplication {
     }
 
     public final Class<? extends Page> getHomePage() {
-        PortletRequestContext prc = (PortletRequestContext)RequestContext.get();
-	if (prc.getPortletRequest().getPortletMode().equals(PortletMode.EDIT))
-	{
+        final PortletRequestContext prc = (PortletRequestContext)RequestContext.get();
+	if (prc.getPortletRequest().getPortletMode().equals(PortletMode.EDIT)) {
             return EditPage.class;
 	}
         return HomePage.class;

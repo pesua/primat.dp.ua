@@ -37,13 +37,13 @@ public final class EditLecturerPage extends WebPage {
             super(cname, new CompoundPropertyModel<Lecturer>(lecturer));
             add(new FeedbackPanel("feedback"));
 
-            TextField name = new TextField("name");
+            final TextField name = new TextField("name");
             name.setRequired(true);
             name.add(new LengthBetweenValidator(5, 60));
             add(name);
-            List<Cathedra> cathedras = cathedraRepository.getCathedras();
+            final List<Cathedra> cathedras = cathedraRepository.getCathedras();
             add(new DropDownChoice("cathedra", cathedras));
-            List<LecturerType> lecturerTypes = Arrays.asList(LecturerType.values());
+            final List<LecturerType> lecturerTypes = Arrays.asList(LecturerType.values());
             add(new DropDownChoice("lecturerType", lecturerTypes));
         }
 

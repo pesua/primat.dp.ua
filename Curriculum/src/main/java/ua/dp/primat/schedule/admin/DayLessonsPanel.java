@@ -18,14 +18,14 @@ public final class DayLessonsPanel extends Panel {
         super (id);
         add(new Label("day", day.toString()));
         
-        List<LessonItem> l = Arrays.asList(lessons);
+        final List<LessonItem> l = Arrays.asList(lessons);
         
         add(new ListView<LessonItem>("lesson", l) {
             int num = 1;
             
             @Override
             protected void populateItem(ListItem<LessonItem> li) {
-                LessonItem item = li.getModelObject();
+                final LessonItem item = li.getModelObject();
                 li.add(new Label("number", String.valueOf(num++)));
                 
                 li.add(new EditableScheduleItemPanel("lessonEditPanel", item));

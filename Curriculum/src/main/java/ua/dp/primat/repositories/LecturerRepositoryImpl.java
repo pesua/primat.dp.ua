@@ -33,7 +33,7 @@ public class LecturerRepositoryImpl implements LecturerRepository {
     }
 
     public void delete(Lecturer lecturer) {
-        Lecturer l = em.find(Lecturer.class, lecturer.getId());
+        final Lecturer l = em.find(Lecturer.class, lecturer.getId());
         if (em.contains(l)) {
             em.remove(l);
         }

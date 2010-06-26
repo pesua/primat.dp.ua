@@ -25,7 +25,7 @@ public class RoomRepositoryImpl implements RoomRepository {
     }
 
     public void delete(Room room) {
-        Room r = em.find(Room.class, room.getId());
+        final Room r = em.find(Room.class, room.getId());
         if (em.contains(r)) {
             em.remove(r);
         }

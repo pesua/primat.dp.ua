@@ -37,7 +37,7 @@ public class LessonService {
     }
 
     public void deleteLesson(Long id) {
-        Lesson lesson = lessonRepository.find(id);
+        final Lesson lesson = lessonRepository.find(id);
         lessonRepository.remove(lesson);
     }
 
@@ -103,7 +103,7 @@ public class LessonService {
             if ((l.getDayOfWeek() == day)
                     && ((l.getWeekType() == week)
                     || (l.getWeekType() == WeekType.BOTH))) {
-                int lessonNumber = l.getLessonNumber().intValue();
+                final int lessonNumber = l.getLessonNumber().intValue();
                 if ((lessonNumber > 0) && (lessonNumber <= LESSONCOUNT)) {
                     dayLessons[lessonNumber-1] = l;
                 }

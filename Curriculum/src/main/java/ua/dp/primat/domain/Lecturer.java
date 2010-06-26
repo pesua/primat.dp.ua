@@ -113,8 +113,8 @@ public class Lecturer implements Serializable {
         try {
             final char wordSeparator = ' ';
             final String point = ".";
-            String short1 = name.charAt(name.indexOf(wordSeparator) + 1) + point;
-            String short2 = name.charAt(name.lastIndexOf(wordSeparator) + 1) + point;
+            final String short1 = name.charAt(name.indexOf(wordSeparator) + 1) + point;
+            final String short2 = name.charAt(name.lastIndexOf(wordSeparator) + 1) + point;
             return name.substring(0, name.indexOf(wordSeparator)) + wordSeparator
                     + short1 + wordSeparator + short2;
         } catch (IndexOutOfBoundsException ie) {
