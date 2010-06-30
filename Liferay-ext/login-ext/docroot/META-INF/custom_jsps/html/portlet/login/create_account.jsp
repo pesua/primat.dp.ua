@@ -31,6 +31,21 @@ function showRolePanel()
 }
 </script>
 
+<style type=text/css>
+  #roleSelectArea {
+  	background-color: #E4F3F7;
+  	border: none;
+	  margin: 20px 0;
+	  padding: 20px 16px;
+  	border-top: 1px solid #CDDCDE;
+	  border-bottom: 1px solid #CDDCDE;
+  }
+  
+  #roleSelectArea .chooser {
+  	padding-bottom: 3px;
+  }
+</style>
+
 <%
 String redirect = ParamUtil.getString(request, "redirect");
 
@@ -162,11 +177,16 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
 	
 	<aui:fieldset>
 		<aui:column>
-      <select id="roleSelect" onChange=showRolePanel()>
-        <option selected value="0">Student</option>
-        <option value="1">Company</option>
-      </select>
+      <div id="roleSelectArea">
       
+      <div class="chooser">
+      <strong><liferay-ui:message key="role-select" />&nbsp;</strong>
+      <select id="roleSelect" onChange=showRolePanel()>
+        <option selected value="0"><liferay-ui:message key="role-select-student" /></option>
+        <option value="1"><liferay-ui:message key="role-select-company" /></option>
+      </select>
+      </div>
+      <hr/>
       <div id="panel_student">
         <aui:select label="student-groups" name="student-groups">
           <%
@@ -185,7 +205,7 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
           %>
         </aui:select>
         
-        <aui:input name="is-member-student-council" type="checkbox"/>
+        <aui:input label="is-member-student-council" name="is-member-student-council" type="checkbox"/>
       </div>
 
       <div id="panel_company" style="display: none;">
@@ -207,7 +227,7 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
             />
           </span>
         </span>
-        <hr/>
+        <br/>
         <span class="aui-field">
           <span class="aui-field-content">
             <liferay-ui:custom-attribute
@@ -249,6 +269,7 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
         </span>
       </div>
       
+      </div>
     </aui:column>
 	</aui:fieldset>
 	
