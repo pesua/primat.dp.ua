@@ -165,37 +165,65 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
 	
 	<aui:fieldset>
     <aui:column>
-      <liferay-ui:custom-attribute
-        className="com.liferay.portal.model.User" classPK="<%= 0 %>"
-        editable="<%= true %>" label="<%= true %>"
-        name="company-name"
-      /><br/>
-      <liferay-ui:custom-attribute
-        className="com.liferay.portal.model.User" classPK="<%= 0 %>"
-        editable="<%= true %>" label="<%= true %>"
-        name="company-activity"
-      /><br/><br/>
+      <span class="aui-field">
+        <span class="aui-field-content">
+          <liferay-ui:custom-attribute
+            className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+            editable="<%= true %>" label="<%= true %>"
+            name="company-name"
+          />
+        </span>
+      </span>
+      <span class="aui-field">
+        <span class="aui-field-content">
+          <liferay-ui:custom-attribute
+            className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+            editable="<%= true %>" label="<%= true %>"
+            name="company-activity"
+          />
+        </span>
+      </span>
       <hr/>
-      <liferay-ui:custom-attribute
-        className="com.liferay.portal.model.User" classPK="<%= 0 %>"
-        editable="<%= true %>" label="<%= true %>"
-        name="company-phone"
-      /><br/>
-      <liferay-ui:custom-attribute
-        className="com.liferay.portal.model.User" classPK="<%= 0 %>"
-        editable="<%= true %>" label="<%= true %>"
-        name="company-address"
-      /><br/>
-      <liferay-ui:custom-attribute
-        className="com.liferay.portal.model.User" classPK="<%= 0 %>"
-        editable="<%= true %>" label="<%= true %>"
-        name="company-mail"
-      /><br/>
-      <liferay-ui:custom-attribute
-        className="com.liferay.portal.model.User" classPK="<%= 0 %>"
-        editable="<%= true %>" label="<%= true %>"
-        name="company-web"
-      /><br/>
+      <span class="aui-field">
+        <span class="aui-field-content">
+          <liferay-ui:custom-attribute
+            className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+            editable="<%= true %>" label="<%= true %>"
+            name="company-phone"
+          />
+        </span>
+      </span>
+      
+      <span class="aui-field">
+        <span class="aui-field-content">
+          <liferay-ui:custom-attribute
+            className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+            editable="<%= true %>" label="<%= true %>"
+            name="company-address"
+          />
+        </span>
+      </span>
+      
+      <span class="aui-field">
+        <span class="aui-field-content">
+          <liferay-ui:custom-attribute
+            className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+            editable="<%= true %>" label="<%= true %>"
+            name="company-mail"
+          />
+        </span>
+      </span>
+      
+      <span class="aui-field">
+        <span class="aui-field-content">
+          <liferay-ui:custom-attribute
+            className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+            editable="<%= true %>" label="<%= true %>"
+            name="company-web"
+          />
+        </span>
+      </span>
+      
     </aui:column>
 	</aui:fieldset>
 	
