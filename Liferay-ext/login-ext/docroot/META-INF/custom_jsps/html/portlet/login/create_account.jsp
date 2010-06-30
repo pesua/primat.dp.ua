@@ -177,7 +177,7 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
           {
               Group group = (Group)groups.get(i);
               if(group.isCommunity() && (!group.getName().equals("Control Panel"))
-                  && (!group.getName().equals("Guest")) && (group.getName().length > 0))
+                  && (!group.getName().equals("Guest")) && (group.getName().length() > 0))
               {
                   %>
                   <aui:option label="<%= group.getName() %>" selected="false" value="<%= group.getGroupId() %>" />
