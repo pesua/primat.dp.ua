@@ -14,9 +14,10 @@
  */
 %>
 
+<%@ include file="/html/portlet/login/init.jsp" %>
+
 <script type=text/javascript language=JavaScript>
-<!--
-function showPanel()
+function showRolePanel()
 {
 	var objSelect = document.getElementById("roleSelect");
 	var pnl = objSelect.options[objSelect.selectedIndex].value;
@@ -28,10 +29,7 @@ function showPanel()
 		document.getElementById('panel_company').style.display='';
 	}
 }
-//-->
 </script>
-
-<%@ include file="/html/portlet/login/init.jsp" %>
 
 <%
 String redirect = ParamUtil.getString(request, "redirect");
@@ -164,7 +162,7 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
 	
 	<aui:fieldset>
 		<aui:column>
-      <select id="roleSelect" onChange=showPanel()>
+      <select id="roleSelect" onChange=showRolePanel()>
         <option selected value="0">Student</option>
         <option value="1">Company</option>
       </select>
