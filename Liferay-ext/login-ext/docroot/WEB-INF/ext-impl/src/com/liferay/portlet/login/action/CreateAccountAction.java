@@ -210,7 +210,7 @@ public class CreateAccountAction extends PortletAction {
 		long[] organizationIds = null;
 		long[] roleIds = null;
 		long[] userGroupIds = null;
-		boolean sendEmail = true;
+		boolean sendEmail = false;
 
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(
 			User.class.getName(), actionRequest);
@@ -246,8 +246,9 @@ public class CreateAccountAction extends PortletAction {
 			suffixId, male, birthdayMonth, birthdayDay, birthdayYear, jobTitle,
 			groupIds, organizationIds, roleIds, userGroupIds, sendEmail,
 			serviceContext);
-
-		if (openIdPending) {
+                UserServiceUtil.updateActive(user.getUserId(), false);
+		
+                if (openIdPending) {
 			session.setAttribute(
 				WebKeys.OPEN_ID_LOGIN, new Long(user.getUserId()));
 
