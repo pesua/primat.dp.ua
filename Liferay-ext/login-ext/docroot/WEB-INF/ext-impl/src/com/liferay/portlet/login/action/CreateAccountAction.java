@@ -11,9 +11,9 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-
 package com.liferay.portlet.login.action;
 
+import com.liferay.mail.service.MailServiceUtil;
 import com.liferay.portal.AddressCityException;
 import com.liferay.portal.AddressStreetException;
 import com.liferay.portal.AddressZipException;
@@ -43,6 +43,7 @@ import com.liferay.portal.UserSmsException;
 import com.liferay.portal.WebsiteURLException;
 import com.liferay.portal.kernel.captcha.CaptchaTextException;
 import com.liferay.portal.kernel.captcha.CaptchaUtil;
+import com.liferay.portal.kernel.mail.MailMessage;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.Constants;
@@ -63,6 +64,7 @@ import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.PropsValues;
 import com.liferay.portal.util.WebKeys;
 import com.liferay.portlet.login.util.LoginUtil;
+import javax.mail.internet.InternetAddress;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -87,240 +89,253 @@ import org.apache.struts.action.ActionMapping;
  */
 public class CreateAccountAction extends PortletAction {
 
-	public void processAction(
-			ActionMapping mapping, ActionForm form, PortletConfig portletConfig,
-			ActionRequest actionRequest, ActionResponse actionResponse)
-		throws Exception {
+    public void processAction(
+            ActionMapping mapping, ActionForm form, PortletConfig portletConfig,
+            ActionRequest actionRequest, ActionResponse actionResponse)
+            throws Exception {
 
-		String cmd = ParamUtil.getString(actionRequest, Constants.CMD);
+        String cmd = ParamUtil.getString(actionRequest, Constants.CMD);
 
-		try {
-			if (cmd.equals(Constants.ADD)) {
-				addUser(actionRequest, actionResponse);
-			}
-		}
-		catch (Exception e) {
-			if (e instanceof AddressCityException ||
-				e instanceof AddressStreetException ||
-				e instanceof AddressZipException ||
-				e instanceof CaptchaTextException ||
-				e instanceof ContactFirstNameException ||
-				e instanceof ContactFullNameException ||
-				e instanceof ContactLastNameException ||
-				e instanceof DuplicateUserEmailAddressException ||
-				e instanceof DuplicateUserScreenNameException ||
-				e instanceof EmailAddressException ||
-				e instanceof NoSuchCountryException ||
-				e instanceof NoSuchListTypeException ||
-				e instanceof NoSuchOrganizationException ||
-				e instanceof NoSuchRegionException ||
-				e instanceof OrganizationParentException ||
-				e instanceof PhoneNumberException ||
-				e instanceof RequiredFieldException ||
-				e instanceof RequiredUserException ||
-				e instanceof ReservedUserEmailAddressException ||
-				e instanceof ReservedUserScreenNameException ||
-				e instanceof TermsOfUseException ||
-				e instanceof UserEmailAddressException ||
-				e instanceof UserIdException ||
-				e instanceof UserPasswordException ||
-				e instanceof UserScreenNameException ||
-				e instanceof UserSmsException ||
-				e instanceof WebsiteURLException) {
+        try {
+            if (cmd.equals(Constants.ADD)) {
+                addUser(actionRequest, actionResponse);
+            }
+        } catch (Exception e) {
+            if (e instanceof AddressCityException
+                    || e instanceof AddressStreetException
+                    || e instanceof AddressZipException
+                    || e instanceof CaptchaTextException
+                    || e instanceof ContactFirstNameException
+                    || e instanceof ContactFullNameException
+                    || e instanceof ContactLastNameException
+                    || e instanceof DuplicateUserEmailAddressException
+                    || e instanceof DuplicateUserScreenNameException
+                    || e instanceof EmailAddressException
+                    || e instanceof NoSuchCountryException
+                    || e instanceof NoSuchListTypeException
+                    || e instanceof NoSuchOrganizationException
+                    || e instanceof NoSuchRegionException
+                    || e instanceof OrganizationParentException
+                    || e instanceof PhoneNumberException
+                    || e instanceof RequiredFieldException
+                    || e instanceof RequiredUserException
+                    || e instanceof ReservedUserEmailAddressException
+                    || e instanceof ReservedUserScreenNameException
+                    || e instanceof TermsOfUseException
+                    || e instanceof UserEmailAddressException
+                    || e instanceof UserIdException
+                    || e instanceof UserPasswordException
+                    || e instanceof UserScreenNameException
+                    || e instanceof UserSmsException
+                    || e instanceof WebsiteURLException) {
 
-				SessionErrors.add(actionRequest, e.getClass().getName(), e);
-			}
-			else {
-				throw e;
-			}
-		}
+                SessionErrors.add(actionRequest, e.getClass().getName(), e);
+            } else {
+                throw e;
+            }
+        }
 
-		if (Validator.isNull(PropsValues.COMPANY_SECURITY_STRANGERS_URL)) {
-			return;
-		}
+        if (Validator.isNull(PropsValues.COMPANY_SECURITY_STRANGERS_URL)) {
+            return;
+        }
 
-		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
-			WebKeys.THEME_DISPLAY);
+        ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(
+                WebKeys.THEME_DISPLAY);
 
-		try {
-			Layout layout = LayoutLocalServiceUtil.getFriendlyURLLayout(
-				themeDisplay.getScopeGroupId(), false,
-				PropsValues.COMPANY_SECURITY_STRANGERS_URL);
+        try {
+            Layout layout = LayoutLocalServiceUtil.getFriendlyURLLayout(
+                    themeDisplay.getScopeGroupId(), false,
+                    PropsValues.COMPANY_SECURITY_STRANGERS_URL);
 
-			String redirect = PortalUtil.getLayoutURL(layout, themeDisplay);
+            String redirect = PortalUtil.getLayoutURL(layout, themeDisplay);
 
-			sendRedirect(actionRequest, actionResponse, redirect);
-		}
-		catch (NoSuchLayoutException nsle) {
-		}
-	}
+            sendRedirect(actionRequest, actionResponse, redirect);
+        } catch (NoSuchLayoutException nsle) {
+        }
+    }
 
-	public ActionForward render(
-			ActionMapping mapping, ActionForm form, PortletConfig portletConfig,
-			RenderRequest renderRequest, RenderResponse renderResponse)
-		throws Exception {
+    public ActionForward render(
+            ActionMapping mapping, ActionForm form, PortletConfig portletConfig,
+            RenderRequest renderRequest, RenderResponse renderResponse)
+            throws Exception {
 
-		Company company = PortalUtil.getCompany(renderRequest);
+        Company company = PortalUtil.getCompany(renderRequest);
 
-		if (!company.isStrangers()) {
-			throw new PrincipalException();
-		}
+        if (!company.isStrangers()) {
+            throw new PrincipalException();
+        }
 
-		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(
-			WebKeys.THEME_DISPLAY);
+        ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(
+                WebKeys.THEME_DISPLAY);
 
-		renderResponse.setTitle(themeDisplay.translate("create-account"));
+        renderResponse.setTitle(themeDisplay.translate("create-account"));
 
-		return mapping.findForward("portlet.login.create_account");
-	}
+        return mapping.findForward("portlet.login.create_account");
+    }
 
-	protected void addUser(
-			ActionRequest actionRequest, ActionResponse actionResponse)
-		throws Exception {
+    protected void addUser(
+            ActionRequest actionRequest, ActionResponse actionResponse)
+            throws Exception {
 
-		HttpServletRequest request = PortalUtil.getHttpServletRequest(
-			actionRequest);
-		HttpSession session = request.getSession();
+        HttpServletRequest request = PortalUtil.getHttpServletRequest(
+                actionRequest);
+        HttpSession session = request.getSession();
 
-		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
-			WebKeys.THEME_DISPLAY);
+        ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(
+                WebKeys.THEME_DISPLAY);
 
-		Company company = themeDisplay.getCompany();
+        Company company = themeDisplay.getCompany();
 
-		boolean autoPassword = true;
-		String password1 = null;
-		String password2 = null;
-		boolean autoScreenName = isAutoScreenName();
-		String screenName = ParamUtil.getString(actionRequest, "screenName");
-		String emailAddress = ParamUtil.getString(
-			actionRequest, "emailAddress");
-		String openId = ParamUtil.getString(actionRequest, "openId");
-		String firstName = ParamUtil.getString(actionRequest, "firstName");
-		String middleName = ParamUtil.getString(actionRequest, "middleName");
-		String lastName = ParamUtil.getString(actionRequest, "lastName");
-		int prefixId = ParamUtil.getInteger(actionRequest, "prefixId");
-		int suffixId = ParamUtil.getInteger(actionRequest, "suffixId");
-		boolean male = ParamUtil.get(actionRequest, "male", true);
-		int birthdayMonth = ParamUtil.getInteger(
-			actionRequest, "birthdayMonth");
-		int birthdayDay = ParamUtil.getInteger(actionRequest, "birthdayDay");
-		int birthdayYear = ParamUtil.getInteger(actionRequest, "birthdayYear");
-		String jobTitle = ParamUtil.getString(actionRequest, "jobTitle");
-		long[] groupIds = null;
-		long[] organizationIds = null;
-		long[] roleIds = null;
-		long[] userGroupIds = null;
-		boolean sendEmail = false;
+        boolean autoPassword = true;
+        String password1 = null;
+        String password2 = null;
+        boolean autoScreenName = isAutoScreenName();
+        String screenName = ParamUtil.getString(actionRequest, "screenName");
+        String emailAddress = ParamUtil.getString(
+                actionRequest, "emailAddress");
+        String openId = ParamUtil.getString(actionRequest, "openId");
+        String firstName = ParamUtil.getString(actionRequest, "firstName");
+        String middleName = ParamUtil.getString(actionRequest, "middleName");
+        String lastName = ParamUtil.getString(actionRequest, "lastName");
+        int prefixId = ParamUtil.getInteger(actionRequest, "prefixId");
+        int suffixId = ParamUtil.getInteger(actionRequest, "suffixId");
+        boolean male = ParamUtil.get(actionRequest, "male", true);
+        int birthdayMonth = ParamUtil.getInteger(
+                actionRequest, "birthdayMonth");
+        int birthdayDay = ParamUtil.getInteger(actionRequest, "birthdayDay");
+        int birthdayYear = ParamUtil.getInteger(actionRequest, "birthdayYear");
+        String jobTitle = ParamUtil.getString(actionRequest, "jobTitle");
+        long[] groupIds = null;
+        long[] organizationIds = null;
+        long[] roleIds = null;
+        long[] userGroupIds = null;
+        boolean sendEmail = false;
 
-		ServiceContext serviceContext = ServiceContextFactory.getInstance(
-			User.class.getName(), actionRequest);
+        ServiceContext serviceContext = ServiceContextFactory.getInstance(
+                User.class.getName(), actionRequest);
 
-		if (PropsValues.LOGIN_CREATE_ACCOUNT_ALLOW_CUSTOM_PASSWORD) {
-			autoPassword = false;
+        if (PropsValues.LOGIN_CREATE_ACCOUNT_ALLOW_CUSTOM_PASSWORD) {
+            autoPassword = false;
 
-			password1 = ParamUtil.getString(actionRequest, "password1");
-			password2 = ParamUtil.getString(actionRequest, "password2");
-		}
+            password1 = ParamUtil.getString(actionRequest, "password1");
+            password2 = ParamUtil.getString(actionRequest, "password2");
+        }
 
-		boolean openIdPending = false;
+        boolean openIdPending = false;
 
-		Boolean openIdLoginPending = (Boolean)session.getAttribute(
-			WebKeys.OPEN_ID_LOGIN_PENDING);
+        Boolean openIdLoginPending = (Boolean) session.getAttribute(
+                WebKeys.OPEN_ID_LOGIN_PENDING);
 
-		if ((openIdLoginPending != null) &&
-			(openIdLoginPending.booleanValue()) &&
-			(Validator.isNotNull(openId))) {
+        if ((openIdLoginPending != null)
+                && (openIdLoginPending.booleanValue())
+                && (Validator.isNotNull(openId))) {
 
-			sendEmail = false;
-			openIdPending = true;
-		}
+            sendEmail = false;
+            openIdPending = true;
+        }
 
-		if (PropsValues.CAPTCHA_CHECK_PORTAL_CREATE_ACCOUNT) {
-			CaptchaUtil.check(actionRequest);
-		}
+        if (PropsValues.CAPTCHA_CHECK_PORTAL_CREATE_ACCOUNT) {
+            CaptchaUtil.check(actionRequest);
+        }
 
-		User user = UserServiceUtil.addUser(
-			company.getCompanyId(), autoPassword, password1, password2,
-			autoScreenName, screenName, emailAddress, openId,
-			themeDisplay.getLocale(), firstName, middleName, lastName, prefixId,
-			suffixId, male, birthdayMonth, birthdayDay, birthdayYear, jobTitle,
-			groupIds, organizationIds, roleIds, userGroupIds, sendEmail,
-			serviceContext);
-                UserServiceUtil.updateActive(user.getUserId(), false);
-		
-                if (openIdPending) {
-			session.setAttribute(
-				WebKeys.OPEN_ID_LOGIN, new Long(user.getUserId()));
+        User user = UserServiceUtil.addUser(
+                company.getCompanyId(), autoPassword, password1, password2,
+                autoScreenName, screenName, emailAddress, openId,
+                themeDisplay.getLocale(), firstName, middleName, lastName, prefixId,
+                suffixId, male, birthdayMonth, birthdayDay, birthdayYear, jobTitle,
+                groupIds, organizationIds, roleIds, userGroupIds, sendEmail,
+                serviceContext);
+        UserServiceUtil.updateActive(user.getUserId(), false);
 
-			session.removeAttribute(WebKeys.OPEN_ID_LOGIN_PENDING);
-		}
-		else {
+        String subject = "Test Email";
+        String body = "Hello World, this is my test email";
+        try {
 
-			// Session messages
+            MailMessage mailMessage = new MailMessage();
+            InternetAddress from = new InternetAddress("math.app.fpm@gmail.com", "FPM");
+            InternetAddress to = new InternetAddress("enish@led.dp.ua", "enish");
 
-			SessionMessages.add(request, "user_added", user.getEmailAddress());
-			SessionMessages.add(
-				request, "user_added_password", user.getPasswordUnencrypted());
-		}
+            mailMessage.setTo(new InternetAddress[]{to});
 
-		// Send redirect
+            mailMessage.setFrom(from);
 
-		String login = null;
+            mailMessage.setBody(body);
 
-		if (company.getAuthType().equals(CompanyConstants.AUTH_TYPE_ID)) {
-			login = String.valueOf(user.getUserId());
-		}
-		else if (company.getAuthType().equals(CompanyConstants.AUTH_TYPE_SN)) {
-			login = user.getScreenName();
-		}
-		else {
-			login = user.getEmailAddress();
-		}
+            mailMessage.setSubject(subject);
 
-		sendRedirect(
-			actionRequest, actionResponse, themeDisplay, login,
-			user.getPasswordUnencrypted());
-	}
+            MailServiceUtil.sendEmail(mailMessage);
 
-	protected boolean isAutoScreenName() {
-		return _AUTO_SCREEN_NAME;
-	}
 
-	protected void sendRedirect(
-			ActionRequest actionRequest, ActionResponse actionResponse,
-			ThemeDisplay themeDisplay, String login, String password)
-		throws Exception {
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
-		HttpServletRequest request = PortalUtil.getHttpServletRequest(
-			actionRequest);
+        if (openIdPending) {
+            session.setAttribute(
+                    WebKeys.OPEN_ID_LOGIN, new Long(user.getUserId()));
 
-		String redirect = PortalUtil.escapeRedirect(
-			ParamUtil.getString(actionRequest, "redirect"));
+            session.removeAttribute(WebKeys.OPEN_ID_LOGIN_PENDING);
+        } else {
 
-		if (Validator.isNotNull(redirect)) {
-			HttpServletResponse response = PortalUtil.getHttpServletResponse(
-				actionResponse);
+            // Session messages
 
-			LoginUtil.login(request, response, login, password, false, null);
-		}
-		else {
-			PortletURL loginURL = LoginUtil.getLoginURL(
-				request, themeDisplay.getPlid());
+            SessionMessages.add(request, "user_added", user.getEmailAddress());
+            SessionMessages.add(
+                    request, "user_added_password", user.getPasswordUnencrypted());
+        }
 
-			loginURL.setParameter("login", login);
+        // Send redirect
 
-			redirect = loginURL.toString();
-		}
+        String login = null;
 
-		actionResponse.sendRedirect(redirect);
-	}
+        if (company.getAuthType().equals(CompanyConstants.AUTH_TYPE_ID)) {
+            login = String.valueOf(user.getUserId());
+        } else if (company.getAuthType().equals(CompanyConstants.AUTH_TYPE_SN)) {
+            login = user.getScreenName();
+        } else {
+            login = user.getEmailAddress();
+        }
 
-	protected boolean isCheckMethodOnProcessAction() {
-		return _CHECK_METHOD_ON_PROCESS_ACTION;
-	}
+        sendRedirect(
+                actionRequest, actionResponse, themeDisplay, login,
+                user.getPasswordUnencrypted());
+    }
 
-	private static final boolean _AUTO_SCREEN_NAME = false;
+    protected boolean isAutoScreenName() {
+        return _AUTO_SCREEN_NAME;
+    }
 
-	private static final boolean _CHECK_METHOD_ON_PROCESS_ACTION = false;
+    protected void sendRedirect(
+            ActionRequest actionRequest, ActionResponse actionResponse,
+            ThemeDisplay themeDisplay, String login, String password)
+            throws Exception {
 
+        HttpServletRequest request = PortalUtil.getHttpServletRequest(
+                actionRequest);
+
+        String redirect = PortalUtil.escapeRedirect(
+                ParamUtil.getString(actionRequest, "redirect"));
+
+        if (Validator.isNotNull(redirect)) {
+            HttpServletResponse response = PortalUtil.getHttpServletResponse(
+                    actionResponse);
+
+            LoginUtil.login(request, response, login, password, false, null);
+        } else {
+            PortletURL loginURL = LoginUtil.getLoginURL(
+                    request, themeDisplay.getPlid());
+
+            loginURL.setParameter("login", login);
+
+            redirect = loginURL.toString();
+        }
+
+        actionResponse.sendRedirect(redirect);
+    }
+
+    protected boolean isCheckMethodOnProcessAction() {
+        return _CHECK_METHOD_ON_PROCESS_ACTION;
+    }
+    private static final boolean _AUTO_SCREEN_NAME = false;
+    private static final boolean _CHECK_METHOD_ON_PROCESS_ACTION = false;
 }
