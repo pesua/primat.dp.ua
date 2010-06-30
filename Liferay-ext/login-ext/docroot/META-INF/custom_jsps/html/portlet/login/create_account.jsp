@@ -39,10 +39,11 @@ function showRolePanel()
 	  padding: 20px 16px;
   	border-top: 1px solid #CDDCDE;
 	  border-bottom: 1px solid #CDDCDE;
+	  width: 400px;
   }
   
   #roleSelectArea .chooser {
-  	padding-bottom: 3px;
+  	padding-bottom: 5px;
   }
 </style>
 
@@ -139,17 +140,13 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
 			<aui:input name="middleName" />
 
 			<aui:input name="lastName" />
-
-			<aui:input bean="<%= user2 %>" model="<%= User.class %>" name="emailAddress" />
 			
 		</aui:column>
 		<aui:column>
-      <c:if test="<%= PropsValues.LOGIN_CREATE_ACCOUNT_ALLOW_CUSTOM_PASSWORD %>">
-				<aui:input label="password" name="password1" size="30" type="password" value="" />
-
-				<aui:input label="enter-again" name="password2" size="30" type="password" value="" />
+			<c:if test="<%= !PrefsPropsUtil.getBoolean(company.getCompanyId(), PropsKeys.USERS_SCREEN_NAME_ALWAYS_AUTOGENERATE) %>">
+				<aui:input bean="<%= user2 %>" model="<%= User.class %>" name="screenName" />
 			</c:if>
-
+			
 			<c:choose>
 				<c:when test="<%= PrefsPropsUtil.getBoolean(company.getCompanyId(), PropsKeys.FIELD_ENABLE_COM_LIFERAY_PORTAL_MODEL_CONTACT_BIRTHDAY) %>">
 					<aui:input name="birthday" value="<%= birthday %>" />
@@ -157,7 +154,7 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
 				<c:otherwise>
 					<aui:input name="birthdayMonth" type="hidden" value="<%= Calendar.JANUARY %>" />
 					<aui:input name="birthdayDay" type="hidden" value="1" />
-					<aui:input name="birthdayYear" type="hidden" value="1970" />
+					<aui:input name="birthdayYear" type="hidden" value="1990" />
 				</c:otherwise>
 			</c:choose>
 
@@ -167,18 +164,29 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
 					<aui:option label="female" selected="<%= !male %>" value="0" />
 				</aui:select>
 			</c:if>
-			
-			<c:if test="<%= !PrefsPropsUtil.getBoolean(company.getCompanyId(), PropsKeys.USERS_SCREEN_NAME_ALWAYS_AUTOGENERATE) %>">
-				<aui:input bean="<%= user2 %>" model="<%= User.class %>" name="screenName" />
-			</c:if>
 
 		</aui:column>
-	</aui:fieldset>		
+	</aui:fieldset>
 	
 	<aui:fieldset>
 		<aui:column>
-      <div id="roleSelectArea">
-      
+      <aui:input bean="<%= user2 %>" model="<%= User.class %>" name="emailAddress" />
+
+		</aui:column>
+		<aui:column>
+			
+			<c:if test="<%= PropsValues.LOGIN_CREATE_ACCOUNT_ALLOW_CUSTOM_PASSWORD %>">
+				<aui:input label="password" name="password1" size="30" type="password" value="" />
+
+				<aui:input label="enter-again" name="password2" size="30" type="password" value="" />
+			</c:if>
+			
+		</aui:column>
+	</aui:fieldset>
+	
+	<div id="roleSelectArea">
+	<aui:fieldset>
+		<aui:column>      
       <div class="chooser">
       <strong><liferay-ui:message key="role-select" />&nbsp;</strong>
       <select id="roleSelect" onChange=showRolePanel()>
@@ -268,10 +276,9 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
           </span>
         </span>
       </div>
-      
-      </div>
     </aui:column>
 	</aui:fieldset>
+	</div>
 	
 	<aui:fieldset>
 		<aui:column>
