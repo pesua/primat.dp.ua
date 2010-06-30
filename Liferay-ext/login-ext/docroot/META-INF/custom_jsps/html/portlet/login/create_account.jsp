@@ -14,6 +14,23 @@
  */
 %>
 
+<script type=text/javascript language=JavaScript>
+<!--
+function showPanel()
+{
+	var objSelect = document.getElementById("roleSelect");
+	var pnl = objSelect.options[objSelect.selectedIndex].value;
+	if (pnl == 0) {
+		document.getElementById('panel_student').style.display='';
+		document.getElementById('panel_company').style.display='none';
+	} else if (pnl == 1) {
+		document.getElementById('panel_student').style.display='none';
+		document.getElementById('panel_company').style.display='';
+	}
+}
+//-->
+</script>
+
 <%@ include file="/html/portlet/login/init.jsp" %>
 
 <%
@@ -111,8 +128,7 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
 			<aui:input name="lastName" />
 
 			<aui:input bean="<%= user2 %>" model="<%= User.class %>" name="emailAddress" />
-            
-            <aui:input name="is-member-student-council" type="checkbox"/>
+			
 		</aui:column>
 		<aui:column>
       <c:if test="<%= PropsValues.LOGIN_CREATE_ACCOUNT_ALLOW_CUSTOM_PASSWORD %>">
@@ -143,86 +159,97 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
 				<aui:input bean="<%= user2 %>" model="<%= User.class %>" name="screenName" />
 			</c:if>
 
-                        
-                        <aui:select label="student-groups" name="student-groups">
-                        <%
-                        List groups = GroupLocalServiceUtil.getGroups(0,GroupLocalServiceUtil.getGroupsCount());
-                        for (int i = 0; i < groups.size(); i++)
-                        {
-                            Group group = (Group)groups.get(i);
-                            if(group.isCommunity() && (!group.getName().equals("Control Panel")) && (!group.getName().equals("Guest")))
-                            {
-                                %>
-                                <aui:option label="<%= group.getName() %>" selected="false" value="<%= group.getGroupId() %>" />
-                                <%
-                            }
-                        }
-                        %>
-	        </aui:select>
-
 		</aui:column>
-	</aui:fieldset>
+	</aui:fieldset>		
 	
 	<aui:fieldset>
-    <aui:column>
-      <span class="aui-field">
-        <span class="aui-field-content">
-          <liferay-ui:custom-attribute
-            className="com.liferay.portal.model.User" classPK="<%= 0 %>"
-            editable="<%= true %>" label="<%= true %>"
-            name="company-name"
-          />
-        </span>
-      </span>
-      <span class="aui-field">
-        <span class="aui-field-content">
-          <liferay-ui:custom-attribute
-            className="com.liferay.portal.model.User" classPK="<%= 0 %>"
-            editable="<%= true %>" label="<%= true %>"
-            name="company-activity"
-          />
-        </span>
-      </span>
-      <hr/>
-      <span class="aui-field">
-        <span class="aui-field-content">
-          <liferay-ui:custom-attribute
-            className="com.liferay.portal.model.User" classPK="<%= 0 %>"
-            editable="<%= true %>" label="<%= true %>"
-            name="company-phone"
-          />
-        </span>
-      </span>
+		<aui:column>
+      <select id="roleSelect" onChange=showPanel()>
+        <option selected value="0">Student</option>
+        <option value="1">Company</option>
+      </select>
       
-      <span class="aui-field">
-        <span class="aui-field-content">
-          <liferay-ui:custom-attribute
-            className="com.liferay.portal.model.User" classPK="<%= 0 %>"
-            editable="<%= true %>" label="<%= true %>"
-            name="company-address"
-          />
+      <div id="panel_student">
+        <aui:select label="student-groups" name="student-groups">
+          <%
+          List groups = GroupLocalServiceUtil.getGroups(0,GroupLocalServiceUtil.getGroupsCount());
+          for (int i = 0; i < groups.size(); i++)
+          {
+              Group group = (Group)groups.get(i);
+              if(group.isCommunity() && (!group.getName().equals("Control Panel"))
+                  && (!group.getName().equals("Guest")) && (group.getName().length > 0))
+              {
+                  %>
+                  <aui:option label="<%= group.getName() %>" selected="false" value="<%= group.getGroupId() %>" />
+                  <%
+              }
+          }
+          %>
+        </aui:select>
+        
+        <aui:input name="is-member-student-council" type="checkbox"/>
+      </div>
+
+      <div id="panel_company" style="display: none;">
+        <span class="aui-field">
+          <span class="aui-field-content">
+            <liferay-ui:custom-attribute
+              className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+              editable="<%= true %>" label="<%= true %>"
+              name="company-name"
+            />
+          </span>
         </span>
-      </span>
-      
-      <span class="aui-field">
-        <span class="aui-field-content">
-          <liferay-ui:custom-attribute
-            className="com.liferay.portal.model.User" classPK="<%= 0 %>"
-            editable="<%= true %>" label="<%= true %>"
-            name="company-mail"
-          />
+        <span class="aui-field">
+          <span class="aui-field-content">
+            <liferay-ui:custom-attribute
+              className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+              editable="<%= true %>" label="<%= true %>"
+              name="company-activity"
+            />
+          </span>
         </span>
-      </span>
-      
-      <span class="aui-field">
-        <span class="aui-field-content">
-          <liferay-ui:custom-attribute
-            className="com.liferay.portal.model.User" classPK="<%= 0 %>"
-            editable="<%= true %>" label="<%= true %>"
-            name="company-web"
-          />
+        <hr/>
+        <span class="aui-field">
+          <span class="aui-field-content">
+            <liferay-ui:custom-attribute
+              className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+              editable="<%= true %>" label="<%= true %>"
+              name="company-phone"
+            />
+          </span>
         </span>
-      </span>
+        
+        <span class="aui-field">
+          <span class="aui-field-content">
+            <liferay-ui:custom-attribute
+              className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+              editable="<%= true %>" label="<%= true %>"
+              name="company-address"
+            />
+          </span>
+        </span>
+        
+        <span class="aui-field">
+          <span class="aui-field-content">
+            <liferay-ui:custom-attribute
+              className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+              editable="<%= true %>" label="<%= true %>"
+              name="company-mail"
+            />
+          </span>
+        </span>
+        
+        <span class="aui-field">
+          <span class="aui-field-content">
+            <liferay-ui:custom-attribute
+              className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+              editable="<%= true %>" label="<%= true %>"
+              name="company-web"
+            />
+          </span>
+        </span>
+      </div>
       
     </aui:column>
 	</aui:fieldset>
