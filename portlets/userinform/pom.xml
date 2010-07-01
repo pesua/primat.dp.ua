@@ -190,7 +190,6 @@
             </plugins>
 	</build>
 	<properties>
-            <jetty.version>6.1.4</jetty.version>
             <auto.deploy.dir>${app.server.dir}/../deploy</auto.deploy.dir>
 	</properties>
 	</project>
