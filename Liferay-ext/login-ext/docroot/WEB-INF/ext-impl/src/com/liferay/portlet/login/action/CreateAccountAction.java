@@ -245,7 +245,7 @@ public class CreateAccountAction extends PortletAction {
                 suffixId, male, birthdayMonth, birthdayDay, birthdayYear, jobTitle,
                 groupIds, organizationIds, roleIds, userGroupIds, sendEmail,
                 serviceContext);
-        UserServiceUtil.updateActive(user.getUserId(), false);
+        user = UserServiceUtil.updateActive(user.getUserId(), false);
 
         String subject = "Test Email";
         String body = "Hello World, this is my test email";
