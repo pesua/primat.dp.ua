@@ -13,7 +13,8 @@
  */
 package com.liferay.portlet.login.action;
 
-import com.liferay.mail.service.MailServiceUtil;
+import com.liferay.util.mail.MailEngine;
+//import com.liferay.mail.service.MailServiceUtil;
 import com.liferay.portal.AddressCityException;
 import com.liferay.portal.AddressStreetException;
 import com.liferay.portal.AddressZipException;
@@ -245,30 +246,15 @@ public class CreateAccountAction extends PortletAction {
                 suffixId, male, birthdayMonth, birthdayDay, birthdayYear, jobTitle,
                 groupIds, organizationIds, roleIds, userGroupIds, sendEmail,
                 serviceContext);
-        user = UserServiceUtil.updateActive(user.getUserId(), false);
+        //user = UserServiceUtil.updateActive(user.getUserId(), false);
 
-        String subject = "Test Email";
-        String body = "Hello World, this is my test email";
-        try {
+        String from = "sender@host.com";
+	String to = "recipient@host.com";
 
-            MailMessage mailMessage = new MailMessage();
-            InternetAddress from = new InternetAddress("math.app.fpm@gmail.com", "FPM");
-            InternetAddress to = new InternetAddress("enish@led.dp.ua", "enish");
+	String subject="This is email title";
+	String body="Hello World, this is my first email";
 
-            mailMessage.setTo(new InternetAddress[]{to});
-
-            mailMessage.setFrom(from);
-
-            mailMessage.setBody(body);
-
-            mailMessage.setSubject(subject);
-
-            MailServiceUtil.sendEmail(mailMessage);
-
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+	MailEngine.send(from, to, subject, body);
 
         if (openIdPending) {
             session.setAttribute(
