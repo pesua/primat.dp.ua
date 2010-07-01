@@ -1,6 +1,5 @@
 package ua.dp.primat.portlet.userinform.app;
 
-import com.liferay.portal.PortalException;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.WebPage;
@@ -9,7 +8,7 @@ import com.liferay.portal.model.User;
 import ua.dp.primat.portlet.userinform.services.LiferayUserService;
 
 /**
- * Homepage
+ * Homepage.
  */
 public class HomePage extends WebPage {
 
@@ -23,8 +22,10 @@ public class HomePage extends WebPage {
      * @param parameters - page parameters
      */
     public HomePage(final PageParameters parameters) {
-        Long userId = Long.valueOf(parameters.getAsLong("userId", -1));
-        User lrUser = userService.getUserInfo(userId);
+        super(parameters);
+        
+        final User lrUser = userService.getUserInfo(parameters.getAsLong(
+                "userId", -1));
         if (lrUser == null) {
             add(new Label("userDetails", "No user was selected"));
         } else {

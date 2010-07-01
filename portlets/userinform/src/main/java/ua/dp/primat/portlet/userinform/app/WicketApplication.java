@@ -9,10 +9,10 @@ import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 public class WicketApplication extends WebApplication
 {    
     /**
-      * Constructor
+      * Constructor.
       */
-    public WicketApplication()
-    {
+    public WicketApplication() {
+        super();
     }
 
     @Override
@@ -22,8 +22,7 @@ public class WicketApplication extends WebApplication
         addComponentInstantiationListener(new SpringComponentInjector(this));
     }
 
-    public Class<HomePage> getHomePage()
-    {
+    public Class<HomePage> getHomePage() {
         return HomePage.class;
     }
 

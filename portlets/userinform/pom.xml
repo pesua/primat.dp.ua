@@ -135,6 +135,48 @@
             </testResources>
             <plugins>
                     <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>properties-maven-plugin</artifactId>
+                        <version>1.0-alpha-2</version>
+                        <executions>
+                            <execution>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>read-project-properties</goal>
+                                </goals>
+                                <configuration>
+                                    <files>
+                                        <file>build.properties</file>
+                                    </files>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>2.4.1</version>
+                        <executions>
+                            <execution>
+                                <id>deploy-portal</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${auto.deploy.dir}</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>target</directory>
+                                            <includes>
+                                                <include>${project.build.finalName}.war</include>
+                                            </includes>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
                             <inherited>true</inherited>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-compiler-plugin</artifactId>
@@ -145,20 +187,10 @@
                                     <debug>true</debug>
                             </configuration>
                     </plugin>
-                    <plugin>
-                            <groupId>org.mortbay.jetty</groupId>
-                            <artifactId>maven-jetty-plugin</artifactId>
-                    </plugin>
-                    <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-eclipse-plugin</artifactId>
-                            <configuration>
-                                    <downloadSources>true</downloadSources>
-                            </configuration>
-                    </plugin>
             </plugins>
 	</build>
 	<properties>
             <jetty.version>6.1.4</jetty.version>
+            <auto.deploy.dir>${app.server.dir}/../deploy</auto.deploy.dir>
 	</properties>
 	</project>
