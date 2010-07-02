@@ -2,7 +2,9 @@ package ua.dp.primat.portlet.userinform.app;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Organization;
+import com.liferay.portal.model.Team;
 import com.liferay.portal.model.User;
 import com.liferay.portal.model.UserGroup;
 import java.text.DateFormat;
@@ -40,8 +42,8 @@ public class UserInfoPanel extends Panel {
     private String getUserGroups(User user) {
         try {
             StringBuilder groups = new StringBuilder();
-            for (UserGroup ug : user.getUserGroups()) {
-                groups.append(ug.getName());
+            for (Group t : user.getGroups()) {
+                groups.append(t.getName());
                 groups.append(" | ");
             }
             for (Organization o : user.getOrganizations()) {
