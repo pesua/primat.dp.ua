@@ -5,32 +5,29 @@
 	border-spacing: 2px;
 	font-style: verdana;
 	background-color: #def1fb;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	-khtml-border-radius: 5px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-khtml-border-radius: 4px;
 	border-collapse: separate;
+	font-size: 14px;
 }
 
-.strtTable tr, .strtTable td, .strtTable th {
+.strtTable td, .strtTable th {
 	border-width: none;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	border-radius: 2px;
-	-khtml-border-radius: 2px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-khtml-border-radius: 4px;
 	background-color: rgb(150, 204, 233);
-	padding: 2px 5px 2px 5px;
+	padding: 3px 5px 3px 5px;
 }
 
 .strtTable th {
-	background-color: #2d9bbd;
+	background-color: #296375;
 	padding: 0px 40px 0px 40px;
 	font-style: italic;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	-khtml-border-radius: 3px;
-	color: #ffffff;
+	color: white;
 	text-align: center;
 }
 
