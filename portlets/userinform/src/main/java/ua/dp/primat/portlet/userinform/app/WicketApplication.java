@@ -16,7 +16,7 @@ public class WicketApplication extends WebApplication
     }
 
     @Override
-    protected final void init() {
+    protected void init() {
         super.init();
         mountBookmarkablePage("/view", HomePage.class);
         addComponentInstantiationListener(new SpringComponentInjector(this));

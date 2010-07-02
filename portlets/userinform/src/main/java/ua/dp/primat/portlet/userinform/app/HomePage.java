@@ -25,7 +25,7 @@ public class HomePage extends WebPage {
     public HomePage(final PageParameters parameters) {
         super(parameters);
         
-        final User lrUser = userService.getUserInfo(parameters.getAsLong(
+        final User lrUser = liferayUserService.getUserInfo(parameters.getAsLong(
                 "userId", -1));
         if (lrUser == null) {
             add(new Label("userDetails", bundle.getString("label.no.user")));
@@ -39,7 +39,7 @@ public class HomePage extends WebPage {
             "ua.dp.primat.portlet.userinform.app.HomePage");
 
     @SpringBean
-    private LiferayUserService userService;
+    private LiferayUserService liferayUserService;
 
     private static final long serialVersionUID = 1L;
 }
