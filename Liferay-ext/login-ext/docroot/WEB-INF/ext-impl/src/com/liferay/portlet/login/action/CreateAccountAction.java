@@ -44,7 +44,6 @@ import com.liferay.portal.UserSmsException;
 import com.liferay.portal.WebsiteURLException;
 import com.liferay.portal.kernel.captcha.CaptchaTextException;
 import com.liferay.portal.kernel.captcha.CaptchaUtil;
-import com.liferay.portal.kernel.mail.MailMessage;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.Constants;
@@ -58,6 +57,7 @@ import com.liferay.portal.security.auth.PrincipalException;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.ServiceContextFactory;
+import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.service.UserServiceUtil;
 import com.liferay.portal.struts.PortletAction;
 import com.liferay.portal.theme.ThemeDisplay;
@@ -65,7 +65,6 @@ import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.PropsValues;
 import com.liferay.portal.util.WebKeys;
 import com.liferay.portlet.login.util.LoginUtil;
-import javax.mail.internet.InternetAddress;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -246,15 +245,16 @@ public class CreateAccountAction extends PortletAction {
                 suffixId, male, birthdayMonth, birthdayDay, birthdayYear, jobTitle,
                 groupIds, organizationIds, roleIds, userGroupIds, sendEmail,
                 serviceContext);
-        //user = UserServiceUtil.updateActive(user.getUserId(), false);
+        user = UserLocalServiceUtil.updateActive(user.getUserId(), false);
 
-        String from = "sender@host.com";
-	String to = "recipient@host.com";
+        String from = "math.app.fpm@gmail.com";
+	String to = "math.app.fpm@gmail.com";
 
 	String subject="This is email title";
-	String body="Hello World, this is my first email";
-
-	MailEngine.send(from, to, subject, body);
+        
+        StringBuilder body = new StringBuilder("Hello World, this is my first email\n");
+        body.append(user.getUserUuid()).append("  ").append(user.getFullName());
+	MailEngine.send(from, to, subject, body.toString());
 
         if (openIdPending) {
             session.setAttribute(
