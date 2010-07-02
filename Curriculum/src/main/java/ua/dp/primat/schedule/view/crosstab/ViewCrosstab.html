@@ -1,32 +1,24 @@
 <wicket:panel>
-    <div id="embpanel">
-        <div id="scheduleTable">
-        <table>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th wicket:id="caption_monday">Monday</th>
-                    <th wicket:id="caption_tuesday">Tuesday</th>
-                    <th wicket:id="caption_wednesday">Wednesday</th>
-                    <th wicket:id="caption_thursday">Thursday</th>
-                    <th wicket:id="caption_friday">Friday</th>
-                    <!--<th>Saturday</th>
-                    <th>Sunday</th>-->
-                </tr>
-            </thead>
-            <tbody>
-                <tr wicket:id="row">
-                    <th wicket:id="num" class="nums"></th>
-                    <td wicket:id="monday"></td>
-                    <td wicket:id="tuesday"></td>
-                    <td wicket:id="wednesday"></td>
-                    <td wicket:id="thursday"></td>
-                    <td wicket:id="friday"></td>
-                    <!--<td wicket:id="saturday"></td>
-                    <td wicket:id="sunday"></td>-->
-                </tr>
-            </tbody>
-        </table>
-        </div>
-    </div>
+	<table class="standartTable">
+		<thead>
+			<tr>
+				<th style="padding:2px; width:24px" >#</th>
+				<th wicket:id="caption_monday">Monday</th>
+				<th wicket:id="caption_tuesday">Tuesday</th>
+				<th wicket:id="caption_wednesday">Wednesday</th>
+				<th wicket:id="caption_thursday">Thursday</th>
+				<th wicket:id="caption_friday">Friday</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr wicket:id="row">
+				<th wicket:id="num" style="padding:2px; width:24px"></th>
+				<td wicket:id="monday"></td>
+				<td wicket:id="tuesday"></td>
+				<td wicket:id="wednesday"></td>
+				<td wicket:id="thursday"></td>
+				<td wicket:id="friday"></td>
+			</tr>
+		</tbody>
+	</table>
 </wicket:panel>

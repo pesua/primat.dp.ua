@@ -1,21 +1,21 @@
 <wicket:panel>
-    <table class="ViewTable">
-        <thead>
-            <tr><th colspan="4"><span wicket:id="oneDayName">Day</span></th></tr>
-            <tr>
-                <th width="15px"><wicket:message key="table.caption.num">N</wicket:message></th>
-                <th><wicket:message key="table.caption.discipline">Discipline</wicket:message></th>
-                <th><wicket:message key="table.caption.lecturer">Lecturer</wicket:message></th>
-                <th><wicket:message key="table.caption.room">Room</wicket:message></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr wicket:id="row">
-                <td wicket:id="num"></td>
-                <td wicket:id="discipline"></td>
-                <td wicket:id="teacher"></td>
-                <td wicket:id="room"></td>
-            </tr>
-        </tbody>
-    </table>
+	<table class="standartTable">
+		<thead>
+			<tr><th colspan="4"><span wicket:id="oneDayName">Day</span></th></tr>
+			<tr>
+				<th style="padding:2px; width:24px"><wicket:message key="table.caption.num">N</wicket:message></th>
+				<th><wicket:message key="table.caption.discipline">Discipline</wicket:message></th>
+				<th><wicket:message key="table.caption.lecturer">Lecturer</wicket:message></th>
+				<th><wicket:message key="table.caption.room">Room</wicket:message></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr wicket:id="row">
+				<td wicket:id="num" style="padding:2px; width:24px"></td>
+				<td wicket:id="discipline"></td>
+				<td wicket:id="teacher"></td>
+				<td wicket:id="room"></td>
+			</tr>
+		</tbody>
+	</table>
 </wicket:panel>

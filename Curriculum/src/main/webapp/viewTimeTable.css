@@ -1,0 +1,97 @@
+.standartTable {
+	margin: 5px;
+	border-width: 1px;
+	border-style: outset;
+	border-spacing: 2px;
+	font-style: verdana;
+	background-color: #def1fb;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-khtml-border-radius: 4px;
+	border-collapse: separate;
+	font-size: 14px;
+}
+
+.standartTable td, .standartTable th {
+	border-width: none;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-khtml-border-radius: 4px;
+	background-color: rgb(150, 204, 233);
+	padding: 3px 5px 3px 5px;
+}
+
+.standartTable th {
+	background-color: #296375;
+	padding: 0px 40px 0px 40px;
+	font-style: italic;
+	color: white;
+	text-align: center;
+}
+
+.tabpanel,.tab-row {
+    float:left;
+    width:100%;
+    background:#FFFFFF url("tabs/bg.gif") repeat-x bottom;
+    line-height:normal;
+}
+
+.tabpanel .tab-row ul {
+    margin:0;
+    padding:10px 10px 0;
+    list-style:none;
+}
+
+.tabpanel .tab-row li {
+    float:left;
+    background:url("tabs/left.gif") no-repeat left top;
+    margin:0;
+    padding:0 0 0 9px;
+}
+
+.tabpanel .tab-row a {
+    display:block;
+    background:url("tabs/right.gif") no-repeat right top;
+    padding:5px 15px 4px 6px;
+    text-decoration:none;
+    font-weight:bold;
+    white-space:nowrap;
+    color:#aaa;
+}
+
+.tab-panel {
+    clear: left;
+}
+
+.tabpanel .tab-row a:hover {
+    color:#fff;
+}
+
+.tabpanel .tab-row li.selected {
+    background-image:url("tabs/left_on.gif");
+}
+
+.tabpanel .tab-row li.selected a {
+    background-image:url("tabs/right_on.gif");
+    color:#333;
+    padding-bottom:5px;
+}
+
+#weekTypeSection {
+    width: 100%;
+    font-size: 14px;
+    padding: 3px 3px 3px 3px;
+    border-bottom: 1px solid #eee;
+}
+
+#scheduleDaybook {
+    width: 100%;
+    padding: 3px 3px 3px 3px;
+}
+
+#scheduleDaybook td {
+    vertical-align: top;
+    width: 50%;
+}
