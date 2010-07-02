@@ -2,6 +2,7 @@ package ua.dp.primat.portlet.userinform.app;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.model.Organization;
 import com.liferay.portal.model.User;
 import com.liferay.portal.model.UserGroup;
 import java.text.DateFormat;
@@ -43,8 +44,14 @@ public class UserInfoPanel extends Panel {
                 groups.append(ug.getName());
                 groups.append(" | ");
             }
+            for (Organization o : user.getOrganizations()) {
+                groups.append(o.getName());
+                groups.append(" | ");
+            }
             return groups.toString();
         } catch (SystemException se) {
+            return "-";
+        } catch (PortalException se) {
             return "-";
         }
     }
