@@ -1,10 +1,15 @@
 <html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" >
     <head>  
-        <title>Wicket Quickstart Archetype Homepage</title>
+        <title><wicket:message key="page.title"></wicket:message></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <link rel="stylesheet" type="text/css" href="style.css"/>
     </head>
     <body>
-        <strong>Demo User Page</strong>
-        <br/><br/>
+        <div style="font-weight: bold; font-size: 14px;">
+            <wicket:message key="page.header"></wicket:message>
+        </div>
+        <div style="width: 99%; text-align: left; border-bottom: 1px solid #226677"></div>
+        <br/>
         <span wicket:id="userDetails">##</span>
     </body>
 </html>

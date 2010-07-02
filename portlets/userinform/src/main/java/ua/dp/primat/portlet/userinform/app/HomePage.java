@@ -5,6 +5,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import com.liferay.portal.model.User;
+import java.util.ResourceBundle;
 import ua.dp.primat.portlet.userinform.services.LiferayUserService;
 
 /**
@@ -27,12 +28,15 @@ public class HomePage extends WebPage {
         final User lrUser = userService.getUserInfo(parameters.getAsLong(
                 "userId", -1));
         if (lrUser == null) {
-            add(new Label("userDetails", "No user was selected"));
+            add(new Label("userDetails", bundle.getString("label.no.user")));
         } else {
             add(new UserInfoPanel("userDetails", lrUser));
         }
 
     }
+
+    private final ResourceBundle bundle = ResourceBundle.getBundle(
+            "ua.dp.primat.portlet.userinform.app.HomePage");
 
     @SpringBean
     private LiferayUserService userService;

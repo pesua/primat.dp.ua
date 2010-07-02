@@ -1,26 +1,39 @@
 <wicket:panel>
-    <div class="item">
-        <wicket:message key="label.fullname"></wicket:message>
-        <span wicket:id="fullname"></span>
-    </div>
-
-    <div class="item">
-        <wicket:message key="label.email"></wicket:message>
-        <span wicket:id="email"></span>
-    </div>
-
-    <div class="item">
-        <wicket:message key="label.screenname"></wicket:message>
-        <span wicket:id="screenname"></span>
-    </div>
-
-    <div class="item">
-        <wicket:message key="label.birthday"></wicket:message>
-        <span wicket:id="birthday"></span>
-    </div>
-
-    <div class="item">
-        <wicket:message key="label.group"></wicket:message>
-        <span wicket:id="group"></span>
-    </div>
+    <table id="tableArea">
+    <tbody>
+        <tr>
+        <td class="avatarArea">
+            <div class="ava">
+                <img wicket:id="avatar" src="" alt="" />
+            </div>
+        </td>
+        <td>
+            <table id="tableProperties">
+            <tbody>
+                <tr>
+                    <td class="propArea"><wicket:message class="propname" key="label.fullname"></wicket:message></td>
+                    <td><span wicket:id="fullname"></span></td>
+                </tr>
+                <tr>
+                    <td class="propArea"><wicket:message class="propname" key="label.screenname"></wicket:message></td>
+                    <td><span wicket:id="screenname"></span></td>
+                </tr>
+                <tr>
+                    <td class="propArea"><wicket:message class="propname" key="label.birthday"></wicket:message></td>
+                    <td><span wicket:id="birthday"></span></td>
+                </tr>
+                <tr>
+                    <td class="propArea"><wicket:message class="propname" key="label.email"></wicket:message></td>
+                    <td><span wicket:id="email"></span></td>
+                </tr>
+                <tr>
+                    <td class="propArea"><wicket:message class="propname" key="label.group"></wicket:message></td>
+                    <td><span wicket:id="group"></span></td>
+                </tr>
+            </tbody>
+            </table>
+        </td>
+        </tr>
+    </tbody>
+    </table>
 </wicket:panel>

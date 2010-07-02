@@ -4,8 +4,12 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.model.User;
 import com.liferay.portal.model.UserGroup;
-import com.liferay.portal.service.UserServiceUtil;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.panel.Panel;
 
 /**
@@ -21,6 +25,15 @@ public class UserInfoPanel extends Panel {
         add(new Label("screenname", user.getScreenName()));
         add(new Label("birthday", getUserBirthday(user)));
         add(new Label("group", getUserGroups(user)));
+
+        Image ava = new Image("avatar");
+        ava.add(new SimpleAttributeModifier("src", getAvatarPath(user)));
+        add(ava);
+    }
+
+    private String getAvatarPath(User user) {
+        return String.format("/image/user_%s_portrait?img_id=%d", "male",
+                user.getPortraitId());
     }
 
     private String getUserGroups(User user) {
@@ -38,7 +51,7 @@ public class UserInfoPanel extends Panel {
 
     private String getUserBirthday(User user) {
         try {
-            return user.getBirthday().toString();
+            return DateFormat.getDateInstance(DateFormat.MEDIUM).format(user.getBirthday());
         } catch (PortalException pe) {
             return "-";
         } catch (SystemException se) {

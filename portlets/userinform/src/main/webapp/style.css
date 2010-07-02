@@ -1,0 +1,34 @@
+#tableArea {
+    width: 100%;
+    border-width: 0px;
+}
+
+#tableArea td {
+    vertical-align: top;
+}
+
+#tableArea .avatarArea {
+    width: 130px;
+}
+
+#tableProperties {
+    width: 100%;
+    border-width: 0px;
+}
+
+#tableProperties tr {
+    padding-bottom: 3px;
+}
+
+#tableProperties td {
+    vertical-align: top;
+}
+
+#tableProperties .propArea {
+    width: 100px;
+}
+
+#tableProperties .propname {
+    font-weight: bold;
+}
+
