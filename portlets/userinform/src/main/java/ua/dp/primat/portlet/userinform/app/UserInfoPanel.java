@@ -28,7 +28,7 @@ public class UserInfoPanel extends Panel {
         add(new Label("group", getUserGroups(user, TYPE_GROUP)));
         add(new Label("cath", getUserGroups(user, TYPE_ORG)));
 
-        Image ava = new Image("avatar");
+        final Image ava = new Image("avatar");
         ava.add(new SimpleAttributeModifier("src", getAvatarPath(user)));
         add(ava);
     }
@@ -51,7 +51,7 @@ public class UserInfoPanel extends Panel {
 
     private String getUserGroups(User user, int type) {
         try {
-            StringBuilder groups = new StringBuilder();
+            final StringBuilder groups = new StringBuilder();
             if (type == TYPE_GROUP) {
                 for (Group t : user.getGroups()) {
                     groups.append(t.getName());
@@ -84,8 +84,8 @@ public class UserInfoPanel extends Panel {
     private final ResourceBundle BUNDLE = ResourceBundle.getBundle(
             "ua.dp.primat.portlet.userinform.app.UserInfoPanel");
 
-    private final int TYPE_GROUP = 0;
-    private final int TYPE_ORG = 1;
+    private final static int TYPE_GROUP = 0;
+    private final static int TYPE_ORG = 1;
 
     private static final long serialVersionUID = 1L;
 
