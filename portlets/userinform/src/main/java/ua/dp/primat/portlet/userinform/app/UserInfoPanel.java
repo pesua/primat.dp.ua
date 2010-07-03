@@ -84,8 +84,8 @@ public class UserInfoPanel extends Panel {
     private final ResourceBundle BUNDLE = ResourceBundle.getBundle(
             "ua.dp.primat.portlet.userinform.app.UserInfoPanel");
 
-    private final static int TYPE_GROUP = 0;
-    private final static int TYPE_ORG = 1;
+    private static final int TYPE_GROUP = 0;
+    private static final int TYPE_ORG = 1;
 
     private static final long serialVersionUID = 1L;
 
