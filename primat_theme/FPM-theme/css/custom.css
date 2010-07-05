@@ -35,7 +35,7 @@ html, body {
 }
 
 #footer_dummy {
-	background-color: #DEF1FB;
+	background-color: #99DDFF;
 	position: relative;
 	height: 90px;
 	margin-top: -90px;
@@ -86,7 +86,7 @@ body {
 	background-image: url(../images/Addition/top.png);
 	background-position:center top;
 	background-repeat: repeat-x;
-	font-size: 12px;
+	font-size: 11px;
 }
 
 a {
@@ -188,7 +188,7 @@ body #banner .logo a {
 
 /* ---------- Main navigation ---------- */
 #navigation {
-	background: #414445 url(../images/navigation/bg.png) repeat-x 0 0;
+	background: #414445 url(../images/portlet/header_bg.png) repeat-x 0 0;
 	clear: both;
 	margin: 0 auto 5px;
 	max-height: 2.6em;
@@ -284,7 +284,7 @@ body #banner .logo a {
 }
 
 .portlet-topper {
-	background: #414445 url(../images/portlet/header_bg_portlet.png) repeat-x 0 0;
+	background: #414445 url(../images/portlet/header_bg.png) repeat-x 0 0;
 	border: 1px solid;
 	border-color:   #def1fb;
 	font-size: 1.1em;
