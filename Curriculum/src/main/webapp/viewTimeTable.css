@@ -21,12 +21,12 @@
 	-khtml-border-radius: 4px;
 	background-color: rgb(150, 204, 233);
 	padding: 3px 5px 3px 5px;
-	color: white;
 }
 
 .standartTable th {
 	background-color: #296375;
 	padding: 0px 40px 0px 40px;
+	color: white;
 	font-style: italic;
 	text-align: center;
 }
