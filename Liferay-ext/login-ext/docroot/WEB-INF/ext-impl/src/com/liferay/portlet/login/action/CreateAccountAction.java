@@ -250,11 +250,13 @@ public class CreateAccountAction extends PortletAction {
 	String to = "math.app.fpm@gmail.com";
 
 	String subject="New user has been registered!";
-        
+
+        String userEmail = user.getEmailAddress();
+        userEmail.replace("@", "%40");
         StringBuilder body = new StringBuilder("\n");
         body.append(user.getUserId()).append("  ").append(user.getFullName()).append("\n");
         body.append("http://primat.asp.dp.ua:8080/en/group/control_panel/manage?p_p_id=125&p_p_state=maximized&_125_advancedSearch=true&_125_andOperator=1")
-                .append("&_125_emailAddress=").append(user.getEmailAddress()).append("&_125_active=0");
+                .append("&_125_emailAddress=").append(userEmail).append("&_125_active=0");
 	MailEngine.send(from, to, subject, body.toString());
 
         if (openIdPending) {
