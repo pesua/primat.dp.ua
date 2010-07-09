@@ -22,7 +22,7 @@ public final class EditGroupPage extends WebPage {
     }
 
     public EditGroupPage(StudentGroup group) {
-		super();
+        super();
         add(new EditGroupForm("form", group));
     }
 

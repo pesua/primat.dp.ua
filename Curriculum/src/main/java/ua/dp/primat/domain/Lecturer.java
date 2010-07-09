@@ -67,10 +67,10 @@ public class Lecturer implements Serializable {
     public int hashCode() {
         int hash = 3;
         hash = 67 * hash;
-		if (this.id != null) hash += this.id.hashCode();
-		if (this.name != null) hash += this.name.hashCode();
-		if (this.cathedra != null) hash += this.cathedra.hashCode();
-		if (this.lecturerType != null) hash += this.lecturerType.hashCode();
+        if (this.id != null) { hash += this.id.hashCode(); }
+        if (this.name != null) { hash += this.name.hashCode(); }
+        if (this.cathedra != null) { hash += this.cathedra.hashCode(); }
+        if (this.lecturerType != null) { hash += this.lecturerType.hashCode(); }
         return hash;
     }
 

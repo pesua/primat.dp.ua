@@ -22,7 +22,7 @@ public final class DayLessonsPanel extends Panel {
         
         add(new ListView<LessonItem>("lesson", l) {
             protected int num = 1;
-			protected int GetNum() { return num++; }
+            protected int GetNum() { return num++; }
             
             @Override
             protected void populateItem(ListItem<LessonItem> li) {

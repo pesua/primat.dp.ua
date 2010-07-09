@@ -48,8 +48,8 @@ public class Cathedra implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 79 * hash;
-		if (this.id != null) hash += this.id.hashCode();
-		if (this.name != null) hash += this.name.hashCode();
+        if (this.id != null) { hash += this.id.hashCode(); }
+        if (this.name != null) { hash += this.name.hashCode(); }
         return hash;
     }
     

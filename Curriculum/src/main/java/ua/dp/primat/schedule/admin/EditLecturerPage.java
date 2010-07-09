@@ -27,7 +27,7 @@ public final class EditLecturerPage extends WebPage {
     }
 
     public EditLecturerPage(Lecturer lecturer) {
-		super();
+        super();
         this.lecturer = lecturer;
         add(new EditLecturerForm("lecturer"));
     }

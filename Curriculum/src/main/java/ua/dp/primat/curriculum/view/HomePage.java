@@ -21,7 +21,7 @@ public class HomePage extends WebPage {
     private List<Workload> workloads;
 
     public HomePage() {
-		super();
+        super();
 
         final ChoosePanel choosePanel = new ChoosePanel("choosePanel") {
 
