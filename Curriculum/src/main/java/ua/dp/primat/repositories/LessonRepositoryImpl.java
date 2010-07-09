@@ -65,5 +65,5 @@ public class LessonRepositoryImpl implements LessonRepository {
         }
         return true;
     }
-    final private String sGroup = new String("group");
+    private final static String sGroup = "group";
 }

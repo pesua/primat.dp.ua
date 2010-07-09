@@ -29,8 +29,8 @@ public final class AdminHomePage extends WebPage {
             final int semesterCount = 8;
             final List<StudentGroup> groups = studentGroupRepository.getGroups();
             final List<Long> semesters = new ArrayList<Long>();
-            final String sGroup = new String("group");
-            final String sSemester = new String("semester");
+            final String sGroup = "group";
+            final String sSemester = "semester";
             for (int i = 1; i <= semesterCount; i++) {
                 semesters.add(Long.valueOf(i));
             }

@@ -60,15 +60,15 @@ public class EditScheduleService {
 
     private void saveEditableLesson(EditableLesson editableLesson, StudentGroup group, Long semester,
                                     DayOfWeek day, int lessonNumber) {
-        if (!editableLesson.isEmpty()) {
+        if (editableLesson.isEmpty()) {
+            if (editableLesson.getId() != null) {
+                lessonService.deleteLesson(editableLesson.getId());
+            }
+        } else {
             final Lesson lesson = editableLesson.toLesson(day, Long.valueOf(lessonNumber));
             lesson.getLessonDescription().setSemester(semester);
             lesson.getLessonDescription().setStudentGroup(group);
             lessonService.saveLesson(lesson);
-        } else {
-            if (editableLesson.getId() != null) {
-                lessonService.deleteLesson(editableLesson.getId());
-            }
         }
     }
 

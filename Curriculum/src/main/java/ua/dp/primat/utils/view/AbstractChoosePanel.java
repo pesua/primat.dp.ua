@@ -56,7 +56,7 @@ public abstract class AbstractChoosePanel extends Panel {
         add(groupChoice);
 
         //semester combo
-        final String sSemester = new String("semester");
+        final String sSemester = "semester";
         final DropDownChoice<Long> semesterChoise = new DropDownChoice<Long>(sSemester,
                 new PropertyModel<Long>(this, sSemester),
                 new LoadableDetachableModel<List<Long>>(){

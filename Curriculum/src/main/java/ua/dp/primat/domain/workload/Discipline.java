@@ -51,7 +51,8 @@ public class Discipline implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 47 * hash + (this.id != null ? this.id.hashCode() : 0);
+        hash = 47 * hash;
+        if (this.id != null) { hash += this.id.hashCode(); }
         return hash;
     }
 

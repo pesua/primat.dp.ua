@@ -27,11 +27,11 @@ public class LessonService {
 
     public void saveLesson(Lesson lesson) {
         final Long id = lesson.getLessonDescription().getId();
-        final LessonDescription descr = (id != null) ? lessonDescriptionRepository.find(id) : null;
-        if (descr != null) {
-            lesson.setLessonDescription(descr);
-        } else {
+        if (id == null) {
             lessonDescriptionRepository.store(lesson.getLessonDescription());
+        } else {
+            final LessonDescription descr = lessonDescriptionRepository.find(id);
+            lesson.setLessonDescription(descr);
         }
         lessonRepository.store(lesson);
     }

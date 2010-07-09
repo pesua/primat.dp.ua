@@ -29,7 +29,7 @@ public final class ViewDaybook extends AbstractRefreshablePanel {
         final List<WeekType> weekTypeValues = new ArrayList<WeekType>();
         weekTypeValues.add(WeekType.NUMERATOR);
         weekTypeValues.add(WeekType.DENOMINATOR);
-        final String sWeek = new String("weekType");
+        final String sWeek = "weekType";
         final DropDownChoice<WeekType> weekTypeChoice = new DropDownChoice<WeekType>(sWeek,
                 new PropertyModel<WeekType>(this, sWeek),
                 new LoadableDetachableModel<List<WeekType>>(weekTypeValues) {
