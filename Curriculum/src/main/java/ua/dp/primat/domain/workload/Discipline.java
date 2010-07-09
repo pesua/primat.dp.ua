@@ -40,9 +40,9 @@ public class Discipline implements Serializable {
         }
         final Discipline other = (Discipline) obj;
         if (this.id == null) {
-            return (this.name == other.name) && (this.cathedra.equals(other.cathedra));
+            return (this.name.compareTo(other.name) == 0) && (this.cathedra.equals(other.cathedra));
         }
-        if (this.id != other.id && (!this.id.equals(other.id))) {
+        if (this.id.compareTo(other.id) != 0 && (!this.id.equals(other.id))) {
             return false;
         }
         return true;

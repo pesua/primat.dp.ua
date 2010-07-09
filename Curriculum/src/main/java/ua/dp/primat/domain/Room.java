@@ -38,9 +38,9 @@ public class Room implements Serializable {
         }
         final Room other = (Room) obj;
         if (this.id == null) {
-            return (this.getNumber() == other.getNumber()) && (this.getBuilding() == other.getBuilding());
+            return (this.getNumber().compareTo(other.getNumber()) == 0) && (this.getBuilding().compareTo(other.getBuilding()) == 0);
         }
-        if (this.id != other.id && !this.id.equals(other.id)) {
+        if (this.id.compareTo(other.id) != 0 && !this.id.equals(other.id)) {
             return false;
         }
         return true;

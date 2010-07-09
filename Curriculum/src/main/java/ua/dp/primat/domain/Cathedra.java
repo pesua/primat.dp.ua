@@ -35,7 +35,7 @@ public class Cathedra implements Serializable {
             return false;
         }
         final Cathedra other = (Cathedra) obj;
-        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+        if (this.id.compareTo(other.id) != 0 && (this.id == null || !this.id.equals(other.id))) {
             return false;
         }
         if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {

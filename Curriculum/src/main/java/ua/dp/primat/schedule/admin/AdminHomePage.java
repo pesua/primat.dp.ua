@@ -29,11 +29,13 @@ public final class AdminHomePage extends WebPage {
             final int semesterCount = 8;
             final List<StudentGroup> groups = studentGroupRepository.getGroups();
             final List<Long> semesters = new ArrayList<Long>();
+            final String sGroup = new String("group");
+            final String sSemester = new String("semester");
             for (int i = 1; i <= semesterCount; i++) {
                 semesters.add(Long.valueOf(i));
             }
-            add(new DropDownChoice<StudentGroup>("group", new PropertyModel(this, "group"), groups));
-            add(new DropDownChoice<Long>("semester", new PropertyModel<Long>(this, "semester"), semesters));
+            add(new DropDownChoice<StudentGroup>(sGroup, new PropertyModel(this, sGroup), groups));
+            add(new DropDownChoice<Long>(sSemester, new PropertyModel<Long>(this, sSemester), semesters));
         }
 
         @Override
