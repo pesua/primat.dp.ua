@@ -41,13 +41,13 @@ public class LessonRepositoryImpl implements LessonRepository {
 
     public List<Lesson> getLessons(StudentGroup group) {
         final Query query = em.createNamedQuery(Lesson.GET_LESSONS_BY_GROUP_QUERY);
-        query.setParameter(sGroup, group);
+        query.setParameter(SGROUP, group);
         return query.getResultList();
     }
 
     public List<Lesson> getLessonsByGroupAndSemester(StudentGroup group, Long semester) {
         final Query query = em.createNamedQuery(Lesson.GET_LESSONS_BY_GROUP_AND_SEMESTER_QUERY);
-        query.setParameter(sGroup, group);
+        query.setParameter(SGROUP, group);
         query.setParameter("semester", semester);
         return query.getResultList();
     }
@@ -65,5 +65,5 @@ public class LessonRepositoryImpl implements LessonRepository {
         }
         return true;
     }
-    private final static String sGroup = "group";
+    private static final String SGROUP = "group";
 }
