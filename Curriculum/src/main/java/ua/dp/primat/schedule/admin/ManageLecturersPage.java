@@ -47,7 +47,7 @@ public final class ManageLecturersPage extends WebPage {
             li.add(new Label("name", lecturer.getShortName()));
             li.add(new Label("cathedra", lecturer.getCathedra().toString()));
             li.add(new Label("type", lecturer.getLecturerType().toString()));
-            final Link editLink = new PageLink("editLink", new IPageLink() {
+            IPageLink page = new IPageLink() {
 
                 public Page getPage() {
                     return new EditLecturerPage(lecturer);
@@ -56,19 +56,22 @@ public final class ManageLecturersPage extends WebPage {
                 public Class<? extends Page> getPageIdentity() {
                     return EditLecturerPage.class;
                 }
-            });
-            li.add(editLink);
-            editLink.add(new Image("editImage"));
-            final Link deleteLink = new Link("deleteLink") {
-
-                @Override
-                public void onClick() {
-                    lecturerRepository.delete(lecturer);
-                    lecturers.remove(lecturer);
-                }
             };
-            deleteLink.add(new Image("deleteImage"));
-            li.add(deleteLink);
+            if (page != null) {
+            final Link editLink = new PageLink("editLink", page);
+                li.add(editLink);
+                editLink.add(new Image("editImage"));
+                final Link deleteLink = new Link("deleteLink") {
+
+                    @Override
+                    public void onClick() {
+                        lecturerRepository.delete(lecturer);
+                        lecturers.remove(lecturer);
+                    }
+                };
+                deleteLink.add(new Image("deleteImage"));
+                li.add(deleteLink);
+            }
         }
     }
 }

@@ -48,7 +48,8 @@ public final class ManageDisciplines extends WebPage {
             final Discipline discipline = li.getModelObject();
             li.add(new Label("disciplineName", discipline.getName()));
             li.add(new Label("disciplineCathedra", discipline.getCathedra().toString()));
-            final Link editLink = new PageLink("editDiscipline", new IPageLink() {
+
+            IPageLink page = new IPageLink() {
 
                 public Page getPage() {
                     return new EditDisciplinePage(discipline);
@@ -57,19 +58,22 @@ public final class ManageDisciplines extends WebPage {
                 public Class<? extends Page> getPageIdentity() {
                     return EditDisciplinePage.class;
                 }
-            });
-            editLink.add(new Image("editImage"));
-            li.add(editLink);
-            final Link deleteLink = new Link("deleteDiscipline") {
-
-                @Override
-                public void onClick() {
-                    disciplineRepository.delete(discipline);
-                    disciplines.remove(discipline);
-                }
             };
-            deleteLink.add(new Image("deleteImage"));
-            li.add(deleteLink);
+            if (page != null) {
+            final Link editLink = new PageLink("editDiscipline", page);
+                editLink.add(new Image("editImage"));
+                li.add(editLink);
+                final Link deleteLink = new Link("deleteDiscipline") {
+
+                    @Override
+                    public void onClick() {
+                        disciplineRepository.delete(discipline);
+                        disciplines.remove(discipline);
+                    }
+                };
+                deleteLink.add(new Image("deleteImage"));
+                li.add(deleteLink);
+            }
         }
     }
 }
