@@ -24,6 +24,7 @@ public final class EditDisciplinePage extends WebPage {
     }
 
     public EditDisciplinePage(Discipline discipline) {
+		super();
         add(new EditDisciplineForm("discipline", discipline));
     }
 

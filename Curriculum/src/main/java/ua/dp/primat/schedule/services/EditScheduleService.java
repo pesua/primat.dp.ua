@@ -23,7 +23,8 @@ import ua.dp.primat.repositories.RoomRepository;
 @Service
 @Transactional
 public class EditScheduleService {
-    /**
+  
+	/**
      * gets special collecton of lessons which help edit schedule
      * @param group
      * @param semester semester number of editable schedule

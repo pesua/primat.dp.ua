@@ -49,7 +49,8 @@ public class Room implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 79 * hash + (this.id != null ? this.id.hashCode() : 0);
+        hash = 79 * hash;
+		if (this.id != null) hash += this.id.hashCode();
         return hash;
     }
 

@@ -66,10 +66,11 @@ public class Lecturer implements Serializable {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 67 * hash + (this.id != null ? this.id.hashCode() : 0);
-        hash += (this.name != null ? this.name.hashCode() : 0);
-        hash += (this.cathedra != null ? this.cathedra.hashCode() : 0);
-        hash += (this.lecturerType != null ? this.lecturerType.hashCode() : 0);
+        hash = 67 * hash;
+		if (this.id != null) hash += this.id.hashCode();
+		if (this.name != null) hash += this.name.hashCode();
+		if (this.cathedra != null) hash += this.cathedra.hashCode();
+		if (this.lecturerType != null) hash += this.lecturerType.hashCode();
         return hash;
     }
 

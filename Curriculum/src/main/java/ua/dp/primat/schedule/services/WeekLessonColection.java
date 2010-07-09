@@ -11,6 +11,7 @@ import ua.dp.primat.domain.lesson.Lesson;
  * @author EniSh
  */
 public class WeekLessonColection implements Serializable {
+	private static final long serialVersionUID = 1L;
 
     public WeekLessonColection() {
         lessonItems = new LessonItem[7][5];

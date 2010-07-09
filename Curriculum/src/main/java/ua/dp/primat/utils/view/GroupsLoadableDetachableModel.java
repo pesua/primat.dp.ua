@@ -12,6 +12,7 @@ public class GroupsLoadableDetachableModel extends LoadableDetachableModel<List<
     private final List<StudentGroup> groups;
 
     public GroupsLoadableDetachableModel(List<StudentGroup> groups) {
+		super();
         this.groups = groups;
     }
 
