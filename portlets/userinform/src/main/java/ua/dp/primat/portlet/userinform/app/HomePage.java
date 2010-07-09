@@ -28,9 +28,9 @@ public class HomePage extends WebPage {
         final User lrUser = liferayUserService.getUserInfo(parameters.getAsLong(
                 "userId", -1));
         if (lrUser == null) {
-            add(new Label("userDetails", bundle.getString("label.no.user")));
+            add(new Label(ud, bundle.getString("label.no.user")));
         } else {
-            add(new UserInfoPanel("userDetails", lrUser));
+            add(new UserInfoPanel(ud, lrUser));
         }
 
     }
@@ -42,4 +42,5 @@ public class HomePage extends WebPage {
     private LiferayUserService liferayUserService;
 
     private static final long serialVersionUID = 1L;
+    private static final String ud = "userDetails";
 }

@@ -35,8 +35,8 @@ public class UserInfoPanel extends Panel {
 
     private String getSex(User user) {
         try {
-            return user.isMale() ? BUNDLE.getString("sex.male")
-                    : BUNDLE.getString("sex.female");
+            return user.isMale() ? bundle.getString("sex.male")
+                    : bundle.getString("sex.female");
         } catch (SystemException se) {
             return "";
         } catch (PortalException pe) {
@@ -55,19 +55,19 @@ public class UserInfoPanel extends Panel {
             if (type == TYPE_GROUP) {
                 for (Group t : user.getGroups()) {
                     groups.append(t.getName());
-                    groups.append(" | ");
+                    groups.append(vl);
                 }
             } else if (type == TYPE_ORG) {
                 for (Organization o : user.getOrganizations()) {
                     groups.append(o.getName());
-                    groups.append(" | ");
+                    groups.append(vl);
                 }
             }
             return groups.toString();
         } catch (SystemException se) {
-            return "-";
+            return minus;
         } catch (PortalException pe) {
-            return "-";
+            return minus;
         }
     }
 
@@ -75,18 +75,19 @@ public class UserInfoPanel extends Panel {
         try {
             return DateFormat.getDateInstance(DateFormat.MEDIUM).format(user.getBirthday());
         } catch (PortalException pe) {
-            return "-";
+            return minus;
         } catch (SystemException se) {
-            return "-";
+            return minus;
         }
     }
 
-    private final ResourceBundle BUNDLE = ResourceBundle.getBundle(
+    private final ResourceBundle bundle = ResourceBundle.getBundle(
             "ua.dp.primat.portlet.userinform.app.UserInfoPanel");
 
     private static final int TYPE_GROUP = 0;
     private static final int TYPE_ORG = 1;
 
+    private static final String minus = "-";
+    private static final String vl = " | ";
     private static final long serialVersionUID = 1L;
-
 }
