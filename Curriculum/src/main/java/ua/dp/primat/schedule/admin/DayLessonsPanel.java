@@ -17,27 +17,21 @@ public final class DayLessonsPanel extends Panel {
     public DayLessonsPanel(String id, DayOfWeek day, LessonItem[] lessons) {
         super (id);
         add(new Label("day", day.toString()));
-
+        
         final List<LessonItem> l = Arrays.asList(lessons);
+        
+        add(new ListView<LessonItem>("lesson", l) {
+            private int num = 1;
+            protected int getNum() { return num++; }
+            
+            @Override
+            protected void populateItem(ListItem<LessonItem> li) {
+                final LessonItem item = li.getModelObject();
+                li.add(new Label("number", String.valueOf( getNum() )));
 
-        if (l != null) {
-            add(new ListView<LessonItem>("lesson", l) {
-
-                private int num = 1;
-
-                protected int getNum() {
-                    return num++;
-                }
-
-                @Override
-                protected void populateItem(ListItem<LessonItem> li) {
-                    final LessonItem item = li.getModelObject();
-                    li.add(new Label("number", String.valueOf(getNum())));
-
-                    li.add(new EditableScheduleItemPanel("lessonEditPanel", item));
-                }
-            });
-        }
+                li.add(new EditableScheduleItemPanel("lessonEditPanel", item));
+            }
+        });
     }
     private static final long serialVersionUID = 1L;
 }

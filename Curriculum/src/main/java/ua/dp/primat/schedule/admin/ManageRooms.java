@@ -25,46 +25,39 @@ public final class ManageRooms extends WebPage {
         super();
         final List<Room> rooms = roomRepository.getRooms();
 
-        if (rooms != null) {
-            final ListView<Room> roomView = new ListView<Room>("repeating", rooms) {
+        final ListView<Room> roomView = new ListView<Room>("repeating", rooms) {
 
-                @Override
-                protected void populateItem(ListItem<Room> li) {
-                    final Room room = li.getModelObject();
-                    li.add(new Label("room", room.toString()));
+            @Override
+            protected void populateItem(ListItem<Room> li) {
+                final Room room = li.getModelObject();
+                li.add(new Label("room", room.toString()));
+                
+                final Link editLink = new PageLink("editRoom", new IPageLink() {
 
-                    IPageLink page = new IPageLink() {
-
-                        public Page getPage() {
-                            return new EditRoomPage(room);
-                        }
-
-                        public Class<? extends Page> getPageIdentity() {
-                            return EditRoomPage.class;
-                        }
-                    };
-
-                    if (page != null) {
-                        final Link editLink = new PageLink("editRoom", page);
-                        editLink.add(new Image("editImage"));
-                        li.add(editLink);
-
-                        final Link deleteLink = new Link("deleteRoom") {
-
-                            @Override
-                            public void onClick() {
-                                roomRepository.delete(room);
-                                rooms.remove(room);
-                            }
-                        };
-                        deleteLink.add(new Image("deleteImage"));
-                        li.add(deleteLink);
+                    public Page getPage() {
+                        return new EditRoomPage(room);
                     }
-                }
-            };
-            add(roomView);
 
-        }
+                    public Class<? extends Page> getPageIdentity() {
+                        return EditRoomPage.class;
+                    }
+                });
+                editLink.add(new Image("editImage"));
+                li.add(editLink);
+                
+                final Link deleteLink = new Link("deleteRoom") {
+
+                    @Override
+                    public void onClick() {
+                        roomRepository.delete(room);
+                        rooms.remove(room);
+                    }
+                };
+                deleteLink.add(new Image("deleteImage"));
+                li.add(deleteLink);
+            }
+        };
+        add(roomView);
     }
     @SpringBean
     private RoomRepository roomRepository;

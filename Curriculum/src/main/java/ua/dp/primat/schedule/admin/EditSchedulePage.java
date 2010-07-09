@@ -38,19 +38,17 @@ public final class EditSchedulePage extends WebPage {
             }
 
         };
-        if (days != null) {
-            editForm.add(new ListView<LessonItem[]>("days", days) {
-
-                private int dayNum = 0;
-
-                @Override
-                protected void populateItem(ListItem<LessonItem[]> li) {
-                    final LessonItem[] lessons = li.getModelObject();
-                    li.add(new DayLessonsPanel("dayLessons", DayOfWeek.fromNumber(dayNum++), lessons));
-                }
-            });
-            add(editForm);
-        }
+        editForm.add(new ListView<LessonItem[]>("days", days){
+            private int dayNum = 0;
+            
+            @Override
+            protected void populateItem(ListItem<LessonItem[]> li) {
+                final LessonItem[] lessons = li.getModelObject();
+                li.add(new DayLessonsPanel("dayLessons", DayOfWeek.fromNumber(dayNum++), lessons));
+            }
+            
+        });
+        add(editForm);
     }
 
     @SpringBean
