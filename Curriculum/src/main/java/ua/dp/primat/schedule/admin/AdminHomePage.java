@@ -45,4 +45,5 @@ public final class AdminHomePage extends WebPage {
         @SpringBean
         private StudentGroupRepository studentGroupRepository;
     }
+    private static final long serialVersionUID = 1L;
 }

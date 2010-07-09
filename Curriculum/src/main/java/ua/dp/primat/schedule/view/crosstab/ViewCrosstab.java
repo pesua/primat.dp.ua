@@ -10,13 +10,13 @@ import ua.dp.primat.domain.lesson.DayOfWeek;
 import ua.dp.primat.domain.lesson.Lesson;
 import ua.dp.primat.domain.lesson.WeekType;
 import ua.dp.primat.schedule.services.CrossTabService;
-import ua.dp.primat.utils.view.RefreshablePanel;
+import ua.dp.primat.utils.view.AbstractRefreshablePanel;
 
 /**
  * View page for the Schedule portlet.
  * @author fdevelop
  */
-public final class ViewCrosstab extends RefreshablePanel {
+public final class ViewCrosstab extends AbstractRefreshablePanel {
 
     /**
      * Constructor for page, add ScheduleListView onto the panel.

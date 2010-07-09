@@ -60,5 +60,6 @@ public final class ManageGroupsPage extends WebPage {
 
     @SpringBean
     private StudentGroupRepository studentGroupRepository;
+    private static final long serialVersionUID = 1L;
 }
 

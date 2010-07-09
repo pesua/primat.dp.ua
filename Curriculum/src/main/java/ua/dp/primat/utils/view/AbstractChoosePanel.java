@@ -16,13 +16,13 @@ import ua.dp.primat.curriculum.view.NoCurriculumsPage;
  * Wicket panel for the Group and Semester choosing.
  * @author fdevelop
  */
-public abstract class ChoosePanel extends Panel {
+public abstract class AbstractChoosePanel extends Panel {
 
     /**
      * Constructor, that creates combo for groups and for semesters.
      * @param id
      */
-    public ChoosePanel(String id) {
+    public AbstractChoosePanel(String id) {
         super(id);
 
         final List<StudentGroup> groups = studentGroupRepository.getGroups();

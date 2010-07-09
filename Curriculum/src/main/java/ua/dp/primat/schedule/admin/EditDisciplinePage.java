@@ -54,4 +54,5 @@ public final class EditDisciplinePage extends WebPage {
         @SpringBean
         private CathedraRepository cathedraRepository;
     }
+    private static final long serialVersionUID = 1L;
 }

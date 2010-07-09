@@ -56,5 +56,6 @@ public final class EditGroupPage extends WebPage {
 
     @SpringBean
     private StudentGroupRepository groupRepository;
+    private static final long serialVersionUID = 1L;
 }
 

@@ -21,16 +21,17 @@ public final class DayLessonsPanel extends Panel {
         final List<LessonItem> l = Arrays.asList(lessons);
         
         add(new ListView<LessonItem>("lesson", l) {
-            protected int num = 1;
-            protected int GetNum() { return num++; }
+            private int num = 1;
+            protected int getNum() { return num++; }
             
             @Override
             protected void populateItem(ListItem<LessonItem> li) {
                 final LessonItem item = li.getModelObject();
-                li.add(new Label("number", String.valueOf( GetNum() )));
+                li.add(new Label("number", String.valueOf( getNum() )));
 
                 li.add(new EditableScheduleItemPanel("lessonEditPanel", item));
             }
         });
     }
+    private static final long serialVersionUID = 1L;
 }

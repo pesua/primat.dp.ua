@@ -6,5 +6,6 @@ public final class NoCurriculumsPage extends WebPage {
     public NoCurriculumsPage() {
         super ();
     }
+    private static final long serialVersionUID = 1L;
 }
 

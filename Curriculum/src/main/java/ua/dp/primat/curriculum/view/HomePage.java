@@ -10,7 +10,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.domain.workload.Workload;
 import ua.dp.primat.repositories.WorkloadRepository;
-import ua.dp.primat.utils.view.ChoosePanel;
+import ua.dp.primat.utils.view.AbstractChoosePanel;
 
 public class HomePage extends WebPage {
 
@@ -23,7 +23,7 @@ public class HomePage extends WebPage {
     public HomePage() {
         super();
 
-        final ChoosePanel choosePanel = new ChoosePanel("choosePanel") {
+        final AbstractChoosePanel choosePanel = new AbstractChoosePanel("choosePanel") {
 
             @Override
             protected void executeAction(StudentGroup studentGroup, Long semester) {

@@ -9,9 +9,9 @@ import ua.dp.primat.domain.lesson.Lesson;
  * data refreshing, that is provided by List object.
  * @author fdevelop
  */
-public abstract class RefreshablePanel extends Panel {
+public abstract class AbstractRefreshablePanel extends Panel {
 
-    public RefreshablePanel(String id) {
+    public AbstractRefreshablePanel(String id) {
         super(id);
     }
 

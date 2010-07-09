@@ -55,5 +55,6 @@ public final class EditRoomPage extends WebPage {
 
     @SpringBean
     private RoomRepository roomRepository;
+    private static final long serialVersionUID = 1L;
 }
 

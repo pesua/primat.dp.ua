@@ -20,4 +20,5 @@ public class GroupsLoadableDetachableModel extends LoadableDetachableModel<List<
     protected List<StudentGroup> load() {
         return groups;
     }
+    private static final long serialVersionUID = 1L;
 }

@@ -44,4 +44,5 @@ public final class EditableScheduleItemPanel extends Panel {
 
     private LessonItem lessonItem;
     private boolean secondLessonVisible;
+    private static final long serialVersionUID = 1L;
 }

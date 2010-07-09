@@ -118,7 +118,7 @@ public class LessonQueryItem implements Serializable {
                 break;
             case SATURDAY: saturday = lesson;
                 break;
-            case SUNDAY: sunday = lesson;
+            default: sunday = lesson;
                 break;
         }
     }

@@ -14,8 +14,8 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.schedule.services.LessonService;
-import ua.dp.primat.utils.view.ChoosePanel;
-import ua.dp.primat.utils.view.RefreshablePanel;
+import ua.dp.primat.utils.view.AbstractChoosePanel;
+import ua.dp.primat.utils.view.AbstractRefreshablePanel;
 
 /**
  * View page for the Schedule portlet.
@@ -52,7 +52,7 @@ public final class ViewHomePage extends WebPage {
         add(new AjaxTabbedPanel("tabs", tabs));
 
         //create chooser for group and semester
-        final ChoosePanel choosePanel = new ChoosePanel("choosePanel") {
+        final AbstractChoosePanel choosePanel = new AbstractChoosePanel("choosePanel") {
 
             @Override
             protected void executeAction(StudentGroup studentGroup, Long semester) {
@@ -77,8 +77,8 @@ public final class ViewHomePage extends WebPage {
         tabDaybookText = bundle.getString("tab.daybook");
     }
 
-    private RefreshablePanel schedulePanel;
-    private RefreshablePanel daybookPanel;
+    private AbstractRefreshablePanel schedulePanel;
+    private AbstractRefreshablePanel daybookPanel;
 
     private String tabScheduleText;
     private String tabDaybookText;

@@ -47,13 +47,16 @@ public class Lecturer implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
+
         final Lecturer other = (Lecturer) obj;
         if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
             return false;
         }
-        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
+        if ( (this.name == null && other.name != null) ||
+             (this.name != null && !this.name.equals(other.name))) {
             return false;
         }
+
         if (this.cathedra != other.cathedra && (this.cathedra == null || !this.cathedra.equals(other.cathedra))) {
             return false;
         }
