@@ -7,13 +7,13 @@ import javax.persistence.Id;
 
 @Entity
 public class Cathedra implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
     private Long id;
-
     private String name;
-    
+
     public Cathedra() {
     }
 
@@ -48,11 +48,15 @@ public class Cathedra implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 79 * hash;
-        if (this.id != null) { hash += this.id.hashCode(); }
-        if (this.name != null) { hash += this.name.hashCode(); }
+        if (this.id != null) {
+            hash += this.id.hashCode();
+        }
+        if (this.name != null) {
+            hash += this.name.hashCode();
+        }
         return hash;
     }
-    
+
     public Long getId() {
         return id;
     }

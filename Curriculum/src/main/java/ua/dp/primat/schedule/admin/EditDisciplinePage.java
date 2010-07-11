@@ -33,7 +33,7 @@ public final class EditDisciplinePage extends WebPage {
         public EditDisciplineForm(String id, Discipline discipline) {
             super(id, new CompoundPropertyModel<Discipline>(discipline));
             add(new FeedbackPanel("feedback"));
-            
+
             this.discipline = discipline;
             final TextField name = new TextField("name");
             name.setRequired(true);
@@ -47,7 +47,6 @@ public final class EditDisciplinePage extends WebPage {
         protected void onSubmit() {
             disciplineRepository.store(discipline);
         }
-
         private Discipline discipline;
         @SpringBean
         private DisciplineRepository disciplineRepository;

@@ -53,20 +53,15 @@ public class Lecturer implements Serializable {
             return false;
         }
 
-        if (this.name == null) {
-            if (other.name != null) {
-                return false;
-            }
-        } else {
-            if (!this.name.equals(other.name)) {
-                return false;
-            }
+        if ((this.name == null && other.name != null)
+                || (this.name != null && !this.name.equals(other.name))) {
+            return false;
         }
 
         if (this.cathedra == null && this.cathedra != other.cathedra) {
             return false;
         }
-        
+
         if (this.lecturerType != other.lecturerType) {
             return false;
         }
@@ -77,10 +72,18 @@ public class Lecturer implements Serializable {
     public int hashCode() {
         int hash = 3;
         hash = 67 * hash;
-        if (this.id != null) { hash += this.id.hashCode(); }
-        if (this.name != null) { hash += this.name.hashCode(); }
-        if (this.cathedra != null) { hash += this.cathedra.hashCode(); }
-        if (this.lecturerType != null) { hash += this.lecturerType.hashCode(); }
+        if (this.id != null) {
+            hash += this.id.hashCode();
+        }
+        if (this.name != null) {
+            hash += this.name.hashCode();
+        }
+        if (this.cathedra != null) {
+            hash += this.cathedra.hashCode();
+        }
+        if (this.lecturerType != null) {
+            hash += this.lecturerType.hashCode();
+        }
         return hash;
     }
 

@@ -18,10 +18,11 @@ import ua.dp.primat.schedule.services.WeekLessonColection;
  * @author EniSh
  */
 public final class EditSchedulePage extends WebPage {
+
     private static final long serialVersionUID = 1L;
-    
+
     public EditSchedulePage(final StudentGroup group, final Long semester) {
-        super ();
+        super();
         editScheduleService.updateLists();
 
         add(new Label("group", group.toString()));
@@ -36,21 +37,19 @@ public final class EditSchedulePage extends WebPage {
                 editScheduleService.setSchedule(group, semester, schedule);
                 setResponsePage(getApplication().getHomePage());
             }
-
         };
-        editForm.add(new ListView<LessonItem[]>("days", days){
+        editForm.add(new ListView<LessonItem[]>("days", days) {
+
             private int dayNum = 0;
-            
+
             @Override
             protected void populateItem(ListItem<LessonItem[]> li) {
                 final LessonItem[] lessons = li.getModelObject();
                 li.add(new DayLessonsPanel("dayLessons", DayOfWeek.fromNumber(dayNum++), lessons));
             }
-            
         });
         add(editForm);
     }
-
     @SpringBean
     private EditScheduleService editScheduleService;
 }
