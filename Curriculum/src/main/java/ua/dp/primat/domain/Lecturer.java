@@ -49,7 +49,7 @@ public class Lecturer implements Serializable {
         }
 
         final Lecturer other = (Lecturer) obj;
-        if (this.id.compareTo(other.id) != 0 && (this.id == null || !this.id.equals(other.id))) {
+        if (this.id == null && this.id.compareTo(other.id) != 0) {
             return false;
         }
 
@@ -63,7 +63,7 @@ public class Lecturer implements Serializable {
             }
         }
 
-        if (this.cathedra != other.cathedra && (this.cathedra == null || !this.cathedra.equals(other.cathedra))) {
+        if (this.cathedra == null && this.cathedra != other.cathedra) {
             return false;
         }
         
