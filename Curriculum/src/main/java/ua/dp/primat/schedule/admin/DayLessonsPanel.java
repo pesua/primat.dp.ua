@@ -15,7 +15,7 @@ import ua.dp.primat.schedule.services.LessonItem;
  */
 public final class DayLessonsPanel extends Panel {
     public DayLessonsPanel(String id, DayOfWeek day, LessonItem[] lessons) {
-        super (id);
+        super(id);
         add(new Label("day", day.toString()));
         
         final List<LessonItem> l = Arrays.asList(lessons);
