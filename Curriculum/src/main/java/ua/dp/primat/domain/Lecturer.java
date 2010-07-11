@@ -43,27 +43,33 @@ public class Lecturer implements Serializable {
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
+        } else {
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
         }
 
         final Lecturer other = (Lecturer) obj;
         if (this.id.compareTo(other.id) != 0 && (this.id == null || !this.id.equals(other.id))) {
             return false;
-        }
-
-        if (this.name == null) {
-            if (other.name != null) { return false; }
         } else {
-            if (!this.name.equals(other.name))  { return false; }
+            if (this.name == null) {
+                if (other.name != null) {
+                    return false;
+                }
+            } else {
+                if (!this.name.equals(other.name)) {
+                    return false;
+                }
+            }
         }
 
         if (this.cathedra != other.cathedra && (this.cathedra == null || !this.cathedra.equals(other.cathedra))) {
             return false;
-        }
-        if (this.lecturerType != other.lecturerType) {
-            return false;
+        } else {
+            if (this.lecturerType != other.lecturerType) {
+                return false;
+            }
         }
         return true;
     }
