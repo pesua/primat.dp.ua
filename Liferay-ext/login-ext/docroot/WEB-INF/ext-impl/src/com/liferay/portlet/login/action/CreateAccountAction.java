@@ -240,7 +240,7 @@ public class CreateAccountAction extends PortletAction {
         User user = UserServiceUtil.addUser(
                 company.getCompanyId(), autoPassword, password1, password2,
                 autoScreenName, screenName, emailAddress, openId,
-                themeDisplay.getLocale(), "firstName", "middleName", lastName, prefixId,
+                themeDisplay.getLocale(), firstName, middleName, lastName, prefixId,
                 suffixId, male, birthdayMonth, birthdayDay, birthdayYear, jobTitle,
                 groupIds, organizationIds, roleIds, userGroupIds, sendEmail,
                 serviceContext);
