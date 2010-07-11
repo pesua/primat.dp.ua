@@ -55,19 +55,19 @@ public class UserInfoPanel extends Panel {
             if (type == TYPE_GROUP) {
                 for (Group t : user.getGroups()) {
                     groups.append(t.getName());
-                    groups.append(vl);
+                    groups.append(VL);
                 }
             } else if (type == TYPE_ORG) {
                 for (Organization o : user.getOrganizations()) {
                     groups.append(o.getName());
-                    groups.append(vl);
+                    groups.append(VL);
                 }
             }
             return groups.toString();
         } catch (SystemException se) {
-            return minus;
+            return MINUS;
         } catch (PortalException pe) {
-            return minus;
+            return MINUS;
         }
     }
 
@@ -75,9 +75,9 @@ public class UserInfoPanel extends Panel {
         try {
             return DateFormat.getDateInstance(DateFormat.MEDIUM).format(user.getBirthday());
         } catch (PortalException pe) {
-            return minus;
+            return MINUS;
         } catch (SystemException se) {
-            return minus;
+            return MINUS;
         }
     }
 
@@ -87,7 +87,7 @@ public class UserInfoPanel extends Panel {
     private static final int TYPE_GROUP = 0;
     private static final int TYPE_ORG = 1;
 
-    private static final String minus = "-";
-    private static final String vl = " | ";
+    private static final String MINUS = "-";
+    private static final String VL = " | ";
     private static final long serialVersionUID = 1L;
 }
