@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-
-<project name="ext" basedir="." default="deploy">
-        <property name="project.dir" value="/opt/liferay-plugins-sdk-6.0.1/" />
-	<import file="/opt/liferay-plugins-sdk-6.0.1/ext/build-common-ext.xml" />
-</project>
