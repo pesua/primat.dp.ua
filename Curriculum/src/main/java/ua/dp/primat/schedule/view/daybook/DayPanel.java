@@ -24,7 +24,7 @@ public final class DayPanel extends Panel {
      */
     public DayPanel(final String id, DayOfWeek day) {
         super(id);
-        
+
         add(new Label("oneDayName", day.toString()));
 
         dayListView = new DayListView("row", new ArrayList<Lesson>());
@@ -42,9 +42,7 @@ public final class DayPanel extends Panel {
             dayListView.setList(listLesson);
         }
     }
-
     private ListView dayListView;
-
     private static final long serialVersionUID = 1L;
 
     /**
@@ -62,8 +60,8 @@ public final class DayPanel extends Panel {
 
             final String disciplineValue = (entry.getLessonDescription() == null)
                     ? "" : String.format("%s (%s)",
-                        entry.getLessonDescription().getDiscipline().getName(),
-                        entry.getLessonDescription().getLessonType());
+                    entry.getLessonDescription().getDiscipline().getName(),
+                    entry.getLessonDescription().getLessonType());
             final String teacherValue = (entry.getLessonDescription() == null)
                     ? "" : entry.getLessonDescription().getLecturerNames();
             final String roomValue = (entry.getRoom() == null) ? "" : entry.getRoom().toString();
@@ -73,7 +71,6 @@ public final class DayPanel extends Panel {
             li.add(new Label("teacher", teacherValue));
             li.add(new Label("room", roomValue));
         }
-
+        private static final long serialVersionUID = 2L;
     }
-
 }

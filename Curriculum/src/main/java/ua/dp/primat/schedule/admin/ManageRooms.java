@@ -66,6 +66,7 @@ public final class ManageRooms extends WebPage {
         @SpringBean
         private RoomRepository roomRepository;
         private List<Room> rooms;
+        private static final long serialVersionUID = 2L;
     }
     @SpringBean
     private RoomRepository roomRepository;

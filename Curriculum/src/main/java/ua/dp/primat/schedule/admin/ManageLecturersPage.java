@@ -70,5 +70,6 @@ public final class ManageLecturersPage extends WebPage {
             deleteLink.add(new Image("deleteImage"));
             li.add(deleteLink);
         }
+        private static final long serialVersionUID = 2L;
     }
 }

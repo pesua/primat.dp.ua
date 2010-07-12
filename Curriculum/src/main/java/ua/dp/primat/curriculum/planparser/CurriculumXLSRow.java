@@ -102,7 +102,7 @@ public final class CurriculumXLSRow {
      */
     private int[] parseNumValues(String fmStr, boolean standard) {
         final String[] values = fmStr.trim().split("\\s*,\\s*");
-        int[] intValues = new int[values.length];
+        final int[] intValues = new int[values.length];
 
         int idx = 0;
         final Pattern digits = Pattern.compile("\\d+(\\.\\d+)?" + (standard ? "" : diffSetOff) );

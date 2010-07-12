@@ -1,4 +1,5 @@
 package ua.dp.primat.schedule.view.crosstab;
+
 import java.util.List;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.markup.html.basic.Label;
@@ -24,7 +25,7 @@ public final class ViewCrosstab extends AbstractRefreshablePanel {
     public ViewCrosstab(String id) {
         super(id);
 
-        for (int i=0;i<DAY_WICKET_KEYS.length;i++) {
+        for (int i = 0; i < DAY_WICKET_KEYS.length; i++) {
             final Label labelDay = new Label(DAYNAME_WICKET + DAY_WICKET_KEYS[i], DayOfWeek.fromNumber(i).toString());
             add(labelDay);
         }
@@ -44,16 +45,12 @@ public final class ViewCrosstab extends AbstractRefreshablePanel {
             lessonView.setList(lessons);
         }
     }
-
     //list and view of all retrieved lessons
     private List<LessonQueryItem> lessons;
     private ListView<LessonQueryItem> lessonView;
-
     @SpringBean
     private CrossTabService crossTabService;
-
     private static final long serialVersionUID = 1L;
-
     //constants for wicket
     private static final String ROW_MARKUP = "row";
     private static final String NUM_COLUMN = "num";
@@ -81,11 +78,11 @@ public final class ViewCrosstab extends AbstractRefreshablePanel {
             li.add(labelNum);
 
             //output the lesson's info in SchedulePanel for every day
-            for (int i = 0; i<DAY_WICKET_KEYS.length; i++) {
+            for (int i = 0; i < DAY_WICKET_KEYS.length; i++) {
                 final DayOfWeek dayOfWeek = DayOfWeek.values()[i];
                 final Panel labelDay = new ScheduleCell(DAY_WICKET_KEYS[i],
                         entry.getLessonForDay(dayOfWeek));
-                
+
                 labelDay.setVisible(isCellVisible(li.getIndex(), dayOfWeek));
 
                 if ((entry.getLessonForDay(dayOfWeek) != null)
@@ -106,17 +103,15 @@ public final class ViewCrosstab extends AbstractRefreshablePanel {
          */
         private boolean isCellVisible(int currItemIndex, DayOfWeek day) {
             if (currItemIndex > 0) {
-                final LessonQueryItem previous = this.getList().get(currItemIndex-1);
+                final LessonQueryItem previous = this.getList().get(currItemIndex - 1);
                 if ((previous != null) && (previous.getLessonForDay(day) != null)) {
                     return previous.getLessonForDay(day).getWeekType() != WeekType.BOTH;
                 }
             }
             return true;
         }
-
         private final SimpleAttributeModifier rowspanAttrModifier = new SimpleAttributeModifier("rowspan", "2");
-
+        private static final long serialVersionUID = 2L;
     }
-
 }
 

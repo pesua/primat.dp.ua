@@ -63,5 +63,6 @@ public class HomePage extends WebPage {
             });
             li.add(new Label("finalcontrol", workload.getFinalControlType().toString()));
         }
+        private static final long serialVersionUID = 2L;
     }
 }

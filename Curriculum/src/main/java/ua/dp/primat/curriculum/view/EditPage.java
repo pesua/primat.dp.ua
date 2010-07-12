@@ -56,15 +56,11 @@ public class EditPage extends WebPage {
     private Folder getUploadFolder() {
         return ((WicketApplication) Application.get()).getUploadFolder();
     }
-
     private StudentGroup parseGroup;
-
     @SpringBean
     private StudentGroupRepository studentGroupRepository;
-
     @SpringBean
     private WorkloadService workloadService;
-
     private static final long serialVersionUID = 2L;
     private static final int MIN_YEAR = 1910;
     private static final int MAX_YEAR = 2110;
@@ -91,8 +87,8 @@ public class EditPage extends WebPage {
                 chosenGroup = groups.get(0);
             }
             final DropDownChoice<StudentGroup> groupChoise = new DropDownChoice<StudentGroup>("group",
-                new PropertyModel<StudentGroup>(this, "chosenGroup"),
-                new GroupsLoadableDetachableModel(groups));
+                    new PropertyModel<StudentGroup>(this, "chosenGroup"),
+                    new GroupsLoadableDetachableModel(groups));
             add(groupChoise);
         }
 
@@ -104,12 +100,12 @@ public class EditPage extends WebPage {
         protected void onSubmit() {
             if (chosenGroup == null) {
                 this.error(String.format("No group selected"));
-            }
-            else {
+            } else {
                 studentGroupRepository.remove(chosenGroup);
                 this.info(String.format("Curriculum has been removed"));
             }
         }
+        private static final long serialVersionUID = 2L;
     }
 
     /**
@@ -246,7 +242,6 @@ public class EditPage extends WebPage {
                 throw new IllegalStateException("Unable to overwrite " + newFile.getAbsolutePath());
             }
         }
-
         private FileUploadField fileUploadField;
         private TextField<Integer> textParseSheet;
         private TextField<Integer> textParseStart;
@@ -255,6 +250,6 @@ public class EditPage extends WebPage {
         private TextField<String> textGroupSpec;
         private TextField<Integer> textGroupYear;
         private TextField<Integer> textGroupNumber;
+        private static final long serialVersionUID = 2L;
     }
-
 }
