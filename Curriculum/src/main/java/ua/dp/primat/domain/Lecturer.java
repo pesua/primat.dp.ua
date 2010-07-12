@@ -21,7 +21,6 @@ public class Lecturer implements Serializable {
 
     public static final String GET_ALL_LECTURERS = "getAllLecrurers";
     public static final String GET_LECTURERS_BY_CATHEDRA = "getLecturersByCathedra";
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
     private Long id;
@@ -53,9 +52,14 @@ public class Lecturer implements Serializable {
             return false;
         }
 
-        if ((this.name == null && other.name != null)
-                || (this.name != null && !this.name.equals(other.name))) {
-            return false;
+        if (this.name == null) {
+            if (other.name != null) {
+                return false;
+            }
+        } else {
+            if (!this.name.equals(other.name)) {
+                return false;
+            }
         }
 
         if (this.cathedra == null && this.cathedra != other.cathedra) {
@@ -70,8 +74,7 @@ public class Lecturer implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 67 * hash;
+        int hash = 201; // 67 * 3
         if (this.id != null) {
             hash += this.id.hashCode();
         }
@@ -95,20 +98,20 @@ public class Lecturer implements Serializable {
         this.id = id;
     }
 
-    public LecturerType getLecturerType() {
-        return lecturerType;
-    }
-
-    public void setLecturerType(LecturerType lecturerType) {
-        this.lecturerType = lecturerType;
-    }
-
     public Cathedra getCathedra() {
         return cathedra;
     }
 
     public void setCathedra(Cathedra cathedra) {
         this.cathedra = cathedra;
+    }
+
+    public LecturerType getLecturerType() {
+        return lecturerType;
+    }
+
+    public void setLecturerType(LecturerType lecturerType) {
+        this.lecturerType = lecturerType;
     }
 
     public String getName() {
@@ -140,4 +143,5 @@ public class Lecturer implements Serializable {
     public String toString() {
         return getShortName();
     }
+    private static final long serialVersionUID = 1L;
 }

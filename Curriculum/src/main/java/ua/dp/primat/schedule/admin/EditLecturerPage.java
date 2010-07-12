@@ -53,6 +53,7 @@ public final class EditLecturerPage extends WebPage {
             lecturerRepository.store(lecturer);
             setResponsePage(ManageLecturersPage.class);
         }
+        private static final long serialVersionUID = 1L;
     }
     private Lecturer lecturer;
     @SpringBean

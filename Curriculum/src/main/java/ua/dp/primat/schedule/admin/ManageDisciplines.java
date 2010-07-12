@@ -71,6 +71,7 @@ public final class ManageDisciplines extends WebPage {
             deleteLink.add(new Image("deleteImage"));
             li.add(deleteLink);
         }
+        private static final long serialVersionUID = 1L;
     }
 }
 

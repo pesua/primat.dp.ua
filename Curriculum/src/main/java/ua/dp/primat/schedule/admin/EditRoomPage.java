@@ -49,6 +49,7 @@ public final class EditRoomPage extends WebPage {
             roomRepository.store(room);
             setResponsePage(ManageRooms.class);
         }
+        private static final long serialVersionUID = 1L;
     }
     private Room room;
     @SpringBean

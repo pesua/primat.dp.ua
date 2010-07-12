@@ -28,7 +28,7 @@ public final class EditDisciplinePage extends WebPage {
         add(new EditDisciplineForm("discipline", discipline));
     }
 
-    private class EditDisciplineForm extends Form<Discipline> {
+    private static class EditDisciplineForm extends Form<Discipline> {
 
         public EditDisciplineForm(String id, Discipline discipline) {
             super(id, new CompoundPropertyModel<Discipline>(discipline));
@@ -52,6 +52,7 @@ public final class EditDisciplinePage extends WebPage {
         private DisciplineRepository disciplineRepository;
         @SpringBean
         private CathedraRepository cathedraRepository;
+        private static final long serialVersionUID = 1L;
     }
     private static final long serialVersionUID = 1L;
 }

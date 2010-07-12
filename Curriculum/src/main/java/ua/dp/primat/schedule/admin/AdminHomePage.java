@@ -22,7 +22,7 @@ public final class AdminHomePage extends WebPage {
         add(new EditScheduleForm("editScheduleForm"));
     }
 
-    private class EditScheduleForm extends Form {
+    private static class EditScheduleForm extends Form {
 
         public EditScheduleForm(String cname) {
             super(cname);
@@ -46,6 +46,7 @@ public final class AdminHomePage extends WebPage {
         private StudentGroup group;
         @SpringBean
         private StudentGroupRepository studentGroupRepository;
+        private static final long serialVersionUID = 1L;
     }
     private static final long serialVersionUID = 1L;
 }
