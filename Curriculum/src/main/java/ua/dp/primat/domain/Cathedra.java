@@ -4,6 +4,8 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 @Entity
 public class Cathedra implements Serializable {
@@ -35,25 +37,19 @@ public class Cathedra implements Serializable {
             return false;
         }
         final Cathedra other = (Cathedra) obj;
-        if (this.id.compareTo(other.id) != 0 && (this.id == null || !this.id.equals(other.id))) {
-            return false;
-        }
-        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
-            return false;
-        }
-        return true;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(obj))
+                .append(id, other.id)
+                .append(name, other.name)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        int hash = 553; // 7*79
-        if (this.id != null) {
-            hash += this.id.hashCode();
-        }
-        if (this.name != null) {
-            hash += this.name.hashCode();
-        }
-        return hash;
+        return new HashCodeBuilder(7, 79)
+                .append(id)
+                .append(name)
+                .toHashCode();
     }
 
     public Long getId() {

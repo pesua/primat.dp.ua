@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
  * Entity for a custom lecturer.
@@ -48,46 +50,23 @@ public class Lecturer implements Serializable {
         }
 
         final Lecturer other = (Lecturer) obj;
-        if (this.id == null && this.id.compareTo(other.id) != 0) {
-            return false;
-        }
-
-        if (this.name == null) {
-            if (other.name != null) {
-                return false;
-            }
-        } else {
-            if (!this.name.equals(other.name)) {
-                return false;
-            }
-        }
-
-        if (this.cathedra == null && this.cathedra != other.cathedra) {
-            return false;
-        }
-
-        if (this.lecturerType != other.lecturerType) {
-            return false;
-        }
-        return true;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(obj))
+                .append(id, other.id)
+                .append(name, other.name)
+                .append(cathedra, other.cathedra)
+                .append(lecturerType, other.lecturerType)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        int hash = 201; // 67 * 3
-        if (this.id != null) {
-            hash += this.id.hashCode();
-        }
-        if (this.name != null) {
-            hash += this.name.hashCode();
-        }
-        if (this.cathedra != null) {
-            hash += this.cathedra.hashCode();
-        }
-        if (this.lecturerType != null) {
-            hash += this.lecturerType.hashCode();
-        }
-        return hash;
+        return new HashCodeBuilder(3, 67)
+                .append(id)
+                .append(name)
+                .append(cathedra)
+                .append(lecturerType)
+                .toHashCode();
     }
 
     public Long getId() {

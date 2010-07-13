@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 @Entity
 @NamedQueries(
@@ -37,20 +39,19 @@ public class Room implements Serializable {
             return false;
         }
         final Room other = (Room) obj;
-        if (this.id == null) {
-            return (this.getNumber().compareTo(other.getNumber()) == 0) && (this.getBuilding().compareTo(other.getBuilding()) == 0);
-        }
-        if (this.id.compareTo(other.id) != 0 && !this.id.equals(other.id)) {
-            return false;
-        }
-        return true;
+        return new EqualsBuilder()
+                .appendSuper(super.equals(obj))
+                .append(id, other.id)
+                .append(getNumber(), other.getNumber())
+                .append(getBuilding(), other.getBuilding())
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        int hash = 553; // 7*79
-        if (this.id != null) { hash += this.id.hashCode(); }
-        return hash;
+        return new HashCodeBuilder(7, 79)
+                .append(id)
+                .toHashCode();
     }
 
     public Long getBuilding() {
