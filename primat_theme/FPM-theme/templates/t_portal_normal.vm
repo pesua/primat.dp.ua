@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+#parse ($init)
+
+<html dir="#language("lang.dir")" lang="$w3c_language_id">
+
+<head>
+	<title>$the_title - $company_name</title>
+	<style type=text/css>
+  		* {
+			  margin: 0;
+			  padding: 0;
+			}
+			html, body {
+				height: 100%;
+			}
+			#wholepage {
+			  position: relative;
+			  min-height: 100%;
+			}
+			* html #wholepage {
+			  height: 100%;
+			}
+			#footer_hook_text {
+			  padding-bottom: 80px;
+			}
+			#footer_dummy {
+				background-color: #def1fb;
+			  position: relative;
+			  height: 80px;
+			  margin-top: -80px;
+			}
+			#footer_line {
+				width: 100%;
+				height: 1px;
+				background-color: #6699AA;
+			}
+			#footer_text {
+				font-family: Verdana;
+				padding-left: 10px;
+				padding-top: 10px;
+				padding-right: 15px;
+				padding-bottom: 0px;
+				font-size: 11px;
+			}
+			#footer_logo {
+				text-align: right;
+				margin-top: -40px;
+				vertical-align: middle;
+			}
+  </style>
+
+	$theme.include($top_head_include)
+</head>
+
+<body class="$css_class">
+
+<div id="wholepage">
+#if($is_signed_in)
+	#dockbar()
+#end
+
+<div id="wrapper">
+	<a href="#main-content" id="skip-to-content">#language("skip-to-content")</a>
+
+	<header id="banner" role="banner">
+		<hgroup id="heading">
+			<h1 class="company-title">
+				<a class="logo" href="$company_url" title="#language("go-to") $company_name">
+					<span>$company_name</span>
+				</a>
+			</h1>
+
+			<h2 class="community-title">
+				<a href="$community_default_url" title="#language("go-to") $community_name">
+					<span>$community_name</span>
+				</a>
+			</h2>
+
+			<h3 class="page-title">
+				<span>$the_title</span>
+			</h3>
+		</hgroup>
+
+		#if(!$is_signed_in)
+			<a href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a>
+		#end
+
+		#if ($update_available_url)
+			<div class="popup-alert-notice">
+				<a class="update-available" href="$update_available_url">#language("updates-are-available-for-liferay")</a>
+			</div>
+		#end
+
+		#if ($has_navigation)
+			#parse ("$full_templates_path/navigation.vm")
+		#end
+	</header>
+
+	<div id="content">
+		<nav class="site-breadcrumbs" id="breadcrumbs">
+			<h1>
+				<span>#language("breadcrumbs")</span>
+			</h1>
+
+			#breadcrumbs()
+		</nav>
+
+		#if ($selectable)
+			$theme.include($content_include)
+		#else
+			$portletDisplay.recycle()
+
+			$portletDisplay.setTitle($the_title)
+
+			$theme.wrapPortlet("portlet.vm", $content_include)
+		#end
+	</div>
+  <div id="footer_hook_text">
+	</div>
+</div>
+</div>
+
+	<div id="footer_dummy" role="contentinfo">
+		<div id="footer_line"></div>
+		<div id="footer_text">
+			Copyleft &copy; 2010 Exigen Agile Practices<br/><br/>
+			Створено на основі <a href="http://liferay.com/" rel="external">Liferay Portal</a>
+			<div id="footer_logo">
+				<img src="$images_folder/footer/exigen_logo.png" WIDTH="121" HEIGHT="47">
+			</div>
+		</div>
+	</div>
+
+</body>
+
+$theme.include($bottom_include)
+
+</html>
