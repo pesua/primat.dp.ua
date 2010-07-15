@@ -1,0 +1,41 @@
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" >
+    <head>
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/stepcarousel.js"></script>
+        <title>Wicket Quickstart Archetype Homepage</title>
+        <link rel="stylesheet" type="text/css" href="view.css" />
+
+        <script type="text/javascript">
+            stepcarousel.setup({
+                galleryid: 'mygallery',
+                beltclass: 'belt',
+                panelclass: 'panel',
+                autostep: {enable:true, moveby:1, pause:3000},
+                panelbehavior: {speed:500, wraparound:true, persist:false},
+                defaultbuttons: {enable: false, moveby: 1, leftnav: ['http://i34.tinypic.com/317e0s5.gif', -5, 80], rightnav: ['http://i38.tinypic.com/33o7di8.gif', -20, 80]},
+                contenttype: ['inline']
+            })
+
+        </script>
+    </head>
+    <body>
+        <div id="mygallery" class="stepcarousel">
+    <wicket:link>
+            <div class="belt">
+                <div class="panel">
+                    <img src="http://predskazannoe.ru/wp-content/uploads/2010/02/kosmo18.jpg" />
+                </div>
+                <div class="panel">
+                    <img src="http://me-estate.ru/images/illustration.png" />
+                </div>
+                <div class="panel">
+                    <img src="http://www.2karata.ru/Stones1_files/logo.jpg" />
+                </div>
+            </div>
+    </wicket:link>
+            <p id="mygallery-paginate">
+                <img src="http://www.dynamicdrive.com/dynamicindex4/opencircle.png" data-over="http://www.dynamicdrive.com/dynamicindex4/graycircle.png" data-select="http://www.dynamicdrive.com/dynamicindex4/closedcircle.png" data-moveby="1" />
+            </p>
+        </div>
+</body>
+</html>
