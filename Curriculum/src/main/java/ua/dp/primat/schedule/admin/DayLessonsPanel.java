@@ -21,22 +21,27 @@ public final class DayLessonsPanel extends Panel {
 
         final List<LessonItem> l = Arrays.asList(lessons);
 
-        add(new ListView<LessonItem>("lesson", l) {
+        add(new ListViewLesson("lesson", l) );
+    }
 
-            private int num = 1;
+    private static class ListViewLesson extends ListView<LessonItem> {
 
-            protected int getNum() {
-                return num++;
-            }
+        ListViewLesson(String id, List<LessonItem> list) {
+            super(id, list);
+        }
 
-            @Override
-            protected void populateItem(ListItem<LessonItem> li) {
-                final LessonItem item = li.getModelObject();
-                li.add(new Label("number", String.valueOf(getNum())));
+        @Override
+        protected void populateItem(ListItem<LessonItem> li) {
+            final LessonItem item = li.getModelObject();
+            li.add(new Label("number", String.valueOf(getNum())));
+            li.add(new EditableScheduleItemPanel("lessonEditPanel", item));
+        }
 
-                li.add(new EditableScheduleItemPanel("lessonEditPanel", item));
-            }
-        });
+        private int getNum() {
+            return num++;
+        }
+        private int num = 1;
+        private static final long serialVersionUID = 1L;
     }
     private static final long serialVersionUID = 1L;
 }

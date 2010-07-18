@@ -23,6 +23,7 @@ public final class ManageRooms extends WebPage {
     public ManageRooms() {
         super();
         final List<Room> rooms = roomRepository.getRooms();
+
         final ListViewRooms roomView = new ListViewRooms("repeating", rooms);
         add(roomView);
     }

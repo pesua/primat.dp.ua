@@ -22,8 +22,6 @@ public class Lesson implements Serializable {
     public static final String GET_LESSONS_BY_GROUP_AND_DAY_QUERY = "getLessonsByGroupAndDay";
     public static final String GET_LESSONS_BY_GROUP_AND_SEMESTER_QUERY = "getLessonsBySemesterAndGroup";
 
-    private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue
     private Long id;
@@ -94,4 +92,5 @@ public class Lesson implements Serializable {
     public void setLessonDescription(LessonDescription lessonDescription) {
         this.lessonDescription = lessonDescription;
     }
+    private static final long serialVersionUID = 1L;
 }
