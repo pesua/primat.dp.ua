@@ -9,9 +9,6 @@ import com.liferay.portal.model.User;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortalUtil;
-
-import javax.portlet.ActionRequest;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -20,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Service
 public class LiferayUserService {
-    
+
     public User getUserInfo(Long uid) {
         try {
             return UserLocalServiceUtil.getUserById(uid);
@@ -33,19 +30,21 @@ public class LiferayUserService {
 
     public User getUserInfo(HttpServletRequest req) {
         try {
-            ThemeDisplay themeDisplay = (ThemeDisplay)req.getAttribute(
-		WebKeys.THEME_DISPLAY);
+            final ThemeDisplay themeDisplay = (ThemeDisplay) req.getAttribute(
+                    WebKeys.THEME_DISPLAY);
 
-            Group group = GroupLocalServiceUtil.getGroup(
-                themeDisplay.getScopeGroupId());
+            final Group group = GroupLocalServiceUtil.getGroup(
+                    themeDisplay.getScopeGroupId());
 
-            return (group.isUser() ? UserLocalServiceUtil.
-                getUserById(group.getClassPK()) : null);
+            User user = null;
+            if (group.isUser()) {
+                user = UserLocalServiceUtil.getUserById(group.getClassPK());
+            }
+            return user;
         } catch (PortalException pe) {
             return null;
         } catch (SystemException se) {
             return null;
         }
     }
-
 }
