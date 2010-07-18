@@ -4,11 +4,11 @@
   background-color: #DEF1FB;
   overflow: scroll;
   width: 970px;
-  height: 210px;
-  border-radius: 8px;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  -khtml-border-radius: 8px;
+  height: 200px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -khtml-border-radius: 4px;
 }
 
 .stepcarousel .belt{
@@ -20,14 +20,14 @@
 .stepcarousel .panel{
   float: left;
   overflow: hidden;
-  margin: 5px;
-  width: 1000px;
+  margin: 0px;
+  width: 970px;
 }
 
 #mygallery-paginate {
   position: absolute;
   left: 0;
-  top: 193px;
+  top: 185px;
   width: 1000px;
   text-align:center;
 }
