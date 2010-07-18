@@ -267,6 +267,7 @@ public class CreateAccountAction extends PortletAction {
             long groupId = ParamUtil.getLong(actionRequest, "student-groups");
             UserLocalServiceUtil.addGroupUsers(groupId,users);
             UserLocalServiceUtil.addRoleUsers(10505,users);
+            UserLocalServiceUtil.addUserGroupUsers(19334,users);
             boolean isMemberCouncil = ParamUtil.getBoolean(actionRequest, "is-member-student-council");
             if (isMemberCouncil) {
                 //UserLocalServiceUtil.addGroupUsers( ,users);
@@ -274,6 +275,7 @@ public class CreateAccountAction extends PortletAction {
             }
         } else {
             UserLocalServiceUtil.addRoleUsers(15708,users);
+            UserLocalServiceUtil.addUserGroupUsers(20001,users);
         }
         
         if (openIdPending) {
