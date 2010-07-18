@@ -13,7 +13,7 @@ import ua.dp.primat.domain.lesson.Lesson;
 public class WeekLessonColection implements Serializable {
 
     public WeekLessonColection() {
-        lessonItems = new LessonItem[collectionRow][collectionColumn];
+        lessonItems = new LessonItem[COLLECTIONROW][COLLECTIONCOLUMN];
         for (int i = 0; i < lessonItems.length; i++) {
             for (int j = 0; j < lessonItems[i].length; j++) {
                 lessonItems[i][j] = new LessonItem();
@@ -41,6 +41,6 @@ public class WeekLessonColection implements Serializable {
     }
     private LessonItem[][] lessonItems;
     private static final long serialVersionUID = 1L;
-    private static final int collectionColumn = 5;
-    private static final int collectionRow = 7;
+    private static final int COLLECTIONCOLUMN = 5;
+    private static final int COLLECTIONROW = 7;
 }

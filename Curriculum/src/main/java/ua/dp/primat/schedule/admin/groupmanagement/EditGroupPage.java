@@ -38,11 +38,11 @@ public final class EditGroupPage extends WebPage {
             add(speciality);
 
             final RequiredTextField<Long> year = new RequiredTextField<Long>("year");
-            year.add(new RangeValidator<Long>(minYear, maxYear));
+            year.add(new RangeValidator<Long>(MINYEAR, MAXYEAR));
             add(year);
 
             final RequiredTextField<Long> number = new RequiredTextField<Long>("number");
-            number.add(new RangeValidator<Long>(1L, maxNumber));
+            number.add(new RangeValidator<Long>(1L, MAXNUMBER));
             add(number);
         }
 
@@ -56,8 +56,8 @@ public final class EditGroupPage extends WebPage {
     @SpringBean
     private StudentGroupRepository groupRepository;
     private static final long serialVersionUID = 1L;
-    private static final long minYear = 1950L;
-    private static final long maxYear = 2050L;
-    private static final long maxNumber = 10L;
+    private static final long MINYEAR = 1950L;
+    private static final long MAXYEAR = 2050L;
+    private static final long MAXNUMBER = 10L;
 }
 

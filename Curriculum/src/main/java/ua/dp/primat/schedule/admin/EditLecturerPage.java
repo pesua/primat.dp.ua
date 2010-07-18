@@ -40,7 +40,7 @@ public final class EditLecturerPage extends WebPage {
 
             final TextField name = new TextField("name");
             name.setRequired(true);
-            name.add(new LengthBetweenValidator(minValidator, maxValidator));
+            name.add(new LengthBetweenValidator(MINVALIDATOR, MAXVALIDATOR));
             add(name);
             final List<Cathedra> cathedras = cathedraRepository.getCathedras();
             add(new DropDownChoice("cathedra", cathedras));
@@ -61,7 +61,7 @@ public final class EditLecturerPage extends WebPage {
     @SpringBean
     private CathedraRepository cathedraRepository;
     private static final long serialVersionUID = 1L;
-    private static final int minValidator = 5;
-    private static final int maxValidator = 60;
+    private static final int MINVALIDATOR = 5;
+    private static final int MAXVALIDATOR = 60;
 }
 

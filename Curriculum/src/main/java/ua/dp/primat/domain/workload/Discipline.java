@@ -50,7 +50,7 @@ public class Discipline implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = hashBase;
+        int hash = HASHBASE;
         if (this.id != null) { hash += this.id.hashCode(); }
         return hash;
     }
@@ -93,5 +93,5 @@ public class Discipline implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private Cathedra cathedra;
 
-    private static final int hashBase = 329;
+    private static final int HASHBASE = 329;
 }

@@ -40,7 +40,7 @@ public class Cathedra implements Serializable {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(initOddNumber, multOddNumber)
+        return new HashCodeBuilder(INITODDNUMBER, MULTODDNUMBER)
                 .append(id)
                 .append(name)
                 .toHashCode();
@@ -61,8 +61,8 @@ public class Cathedra implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    private static final int initOddNumber = 7;
-    private static final int multOddNumber = 79;
+    private static final int INITODDNUMBER = 7;
+    private static final int MULTODDNUMBER = 79;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue

@@ -61,7 +61,7 @@ public class Lecturer implements Serializable {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(initOddNumber, multOddNumber)
+        return new HashCodeBuilder(INITODDNUMBER, MULTODDNUMBER)
                 .append(id)
                 .append(name)
                 .append(cathedra)
@@ -123,6 +123,6 @@ public class Lecturer implements Serializable {
         return getShortName();
     }
     private static final long serialVersionUID = 1L;
-    private static final int initOddNumber = 3;
-    private static final int multOddNumber = 67;
+    private static final int INITODDNUMBER = 3;
+    private static final int MULTODDNUMBER = 67;
 }

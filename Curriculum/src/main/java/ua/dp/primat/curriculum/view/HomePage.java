@@ -41,7 +41,7 @@ public class HomePage extends WebPage {
 
     private static class WorkloadsListView extends ListView<Workload> {
 
-        public WorkloadsListView(String string, List<? extends Workload> list) {
+        public WorkloadsListView(String string, List<Workload> list) {
             super(string, list);
         }
 
