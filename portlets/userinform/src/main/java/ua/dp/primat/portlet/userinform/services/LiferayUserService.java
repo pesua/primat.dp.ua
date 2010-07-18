@@ -40,8 +40,7 @@ public class LiferayUserService {
                 return UserLocalServiceUtil.getUserById(group.getClassPK());
             } else
             {
-                final User user = null;
-                return user;
+                return null;
             }
         } catch (PortalException pe) {
             return null;
