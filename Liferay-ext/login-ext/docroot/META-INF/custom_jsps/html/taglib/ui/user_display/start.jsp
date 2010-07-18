@@ -26,7 +26,7 @@ if (userDisplay != null) {
 }
 
 if (Validator.isNull(url) && (userDisplay != null)) {
-	url = String.format("%s/user?p_p_id=userinform_WAR_userinform&userId=%d", themeDisplay.getPortalURL(), userDisplay.getUserId());
+	url = userDisplay.getDisplayURL(themeDisplay);
 }
 %>
 
