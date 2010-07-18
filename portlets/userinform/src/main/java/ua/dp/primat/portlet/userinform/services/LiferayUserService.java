@@ -36,11 +36,13 @@ public class LiferayUserService {
             final Group group = GroupLocalServiceUtil.getGroup(
                     themeDisplay.getScopeGroupId());
 
-            User user = null;
             if (group.isUser()) {
-                user = UserLocalServiceUtil.getUserById(group.getClassPK());
+                return UserLocalServiceUtil.getUserById(group.getClassPK());
+            } else
+            {
+                final User user = null;
+                return user;
             }
-            return user;
         } catch (PortalException pe) {
             return null;
         } catch (SystemException se) {
