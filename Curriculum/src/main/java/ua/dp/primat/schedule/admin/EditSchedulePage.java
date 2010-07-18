@@ -19,8 +19,6 @@ import ua.dp.primat.schedule.services.WeekLessonColection;
  */
 public final class EditSchedulePage extends WebPage {
 
-    private static final long serialVersionUID = 1L;
-
     public EditSchedulePage(final StudentGroup group, final Long semester) {
         super();
         editScheduleService.updateLists();
@@ -54,8 +52,10 @@ public final class EditSchedulePage extends WebPage {
             li.add(new DayLessonsPanel("dayLessons", DayOfWeek.fromNumber(dayNum++), lessons));
         }
         private int dayNum = 0;
+        private static final long serialVersionUID = 1L;
     }
     @SpringBean
     private EditScheduleService editScheduleService;
+    private static final long serialVersionUID = 1L;
 }
 

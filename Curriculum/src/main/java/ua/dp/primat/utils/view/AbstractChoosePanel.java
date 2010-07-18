@@ -35,55 +35,26 @@ public abstract class AbstractChoosePanel extends Panel {
         semester = Long.valueOf(1);
         executeAction(studentGroup, semester);
 
-        final DropDownChoice<StudentGroup> groupChoice = new DropDownChoice<StudentGroup>("group",
+        final DropDownGroup groupChoice = new DropDownGroup("group",
                 new PropertyModel<StudentGroup>(this, "studentGroup"),
-                new GroupsLoadableDetachableModel(groups)) {
-
-            @Override
-            protected void onSelectionChanged(StudentGroup newSelection) {
-                studentGroup = newSelection;
-
-                executeAction(studentGroup, semester);
-                super.onSelectionChanged(studentGroup);
-            }
-
-            @Override
-            protected boolean wantOnSelectionChangedNotifications() {
-                return true;
-            }
-
-        };
+                new GroupsLoadableDetachableModel(groups));
         add(groupChoice);
 
         //semester combo
         final String sSemester = "semester";
-        final DropDownChoice<Long> semesterChoise = new DropDownChoice<Long>(sSemester,
+        final DropDownLong semesterChoise = new DropDownLong(sSemester,
                 new PropertyModel<Long>(this, sSemester),
-                new LoadableDetachableModel<List<Long>>(){
+                new LoadableDetachableModel<List<Long>>() {
 
-            @Override
-            protected List<Long> load() {
-                final List<Long> l = new ArrayList<Long>();
-                for (int i = 1; i <= SEMESTERCOUNT; i++) {
-                    l.add(Long.valueOf(i));
-                }
-                return l;
-            }
-
-        }) {
-            @Override
-            protected void onSelectionChanged(Long newSelection) {
-                semester = newSelection;
-
-                executeAction(studentGroup, semester);
-                super.onSelectionChanged(semester);
-            }
-
-            @Override
-            protected boolean wantOnSelectionChangedNotifications() {
-                return true;
-            }
-        };
+                    @Override
+                    protected List<Long> load() {
+                        final List<Long> l = new ArrayList<Long>();
+                        for (int i = 1; i <= SEMESTERCOUNT; i++) {
+                            l.add(Long.valueOf(i));
+                        }
+                        return l;
+                    }
+                });
         add(semesterChoise);
     }
 
@@ -92,14 +63,50 @@ public abstract class AbstractChoosePanel extends Panel {
      * @param studentGroup - choosed student group
      * @param semester - choosed semester
      */
-    protected abstract void executeAction(StudentGroup studentGroup, Long semester);
+    private class DropDownGroup extends DropDownChoice<StudentGroup> {
 
+        DropDownGroup(String id,
+                PropertyModel<StudentGroup> propmodel,
+                GroupsLoadableDetachableModel groupmodel) {
+            super(id, propmodel, groupmodel);
+        }
+
+        @Override
+        protected void onSelectionChanged(StudentGroup newSelection) {
+            studentGroup = newSelection;
+
+            executeAction(studentGroup, semester);
+            super.onSelectionChanged(studentGroup);
+        }
+
+        @Override
+        protected boolean wantOnSelectionChangedNotifications() {
+            return true;
+        }
+    }
+
+    private class DropDownLong extends DropDownChoice<Long> {
+
+        DropDownLong(String id, PropertyModel<Long> propmodel, LoadableDetachableModel<List<Long>> loadmodel) {
+            super(id, propmodel, loadmodel);
+        }
+
+        @Override
+        protected boolean wantOnSelectionChangedNotifications() {
+            return true;
+        }
+
+        @Override
+        protected void onSelectionChanged(Long newSelection) {
+            executeAction(studentGroup, newSelection);
+            super.onSelectionChanged(newSelection);
+        }
+    }
+
+    protected abstract void executeAction(StudentGroup studentGroup, Long semester);
     private StudentGroup studentGroup;
     private Long semester;
-
     @SpringBean
     private StudentGroupRepository studentGroupRepository;
-
     private static final int SEMESTERCOUNT = 8;
-
 }
