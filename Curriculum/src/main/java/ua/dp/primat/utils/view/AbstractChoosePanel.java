@@ -44,17 +44,7 @@ public abstract class AbstractChoosePanel extends Panel {
         final String sSemester = "semester";
         final DropDownLong semesterChoise = new DropDownLong(sSemester,
                 new PropertyModel<Long>(this, sSemester),
-                new LoadableDetachableModel<List<Long>>() {
-
-                    @Override
-                    protected List<Long> load() {
-                        final List<Long> l = new ArrayList<Long>();
-                        for (int i = 1; i <= SEMESTERCOUNT; i++) {
-                            l.add(Long.valueOf(i));
-                        }
-                        return l;
-                    }
-                });
+                new LoadableDetachableModelList());
         add(semesterChoise);
     }
 
@@ -83,6 +73,7 @@ public abstract class AbstractChoosePanel extends Panel {
         protected boolean wantOnSelectionChangedNotifications() {
             return true;
         }
+        private static final long serialVersionUID = 1L;
     }
 
     private class DropDownLong extends DropDownChoice<Long> {
@@ -100,6 +91,19 @@ public abstract class AbstractChoosePanel extends Panel {
         protected void onSelectionChanged(Long newSelection) {
             executeAction(studentGroup, newSelection);
             super.onSelectionChanged(newSelection);
+        }
+        private static final long serialVersionUID = 1L;
+    }
+
+    private class LoadableDetachableModelList extends LoadableDetachableModel<List<Long>> {
+
+        @Override
+        protected List<Long> load() {
+            final List<Long> l = new ArrayList<Long>();
+            for (int i = 1; i <= SEMESTERCOUNT; i++) {
+                l.add(Long.valueOf(i));
+            }
+            return l;
         }
     }
 
