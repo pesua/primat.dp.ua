@@ -236,11 +236,13 @@ public class CreateAccountAction extends PortletAction {
         if (PropsValues.CAPTCHA_CHECK_PORTAL_CREATE_ACCOUNT) {
             CaptchaUtil.check(actionRequest);
         }
+        //!!!!!!!!
+        long groupId = ParamUtil.getLong(actionRequest, "student-groups");
 
         User user = UserServiceUtil.addUser(
                 company.getCompanyId(), autoPassword, password1, password2,
                 autoScreenName, screenName, emailAddress, openId,
-                themeDisplay.getLocale(), /*firstName*/"olololo", middleName, lastName, prefixId,
+                themeDisplay.getLocale(), /*firstName*/ String.valueOf(groupId) , middleName, lastName, prefixId,
                 suffixId, male, birthdayMonth, birthdayDay, birthdayYear, jobTitle,
                 groupIds, organizationIds, roleIds, userGroupIds, sendEmail,
                 serviceContext);
@@ -258,6 +260,12 @@ public class CreateAccountAction extends PortletAction {
         body.append("http://primat.asp.dp.ua:8080/en/group/control_panel/manage?p_p_id=125&p_p_state=maximized&_125_advancedSearch=true&_125_andOperator=1")
                 .append("&_125_emailAddress=").append(userEmail).append("&_125_active=0");
 	MailEngine.send(from, to, subject, body.toString());
+
+        //add user to selected group
+//        long groupId = ParamUtil.getLong(actionRequest, "student-groups");
+        long users[] = new long[1];
+        users[0] = user.getUserId();
+        UserServiceUtil.addGroupUsers(groupId,users);
 
         if (openIdPending) {
             session.setAttribute(
