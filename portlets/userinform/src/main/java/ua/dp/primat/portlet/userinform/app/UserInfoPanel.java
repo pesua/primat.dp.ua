@@ -4,6 +4,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Organization;
+import com.liferay.portal.model.Role;
 import com.liferay.portal.model.User;
 import java.text.DateFormat;
 import java.util.ResourceBundle;
@@ -25,6 +26,7 @@ public class UserInfoPanel extends Panel {
         add(new Label("email", user.getDisplayEmailAddress()));
         add(new Label("screenname", user.getScreenName()));
         add(new Label("birthday", getUserBirthday(user)));
+        add(new Label("role", getUserGroups(user, TYPE_ROLES)));
         add(new Label("group", getUserGroups(user, TYPE_GROUP)));
         add(new Label("cath", getUserGroups(user, TYPE_ORG)));
 
@@ -62,6 +64,11 @@ public class UserInfoPanel extends Panel {
                     groups.append(o.getName());
                     groups.append(VL);
                 }
+            } else if (type == TYPE_ROLES) {
+                for (Role r : user.getRoles()) {
+                    groups.append(r.getName());
+                    groups.append(VL);
+                }
             }
             return groups.toString();
         } catch (SystemException se) {
@@ -86,6 +93,7 @@ public class UserInfoPanel extends Panel {
 
     private static final int TYPE_GROUP = 0;
     private static final int TYPE_ORG = 1;
+    private static final int TYPE_ROLES = 2;
 
     private static final String MINUS = "-";
     private static final String VL = " | ";
