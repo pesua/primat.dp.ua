@@ -236,13 +236,11 @@ public class CreateAccountAction extends PortletAction {
         if (PropsValues.CAPTCHA_CHECK_PORTAL_CREATE_ACCOUNT) {
             CaptchaUtil.check(actionRequest);
         }
-        //!!!!!!!!
-        long groupId = ParamUtil.getLong(actionRequest, "student-groups");
-
+    
         User user = UserServiceUtil.addUser(
                 company.getCompanyId(), autoPassword, password1, password2,
                 autoScreenName, screenName, emailAddress, openId,
-                themeDisplay.getLocale(), /*firstName*/ String.valueOf(groupId) , middleName, lastName, prefixId,
+                themeDisplay.getLocale(),firstName, middleName, lastName, prefixId,
                 suffixId, male, birthdayMonth, birthdayDay, birthdayYear, jobTitle,
                 groupIds, organizationIds, roleIds, userGroupIds, sendEmail,
                 serviceContext);
@@ -262,11 +260,22 @@ public class CreateAccountAction extends PortletAction {
 	MailEngine.send(from, to, subject, body.toString());
 
         //add user to selected group
-//        long groupId = ParamUtil.getLong(actionRequest, "student-groups");
+        int role = ParamUtil.getInteger(actionRequest, "roleSelect");        
         long users[] = new long[1];
         users[0] = user.getUserId();
-        UserServiceUtil.addGroupUsers(groupId,users);
-
+        if (role == 0) {
+            long groupId = ParamUtil.getLong(actionRequest, "student-groups");
+            UserLocalServiceUtil.addGroupUsers(groupId,users);
+            UserLocalServiceUtil.addRoleUsers(10505,users);
+            boolean isMemberCouncil = ParamUtil.getBoolean(actionRequest, "is-member-student-council");
+            if (isMemberCouncil) {
+                //UserLocalServiceUtil.addGroupUsers( ,users);
+                UserLocalServiceUtil.addRoleUsers(10506,users);
+            }
+        } else {
+            UserLocalServiceUtil.addRoleUsers(15708,users);
+        }
+        
         if (openIdPending) {
             session.setAttribute(
                     WebKeys.OPEN_ID_LOGIN, new Long(user.getUserId()));
