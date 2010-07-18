@@ -1,4 +1,4 @@
-package ua.dp.primat.schedule.admin.group_management;
+package ua.dp.primat.schedule.admin.groupmanagement;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.Page;

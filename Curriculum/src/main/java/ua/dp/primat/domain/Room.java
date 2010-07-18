@@ -15,12 +15,6 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 public class Room implements Serializable {
 
     public static final String GET_ALL_ROOMS_QUERY = "getAllRooms";
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue
-    private Long id;
-    private Long building;
-    private Long number;
 
     public Room() {
     }
@@ -49,7 +43,7 @@ public class Room implements Serializable {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(7, 79)
+        return new HashCodeBuilder(initOddNumber, multOddNumber)
                 .append(id)
                 .toHashCode();
     }
@@ -82,4 +76,13 @@ public class Room implements Serializable {
     public String toString() {
         return building + "/" + number;
     }
+
+    private static final int initOddNumber = 7;
+    private static final int multOddNumber = 79;
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue
+    private Long id;
+    private Long building;
+    private Long number;
 }

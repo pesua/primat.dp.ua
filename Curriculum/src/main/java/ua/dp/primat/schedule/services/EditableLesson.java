@@ -15,7 +15,6 @@ import ua.dp.primat.domain.lesson.WeekType;
  * @author Administrator
  */
 public class EditableLesson implements Serializable {
-    private static final long serialVersionUID = 1L;
 
     public static EditableLesson fromLesson(Lesson lesson) {
         final EditableLesson el = new EditableLesson();
@@ -34,93 +33,87 @@ public class EditableLesson implements Serializable {
     }
 
     public EditableLesson() {
+        eLesson = new Lesson();
     }
 
     public boolean isEmpty() {
-        return discipline == null;
+        return eLesson.getLessonDescription().getDiscipline() == null;
     }
 
     public Lecturer getAsistant() {
-        return asistant;
+        return eLesson.getLessonDescription().getAssistant();
     }
 
     public void setAsistant(Lecturer asistant) {
-        this.asistant = asistant;
+        eLesson.getLessonDescription().setAssistant(asistant);
     }
 
     public LessonType getLessonType() {
-        return lessonType;
+        return eLesson.getLessonDescription().getLessonType();
     }
 
     public void setLessonType(LessonType lessonType) {
-        this.lessonType = lessonType;
+        eLesson.getLessonDescription().setLessonType(lessonType);
     }
 
     public Discipline getDiscipline() {
-        return discipline;
+        return eLesson.getLessonDescription().getDiscipline();
     }
 
     public void setDiscipline(Discipline discipline) {
-        this.discipline = discipline;
+        eLesson.getLessonDescription().setDiscipline(discipline);
     }
 
     public Long getId() {
-        return id;
+        return eLesson.getId();
     }
 
     public void setId(Long id) {
-        this.id = id;
+        eLesson.setId(id);
     }
 
     public Lecturer getLecturer() {
-        return lecturer;
+        return eLesson.getLessonDescription().getLecturer();
     }
 
     public void setLecturer(Lecturer lecturer) {
-        this.lecturer = lecturer;
+        eLesson.getLessonDescription().setLecturer(lecturer);
     }
 
     public Room getRoom() {
-        return room;
+        return eLesson.getRoom();
     }
 
     public void setRoom(Room room) {
-        this.room = room;
+        eLesson.setRoom(room);
     }
 
     public WeekType getWeekType() {
-        return weekType;
+        return eLesson.getWeekType();
     }
 
     public void setWeekType(WeekType weekType) {
-        this.weekType = weekType;
+        eLesson.setWeekType(weekType);
     }
 
     public Lesson toLesson(DayOfWeek day, Long lessonNum) {
         final Lesson lesson = new Lesson();
-        lesson.setId(id);
-        lesson.setRoom(room);
-        lesson.setWeekType(weekType);
+        lesson.setId(eLesson.getId());
+        lesson.setRoom(eLesson.getRoom());
+        lesson.setWeekType(eLesson.getWeekType());
         lesson.setDayOfWeek(day);
         lesson.setLessonNumber(lessonNum + 1);
 
         final LessonDescription description = new LessonDescription();
-        description.setAssistant(asistant);
-        description.setLecturer(lecturer);
-        description.setDiscipline(discipline);
-        description.setLessonType(lessonType);
+        description.setAssistant(eLesson.getLessonDescription().getAssistant());
+        description.setLecturer(eLesson.getLessonDescription().getLecturer());
+        description.setDiscipline(eLesson.getLessonDescription().getDiscipline());
+        description.setLessonType(eLesson.getLessonDescription().getLessonType());
 
         lesson.setLessonDescription(description);
         return lesson;
     }
-    
-    
-    private Long id;
-    private Discipline discipline;
-    private Lecturer lecturer;
-    private Lecturer asistant;
-    private Room room;
-    private LessonType lessonType;
-    private WeekType weekType;
 
+    private Lesson eLesson;
+    private static final long serialVersionUID = 1L;
 }

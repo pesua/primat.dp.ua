@@ -11,12 +11,11 @@ import ua.dp.primat.domain.lesson.Lesson;
  * @author EniSh
  */
 public class WeekLessonColection implements Serializable {
-    private static final long serialVersionUID = 1L;
 
     public WeekLessonColection() {
-        lessonItems = new LessonItem[7][5];
+        lessonItems = new LessonItem[collectionRow][collectionColumn];
         for (int i = 0; i < lessonItems.length; i++) {
-            for (int j = 0; j < lessonItems[i].length; j++){
+            for (int j = 0; j < lessonItems[i].length; j++) {
                 lessonItems[i][j] = new LessonItem();
             }
         }
@@ -30,7 +29,7 @@ public class WeekLessonColection implements Serializable {
             lessonItems[dayNumber][lessonNumber - 1].mergeWithLesson(lesson);
         }
     }
-    
+
     public List<LessonItem[]> getDayList() {
         final List<LessonItem[]> list = new ArrayList<LessonItem[]>();
         list.addAll(Arrays.asList(lessonItems));
@@ -40,6 +39,8 @@ public class WeekLessonColection implements Serializable {
     public LessonItem[][] getLessonItems() {
         return lessonItems;
     }
-
     private LessonItem[][] lessonItems;
+    private static final long serialVersionUID = 1L;
+    private static final int collectionColumn = 5;
+    private static final int collectionRow = 7;
 }

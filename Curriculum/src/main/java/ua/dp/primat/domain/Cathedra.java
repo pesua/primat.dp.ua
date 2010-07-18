@@ -10,12 +10,6 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 @Entity
 public class Cathedra implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue
-    private Long id;
-    private String name;
-
     public Cathedra() {
     }
 
@@ -46,7 +40,7 @@ public class Cathedra implements Serializable {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(7, 79)
+        return new HashCodeBuilder(initOddNumber, multOddNumber)
                 .append(id)
                 .append(name)
                 .toHashCode();
@@ -67,4 +61,11 @@ public class Cathedra implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+    private static final int initOddNumber = 7;
+    private static final int multOddNumber = 79;
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue
+    private Long id;
+    private String name;
 }

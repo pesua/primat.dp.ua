@@ -35,11 +35,11 @@ public final class EditRoomPage extends WebPage {
 
             final TextField number = new TextField("number");
             number.setRequired(true);
-            number.add(new RangeValidator<Long>(1L, 500L));
+            number.add(new RangeValidator<Long>(minValidator, maxValidator));
             add(number);
             final TextField building = new TextField("building");
             building.setRequired(true);
-            building.add(new RangeValidator<Long>(1L, 500L));
+            building.add(new RangeValidator<Long>(minValidator, maxValidator));
             add(building);
         }
 
@@ -55,5 +55,7 @@ public final class EditRoomPage extends WebPage {
     @SpringBean
     private RoomRepository roomRepository;
     private static final long serialVersionUID = 1L;
+    private static final long minValidator = 1L;
+    private static final long maxValidator = 500L;
 }
 

@@ -1,4 +1,4 @@
-package ua.dp.primat.schedule.admin.group_management;
+package ua.dp.primat.schedule.admin.groupmanagement;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.Form;
@@ -38,11 +38,11 @@ public final class EditGroupPage extends WebPage {
             add(speciality);
 
             final RequiredTextField<Long> year = new RequiredTextField<Long>("year");
-            year.add(new RangeValidator<Long>(1950L, 2050L));
+            year.add(new RangeValidator<Long>(minYear, maxYear));
             add(year);
 
             final RequiredTextField<Long> number = new RequiredTextField<Long>("number");
-            number.add(new RangeValidator<Long>(1L, 10L));
+            number.add(new RangeValidator<Long>(1L, maxNumber));
             add(number);
         }
 
@@ -56,5 +56,8 @@ public final class EditGroupPage extends WebPage {
     @SpringBean
     private StudentGroupRepository groupRepository;
     private static final long serialVersionUID = 1L;
+    private static final long minYear = 1950L;
+    private static final long maxYear = 2050L;
+    private static final long maxNumber = 10L;
 }
 

@@ -17,14 +17,6 @@ public class StudentGroup implements Serializable {
 
     public static final String GET_GROUPS_QUERY = "getGroups";
     public static final int CODE_LENGTH = 2;
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue
-    private Long id;
-    @Column(length = CODE_LENGTH)
-    private String code;
-    private Long number;
-    private Long year;
 
     public StudentGroup() {
     }
@@ -41,7 +33,7 @@ public class StudentGroup implements Serializable {
             final int firstDefis = fullCode.indexOf(separator);
             final int secondDefis = fullCode.indexOf(separator, firstDefis + 1);
             this.code = fullCode.substring(0, firstDefis);
-            this.year = 2000 + Long.parseLong(fullCode.substring(firstDefis + 1, secondDefis));
+            this.year = year_base + Long.parseLong(fullCode.substring(firstDefis + 1, secondDefis));
             this.number = Long.parseLong(fullCode.substring(secondDefis + 1));
         } catch (IndexOutOfBoundsException e) {
             throw new IllegalArgumentException(e);
@@ -88,4 +80,14 @@ public class StudentGroup implements Serializable {
         final String yearCode = format.format(getYear() % yearMask);
         return String.format("%s-%s-%d", getCode(), yearCode, getNumber());
     }
+
+    private static final Long year_base = 2000L;
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue
+    private Long id;
+    @Column(length = CODE_LENGTH)
+    private String code;
+    private Long number;
+    private Long year;
 }
