@@ -1,11 +1,19 @@
 package ua.dp.primat.portlet.userinform.app;
 
+import org.apache.wicket.IPageMap;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import com.liferay.portal.model.User;
+import com.liferay.portal.util.PortalUtil;
 import java.util.ResourceBundle;
+import javax.portlet.ActionRequest;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.wicket.Request;
+import org.apache.wicket.RequestCycle;
+import org.apache.wicket.protocol.http.RequestUtils;
+import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
 import ua.dp.primat.portlet.userinform.services.LiferayUserService;
 
 /**
@@ -14,19 +22,19 @@ import ua.dp.primat.portlet.userinform.services.LiferayUserService;
 public class HomePage extends WebPage {
 
     /**
-     * Constructor for the page, which takes user id and info from
-     * page parameter or shows no-user-page.
+     * Constructor for the page, which takes user id from liferay's url.
      *
-     * Link example: http://localhost/.../pagename?p_p_id
-     *      =userinform_WAR_userinform&userId=11331
+     * Link example: liferay.com/web/myuser
      *
      * @param parameters - page parameters
      */
     public HomePage(final PageParameters parameters) {
         super(parameters);
-        
-        final User lrUser = liferayUserService.getUserInfo(parameters.getAsLong(
-                "userId", -1));
+
+        Request req = RequestCycle.get().getRequest();
+        HttpServletRequest httpreq = ((ServletWebRequest)req).getHttpServletRequest();
+
+        final User lrUser = liferayUserService.getUserInfo(httpreq);
         if (lrUser == null) {
             add(new Label(UD, bundle.getString("label.no.user")));
         } else {
