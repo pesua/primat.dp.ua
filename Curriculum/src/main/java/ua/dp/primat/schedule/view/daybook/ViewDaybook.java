@@ -1,4 +1,5 @@
 package ua.dp.primat.schedule.view.daybook;
+
 import ua.dp.primat.domain.lesson.Lesson;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,30 +31,9 @@ public final class ViewDaybook extends AbstractRefreshablePanel {
         weekTypeValues.add(WeekType.NUMERATOR);
         weekTypeValues.add(WeekType.DENOMINATOR);
         final String sWeek = "weekType";
-        final DropDownChoice<WeekType> weekTypeChoice = new DropDownChoice<WeekType>(sWeek,
+        final DropDownWeekType weekTypeChoice = new DropDownWeekType(sWeek,
                 new PropertyModel<WeekType>(this, sWeek),
-                new LoadableDetachableModel<List<WeekType>>(weekTypeValues) {
-
-            @Override
-            protected List<WeekType> load() {
-                return weekTypeValues;
-            }
-
-        }) {
-
-            @Override
-            protected void onSelectionChanged(WeekType newSelection) {
-                weekType = newSelection;
-                updateDataPanel();
-                super.onSelectionChanged(newSelection);
-            }
-
-            @Override
-            protected boolean wantOnSelectionChangedNotifications() {
-                return true;
-            }
-
-        };
+                new LDModel(weekTypeValues));
         add(weekTypeChoice);
 
         //add the 6-day-week
@@ -76,27 +56,56 @@ public final class ViewDaybook extends AbstractRefreshablePanel {
         updateDataPanel();
     }
 
+    private class LDModel extends LoadableDetachableModel<List<WeekType>> {
+
+        LDModel(List<WeekType> list) {
+            super(list);
+            weekTypeValues = list;
+        }
+
+        @Override
+        protected List<WeekType> load() {
+            return weekTypeValues;
+        }
+        private List<WeekType> weekTypeValues;
+    }
+
+    private class DropDownWeekType extends DropDownChoice<WeekType> {
+
+        DropDownWeekType(String id, PropertyModel<WeekType> propmodel, LoadableDetachableModel<List<WeekType>> ldmodel) {
+            super(id, propmodel, ldmodel);
+        }
+
+        @Override
+        protected void onSelectionChanged(WeekType newSelection) {
+            weekType = newSelection;
+            updateDataPanel();
+            super.onSelectionChanged(newSelection);
+        }
+
+        @Override
+        protected boolean wantOnSelectionChangedNotifications() {
+            return true;
+        }
+        private static final long serialVersionUID = 1L;
+    }
+
     /**
      * Update listDataPanel with the data from lessons.
      */
     private void updateDataPanel() {
-        for (int i = 0; i<listDataPanel.length; i++) {
+        for (int i = 0; i < listDataPanel.length; i++) {
             listDataPanel[i].updateInfo(lessonService.getLessonsPerDay(lessons,
                     DayOfWeek.fromNumber(i), weekType));
         }
     }
-
     //week type to show
     private WeekType weekType = WeekType.NUMERATOR;
-
     //list of all retrieved lessons
     private List<Lesson> lessons;
-    private DayPanel[] listDataPanel = new DayPanel[DayOfWeek.values().length-1];
-
+    private DayPanel[] listDataPanel = new DayPanel[DayOfWeek.values().length - 1];
     @SpringBean
     private LessonService lessonService;
-
     private static final long serialVersionUID = 1L;
-
 }
 
