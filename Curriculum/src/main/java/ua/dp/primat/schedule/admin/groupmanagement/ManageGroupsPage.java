@@ -54,7 +54,7 @@ public final class ManageGroupsPage extends WebPage {
             deleteLink.add(new Image("deleteImage"));
             li.add(deleteLink);
         }
-        private class EditIPageLink implements IPageLink {
+        private static class EditIPageLink implements IPageLink {
 
             EditIPageLink(StudentGroup gr) {
                 group = gr;

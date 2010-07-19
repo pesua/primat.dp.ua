@@ -40,16 +40,7 @@ public final class ManageRooms extends WebPage {
             final Room room = li.getModelObject();
             li.add(new Label("room", room.toString()));
 
-            final Link editLink = new PageLink("editRoom", new IPageLink() {
-
-                public Page getPage() {
-                    return new EditRoomPage(room);
-                }
-
-                public Class<? extends Page> getPageIdentity() {
-                    return EditRoomPage.class;
-                }
-            });
+            final Link editLink = new PageLink("editRoom", new EditIPageLink(room));
             editLink.add(new Image("editImage"));
             li.add(editLink);
 
@@ -63,6 +54,23 @@ public final class ManageRooms extends WebPage {
             };
             deleteLink.add(new Image("deleteImage"));
             li.add(deleteLink);
+        }
+
+        private static class EditIPageLink implements IPageLink {
+
+            EditIPageLink(Room rm) {
+                room = rm;
+            }
+
+            public Page getPage() {
+                return new EditRoomPage(room);
+            }
+
+            public Class<? extends Page> getPageIdentity() {
+                return EditRoomPage.class;
+            }
+            private Room room;
+            private static final long serialVersionUID = 1L;
         }
         @SpringBean
         private RoomRepository roomRepository;
