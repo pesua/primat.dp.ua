@@ -23,20 +23,27 @@ public class HomePage extends WebPage {
     public HomePage() {
         super();
 
-        final AbstractChoosePanel choosePanel = new AbstractChoosePanel("choosePanel") {
-
-            @Override
-            protected void executeAction(StudentGroup studentGroup, Long semester) {
-                workloads = workloadRepository.getWorkloadsByGroupAndSemester(studentGroup, semester);
-                if (workloadsView != null) {
-                    workloadsView.setList(workloads);
-                }
-            }
-        };
+        final AbstractChoosePanel choosePanel = new ChoosePanel("choosePanel");
         add(choosePanel);
 
         workloadsView = new WorkloadsListView("disciplineRow", workloads);
         add(workloadsView);
+    }
+
+    private class ChoosePanel extends AbstractChoosePanel {
+
+        ChoosePanel(String id) {
+            super(id);
+        }
+
+        @Override
+        protected void executeAction(StudentGroup studentGroup, Long semester) {
+            workloads = workloadRepository.getWorkloadsByGroupAndSemester(studentGroup, semester);
+            if (workloadsView != null) {
+                workloadsView.setList(workloads);
+            }
+        }
+        private static final long serialVersionUID = 2L;
     }
 
     private static class WorkloadsListView extends ListView<Workload> {
