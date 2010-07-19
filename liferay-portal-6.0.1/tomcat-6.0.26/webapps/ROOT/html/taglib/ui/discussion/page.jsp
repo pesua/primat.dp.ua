@@ -122,7 +122,7 @@ Format dateFormatDateTime = FastDateFormatFactoryUtil.getDateTime(locale, timeZo
 
 					<br />
 
-					<input disabled="disabled" id="<%= randomNamespace %>postReplyButton<%= i %>" type="button" value="<liferay-ui:message key="reply" />" onClick="<%= randomNamespace %>postReply(<%= i %>);" />
+					<input id="<%= randomNamespace %>postReplyButton<%= i %>" type="button" value="<liferay-ui:message key="reply" />" onClick="<%= randomNamespace %>postReply(<%= i %>);" />
 
 					<input type="button" value="<liferay-ui:message key="cancel" />" onClick="document.getElementById('<%= randomNamespace %>postReplyForm<%= i %>').style.display = 'none'; void('');" />
 				</td>
@@ -207,7 +207,7 @@ Format dateFormatDateTime = FastDateFormatFactoryUtil.getDateTime(locale, timeZo
 				searchContainer.setResults(messages);
 			}
 
-			for (i = 1; i <= messages.size(); i++) {
+			for (i = messages.size(); i >= 1; i--) {
 				message = (MBMessage)messages.get(i-1);
 			%>
 
@@ -343,7 +343,7 @@ Format dateFormatDateTime = FastDateFormatFactoryUtil.getDateTime(locale, timeZo
 
 								<br />
 
-								<input disabled="disabled" id="<%= randomNamespace %>postReplyButton<%= i %>" type="button" value="<liferay-ui:message key="reply" />" onClick="<%= randomNamespace %>postReply(<%= i %>);" />
+								<input id="<%= randomNamespace %>postReplyButton<%= i %>" type="button" value="<liferay-ui:message key="reply" />" onClick="<%= randomNamespace %>postReply(<%= i %>);" />
 
 								<input type="button" value="<liferay-ui:message key="cancel" />" onClick="document.getElementById('<%= randomNamespace %>postReplyForm<%= i %>').style.display = 'none'; void('');" />
 							</td>
@@ -360,7 +360,7 @@ Format dateFormatDateTime = FastDateFormatFactoryUtil.getDateTime(locale, timeZo
 
 									<br />
 
-									<input disabled="disabled" id="<%= randomNamespace %>editReplyButton<%= i %>" type="button" value="<liferay-ui:message key="update" />" onClick="<%= randomNamespace %>updateMessage(<%= i %>);" />
+									<input id="<%= randomNamespace %>editReplyButton<%= i %>" type="button" value="<liferay-ui:message key="update" />" onClick="<%= randomNamespace %>updateMessage(<%= i %>);" />
 
 									<input type="button" value="<liferay-ui:message key="cancel" />" onClick="document.getElementById('<%= randomNamespace %>editForm<%= i %>').style.display = 'none'; void('');" />
 								</td>
@@ -371,7 +371,7 @@ Format dateFormatDateTime = FastDateFormatFactoryUtil.getDateTime(locale, timeZo
 					</td>
 				</tr>
 
-				<c:if test="<%= i < messages.size() %>">
+				<c:if test="<%= i > 1 %>">
 					<tr>
 						<td colspan="2">
 							<div class="separator"><!-- --></div>
