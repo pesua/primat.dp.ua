@@ -100,12 +100,12 @@
 <div id="footer_dummy" role="contentinfo">
 	<div id="footer_line"></div>
 	<div id="footer_text">
-		Copyright &copy; 2010 Exigen Agile Practices Students Team<br/>
+		Copyright &copy; 2010 Команда студентів <a href="developers">розробників</a>. Сервер надає Сіницін Олександр.<br/><br/>
 		Створено на основі <a href="http://liferay.com/" rel="external">Liferay Portal</a><br/><br/>
 		<img src="$images_folder/footer/vk.png" WIDTH="16" HEIGHT="16" alt="VKontakte" align="left">&nbsp;
 		<a href="http://vkontakte.ru/club638940" target="_blank">Група факультету ВКонтакті</a><br/>
 		<div id="footer_logo">
-			За підтримки:<br/>
+			<div class="text">За підтримки:</div><br/>
 			<a href="http://www.exigenservices.com.ua/">
 			<img src="$images_folder/footer/exigen_logo.png" WIDTH="121" HEIGHT="47" alt="Exigen Services">
 			</a>

@@ -61,6 +61,10 @@ html, body {
 	margin-top: -55px;
 }
 
+#footer_logo .text {
+  text-align: left;
+}
+
 #footer_logo img {
 	border: 0;
 }
