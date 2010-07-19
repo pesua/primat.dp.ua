@@ -54,21 +54,28 @@ public class HomePage extends WebPage {
 
         @Override
         protected void populateItem(ListItem<Workload> li) {
-            final Workload workload = li.getModelObject();
+            workload = li.getModelObject();
             li.add(new Label("disciplineName", workload.getDiscipline().getName()));
             li.add(new Label("cathedra", workload.getDiscipline().getCathedra().getName()));
             li.add(new Label("lection", workload.getLectionHours().toString()));
             li.add(new Label("practice", workload.getPracticeHours().toString()));
             li.add(new Label("labs", workload.getLaboratoryHours().toString()));
             li.add(new Label("selfwork", workload.getSelfworkHours().toString()));
-            li.add(new Image("course") {
-
-                @Override
-                public boolean isVisible() {
-                    return workload.getCourseWork();
-                }
-            });
+            li.add(new ImageCourse("course"));
             li.add(new Label("finalcontrol", workload.getFinalControlType().toString()));
+        }
+        private static Workload workload;
+        private class ImageCourse extends Image {
+
+            ImageCourse(String id) {
+                super(id);
+            }
+
+            @Override
+            public boolean isVisible() {
+                return workload.getCourseWork();
+            }
+            private static final long serialVersionUID = 2L;
         }
         private static final long serialVersionUID = 2L;
     }
