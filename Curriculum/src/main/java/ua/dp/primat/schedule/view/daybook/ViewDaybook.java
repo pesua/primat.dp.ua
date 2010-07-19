@@ -56,7 +56,7 @@ public final class ViewDaybook extends AbstractRefreshablePanel {
         updateDataPanel();
     }
 
-    private class LDModel extends LoadableDetachableModel<List<WeekType>> {
+    private static class LDModel extends LoadableDetachableModel<List<WeekType>> {
 
         LDModel(List<WeekType> list) {
             super(list);
@@ -68,6 +68,7 @@ public final class ViewDaybook extends AbstractRefreshablePanel {
             return weekTypeValues;
         }
         private List<WeekType> weekTypeValues;
+        private static final long serialVersionUID = 1L;
     }
 
     private class DropDownWeekType extends DropDownChoice<WeekType> {
