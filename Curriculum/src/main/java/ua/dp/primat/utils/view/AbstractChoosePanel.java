@@ -95,7 +95,7 @@ public abstract class AbstractChoosePanel extends Panel {
         private static final long serialVersionUID = 1L;
     }
 
-    private class LoadableDetachableModelList extends LoadableDetachableModel<List<Long>> {
+    private static class LoadableDetachableModelList extends LoadableDetachableModel<List<Long>> {
 
         @Override
         protected List<Long> load() {
@@ -105,6 +105,7 @@ public abstract class AbstractChoosePanel extends Panel {
             }
             return l;
         }
+        private static final long serialVersionUID = 1L;
     }
 
     protected abstract void executeAction(StudentGroup studentGroup, Long semester);

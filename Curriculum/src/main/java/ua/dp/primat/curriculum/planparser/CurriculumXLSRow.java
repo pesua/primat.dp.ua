@@ -42,8 +42,8 @@ public final class CurriculumXLSRow {
 
         //get info for Exams, Setoffs, Course works
         final String sfmExams = row.getCell(COL_FINALCONTROL).toString();
-        final String sfmTests = row.getCell(COL_FINALCONTROL+1).toString();
-        final String sfmCourses = row.getCell(COL_FINALCONTROL+2).toString();
+        final String sfmTests = row.getCell(COL_FINALCONTROL + 1).toString();
+        final String sfmCourses = row.getCell(COL_FINALCONTROL + 2).toString();
 
         this.fmExams = parseNumValues(sfmExams, true);
         Arrays.sort(fmExams);
@@ -56,21 +56,21 @@ public final class CurriculumXLSRow {
 
         //get info for individual works
         final String siwSemester = row.getCell(COL_INDIVIDUALTASKS).toString();
-        final String siwForm = row.getCell(COL_INDIVIDUALTASKS+1).toString();
-        final String siwWeek = row.getCell(COL_INDIVIDUALTASKS+2).toString();
+        final String siwForm = row.getCell(COL_INDIVIDUALTASKS + 1).toString();
+        final String siwWeek = row.getCell(COL_INDIVIDUALTASKS + 2).toString();
         this.indWorks = createIndividualWorkList(siwSemester, siwForm, siwWeek);
 
         //get info for hours
         hoursForSemesters = new HashMap<Integer, WorkHours>();
-        for (int sem=0; sem < semestersCount; sem++) {
+        for (int sem = 0; sem < semestersCount; sem++) {
             final WorkHours semesterHoursInfo = new WorkHours();
-            semesterHoursInfo.setHoursLec(row.getCell(COL_HOURS_LECTURE+COL_HOUROFFSET*sem).getNumericCellValue());
-            semesterHoursInfo.setHoursPract(row.getCell(COL_HOURS_PRACTICE+COL_HOUROFFSET*sem).getNumericCellValue());
-            semesterHoursInfo.setHoursLab(row.getCell(COL_HOURS_LAB+COL_HOUROFFSET*sem).getNumericCellValue());
-            semesterHoursInfo.setHoursInd(row.getCell(COL_HOURS_INDIVIDUAL+COL_HOUROFFSET*sem).getNumericCellValue());
-            semesterHoursInfo.setHoursSam(row.getCell(COL_HOURS_SELFWORK+COL_HOUROFFSET*sem).getNumericCellValue());
+            semesterHoursInfo.setHoursLec(row.getCell(COL_HOURS_LECTURE + COL_HOUROFFSET * sem).getNumericCellValue());
+            semesterHoursInfo.setHoursPract(row.getCell(COL_HOURS_PRACTICE + COL_HOUROFFSET * sem).getNumericCellValue());
+            semesterHoursInfo.setHoursLab(row.getCell(COL_HOURS_LAB + COL_HOUROFFSET * sem).getNumericCellValue());
+            semesterHoursInfo.setHoursInd(row.getCell(COL_HOURS_INDIVIDUAL + COL_HOUROFFSET * sem).getNumericCellValue());
+            semesterHoursInfo.setHoursSam(row.getCell(COL_HOURS_SELFWORK + COL_HOUROFFSET * sem).getNumericCellValue());
             if (semesterHoursInfo.getSum() > 0) {
-                hoursForSemesters.put(sem+1, semesterHoursInfo);
+                hoursForSemesters.put(sem + 1, semesterHoursInfo);
             }
         }
 
@@ -105,10 +105,14 @@ public final class CurriculumXLSRow {
         final int[] intValues = new int[values.length];
 
         int idx = 0;
-        final Pattern digits = Pattern.compile("\\d+(\\.\\d+)?" + (standard ? "" : diffSetOff) );
+        String regex = "\\d+(\\.\\d+)?";
+        if (!standard) {
+            regex += diffSetOff;
+        }
+        final Pattern digits = Pattern.compile(regex);
         for (int i = 0; i < values.length; i++) {
             if (digits.matcher(values[i]).matches()) {
-                intValues[idx++] = (int)Double.parseDouble(values[i].replaceAll(diffSetOff, ""));
+                intValues[idx++] = (int) Double.parseDouble(values[i].replaceAll(diffSetOff, ""));
             }
         }
         final int[] intResult = new int[idx];
@@ -124,7 +128,7 @@ public final class CurriculumXLSRow {
      */
     private String[] parseIndividualControlTypes(String individualControlTypeCell) {
         final List<String> listTokens = new ArrayList<String>();
-        
+
         //value, that contains all tokens separated by coma. This value lose one token after one iteration
         String workIndForm = individualControlTypeCell.trim();
         //one received token
@@ -140,8 +144,8 @@ public final class CurriculumXLSRow {
 
             if (tokenType.length() > 0) {
                 if ((tokenType.charAt(0) >= '0') && (tokenType.charAt(0) <= '9')) {
-                    final int nextWorksCount = Integer.parseInt(tokenType.substring(0,1));
-                    for (int y=0;y<nextWorksCount;y++) {
+                    final int nextWorksCount = Integer.parseInt(tokenType.substring(0, 1));
+                    for (int y = 0; y < nextWorksCount; y++) {
                         listTokens.add(tokenType.substring(1));
                     }
                 } else {
@@ -150,7 +154,7 @@ public final class CurriculumXLSRow {
             }
 
             if (workIndForm.indexOf(',') > -1) {
-                workIndForm = workIndForm.substring(workIndForm.indexOf(',')+1);
+                workIndForm = workIndForm.substring(workIndForm.indexOf(',') + 1);
             }
         }
 
@@ -169,16 +173,16 @@ public final class CurriculumXLSRow {
      *      are different.
      */
     private List<IndividualControlEntry> createIndividualWorkList(String siwSemester, String siwForm, String siwWeek) {
-        final int[] semesters = parseNumValues(siwSemester,true);
+        final int[] semesters = parseNumValues(siwSemester, true);
         final String[] types = parseIndividualControlTypes(siwForm);
-        final int[] weeks = parseNumValues(siwWeek,true);
+        final int[] weeks = parseNumValues(siwWeek, true);
 
         if ((semesters.length != types.length) || (semesters.length != weeks.length)) {
             return null;
         }
 
         final List<IndividualControlEntry> entries = new ArrayList<IndividualControlEntry>();
-        for (int i=0;i<semesters.length;i++) {
+        for (int i = 0; i < semesters.length; i++) {
             entries.add(new IndividualControlEntry(semesters[i], types[i], weeks[i]));
         }
 
@@ -298,7 +302,6 @@ public final class CurriculumXLSRow {
     public static final int COL_HOURS_SELFWORK = 26;
     /** Excel cells count for hours info of one semester. */
     public static final int COL_HOUROFFSET = 6;
-
     //PRIVATE Variables
     private String diffSetOff;
     private String disciplineName;
@@ -314,11 +317,9 @@ public final class CurriculumXLSRow {
     private List<IndividualControlEntry> indWorks;
     //hours info
     private Map<Integer, WorkHours> hoursForSemesters;
-
     //DataBase output objects
     private StudentGroup group;
     private Cathedra cathedra;
     private Discipline discipline;
     private List<Workload> workloadList = new ArrayList<Workload>();
-
 }
