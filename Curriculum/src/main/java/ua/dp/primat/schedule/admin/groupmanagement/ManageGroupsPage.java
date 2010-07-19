@@ -39,16 +39,7 @@ public final class ManageGroupsPage extends WebPage {
             final StudentGroup group = li.getModelObject();
             li.add(new Label("group", group.toString()));
 
-            final Link editLink = new PageLink("editGroup", new IPageLink() {
-
-                public Page getPage() {
-                    return new EditGroupPage(group);
-                }
-
-                public Class<? extends Page> getPageIdentity() {
-                    return EditGroupPage.class;
-                }
-            });
+            final Link editLink = new PageLink("editGroup", new EditIPageLink(group));
             editLink.add(new Image("editImage"));
             li.add(editLink);
 
@@ -62,6 +53,22 @@ public final class ManageGroupsPage extends WebPage {
             };
             deleteLink.add(new Image("deleteImage"));
             li.add(deleteLink);
+        }
+        private class EditIPageLink implements IPageLink {
+
+            EditIPageLink(StudentGroup gr) {
+                group = gr;
+            }
+
+            public Page getPage() {
+                return new EditGroupPage(group);
+            }
+
+            public Class<? extends Page> getPageIdentity() {
+                return EditGroupPage.class;
+            }
+            private StudentGroup group;
+            private static final long serialVersionUID = 1L;
         }
         @SpringBean
         private StudentGroupRepository studentGroupRepository;
