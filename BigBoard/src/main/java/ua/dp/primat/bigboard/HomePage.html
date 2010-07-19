@@ -20,19 +20,22 @@
     </head>
     <body>
         <div id="mygallery" class="stepcarousel">
-    <wicket:link>
             <div class="belt">
                 <div class="panel">
-                    <img src="http://predskazannoe.ru/wp-content/uploads/2010/02/kosmo18.jpg" />
+                    <a href="/web/guest/curriculum">
+                        <wicket:link><img src="images/curriculum.jpg" /></wicket:link>
+                    </a>
                 </div>
-                <div class="panel">
-                    <img src="http://me-estate.ru/images/illustration.png" />
-                </div>
-                <div class="panel">
-                    <img src="http://www.2karata.ru/Stones1_files/logo.jpg" />
-                </div>
+                <wicket:link>
+                    <div class="panel">
+                        <img src="http://me-estate.ru/images/illustration.png" />
+                    </div>
+                    <div class="panel">
+                        <img src="http://www.2karata.ru/Stones1_files/logo.jpg" />
+                    </div>
+                </wicket:link>
             </div>
-    </wicket:link>
+
             <p id="mygallery-paginate">
                 <img src="http://www.dynamicdrive.com/dynamicindex4/opencircle.png" data-over="http://www.dynamicdrive.com/dynamicindex4/graycircle.png" data-select="http://www.dynamicdrive.com/dynamicindex4/closedcircle.png" data-moveby="1" />
             </p>
