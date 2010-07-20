@@ -52,6 +52,9 @@ public class HomePage extends WebPage {
         }
 
         private boolean isCourse;
+
+        private static final long serialVersionUID = 3L;
+        
     }
 
     private static class WorkloadsListView extends ListView<Workload> {
