@@ -105,10 +105,7 @@ public final class CurriculumXLSRow {
         final int[] intValues = new int[values.length];
 
         int idx = 0;
-        String regex = "\\d+(\\.\\d+)?";
-        if (!standard) {
-            regex += diffSetOff;
-        }
+        String regex = (standard) ? "\\d+(\\.\\d+)?" : "\\d+(\\.\\d+)?" + diffSetOff;
         final Pattern digits = Pattern.compile(regex);
         for (int i = 0; i < values.length; i++) {
             if (digits.matcher(values[i]).matches()) {

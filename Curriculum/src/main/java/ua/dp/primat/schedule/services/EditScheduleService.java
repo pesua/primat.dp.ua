@@ -44,8 +44,9 @@ public class EditScheduleService {
     public void setSchedule(StudentGroup group, Long semester, WeekLessonColection lessonColection) {
         final LessonItem[][] lessonItems = lessonColection.getLessonItems();
         for (DayOfWeek day : DayOfWeek.values()) {
-            for (int j = 0; j < lessonItems[day.getNumber()].length; j++) {
-                saveLessonItem(lessonItems[day.getNumber()][j], group, semester, day, j);
+            final LessonItem[] liDay = lessonItems[day.getNumber()];
+            for (int j = 0; j < liDay.length; j++) {
+                saveLessonItem(liDay[j], group, semester, day, j);
             }
         }
     }

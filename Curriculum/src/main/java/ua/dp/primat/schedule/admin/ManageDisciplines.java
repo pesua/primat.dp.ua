@@ -19,14 +19,15 @@ import ua.dp.primat.repositories.DisciplineRepository;
  * @author EniSh
  */
 public final class ManageDisciplines extends WebPage {
+
     private static final long serialVersionUID = 1L;
-    
+
     public ManageDisciplines() {
         super ();
 
         final List<Discipline> disciplines = disciplineRepository.getDisciplines();
 
-        final ListView<Discipline> disciplineView = new DosciplineListView("repeating", disciplines, disciplines);
+        final ListView<Discipline> disciplineView = new DisciplineListView("repeating", disciplines);
 
         add(disciplineView);
     }
@@ -34,13 +35,31 @@ public final class ManageDisciplines extends WebPage {
     @SpringBean
     private DisciplineRepository disciplineRepository;
 
-    private class DosciplineListView extends ListView<Discipline> {
+    private class EditDisciplinePageLink implements IPageLink {
+
+        public EditDisciplinePageLink(Discipline discipline) {
+            this.discipline = discipline;
+        }
+
+        public Page getPage() {
+            return new EditDisciplinePage(discipline);
+        }
+
+        public Class<? extends Page> getPageIdentity() {
+            return EditDisciplinePage.class;
+        }
+
+        private Discipline discipline;
+
+    }
+
+    private class DisciplineListView extends ListView<Discipline> {
 
         private final List<Discipline> disciplines;
 
-        public DosciplineListView(String id, List<? extends Discipline> list, List<Discipline> disciplines) {
+        public DisciplineListView(String id, List<Discipline> list) {
             super(id, list);
-            this.disciplines = disciplines;
+            this.disciplines = list;
         }
 
         @Override
@@ -48,16 +67,8 @@ public final class ManageDisciplines extends WebPage {
             final Discipline discipline = li.getModelObject();
             li.add(new Label("disciplineName", discipline.getName()));
             li.add(new Label("disciplineCathedra", discipline.getCathedra().toString()));
-            final Link editLink = new PageLink("editDiscipline", new IPageLink() {
-
-                public Page getPage() {
-                    return new EditDisciplinePage(discipline);
-                }
-
-                public Class<? extends Page> getPageIdentity() {
-                    return EditDisciplinePage.class;
-                }
-            });
+            final Link editLink = new PageLink("editDiscipline",
+                    new EditDisciplinePageLink(discipline));
             editLink.add(new Image("editImage"));
             li.add(editLink);
             final Link deleteLink = new Link("deleteDiscipline") {

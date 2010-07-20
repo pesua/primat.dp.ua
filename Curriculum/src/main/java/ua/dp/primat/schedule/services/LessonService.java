@@ -1,8 +1,10 @@
 package ua.dp.primat.schedule.services;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Resource;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.dp.primat.domain.Lecturer;
@@ -87,30 +89,29 @@ public class LessonService {
      * @return the list of Lesson, which are accepted by parameters
      */
     public List<Lesson> getLessonsPerDay(List<Lesson> listLesson, DayOfWeek day, WeekType week) {
-        final Lesson[] dayLessons = new Lesson[LESSONCOUNT];
+        final List<Lesson> dayLessons = new ArrayList<Lesson>();
 
         //fill an array with empty items
-        for (int i = 0; i < dayLessons.length; i++) {
-            dayLessons[i] = new Lesson(Long.valueOf(i+1), WeekType.BOTH, day, null, null);
+        for (int i = 0; i < LESSONCOUNT; i++) {
+            dayLessons.add(new Lesson(Long.valueOf(i+1), WeekType.BOTH, day, null, null));
         }
 
         //if no data - leave the method
-        if (listLesson == null) {
-            return Arrays.asList(dayLessons);
+        if (CollectionUtils.isEmpty(listLesson)) {
+            return dayLessons;
         }
 
         for (Lesson l : listLesson) {
-            if ((l.getDayOfWeek() == day)
-                    && ((l.getWeekType() == week)
-                    || (l.getWeekType() == WeekType.BOTH))) {
+            if ((l.getDayOfWeek().equals(day)) && ((l.getWeekType().equals(week))
+                    || (l.getWeekType().equals(WeekType.BOTH)))) {
                 final int lessonNumber = l.getLessonNumber().intValue();
                 if ((lessonNumber > 0) && (lessonNumber <= LESSONCOUNT)) {
-                    dayLessons[lessonNumber-1] = l;
+                    dayLessons.set(lessonNumber-1, l);
                 }
             }
         }
 
-        return Arrays.asList(dayLessons);
+        return dayLessons;
     }
 
     @Resource

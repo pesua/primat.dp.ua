@@ -20,8 +20,6 @@ import ua.dp.primat.repositories.LecturerRepository;
  */
 public final class ManageLecturersPage extends WebPage {
 
-    private static final long serialVersionUID = 1L;
-
     public ManageLecturersPage() {
         super();
         final List<Lecturer> lecturers = lecturerRepository.getAllLecturers();
@@ -29,8 +27,29 @@ public final class ManageLecturersPage extends WebPage {
         final ListView<Lecturer> lecturerView = new LecturerListView("lecturerRow", lecturers, lecturers);
         add(lecturerView);
     }
+
     @SpringBean
     private LecturerRepository lecturerRepository;
+
+    private static final long serialVersionUID = 1L;
+
+    private class EditLecturerPageLink implements IPageLink {
+
+        public EditLecturerPageLink(Lecturer lecturer) {
+            this.lecturer = lecturer;
+        }
+
+        public Page getPage() {
+            return new EditLecturerPage(lecturer);
+        }
+
+        public Class<? extends Page> getPageIdentity() {
+            return EditLecturerPage.class;
+        }
+
+        private Lecturer lecturer;
+
+    }
 
     private class LecturerListView extends ListView<Lecturer> {
 
@@ -47,16 +66,7 @@ public final class ManageLecturersPage extends WebPage {
             li.add(new Label("name", lecturer.getShortName()));
             li.add(new Label("cathedra", lecturer.getCathedra().toString()));
             li.add(new Label("type", lecturer.getLecturerType().toString()));
-            final Link editLink = new PageLink("editLink", new IPageLink() {
-
-                public Page getPage() {
-                    return new EditLecturerPage(lecturer);
-                }
-
-                public Class<? extends Page> getPageIdentity() {
-                    return EditLecturerPage.class;
-                }
-            });
+            final Link editLink = new PageLink("editLink", new EditLecturerPageLink(lecturer));
             li.add(editLink);
             editLink.add(new Image("editImage"));
             final Link deleteLink = new Link("deleteLink") {
