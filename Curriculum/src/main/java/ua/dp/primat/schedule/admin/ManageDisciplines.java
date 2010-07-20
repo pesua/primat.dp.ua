@@ -35,7 +35,7 @@ public final class ManageDisciplines extends WebPage {
     @SpringBean
     private DisciplineRepository disciplineRepository;
 
-    private class EditDisciplinePageLink implements IPageLink {
+    private static class EditDisciplinePageLink implements IPageLink {
 
         public EditDisciplinePageLink(Discipline discipline) {
             this.discipline = discipline;
@@ -50,6 +50,8 @@ public final class ManageDisciplines extends WebPage {
         }
 
         private Discipline discipline;
+
+        private static final long serialVersionUID = 2L;
 
     }
 

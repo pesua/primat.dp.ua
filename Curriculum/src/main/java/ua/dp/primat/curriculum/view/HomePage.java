@@ -39,6 +39,21 @@ public class HomePage extends WebPage {
         add(workloadsView);
     }
 
+    private static class CourseImage extends Image {
+
+        public CourseImage(String id, boolean isCourse) {
+            super(id);
+            this.isCourse = isCourse;
+        }
+
+        @Override
+        public boolean isVisible() {
+            return isCourse;
+        }
+
+        private boolean isCourse;
+    }
+
     private static class WorkloadsListView extends ListView<Workload> {
 
         public WorkloadsListView(String string, List<Workload> list) {
@@ -54,15 +69,10 @@ public class HomePage extends WebPage {
             li.add(new Label("practice", workload.getPracticeHours().toString()));
             li.add(new Label("labs", workload.getLaboratoryHours().toString()));
             li.add(new Label("selfwork", workload.getSelfworkHours().toString()));
-            li.add(new Image("course") {
-
-                @Override
-                public boolean isVisible() {
-                    return workload.getCourseWork();
-                }
-            });
+            li.add(new CourseImage("course", workload.getCourseWork()));
             li.add(new Label("finalcontrol", workload.getFinalControlType().toString()));
         }
+
         private static final long serialVersionUID = 2L;
     }
 }

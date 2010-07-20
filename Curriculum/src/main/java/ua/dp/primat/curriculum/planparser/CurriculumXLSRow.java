@@ -102,18 +102,20 @@ public final class CurriculumXLSRow {
      */
     private int[] parseNumValues(String fmStr, boolean standard) {
         final String[] values = fmStr.trim().split("\\s*,\\s*");
-        final int[] intValues = new int[values.length];
+        final List<Integer> intValues = new ArrayList<Integer>();
 
-        int idx = 0;
-        String regex = (standard) ? "\\d+(\\.\\d+)?" : "\\d+(\\.\\d+)?" + diffSetOff;
+        final String regex = "\\d+(\\.\\d+)?" + ((standard) ? "" : diffSetOff);
         final Pattern digits = Pattern.compile(regex);
         for (int i = 0; i < values.length; i++) {
             if (digits.matcher(values[i]).matches()) {
-                intValues[idx++] = (int) Double.parseDouble(values[i].replaceAll(diffSetOff, ""));
+                intValues.add((int)(Double.parseDouble(values[i].replaceAll(diffSetOff, ""))));
             }
         }
-        final int[] intResult = new int[idx];
-        System.arraycopy(intValues, 0, intResult, 0, intResult.length);
+        final int[] intResult = new int[intValues.size()];
+        for (int i = 0; i < intResult.length; i++) {
+            intResult[i] = intValues.get(i);
+        }
+        //System.arraycopy(intValues, 0, intResult, 0, intResult.length);
         return intResult;
     }
 

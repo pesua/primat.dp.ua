@@ -33,7 +33,7 @@ public final class ManageLecturersPage extends WebPage {
 
     private static final long serialVersionUID = 1L;
 
-    private class EditLecturerPageLink implements IPageLink {
+    private static class EditLecturerPageLink implements IPageLink {
 
         public EditLecturerPageLink(Lecturer lecturer) {
             this.lecturer = lecturer;
@@ -48,6 +48,8 @@ public final class ManageLecturersPage extends WebPage {
         }
 
         private Lecturer lecturer;
+
+        private static final long serialVersionUID = 2L;
 
     }
 
