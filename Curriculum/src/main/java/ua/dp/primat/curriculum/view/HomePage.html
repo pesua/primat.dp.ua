@@ -3,6 +3,7 @@
     <head>  
         <title><wicket:message key="page.title">Curriculums</wicket:message></title>
         <link rel="stylesheet" type="text/css" href="view.css" />
+        <script type="text/javascript" src="js/print.js"></script>
     </head>
     <body>
         <span wicket:id="choosePanel"></span>
@@ -33,6 +34,6 @@
                 </tr>
             </tbody>
         </table>
-
+        <input type=button value="Print" onClick="showForPrint(document.getElementById('curriculumTable').innerHTML;)">
     </body>
 </html>
