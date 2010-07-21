@@ -1,18 +1,6 @@
 #curriculumTable {
     text-align: left;
-    border: black solid;
-    border-right-color: black;
-    border-left-color: black;
-    border-bottom-color: black;
-    border-top-color: black;
-    border-right-style: solid;
-    border-left-style: solid;
-    border-bottom-style: solid;
-    border-top-style: solid;
-    border-right-width: 2px;
-    border-left-width: 2px;
-    border-bottom-width: 2px;
-    border-top-width: 2px;
+    border: 2px black solid;
 }
 #curriculumTable tr, #curriculumTable td, #curriculumTable th {
     border: 1px black solid;
@@ -22,9 +10,7 @@
     margin-top: 3px;
 }
 #curriculumTable th {
-    border-bottom-style: solid;
     border-bottom-width: 2px;
-    border-bottom-color: black;
 }
 #centered {
     text-align: center;
