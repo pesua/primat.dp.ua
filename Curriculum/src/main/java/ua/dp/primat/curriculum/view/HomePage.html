@@ -8,32 +8,34 @@
     <body>
         <span wicket:id="choosePanel"></span>
         <br/>
-        <table id="curriculumTable">
-            <thead>
-                <tr>
-                    <th><wicket:message key="table.caption.name">Name:</wicket:message></th>
-                    <th id="centered"><wicket:message key="table.caption.cathedra">Cathedra</wicket:message></th>
-                    <th id="centered"><wicket:message key="table.caption.lection">Lection(h)</wicket:message></th>
-                    <th id="centered"><wicket:message key="table.caption.practice">Practice(h)</wicket:message></th>
-                    <th id="centered"><wicket:message key="table.caption.labs">Labs(h)</wicket:message></th>
-                    <th id="centered"><wicket:message key="table.caption.selfwork">Selfwork(h)</wicket:message></th>
-                    <th id="centered"><wicket:message key="table.caption.cousework">Course work</wicket:message></th>
-                    <th id="centered"><wicket:message key="table.caption.finalcontrol">Final control</wicket:message></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr wicket:id="disciplineRow">
-                    <td wicket:id="disciplineName"></td>
-                    <td wicket:id="cathedra" id="centered"></td>
-                    <td wicket:id="lection" id="centered"></td>
-                    <td wicket:id="practice" id="centered"></td>
-                    <td wicket:id="labs" id="centered"></td>
-                    <td wicket:id="selfwork" id="centered"></td>
-                    <td id="centered"><wicket:enclosure><img wicket:id="course" src="images/tick.png" id="tickImg"/></wicket:enclosure></td>
-                    <td wicket:id="finalcontrol" id="centered"></td>
-                </tr>
-            </tbody>
-        </table>
-        <input type=button value="Print" onClick="showForPrint(document.getElementById('curriculumTable').innerHTML);" />
+        <div id="forPrint">
+            <table id="curriculumTable">
+                <thead>
+                    <tr>
+                        <th><wicket:message key="table.caption.name">Name:</wicket:message></th>
+                        <th id="centered"><wicket:message key="table.caption.cathedra">Cathedra</wicket:message></th>
+                        <th id="centered"><wicket:message key="table.caption.lection">Lection(h)</wicket:message></th>
+                        <th id="centered"><wicket:message key="table.caption.practice">Practice(h)</wicket:message></th>
+                        <th id="centered"><wicket:message key="table.caption.labs">Labs(h)</wicket:message></th>
+                        <th id="centered"><wicket:message key="table.caption.selfwork">Selfwork(h)</wicket:message></th>
+                        <th id="centered"><wicket:message key="table.caption.cousework">Course work</wicket:message></th>
+                        <th id="centered"><wicket:message key="table.caption.finalcontrol">Final control</wicket:message></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr wicket:id="disciplineRow">
+                        <td wicket:id="disciplineName"></td>
+                        <td wicket:id="cathedra" id="centered"></td>
+                        <td wicket:id="lection" id="centered"></td>
+                        <td wicket:id="practice" id="centered"></td>
+                        <td wicket:id="labs" id="centered"></td>
+                        <td wicket:id="selfwork" id="centered"></td>
+                        <td id="centered"><wicket:enclosure><img wicket:id="course" src="images/tick.png" id="tickImg"/></wicket:enclosure></td>
+                        <td wicket:id="finalcontrol" id="centered"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <input type=button value="Print" onClick="showForPrint(document.getElementById('forPrint').innerHTML);" />
     </body>
 </html>
