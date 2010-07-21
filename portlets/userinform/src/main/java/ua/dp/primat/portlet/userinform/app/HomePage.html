@@ -5,11 +5,14 @@
         <link rel="stylesheet" type="text/css" href="style.css"/>
     </head>
     <body>
+        <div id="forPrint">
         <div style="font-weight: bold; font-size: 14px;">
             <wicket:message key="page.header"></wicket:message>
         </div>
         <div style="width: 99%; text-align: left; border-bottom: 1px solid #226677"></div>
         <br/>
         <span wicket:id="userDetails">##</span>
+        </div>
+        <input type=button value="Print" onClick="showForPrint(document.getElementById('forPrint').innerHTML);" />
     </body>
 </html>
