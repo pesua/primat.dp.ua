@@ -3,11 +3,17 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title><wicket:message key="page.title">Schedule</wicket:message></title>
-        <link rel="stylesheet" type="text/css" href="viewTimeTable.css">
+        <link rel="stylesheet" type="text/css" href="viewTimeTable.css" />
+        <script type="text/javascript" src="js/print.js"></script>
     </head>
     <body>
         <span wicket:id="choosePanel"></span>
-        <br>
-        <div wicket:id="tabs" class="tabpanel"></div>
-    </body>
+        <br />
+        <div id="forPrint">
+            <div wicket:id="tabs" class="tabpanel"></div>
+        </div>
+
+        <a href="" onClick="showForPrint(document.getElementById('printer').innerHTML);">Print</a>
+        <input type=button value="Print" onClick="showForPrint(<input type=button value="Print" onClick="showForPrint()">)">
+</body>
 </html>
