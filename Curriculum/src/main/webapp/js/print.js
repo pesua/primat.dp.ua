@@ -11,5 +11,4 @@ function showForPrint(pr) {
     newWin.document.write("</body></html>");
 
     newWin.document.close();
-    return false;
 }
