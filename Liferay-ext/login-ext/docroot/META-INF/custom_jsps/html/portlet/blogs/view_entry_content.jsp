@@ -25,7 +25,7 @@ AssetEntry assetEntry = (AssetEntry)request.getAttribute("view_entry_content.jsp
 %>
 
 <c:if test="<%= BlogsEntryPermission.contains(permissionChecker, entry, ActionKeys.VIEW) && ((entry.getStatus() == StatusConstants.APPROVED) || BlogsEntryPermission.contains(permissionChecker, entry, ActionKeys.UPDATE)) %>">
-    <div id="forPrint" class="entry <%= (entry.getStatus() == StatusConstants.APPROVED) ? "" : "draft" %>">
+    <div id="forPrint<%= entry.getId() %>" class="entry <%= (entry.getStatus() == StatusConstants.APPROVED) ? "" : "draft" %>">
         <div class="entry-content">
 
             <%
@@ -282,7 +282,17 @@ AssetEntry assetEntry = (AssetEntry)request.getAttribute("view_entry_content.jsp
     </script>
 
 
-    <a href="" onClick="showForPrint(document.getElementById('forPrint').innerHTML)">
-        <img border=0 src='http://www.iconsearch.ru/uploads/icons/gnomeicontheme/24x24/stock_print.png' />Version for print
-    </a>
+    <c:choose>
+        <c:when test='<%= strutsAction.equals("/blogs/view_entry") %>'>
+            <a href="" onClick="showForPrint(document.getElementById('forPrint<%= entry.getId()%>').innerHTML)">
+                <img border=0 src='http://www.iconsearch.ru/uploads/icons/gnomeicontheme/24x24/stock_print.png' />Version for print
+            </a>
+        </c:when>
+        <c:otherwise>
+
+        </c:otherwise>
+    </c:choose>
+
+
+
 </c:if>
