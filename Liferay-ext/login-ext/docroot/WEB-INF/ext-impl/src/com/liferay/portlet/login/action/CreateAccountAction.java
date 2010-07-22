@@ -52,12 +52,14 @@ import com.liferay.portal.model.Company;
 import com.liferay.portal.model.CompanyConstants;
 import com.liferay.portal.model.Layout;
 import com.liferay.portal.model.User;
+import com.liferay.portal.model.Group;
 import com.liferay.portal.security.auth.PrincipalException;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.ServiceContextFactory;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.service.UserServiceUtil;
+import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.struts.PortletAction;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
@@ -254,11 +256,7 @@ public class CreateAccountAction extends PortletAction {
         String userEmail = user.getEmailAddress();
         userEmail = userEmail.replace("@", "%40");
         StringBuilder body = new StringBuilder("\n");
-        body.append(user.getUserId()).append("  ").append(user.getFullName()).append("\n");
-        body.append("http://primat.asp.dp.ua:8080/en/group/control_panel/manage?p_p_id=125&p_p_state=maximized&_125_advancedSearch=true&_125_andOperator=1")
-                .append("&_125_emailAddress=").append(userEmail).append("&_125_active=0");
-	MailEngine.send(from, to, subject, body.toString());
-
+        body.append(user.getUserId()).append("  ").append(user.getFullName());
         user.setLanguageId("uk");
         //add user to selected group
         int role = ParamUtil.getInteger(actionRequest, "roleSelect");        
@@ -269,15 +267,22 @@ public class CreateAccountAction extends PortletAction {
             UserLocalServiceUtil.addGroupUsers(groupId,users);
             UserLocalServiceUtil.addRoleUsers(10505,users);
             UserLocalServiceUtil.addUserGroupUsers(19334,users);
+            Group group = GroupLocalServiceUtil.getGroup(groupId);
+            body.append(" has registered in as a student of the group  ").append(group.getDescriptiveName());
             boolean isMemberCouncil = ParamUtil.getBoolean(actionRequest, "is-member-student-council");
             if (isMemberCouncil) {
                 //UserLocalServiceUtil.addGroupUsers( ,users);
                 UserLocalServiceUtil.addRoleUsers(10506,users);
+                body.append(" and member of the Student Council");
             }
         } else {
             UserLocalServiceUtil.addRoleUsers(15708,users);
             UserLocalServiceUtil.addUserGroupUsers(20001,users);
+            body.append(" has registered in as an employer");
         }
+        body.append("\n").append("http://primat.asp.dp.ua:8080/en/group/control_panel/manage?p_p_id=125&p_p_state=maximized&_125_advancedSearch=true&_125_andOperator=1")
+                .append("&_125_emailAddress=").append(userEmail).append("&_125_active=0");
+        MailEngine.send(from, to, subject, body.toString());
         
         if (openIdPending) {
             session.setAttribute(
