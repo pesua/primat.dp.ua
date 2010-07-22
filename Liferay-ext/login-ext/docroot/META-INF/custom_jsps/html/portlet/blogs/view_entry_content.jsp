@@ -25,7 +25,7 @@ AssetEntry assetEntry = (AssetEntry)request.getAttribute("view_entry_content.jsp
 %>
 
 <c:if test="<%= BlogsEntryPermission.contains(permissionChecker, entry, ActionKeys.VIEW) && ((entry.getStatus() == StatusConstants.APPROVED) || BlogsEntryPermission.contains(permissionChecker, entry, ActionKeys.UPDATE)) %>">
-    <div id="forPrint<%= entry.getEntryId() %>" class="entry <%= (entry.getStatus() == StatusConstants.APPROVED) ? "" : "draft" %>">
+    <div id="forPrint" class="entry <%= (entry.getStatus() == StatusConstants.APPROVED) ? "" : "draft" %>">
         <div class="entry-content">
 
             <%
@@ -263,29 +263,4 @@ AssetEntry assetEntry = (AssetEntry)request.getAttribute("view_entry_content.jsp
             </c:if>
         </div>
     </div>
-
-    <script language='JavaScript'>
-        function showForPrint(pr) {
-            newWin=window.open('','printWindow','width=800,height=600');
-            newWin.document.open();
-
-            newWin.document.write("<html><head><title>Version for print");
-            newWin.document.write("</title>");
-            newWin.document.write("</head><body>");
-            newWin.document.write("<a href='javascript:window.print();'><img border=0 src='http://www.iconsearch.ru/uploads/icons/gnomeicontheme/24x24/stock_print.png' /></a>");
-            newWin.document.write(pr);
-            newWin.document.write("</body></html>");
-
-            newWin.document.close();
-            return 0;
-        }
-    </script>
-
-
-    <a href="javascript:showForPrint(document.getElementById('forPrint<%= entry.getEntryId()%>').innerHTML)">
-        <img src='http://www.iconsearch.ru/uploads/icons/gnomeicontheme/24x24/stock_print.png' />Version for print
-    </a>
-
-
-
 </c:if>
