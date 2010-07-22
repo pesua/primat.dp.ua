@@ -15,6 +15,7 @@
 %>
 
 <%@ include file="/html/portlet/enterprise_admin/init.jsp" %>
+<%@ include file="/html/portlet/schoolfield/init.jsp" %>
 
 <%
 User selUser = (User)request.getAttribute("user.selUser");
@@ -168,7 +169,34 @@ boolean deletePortrait = ParamUtil.getBoolean(request, "deletePortrait");
 	</c:if>
 
 	<aui:input name="jobTitle" />
+	
 </aui:fieldset>
+
+<aui:fieldset>
+  <aui:column>
+    <liferay-ui:custom-attribute
+      className="com.liferay.portal.model.User" classPK="<%= (selUser != null) ? selUser.getUserId() : 0 %>"
+      editable="<%= true %>" label="<%= true %>"
+      name="school-school"
+    />
+  </aui:column>
+  <aui:column>
+    <liferay-ui:custom-attribute
+      className="com.liferay.portal.model.User" classPK="<%= (selUser != null) ? selUser.getUserId() : 0 %>"
+      editable="<%= true %>" label="<%= true %>"
+      name="school-country"
+    />
+    <liferay-ui:custom-attribute
+      className="com.liferay.portal.model.User" classPK="<%= (selUser != null) ? selUser.getUserId() : 0 %>"
+      editable="<%= true %>" label="<%= true %>"
+      name="school-city"
+    />
+  </aui:column>
+</aui:fieldset>
+
+<%@ include file="/html/portlet/schoolfield/popup.jsp" %>
+
+<br>
 
 <%
   boolean isEmployer = false;
@@ -179,16 +207,44 @@ boolean deletePortrait = ParamUtil.getBoolean(request, "deletePortrait");
   }
 %>
 <c:if test="<%= isEmployer %>">
-<h3><liferay-ui:message key="company-data-header" /></h3>
+  <h3><liferay-ui:message key="company-data-header" /></h3>
 </c:if>
+
 <aui:fieldset>
   <aui:column>
-    <liferay-ui:custom-attribute-list
-		className="com.liferay.portal.model.User"
-		classPK="<%= (selUser != null) ? selUser.getUserId() : 0 %>"
-		editable="<%= true %>"
-		label="<%= true %>"
-	/>
+    
+    <liferay-ui:custom-attribute
+      className="com.liferay.portal.model.User" classPK="<%= (selUser != null) ? selUser.getUserId() : 0 %>"
+      editable="<%= true %>" label="<%= true %>"
+      name="company-name"
+    />
+    <liferay-ui:custom-attribute
+      className="com.liferay.portal.model.User" classPK="<%= (selUser != null) ? selUser.getUserId() : 0 %>"
+      editable="<%= true %>" label="<%= true %>"
+      name="company-activity"
+    />
+    <br/>
+    <liferay-ui:custom-attribute
+      className="com.liferay.portal.model.User" classPK="<%= (selUser != null) ? selUser.getUserId() : 0 %>"
+      editable="<%= true %>" label="<%= true %>"
+      name="company-phone"
+    />
+    <liferay-ui:custom-attribute
+      className="com.liferay.portal.model.User" classPK="<%= (selUser != null) ? selUser.getUserId() : 0 %>"
+      editable="<%= true %>" label="<%= true %>"
+      name="company-address"
+    />
+    <liferay-ui:custom-attribute
+      className="com.liferay.portal.model.User" classPK="<%= (selUser != null) ? selUser.getUserId() : 0 %>"
+      editable="<%= true %>" label="<%= true %>"
+      name="company-mail"
+    />
+    <liferay-ui:custom-attribute
+      className="com.liferay.portal.model.User" classPK="<%= (selUser != null) ? selUser.getUserId() : 0 %>"
+      editable="<%= true %>" label="<%= true %>"
+      name="company-web"
+    />
+    
   </aui:column>
 </aui:fieldset>
 

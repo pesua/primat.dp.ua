@@ -24,7 +24,7 @@
 <%@ page import="com.liferay.portlet.expando.util.ExpandoBridgeFactoryUtil" %>
 
 <%
-String randomNamespace = PortalUtil.generateRandomKey(request, "taglib_ui_custom_attribute_page") + StringPool.UNDERLINE;
+String randomNamespace = ""; //PortalUtil.generateRandomKey(request, "taglib_ui_custom_attribute_page") + StringPool.UNDERLINE;
 
 String className = (String)request.getAttribute("liferay-ui:custom-attribute:className");
 long classPK = GetterUtil.getLong((String)request.getAttribute("liferay-ui:custom-attribute:classPK"));

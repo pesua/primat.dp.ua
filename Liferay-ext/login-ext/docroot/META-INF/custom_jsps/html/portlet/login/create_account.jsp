@@ -15,6 +15,7 @@
 %>
 
 <%@ include file="/html/portlet/login/init.jsp" %>
+<%@ include file="/html/portlet/schoolfield/init.jsp" %>
 
 <script type=text/javascript language=JavaScript>
 function showRolePanel()
@@ -167,6 +168,42 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
 
 		</aui:column>
 	</aui:fieldset>
+	      
+	<aui:fieldset>
+		<aui:column>
+      <span class="aui-field">
+        <span class="aui-field-content">
+          <liferay-ui:custom-attribute
+            className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+            editable="<%= true %>" label="<%= true %>"
+            name="school-school"
+          />
+        </span>
+      </span>
+		</aui:column>
+		<aui:column>
+      <span class="aui-field">
+        <span class="aui-field-content">
+          <liferay-ui:custom-attribute
+            className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+            editable="<%= true %>" label="<%= true %>"
+            name="school-country"
+          />
+        </span>
+      </span>
+      <span class="aui-field">
+        <span class="aui-field-content">
+          <liferay-ui:custom-attribute
+            className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+            editable="<%= true %>" label="<%= true %>"
+            name="school-city"
+          />
+        </span>
+      </span>
+		</aui:column>
+	</aui:fieldset>
+	
+	<%@ include file="/html/portlet/schoolfield/popup.jsp" %>
 	
 	<aui:fieldset>
 		<aui:column>
