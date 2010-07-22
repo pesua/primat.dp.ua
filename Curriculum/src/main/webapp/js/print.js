@@ -1,4 +1,4 @@
-function showForPrint(pr, cssUrl) {
+function showForPrint(pr) {
     newWin=window.open('','printWindow','width=800,height=600');
     newWin.document.open();
 
