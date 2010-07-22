@@ -73,6 +73,9 @@ request.setAttribute("view_entry_content.jsp-assetEntry", assetEntry);
             newWin.document.write(pr);
             newWin.document.write("</body></html>");
 
+            var r = newWin.document.getElementById("ykmt_socialBookmarks");
+            newWin.document.getElementById("footer").removeChild(r);
+            
             newWin.document.close();
         }
     </script>
