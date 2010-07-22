@@ -1,0 +1,21 @@
+#curriculumTable {
+    text-align: left;
+    border: 2px black solid;
+}
+#curriculumTable tr, #curriculumTable td, #curriculumTable th {
+    border: 1px black solid;
+    margin-right: 3px;
+    margin-left: 3px;
+    margin-bottom: 3px;
+    margin-top: 3px;
+}
+#curriculumTable th {
+    border-bottom-width: 2px;
+}
+#centered {
+    text-align: center;
+    vertical-align: middle;
+}
+#tickImg {
+    height: 18px;
+}
