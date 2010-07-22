@@ -1,6 +1,7 @@
 #curriculumTable {
     text-align: left;
     border: 2px black solid;
+    border-collapse: collapse;
 }
 #curriculumTable tr, #curriculumTable td, #curriculumTable th {
     border: 1px black solid;
