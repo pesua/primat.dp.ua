@@ -7,13 +7,6 @@
 	<version>1.0</version>
 	<name>userinform</name>
 	<description></description>
-	<licenses>
-		<license>
-			<name>The Apache Software License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
         <repositories>
             <repository>
                 <id>Sonatype</id>
@@ -101,19 +94,19 @@
             <dependency>
                     <groupId>com.liferay.portal</groupId>
                     <artifactId>portal-service</artifactId>
-                    <version>6.0.3-SNAPSHOT</version>
+                    <version>6.0.3</version>
                     <scope>provided</scope>
             </dependency>
             <dependency>
                     <groupId>com.liferay.portal</groupId>
                     <artifactId>util-bridges</artifactId>
-                    <version>6.0.3-SNAPSHOT</version>
+                    <version>6.0.3</version>
                     <scope>provided</scope>
             </dependency>
             <dependency>
                     <groupId>com.liferay.portal</groupId>
                     <artifactId>util-java</artifactId>
-                    <version>6.0.3-SNAPSHOT</version>
+                    <version>6.0.3</version>
                     <scope>provided</scope>
             </dependency>
 	</dependencies>

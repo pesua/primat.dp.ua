@@ -12,9 +12,6 @@ import org.apache.wicket.RequestCycle;
 import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
 import ua.dp.primat.portlet.userinform.services.LiferayUserService;
 
-/**
- * Homepage.
- */
 public class HomePage extends WebPage {
 
     /**

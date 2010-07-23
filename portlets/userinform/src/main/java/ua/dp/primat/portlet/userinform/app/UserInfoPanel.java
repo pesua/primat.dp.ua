@@ -26,9 +26,9 @@ public class UserInfoPanel extends Panel {
         add(new Label("email", user.getDisplayEmailAddress()));
         add(new Label("screenname", user.getScreenName()));
         add(new Label("birthday", getUserBirthday(user)));
-        add(new Label("role", getUserGroups(user, TYPE_ROLES)));
-        add(new Label("group", getUserGroups(user, TYPE_GROUP)));
-        add(new Label("cath", getUserGroups(user, TYPE_ORG)));
+        add(new Label("role", getUserGroups(user)));
+        add(new Label("group", getUserRoles(user)));
+        add(new Label("cath", getUserOrganization(user)));
 
         final Image ava = new Image("avatar");
         ava.add(new SimpleAttributeModifier("src", getAvatarPath(user)));
@@ -48,27 +48,50 @@ public class UserInfoPanel extends Panel {
 
     private String getAvatarPath(User user) {
         return String.format("/image/user_%s_portrait?img_id=%d", "male",
-                user.getPortraitId());
+                             user.getPortraitId());
     }
 
-    private String getUserGroups(User user, int type) {
+    private String getUserGroups(User user) {
         try {
             final StringBuilder groups = new StringBuilder();
-            if (type == TYPE_GROUP) {
-                for (Group t : user.getGroups()) {
-                    groups.append(t.getName());
-                    groups.append(VL);
+            for (Group t : user.getGroups()) {
+                if (groups.length() > 0) {
+                    groups.append(COMA);
                 }
-            } else if (type == TYPE_ORG) {
-                for (Organization o : user.getOrganizations()) {
-                    groups.append(o.getName());
-                    groups.append(VL);
+                groups.append(t.getName());
+            }
+            return groups.toString();
+        } catch (SystemException se) {
+            return MINUS;
+        } catch (PortalException pe) {
+            return MINUS;
+        }
+    }
+
+    private String getUserRoles(User user) {
+        try {
+            final StringBuilder groups = new StringBuilder();
+
+            for (Role r : user.getRoles()) {
+                if (groups.length() > 0) {
+                    groups.append(COMA);
                 }
-            } else if (type == TYPE_ROLES) {
-                for (Role r : user.getRoles()) {
-                    groups.append(r.getName());
-                    groups.append(VL);
+                groups.append(r.getName());
+            }
+            return groups.toString();
+        } catch (SystemException se) {
+            return MINUS;
+        }
+    }
+
+    private String getUserOrganization(User user) {
+        try {
+            final StringBuilder groups = new StringBuilder();
+            for (Organization o : user.getOrganizations()) {
+                if (groups.length() > 0) {
+                    groups.append(COMA);
                 }
+                groups.append(o.getName());
             }
             return groups.toString();
         } catch (SystemException se) {
@@ -87,15 +110,9 @@ public class UserInfoPanel extends Panel {
             return MINUS;
         }
     }
-
     private final ResourceBundle bundle = ResourceBundle.getBundle(
             "ua.dp.primat.portlet.userinform.app.UserInfoPanel");
-
-    private static final int TYPE_GROUP = 0;
-    private static final int TYPE_ORG = 1;
-    private static final int TYPE_ROLES = 2;
-
     private static final String MINUS = "-";
-    private static final String VL = " | ";
+    private static final String COMA = ", ";
     private static final long serialVersionUID = 1L;
 }
