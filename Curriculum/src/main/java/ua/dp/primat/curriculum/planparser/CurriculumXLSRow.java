@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.poi.ss.usermodel.Row;
 
@@ -101,16 +102,15 @@ public final class CurriculumXLSRow {
      *      will include only marked numbers (like '3d').
      */
     private int[] parseNumValues(String fmStr, boolean standard) {
-        final String[] values = fmStr.trim().split("\\s*,\\s*");
-        final List<Integer> intValues = new ArrayList<Integer>();
-
-        final String regex = "\\d+(\\.\\d+)?" + ((standard) ? "" : diffSetOff);
+        final String regex = "\\d+(\\.\\d+)?" + ((standard) ? "([^" + diffSetOff + "]|$)" : diffSetOff);
         final Pattern digits = Pattern.compile(regex);
-        for (int i = 0; i < values.length; i++) {
-            if (digits.matcher(values[i]).matches()) {
-                intValues.add((int)(Double.parseDouble(values[i].replaceAll(diffSetOff, ""))));
-            }
+        final Matcher matcher = digits.matcher(fmStr.replaceAll(",", " "));
+
+        final List<Integer> intValues = new ArrayList<Integer>();
+        while (matcher.find()) {
+            intValues.add((int)Double.parseDouble(matcher.group().trim().replace(diffSetOff, "")));
         }
+        
         final int[] intResult = new int[intValues.size()];
         for (int i = 0; i < intResult.length; i++) {
             intResult[i] = intValues.get(i);
