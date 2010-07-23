@@ -34,6 +34,7 @@ public class EditableLesson implements Serializable {
 
     public EditableLesson() {
         eLesson = new Lesson();
+        eLesson.setLessonDescription(new LessonDescription());
     }
 
     public boolean isEmpty() {
