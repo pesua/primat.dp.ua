@@ -14,9 +14,9 @@ public class CustomFieldUtil {
           Connection connection = DriverManager.getConnection(connectionURL, "lifedbuser",
                   "FCH9AWqDt2cpDvhQ");
           Statement statement = connection.createStatement();
-          ResultSet rs = statement.executeQuery(String.format("select distinct data_ from expandovalue" +
-                  " left join expandocolumn on expandocolumn.columnId = expandovalue.columnId where" +
-                  " expandocolumn.name = '%s' and expandovalue.data_ like '%s%%';", field, prefix));
+          ResultSet rs = statement.executeQuery(String.format("select distinct data_ from ExpandoValue" +
+                  " left join ExpandoColumn on ExpandoColumn.columnId = ExpandoValue.columnId where" +
+                  " ExpandoColumn.name = '%s' and ExpandoValue.data_ like '%s%%';", field, prefix));
 
           List<String> result = new ArrayList<String>();
           while (rs.next()) {
