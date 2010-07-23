@@ -26,8 +26,8 @@ public class UserInfoPanel extends Panel {
         add(new Label("email", user.getDisplayEmailAddress()));
         add(new Label("screenname", user.getScreenName()));
         add(new Label("birthday", getUserBirthday(user)));
-        add(new Label("role", getUserGroups(user)));
-        add(new Label("group", getUserRoles(user)));
+        add(new Label("role", getUserRoles(user)));
+        add(new Label("group", getUserGroups(user)));
         add(new Label("cath", getUserOrganization(user)));
 
         final Image ava = new Image("avatar");
