@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
  *
  * @author Acer
  */
-public class TestPOI {
+/*public class TestPOI {
 
     public TestPOI() {
     }
@@ -55,7 +55,7 @@ public class TestPOI {
             System.out.println("Parser test error: " + ioe);
         }
         for (int i=0;i<listParsed.size();i++) {
-            System.out.println(rowToString(listParsed.get(i)));
+            System.out.println(rowToStringTestPOI(listParsed.get(i)));
         }
 
         //check result
@@ -87,4 +87,4 @@ public class TestPOI {
         return result.toString();
     }
 
-}
+}*/
