@@ -12,6 +12,10 @@
                 <id>Sonatype</id>
                 <url>http://oss.sonatype.org/content/groups/public</url>
             </repository>
+            <repository>
+                <id>Java.net</id>
+                <url>http://download.java.net/maven/2</url>
+            </repository>
         </repositories>
 	<dependencies>
         <!--  WICKET DEPENDENCIES -->
