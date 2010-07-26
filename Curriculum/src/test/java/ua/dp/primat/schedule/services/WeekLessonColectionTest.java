@@ -41,18 +41,8 @@ public class WeekLessonColectionTest {
 
         WeekLessonColection instance = new WeekLessonColection(l);
         List<LessonItem[]> result = instance.getDayList();
-        assertEquals("", Long.valueOf(1), result.get(0)[0].getNumerator().getId());
+        assertEquals("Incorrect lesson list in getDayList", Long.valueOf(1), result.get(0)[0].getNumerator().getId());
+
+        assertEquals("Incorrect lesson array in getLessonItems", Long.valueOf(1), instance.getLessonItems()[0][0].getDenominator().getId());
     }
-
-//    @Test
-//    public void testGetLessonItems() {
-//        System.out.println("getLessonItems");
-//        WeekLessonColection instance = new WeekLessonColection();
-//        LessonItem[][] expResult = null;
-//        LessonItem[][] result = instance.getLessonItems();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-
 }
