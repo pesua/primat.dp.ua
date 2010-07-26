@@ -99,6 +99,46 @@
             </dependency>
             <dependency>
                     <groupId>com.liferay.portal</groupId>
+                    <artifactId>portal-impl</artifactId>
+                    <version>6.0.3</version>
+                    <scope>provided</scope>
+            </dependency>
+            <dependency>
+                    <groupId>commons-collections</groupId>
+                    <artifactId>commons-collections</artifactId>
+                    <version>3.2.1</version>
+                    <scope>provided</scope>
+            </dependency>
+            <dependency>
+                    <groupId>xdoclet</groupId>
+                    <artifactId>xdoclet</artifactId>
+                    <version>1.2.3</version>
+                    <scope>provided</scope>
+            </dependency>
+            <dependency>
+                    <groupId>xdoclet</groupId>
+                    <artifactId>xdoclet-web-module</artifactId>
+                    <version>1.2.3</version>
+                    <scope>provided</scope>
+            </dependency>
+            <dependency>
+                    <groupId>easyconf</groupId>
+                    <artifactId>easyconf</artifactId>
+                    <version>0.9.0</version>
+                    <scope>provided</scope>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>xdoclet</groupId>
+                            <artifactId>xdoclet-web-module</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>xdoclet</groupId>
+                            <artifactId>xdoclet</artifactId>
+                        </exclusion>
+                    </exclusions>
+            </dependency>
+            <dependency>
+                    <groupId>com.liferay.portal</groupId>
                     <artifactId>util-bridges</artifactId>
                     <version>6.0.3</version>
                     <scope>provided</scope>
