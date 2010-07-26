@@ -1,10 +1,12 @@
 package ua.dp.primat.schedule.services;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import ua.dp.primat.domain.Cathedra;
 import static org.junit.Assert.*;
+import org.junit.Before;
 import ua.dp.primat.domain.Lecturer;
 import ua.dp.primat.domain.LecturerType;
 import ua.dp.primat.domain.Room;
@@ -27,6 +29,14 @@ public class EditableLessonTest {
 
     @AfterClass
     public static void tearDownClass() throws Exception {
+    }
+
+    @Before
+    public void setUp() {
+    }
+
+    @After
+    public void tearDown() {
     }
 
     /**

@@ -1,7 +1,6 @@
 package ua.dp.primat;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -11,16 +10,14 @@ import org.junit.Test;
 import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.curriculum.planparser.CurriculumParser;
 import ua.dp.primat.curriculum.planparser.CurriculumXLSRow;
-import ua.dp.primat.domain.workload.LoadCategory;
 import ua.dp.primat.domain.workload.Workload;
-import ua.dp.primat.domain.workload.WorkloadType;
 import static org.junit.Assert.*;
 
 /**
  *
  * @author Acer
  */
-/*public class TestPOI {
+public class TestPOI {
 
     public TestPOI() {
     }
@@ -55,7 +52,7 @@ import static org.junit.Assert.*;
             System.out.println("Parser test error: " + ioe);
         }
         for (int i=0;i<listParsed.size();i++) {
-            System.out.println(rowToStringTestPOI(listParsed.get(i)));
+            System.out.println(rowToString(listParsed.get(i)));
         }
 
         //check result
@@ -87,4 +84,4 @@ import static org.junit.Assert.*;
         return result.toString();
     }
 
-}*/
+}
