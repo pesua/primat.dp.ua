@@ -18,6 +18,7 @@ import ua.dp.primat.domain.lesson.LessonType;
 import ua.dp.primat.domain.lesson.WeekType;
 import ua.dp.primat.domain.workload.Discipline;
 
+
 public class EditableLessonTest {
 
     public EditableLessonTest() {
@@ -48,7 +49,7 @@ public class EditableLessonTest {
         Lecturer testLecturer = new Lecturer("username", null, LecturerType.PROFESSOR);
         Discipline testDisciple = new Discipline("www", new Cathedra());
         Room testRoom = new Room(3L, 23L);
-        LessonDescription ld = new LessonDescription(testDisciple, new StudentGroup("PZ", 1L, 2008L), 1L, LessonType.LECTURE, testLecturer , null);
+        LessonDescription ld = new LessonDescription(testDisciple, new StudentGroup("PZ", 1L, 2008L), 1L, LessonType.LECTURE, testLecturer, null);
         Lesson lesson = new Lesson(1L, WeekType.DENOMINATOR, DayOfWeek.THURSDAY, testRoom, ld);
         lesson.setId(1L);
 
@@ -101,5 +102,4 @@ public class EditableLessonTest {
         assertEquals("Wrong room", instance.getRoom(), result.getRoom());
         assertEquals("Wrong lesson type", LessonType.LECTURE, result.getLessonDescription().getLessonType());
     }
-
 }
