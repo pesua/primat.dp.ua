@@ -12,8 +12,6 @@ import ua.dp.primat.domain.workload.FinalControlType;
 import ua.dp.primat.domain.workload.IndividualControl;
 import ua.dp.primat.domain.workload.LoadCategory;
 import ua.dp.primat.domain.StudentGroup;
-import ua.dp.primat.domain.workload.WorkloadOld;
-import ua.dp.primat.domain.workload.WorkloadEntry;
 import ua.dp.primat.domain.workload.WorkloadType;
 
 import org.junit.After;
@@ -97,6 +95,25 @@ public class TestDataModel {
         w.getIndividualControl().add(ic2);
         
         em.persist(w);
+
+        //chedule data model test
+
+//        Room room = new Room(new Long(3), new Long(46));
+//        em.persist(room);
+//
+//        Lecturer lecturer = new Lecturer("Mashenko", pmz);
+//        em.persist(lecturer);
+//
+//        LessonDescription ld = new LessonDescription(subj1, sg, new Long(1), LessonType.LECTURE, lecturer, null);
+//        em.persist(ld);
+//
+//        Lesson lesson = new Lesson();
+//        lesson.setDayOfWeek(DayOfWeek.MONDAY);
+//        lesson.setLessonDescription(ld);
+//        lesson.setLessonNumber(new Long(3));
+//        lesson.setRoom(room);
+//        lesson.setWeekType(WeekType.BOTH);
+//        em.persist(lesson);
 
         //commit
         em.getTransaction().commit();

@@ -46,6 +46,10 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
  
+    <bean id="workloadRepository" class="ua.dp.primat.chedule.data.LessonRepositoryImpl"/>
+
+    <bean id="workloadRepository" class="ua.dp.primat.chedule.data.RoomRepositoryImpl"/>
+
     <bean id="curriculumApplication" class="ua.dp.primat.curriculum.view.WicketApplication"/>
 
     <bean id="scheduleApplication" class="ua.dp.primat.schedule.view.Application"/>
