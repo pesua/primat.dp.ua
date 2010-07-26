@@ -43,6 +43,6 @@ public class WeekLessonColectionTest {
         List<LessonItem[]> result = instance.getDayList();
         assertEquals("Incorrect lesson list in getDayList", Long.valueOf(1), result.get(0)[0].getNumerator().getId());
 
-        assertEquals("Incorrect lesson array in getLessonItems", Long.valueOf(1), instance.getLessonItems()[0][0].getDenominator().getId());
+        assertEquals("Incorrect lesson array in getLessonItems", Long.valueOf(1), instance.getLessonItems()[0][0].getNumerator().getId());
     }
 }
