@@ -24,15 +24,15 @@ import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.spring.injection.annot.test.AnnotApplicationContextMock;
 import org.apache.wicket.util.tester.WicketTester;
 import static org.easymock.EasyMock.*;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import ua.dp.primat.portlet.userinform.services.LiferayUserService;
 import ua.dp.primat.portlet.userinform.services.LiferayUserServiceImpl;
 
 /**
- *
+ * Test, that checks wicket markup using fake service's implementations.
+ * 
  * @author fdevelop
  */
 public class MarkupTest extends TestCase {
@@ -40,50 +40,63 @@ public class MarkupTest extends TestCase {
     public MarkupTest() {
     }
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
+    @Test
+    public void testWithUser() {
+        // setup mock objects
+        ApplicationContext appctx = createAnnotAppCtx(new LiferayUserServiceMock());
 
-    @AfterClass
-    public static void tearDownClass() throws Exception {
+        // run the test
+        runWicketTest(appctx);
     }
 
     @Test
-    public void testWithUser() {
-        // 1. setup dependencies and mock objects       
-        //LiferayUserService mock = createMock(LiferayUserService.class);
-        LiferayUserServiceMock serviceMock = new LiferayUserServiceMock();
+    public void testWithUserExceptions() {
+        // setup mock objects
+        ApplicationContext appctx = createAnnotAppCtx(new LiferayUserServiceSystemExceptions());
 
-        // 2. setup mock injection environment
-        AnnotApplicationContextMock appctx = new AnnotApplicationContextMock();
-        appctx.putBean("liferayUserService", serviceMock);
+        // run the test
+        runWicketTest(appctx);
+    }
 
-        // 3. run the test
-        WicketTester app = new WicketTester();
+    @Test
+    public void testWithUserPortalExceptions() {
+        // setup mock objects
+        ApplicationContext appctx = createAnnotAppCtx(new LiferayUserServicePortalExceptions());
 
-        // For wicket 1.3.5 use the code below
-        app.getApplication().addComponentInstantiationListener(
-                new SpringComponentInjector(app.getApplication(), appctx));
-
-        app.startPage(new HomePage(PageParameters.NULL));
-        app.assertRenderedPage(HomePage.class);
+        // run the test
+        runWicketTest(appctx);
     }
 
     @Test
     public void testWithoutUser() {
-        // 1. setup dependencies and mock objects
-        LiferayUserService mock = createMock(LiferayUserService.class);
+        // setup mock objects
+        ApplicationContext appctx = createAnnotAppCtx(createMock(LiferayUserService.class));
 
-        // 2. setup mock injection environment
+        // run the test
+        runWicketTest(appctx);
+    }
+
+    /**
+     * Creates application context for testing and puts one service bean for 'liferayUserService'.
+     * @param mock - liferayUserService implementation object.
+     * @return created app context
+     */
+    private ApplicationContext createAnnotAppCtx(Object mock) {
         AnnotApplicationContextMock appctx = new AnnotApplicationContextMock();
         appctx.putBean("liferayUserService", mock);
+        return appctx;
+    }
 
-        // 3. run the test
+    /**
+     * Run the wicket test and checks the Home page render.
+     * @param ac - specified app context
+     */
+    private void runWicketTest(ApplicationContext ac) {
         WicketTester app = new WicketTester();
 
         // For wicket 1.3.5 use the code below
         app.getApplication().addComponentInstantiationListener(
-                new SpringComponentInjector(app.getApplication(), appctx));
+                new SpringComponentInjector(app.getApplication(), ac));
 
         app.startPage(new HomePage(PageParameters.NULL));
         app.assertRenderedPage(HomePage.class);
@@ -116,6 +129,7 @@ public class MarkupTest extends TestCase {
                     };
                     List<Group> mockList = new ArrayList<Group>();
                     mockList.add(g);
+                    mockList.add(g);
                     return mockList;
                 }
 
@@ -130,6 +144,7 @@ public class MarkupTest extends TestCase {
 
                     };
                     List<Organization> mockList = new ArrayList<Organization>();
+                    mockList.add(g);
                     mockList.add(g);
                     return mockList;
                 }
@@ -146,6 +161,7 @@ public class MarkupTest extends TestCase {
                     };
                     List<Role> mockList = new ArrayList<Role>();
                     mockList.add(g);
+                    mockList.add(g);
                     return mockList;
                 }
 
@@ -159,6 +175,98 @@ public class MarkupTest extends TestCase {
                     return "fullname";
                 }
                 
+            };
+            variousUser.setScreenName("screen");
+            return variousUser;
+        }
+    }
+
+    private class LiferayUserServiceSystemExceptions implements LiferayUserService {
+
+        public User getUserInfo(HttpServletRequest req) {
+            User variousUser = new UserImpl() {
+
+                @Override
+                public Date getBirthday() throws PortalException, SystemException {
+                    throw new SystemException("test");
+                }
+
+                @Override
+                public String getDisplayEmailAddress() {
+                    return "mail@com";
+                }
+
+                @Override
+                public List<Group> getGroups() throws PortalException, SystemException {
+                    throw new SystemException("test");
+                }
+
+                @Override
+                public List<Organization> getOrganizations() throws PortalException, SystemException {
+                    throw new SystemException("test");
+                }
+
+                @Override
+                public List<Role> getRoles() throws SystemException {
+                    throw new SystemException("test");
+                }
+
+                @Override
+                public boolean isMale() throws PortalException, SystemException {
+                    throw new SystemException("test");
+                }
+
+                @Override
+                public String getFullName() {
+                    return "fullname";
+                }
+
+            };
+            variousUser.setScreenName("screen");
+            return variousUser;
+        }
+    }
+
+    private class LiferayUserServicePortalExceptions implements LiferayUserService {
+
+        public User getUserInfo(HttpServletRequest req) {
+            User variousUser = new UserImpl() {
+
+                @Override
+                public Date getBirthday() throws PortalException, SystemException {
+                    throw new PortalException("test");
+                }
+
+                @Override
+                public String getDisplayEmailAddress() {
+                    return "mail@com";
+                }
+
+                @Override
+                public List<Group> getGroups() throws PortalException, SystemException {
+                    throw new PortalException("test");
+                }
+
+                @Override
+                public List<Organization> getOrganizations() throws PortalException, SystemException {
+                    throw new PortalException("test");
+                }
+
+                @Override
+                public List<Role> getRoles() throws SystemException {
+                    throw new SystemException("test");
+                }
+
+                @Override
+                public boolean isMale() throws PortalException, SystemException {
+                    throw new PortalException("test");
+                }
+
+                @Override
+                public String getFullName() {
+                    return "fullname";
+                }
+
             };
             variousUser.setScreenName("screen");
             return variousUser;
