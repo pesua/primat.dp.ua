@@ -50,7 +50,8 @@ public class TestParser {
             System.out.println("Parser test error: " + ioe);
         }
         for (int i=0;i<listParsed.size();i++) {
-            System.out.println(rowToString(listParsed.get(i)));
+            //System.out.println(rowToString(listParsed.get(i)));
+            rowToString(listParsed.get(i));
         }
 
         //check result
