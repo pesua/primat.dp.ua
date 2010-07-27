@@ -1,4 +1,4 @@
-package ua.dp.primat;
+package ua.dp.primat.curriculum.planparser;
 
 import java.io.IOException;
 import java.util.List;
@@ -8,8 +8,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import ua.dp.primat.domain.StudentGroup;
-import ua.dp.primat.curriculum.planparser.CurriculumParser;
-import ua.dp.primat.curriculum.planparser.CurriculumXLSRow;
 import ua.dp.primat.domain.workload.Workload;
 import static org.junit.Assert.*;
 
@@ -17,9 +15,9 @@ import static org.junit.Assert.*;
  *
  * @author Acer
  */
-public class TestPOI {
+public class TestParser {
 
-    public TestPOI() {
+    public TestParser() {
     }
 
     @BeforeClass
@@ -39,7 +37,7 @@ public class TestPOI {
     }
 
     @Test
-    public void testIt() {
+    public void testOnRealData() {
         int semesters = 8;
         StudentGroup pm082 = new StudentGroup("PM", new Long(2), new Long(2008));
         List<CurriculumXLSRow> listParsed = null;
@@ -67,16 +65,16 @@ public class TestPOI {
         
         for (Workload w : xlsRow.getWorkloadList()) {
             result.append("Category: ").append(w.getLoadCategory()).append(eolChar);
-            result.append("Type: "+w.getType() + eolChar);
-            result.append("-> Semester:"+w.getSemesterNumber()
-                    + "| FinalControl:" + w.getFinalControlType()
-                    + "| CourseWork:" + w.getCourseWork()
-                    + "| IndividualControlCount:" + w.getIndividualControl().size()
-                    + eolChar);
+            result.append("Type: ").append(w.getType()).append(eolChar);
+            result.append("-> Semester:").append(w.getSemesterNumber())
+                    .append("| FinalControl:").append(w.getFinalControlType())
+                    .append("| CourseWork:").append(w.getCourseWork())
+                    .append("| IndividualControlCount:").append(w.getIndividualControl().size())
+                    .append(eolChar);
 
-            for (int k=0;k<w.getIndividualControl().size();k++) {
-                result.append("---> IndividualControl: " + w.getIndividualControl().get(k).getType());
-                result.append(", " + w.getIndividualControl().get(k).getWeekNum());
+            for (int k=0; k < w.getIndividualControl().size(); k++) {
+                result.append("---> IndividualControl: ").append(w.getIndividualControl().get(k).getType());
+                result.append(", ").append(w.getIndividualControl().get(k).getWeekNum());
                 result.append(eolChar);
             }
         }

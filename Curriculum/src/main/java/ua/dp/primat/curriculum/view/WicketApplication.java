@@ -12,7 +12,7 @@ import org.apache.wicket.util.file.Folder;
 public class WicketApplication extends WebApplication {
 
     //ulpoad folder path
-    private Folder uploadFolder = null;
+    protected Folder uploadFolder = null;
 
     public Folder getUploadFolder() {
         return uploadFolder;
@@ -28,14 +28,18 @@ public class WicketApplication extends WebApplication {
 
         mountBookmarkablePage("/view", HomePage.class);
         mountBookmarkablePage("/edit", EditPage.class);
-        addComponentInstantiationListener(new SpringComponentInjector(this));
+        addSpringComponentInjector();
     }
 
-    public final Class<? extends Page> getHomePage() {
+    public Class<? extends Page> getHomePage() {
         final PortletRequestContext prc = (PortletRequestContext)RequestContext.get();
         if (prc.getPortletRequest().getPortletMode().equals(PortletMode.EDIT)) {
             return EditPage.class;
         }
         return HomePage.class;
+    }
+
+    protected void addSpringComponentInjector() {
+        addComponentInstantiationListener(new SpringComponentInjector(this));
     }
 }
