@@ -11,11 +11,16 @@ import org.apache.wicket.util.file.Folder;
 
 public class WicketApplication extends WebApplication {
 
-    //ulpoad folder path
-    protected Folder uploadFolder = null;
-
     public Folder getUploadFolder() {
         return uploadFolder;
+    }
+
+    public Class<? extends Page> getHomePage() {
+        final PortletRequestContext prc = (PortletRequestContext)RequestContext.get();
+        if (prc.getPortletRequest().getPortletMode().equals(PortletMode.EDIT)) {
+            return EditPage.class;
+        }
+        return HomePage.class;
     }
 
     @Override
@@ -31,15 +36,10 @@ public class WicketApplication extends WebApplication {
         addSpringComponentInjector();
     }
 
-    public Class<? extends Page> getHomePage() {
-        final PortletRequestContext prc = (PortletRequestContext)RequestContext.get();
-        if (prc.getPortletRequest().getPortletMode().equals(PortletMode.EDIT)) {
-            return EditPage.class;
-        }
-        return HomePage.class;
-    }
-
     protected void addSpringComponentInjector() {
         addComponentInstantiationListener(new SpringComponentInjector(this));
     }
+
+    //upload folder path
+    private Folder uploadFolder = null;
 }
