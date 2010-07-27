@@ -9,11 +9,13 @@ import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author fdevelop
  */
+@Service
 public class LiferayUserServiceImpl implements LiferayUserService {
 
     public User getUserInfo(HttpServletRequest req) {
