@@ -64,7 +64,7 @@ public class CrossTabServiceTest {
             LessonQueryItem row = result.get(i*2-2);
             for (DayOfWeek day : DayOfWeek.values()) {
                 Lesson lessonForDay = row.getLessonForDay(day);
-                System.out.println((lessonForDay != null)?lessonForDay.getLessonDescription().getDiscipline().getName():"");                
+                //System.out.println((lessonForDay != null)?lessonForDay.getLessonDescription().getDiscipline().getName():"");
                 assertEquals("asas", listLesson.get(i+4*day.getNumber()-1), lessonForDay);
             }
         }
