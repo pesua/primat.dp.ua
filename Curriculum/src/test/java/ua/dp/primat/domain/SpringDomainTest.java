@@ -17,9 +17,9 @@ import static org.junit.Assert.*;
 /**
  *
  * @author fdevelop
- *//*
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations="classpath:applicationContext-test.xml")
+@ContextConfiguration(locations={"classpath:applicationContext-test.xml"})
 public class SpringDomainTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Autowired
@@ -61,7 +61,7 @@ public class SpringDomainTest extends AbstractTransactionalJUnit4SpringContextTe
         //studentGroupRepository.remove(studentGroup);
     }
 
-    /*@Test
+    @Test
     public void testStudentGroup() {
         //create object
         StudentGroup studentGroup = new StudentGroup();
@@ -71,7 +71,6 @@ public class SpringDomainTest extends AbstractTransactionalJUnit4SpringContextTe
 
         //store
         studentGroupRepository.store(studentGroup);
-        studentGroupRepository.getEm().flush();
 
         //check
         final int preparedCount = 1;
@@ -79,4 +78,4 @@ public class SpringDomainTest extends AbstractTransactionalJUnit4SpringContextTe
         assertEquals("Test ready.", totalCount, preparedCount);
     }
 
-}*/
+}
