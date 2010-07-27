@@ -18,6 +18,19 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import ua.dp.primat.domain.Cathedra;
+import ua.dp.primat.domain.Lecturer;
+import ua.dp.primat.domain.LecturerType;
+import ua.dp.primat.domain.Room;
+import ua.dp.primat.domain.StudentGroup;
+import ua.dp.primat.domain.workload.Discipline;
+import ua.dp.primat.repositories.CathedraRepository;
+import ua.dp.primat.repositories.DisciplineRepository;
+import ua.dp.primat.repositories.LecturerRepository;
+import ua.dp.primat.repositories.RoomRepository;
+import ua.dp.primat.repositories.StudentGroupRepository;
+import ua.dp.primat.schedule.admin.groupmanagement.EditGroupPage;
 import ua.dp.primat.schedule.admin.groupmanagement.ManageGroupsPage;
 import static org.junit.Assert.*;
 
@@ -55,16 +68,39 @@ public class ManagementTest {
 
     @Test
     public void testManagePages() {
+        roomRepository.store(new Room(3L, 34L));
+        roomRepository.store(new Room(3L, 35L));
+        Cathedra cathedra = new Cathedra("RTY");
+        disciplineRepository.store(new Discipline("MAT AN", cathedra));
+        lecturerRepository.store(new Lecturer("Tonkoshkur", cathedra, LecturerType.ASSIATANT));
+        lecturerRepository.store(new Lecturer("Segeda", cathedra, LecturerType.ASSIATANT));
+        StudentGroup studentGroup = new StudentGroup("IO", 1L, 2008L);
+        groupRepository.store(studentGroup);
+
+        testRendering(AdminHomePage.class);
         testRendering(ManageRooms.class);
         testRendering(ManageDisciplines.class);
         testRendering(ManageLecturersPage.class);
         testRendering(ManageGroupsPage.class);
+        testRendering(EditDisciplinePage.class);
+        testRendering(EditRoomPage.class);
+        testRendering(EditLecturerPage.class);
+        testRendering(EditGroupPage.class);
+
+        tester.startPage(new EditSchedulePage(studentGroup, 1L));
     }
 
     private void testRendering(Class page) {
         tester.startPage(page);
         tester.assertRenderedPage(page);
     }
-    
     WicketTester tester;
+    @Autowired
+    RoomRepository roomRepository;
+    @Autowired
+    DisciplineRepository disciplineRepository;
+    @Autowired
+    LecturerRepository lecturerRepository;
+    @Autowired
+    StudentGroupRepository groupRepository;
 }
