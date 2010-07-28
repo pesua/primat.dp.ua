@@ -1,14 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ua.dp.primat.schedule.admin;
 
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.ApplicationContext;
 import org.apache.wicket.util.tester.WicketTester;
-import org.apache.wicket.Page;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -25,14 +20,12 @@ import ua.dp.primat.domain.LecturerType;
 import ua.dp.primat.domain.Room;
 import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.domain.workload.Discipline;
-import ua.dp.primat.repositories.CathedraRepository;
 import ua.dp.primat.repositories.DisciplineRepository;
 import ua.dp.primat.repositories.LecturerRepository;
 import ua.dp.primat.repositories.RoomRepository;
 import ua.dp.primat.repositories.StudentGroupRepository;
 import ua.dp.primat.schedule.admin.groupmanagement.EditGroupPage;
 import ua.dp.primat.schedule.admin.groupmanagement.ManageGroupsPage;
-import static org.junit.Assert.*;
 
 /**
  *

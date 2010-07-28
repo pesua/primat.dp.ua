@@ -22,21 +22,15 @@ public final class ViewPage extends WebPage {
         super();
         StudentGroup group = groupRepository.getGroups().get(0);
         List<Lesson> lessons = lessonService.getLessonsForGroupAndSemester(group, 4L);
-        today = new DayPanel("today", DayOfWeek.MONDAY);
+        DayPanel today = new DayPanel("today", DayOfWeek.MONDAY);
         today.updateInfo(lessonService.getLessonsPerDay(lessons, DayOfWeek.MONDAY, WeekType.NUMERATOR));
         add(today);
         
-        tomorrow = new DayPanel("tomorrow", DayOfWeek.TUESDAY);
+        DayPanel tomorrow = new DayPanel("tomorrow", DayOfWeek.TUESDAY);
         tomorrow.updateInfo(lessonService.getLessonsPerDay(lessons, DayOfWeek.TUESDAY, WeekType.NUMERATOR));
         add(tomorrow);
     }
 
-    public ViewPage(PageParameters params) {
-        this();
-    }
-
-    private DayPanel today;
-    private DayPanel tomorrow;
     @SpringBean
     private LessonService lessonService;
     @SpringBean
