@@ -81,4 +81,25 @@
         <dispatcher>FORWARD</dispatcher>
         <dispatcher>INCLUDE</dispatcher>
     </filter-mapping>
+
+    <filter>
+        <filter-name>ScheduleWidget</filter-name>
+        <filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
+        <init-param>
+            <param-name>applicationFactoryClassName</param-name>
+            <param-value>org.apache.wicket.spring.SpringWebApplicationFactory</param-value>
+        </init-param>
+        <init-param>
+            <param-name>applicationBean</param-name>
+            <param-value>scheduleWidgetApplication</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>ScheduleWidget</filter-name>
+        <url-pattern>/schedulewidget/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+    </filter-mapping>
 </web-app>

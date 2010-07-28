@@ -49,4 +49,5 @@
     <bean id="curriculumApplication" class="ua.dp.primat.curriculum.view.WicketApplication"/>
 
     <bean id="scheduleApplication" class="ua.dp.primat.schedule.view.Application"/>
+    <bean id="scheduleWidgetApplication" class="ua.dp.primat.schedule.widget.Application"/>
 </beans>
