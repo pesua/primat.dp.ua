@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.NotImplementedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.dp.primat.domain.Lecturer;
@@ -77,6 +78,16 @@ public class LessonService {
     public List<Lesson> getLessonsForGroupAndSemester(StudentGroup studentGroup,
             Long semester) {
         return lessonRepository.getLessonsByGroupAndSemester(studentGroup, semester);
+    }
+
+    public List<Lesson> getLessonsForLecturerBySemester(Lecturer lecturer, Semester semester){
+        //TODO
+        throw new NotImplementedException();
+    }
+
+    public List<Lesson> getLessonForRoomBySemester(Room room, Semester semester){
+        //TODO
+        throw new NotImplementedException();
     }
 
     /**
