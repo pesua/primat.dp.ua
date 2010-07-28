@@ -10,6 +10,8 @@ import com.liferay.portal.model.impl.GroupImpl;
 import com.liferay.portal.model.impl.OrganizationImpl;
 import com.liferay.portal.model.impl.RoleImpl;
 import com.liferay.portal.model.impl.UserImpl;
+import com.liferay.portlet.expando.model.ExpandoBridge;
+import com.liferay.portlet.expando.model.impl.ExpandoBridgeImpl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -174,6 +176,11 @@ public class MarkupTest extends TestCase {
                 public String getFullName() {
                     return "fullname";
                 }
+
+                @Override
+                public ExpandoBridge getExpandoBridge() {
+                    return null;
+                }
                 
             };
             variousUser.setScreenName("screen");
@@ -221,6 +228,11 @@ public class MarkupTest extends TestCase {
                     return "fullname";
                 }
 
+                @Override
+                public ExpandoBridge getExpandoBridge() {
+                    return null;
+                }
+
             };
             variousUser.setScreenName("screen");
             return variousUser;
@@ -265,6 +277,11 @@ public class MarkupTest extends TestCase {
                 @Override
                 public String getFullName() {
                     return "fullname";
+                }
+
+                @Override
+                public ExpandoBridge getExpandoBridge() {
+                    return null;
                 }
 
             };
