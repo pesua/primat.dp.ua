@@ -160,6 +160,11 @@ public class MarkupTest extends TestCase {
                             return "role";
                         }
 
+                        @Override
+                        public String getTitle(String languageId, boolean useDefault) {
+                            return "role";
+                        }
+
                     };
                     List<Role> mockList = new ArrayList<Role>();
                     mockList.add(g);

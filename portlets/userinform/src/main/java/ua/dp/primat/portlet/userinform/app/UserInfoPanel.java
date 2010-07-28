@@ -7,7 +7,6 @@ import com.liferay.portal.model.Organization;
 import com.liferay.portal.model.Role;
 import com.liferay.portal.model.User;
 import java.text.DateFormat;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.markup.html.basic.Label;
@@ -42,23 +41,20 @@ public class UserInfoPanel extends Panel {
             return user.isMale() ? bundle.getString("sex.male")
                     : bundle.getString("sex.female");
         } catch (SystemException se) {
-            return "";
+            return MINUS;
         } catch (PortalException pe) {
-            return "";
+            return MINUS;
         }
     }
 
     private String getUserSchool(User user) {
-        try {
-            String school = user.getExpandoBridge().getAttribute("school-school").toString();
-            String sCountry = user.getExpandoBridge().getAttribute("school-country").toString();
-            String sCity = user.getExpandoBridge().getAttribute("school-city").toString();
-            return (school.length() > 0) ? String.format("%s (%s, %s)", school, sCity, sCountry) : "";
-        } catch (ClassCastException ce) { //catches if attribute could not be casted to string
-            return "";
-        } catch (NullPointerException ne) { //catches when no expando bridges
-            return "";
+        if (user.getExpandoBridge() == null) {
+            return MINUS;
         }
+        final String school = user.getExpandoBridge().getAttribute("school-school").toString();
+        final String sCountry = user.getExpandoBridge().getAttribute("school-country").toString();
+        final String sCity = user.getExpandoBridge().getAttribute("school-city").toString();
+        return (school.length() > 0) ? String.format("%s (%s, %s)", school, sCity, sCountry) : MINUS;
     }
 
     private String getAvatarPath(User user) {
@@ -95,8 +91,6 @@ public class UserInfoPanel extends Panel {
             }
             return groups.toString();
         } catch (SystemException se) {
-            return MINUS;
-        } catch (NullPointerException ne) {
             return MINUS;
         }
     }
