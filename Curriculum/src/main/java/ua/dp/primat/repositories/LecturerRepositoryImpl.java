@@ -25,11 +25,15 @@ public class LecturerRepositoryImpl implements LecturerRepository {
     }
 
     public List<Lecturer> getAllLecturers() {
-        return em.createNamedQuery(Lecturer.GET_ALL_LECTURERS).getResultList();
+        return em.createNamedQuery(Lecturer.GET_ALL_LECTURERS_QUERY).getResultList();
     }
 
     public List<Lecturer> getLecturerByCathedra(Cathedra cathedra) {
-        return em.createNamedQuery(Lecturer.GET_LECTURERS_BY_CATHEDRA).setParameter("Cathedra", cathedra).getResultList();
+        return em.createNamedQuery(Lecturer.GET_LECTURERS_BY_CATHEDRA_QUERY).setParameter("Cathedra", cathedra).getResultList();
+    }
+
+    public Lecturer getLecturerByName(String name) {
+        return (Lecturer) em.createNamedQuery(Lecturer.GET_LECRURER_BY_NAME_QUERY).setParameter("name", name).getSingleResult();
     }
 
     public void delete(Lecturer lecturer) {

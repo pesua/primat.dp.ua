@@ -16,13 +16,15 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = Lecturer.GET_ALL_LECTURERS, query = "from Lecturer"),
-    @NamedQuery(name = Lecturer.GET_LECTURERS_BY_CATHEDRA, query = "from Lecturer where cathedra=:Cathedra")
+    @NamedQuery(name = Lecturer.GET_ALL_LECTURERS_QUERY, query = "from Lecturer"),
+    @NamedQuery(name = Lecturer.GET_LECTURERS_BY_CATHEDRA_QUERY, query = "from Lecturer where cathedra=:Cathedra"),
+    @NamedQuery(name = Lecturer.GET_LECRURER_BY_NAME_QUERY, query="select l from Lecturer l where l.name=:name")
 })
 public class Lecturer implements Serializable {
 
-    public static final String GET_ALL_LECTURERS = "getAllLecrurers";
-    public static final String GET_LECTURERS_BY_CATHEDRA = "getLecturersByCathedra";
+    public static final String GET_ALL_LECTURERS_QUERY = "getAllLecrurers";
+    public static final String GET_LECTURERS_BY_CATHEDRA_QUERY = "getLecturersByCathedra";
+    public static final String GET_LECRURER_BY_NAME_QUERY = "getLecturerByName";
     @Id
     @GeneratedValue
     private Long id;

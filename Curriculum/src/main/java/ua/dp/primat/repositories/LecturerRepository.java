@@ -20,6 +20,7 @@ public interface LecturerRepository {
     List<Lecturer> getAllLecturers();
 
     List<Lecturer> getLecturerByCathedra(Cathedra cathedra);
+    public Lecturer getLecturerByName(String name);
 
     void store(Lecturer lecturer);
 
