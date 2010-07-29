@@ -30,11 +30,11 @@ public final class ViewPage extends WebPage {
 
         List<Lesson> lessons;
 
-        Lecturer lecturer = liferayUserService.lecturerFrom(req);
+        final Lecturer lecturer = liferayUserService.lecturerFrom(req);
         if (lecturer != null) {
             lessons = lessonService.getLessonsForLecturerBySemester(lecturer, timeService.currentSemester());
         } else {
-            StudentGroup group = liferayUserService.studentGroupFrom(req);
+            final StudentGroup group = liferayUserService.studentGroupFrom(req);
             if (group != null) {
                 lessons = lessonService.getLessonsForGroupBySemester(group, timeService.currentSemester());
 
