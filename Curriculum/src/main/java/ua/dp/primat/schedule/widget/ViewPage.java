@@ -25,8 +25,8 @@ public final class ViewPage extends WebPage {
 
     public ViewPage() {
         super();
-        Request request = RequestCycle.get().getRequest();
-        HttpServletRequest req = ((ServletWebRequest) request).getHttpServletRequest();
+        final Request request = RequestCycle.get().getRequest();
+        final HttpServletRequest req = ((ServletWebRequest) request).getHttpServletRequest();
 
         List<Lesson> lessons;
 
@@ -43,11 +43,11 @@ public final class ViewPage extends WebPage {
             }
         }
 
-        DayPanel todayPanel = new DayPanel("today", "today");
+        final DayPanel todayPanel = new DayPanel("today", "today");
         todayPanel.updateInfo(lessonService.getLessonsPerDay(lessons, timeService.todayDayOfWeek(), WeekType.NUMERATOR));
         add(todayPanel);
 
-        DayPanel tomorrowPanel = new DayPanel("tomorrow", "tomorrow");
+        final DayPanel tomorrowPanel = new DayPanel("tomorrow", "tomorrow");
         tomorrowPanel.updateInfo(lessonService.getLessonsPerDay(lessons, timeService.tomorrowDayOfWeek(), WeekType.NUMERATOR));
         add(tomorrowPanel);
     }
