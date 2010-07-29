@@ -7,7 +7,6 @@ import org.apache.wicket.markup.html.panel.Panel;
 import java.util.List;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import ua.dp.primat.domain.lesson.DayOfWeek;
 
 /**
  * Panel, that outputs lessons for the one day.

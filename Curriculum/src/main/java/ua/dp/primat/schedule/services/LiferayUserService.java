@@ -9,7 +9,6 @@ import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.WebKeys;
 import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -52,13 +51,13 @@ public class LiferayUserService {
     public StudentGroup studentGroupFrom(HttpServletRequest req) {
         try {
             final ThemeDisplay themeDisplay = (ThemeDisplay) req.getAttribute(WebKeys.THEME_DISPLAY);
-            Group group = GroupLocalServiceUtil.getGroup(themeDisplay.getScopeGroupId());
+            final Group group = GroupLocalServiceUtil.getGroup(themeDisplay.getScopeGroupId());
             if (group.isUser()) {
-                User user = UserLocalServiceUtil.getUserById(group.getClassPK());
+                final User user = UserLocalServiceUtil.getUserById(group.getClassPK());
 
                 StudentGroup studentGroup = null;
                 for (Group g : user.getGroups()) {
-                    StudentGroup tempGroup = getStudentGroupByCode(g.getName());
+                    final StudentGroup tempGroup = getStudentGroupByCode(g.getName());
                     if ((tempGroup != null) && ((studentGroup == null) || (tempGroup.getYear() > studentGroup.getYear()))) {
                         studentGroup = tempGroup;
                     }
@@ -79,7 +78,7 @@ public class LiferayUserService {
 
     private StudentGroup getStudentGroupByCode(String groupCode) {
         try {
-            StudentGroup sg = new StudentGroup(groupCode);
+            final StudentGroup sg = new StudentGroup(groupCode);
             return groupRepository.getGroupByCodeAndYearAndNumber(sg.getCode(), sg.getYear(), sg.getNumber());
         } catch (IllegalArgumentException iae) {
             return null;
@@ -94,11 +93,12 @@ public class LiferayUserService {
     public Lecturer lecturerFrom(HttpServletRequest req) {
         try {
             final ThemeDisplay themeDisplay = (ThemeDisplay) req.getAttribute(WebKeys.THEME_DISPLAY);
-            Group group = GroupLocalServiceUtil.getGroup(themeDisplay.getScopeGroupId());
+            final Group group = GroupLocalServiceUtil.getGroup(themeDisplay.getScopeGroupId());
             if (group.isUser()) {
-                User user = UserLocalServiceUtil.getUserById(group.getClassPK());
-                long[] roleIds = user.getRoleIds();
-                if (Arrays.binarySearch(roleIds, 0, roleIds.length - 1, 10504) == -1){
+                final User user = UserLocalServiceUtil.getUserById(group.getClassPK());
+                final long[] roleIds = user.getRoleIds();
+                final long lecturerRoleId = 10504;
+                if (Arrays.binarySearch(roleIds, 0, roleIds.length - 1, lecturerRoleId) == -1){
                     return null;
                 } else {
                     return lecturerRepository.getLecturerByName(user.getLastName() + " " + user.getFirstName() + " " + user.getMiddleName());

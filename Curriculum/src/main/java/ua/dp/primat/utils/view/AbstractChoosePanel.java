@@ -1,6 +1,5 @@
 package ua.dp.primat.utils.view;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.markup.html.form.DropDownChoice;
