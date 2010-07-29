@@ -45,7 +45,7 @@ public class LessonRepositoryImpl implements LessonRepository {
     public List<Lesson> getLessonsByGroupAndSemester(StudentGroup group, Long semester) {
         final Query query = em.createNamedQuery(Lesson.GET_LESSONS_BY_GROUP_AND_SEMESTER_QUERY);
         query.setParameter(SGROUP, group);
-        query.setParameter("semester", semester);
+        query.setParameter(SEMESTER_PARAMETER, semester);
         return query.getResultList();
     }
 
@@ -65,20 +65,23 @@ public class LessonRepositoryImpl implements LessonRepository {
     private static final String SGROUP = "group";
 
     public List<Lesson> getLessonsByLecturerAndSemester(Lecturer lecturer, Semester semester) {
-        Query q = em.createNamedQuery(Lesson.GET_LESSONS_BY_LECTURER_AND_SEMESTER_QUERY);
+        final Query q = em.createNamedQuery(Lesson.GET_LESSONS_BY_LECTURER_AND_SEMESTER_QUERY);
         q.setParameter("lecturer", lecturer);
-        q.setParameter("year", semester.getYear());
-        q.setParameter("semester", semester.getNumber());
+        q.setParameter(YEAR_PARAMETER, semester.getYear());
+        q.setParameter(SEMESTER_PARAMETER, semester.getNumber());
         
         return q.getResultList();
     }
 
     public List<Lesson> getLessonsByRoomAndSemester(Room room, Semester semester) {
-        Query q = em.createNamedQuery(Lesson.GET_LESSONS_BY_ROOM_AND_SEMESTER_QUERY);
+        final Query q = em.createNamedQuery(Lesson.GET_LESSONS_BY_ROOM_AND_SEMESTER_QUERY);
         q.setParameter("room", room);
-        q.setParameter("year", semester.getYear());
-        q.setParameter("semester", semester.getNumber());
+        q.setParameter(YEAR_PARAMETER, semester.getYear());
+        q.setParameter(SEMESTER_PARAMETER, semester.getNumber());
 
         return q.getResultList();
     }
+    
+    private final String YEAR_PARAMETER = "year";
+    private final String SEMESTER_PARAMETER = "semester";
 }

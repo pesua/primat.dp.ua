@@ -18,15 +18,16 @@ import ua.dp.primat.domain.lesson.WeekType;
 public class TimeService {
 
     public Semester currentSemester() {
-        Calendar c = Calendar.getInstance();
-        return new Semester(c.get(Calendar.YEAR), (c.get(Calendar.MONTH) > 6)?2:1);
+        final Calendar c = Calendar.getInstance();
+        
+        return new Semester(c.get(Calendar.YEAR), (c.get(Calendar.MONTH) > Calendar.AUGUST)?2:1);
     }
 
     public DayOfWeek currentDay() {
-        Calendar c = Calendar.getInstance();
+        final Calendar c = Calendar.getInstance();
         int dayNum = c.get(Calendar.DAY_OF_WEEK) - 2;
         if (dayNum < 0) {
-            dayNum = 6;
+            return DayOfWeek.SUNDAY;
         }
         return DayOfWeek.fromNumber(dayNum);
     }
@@ -59,7 +60,7 @@ public class TimeService {
      */
     public List<Semester> semestersForGroup(StudentGroup group) {
         final int educationDuration = 8;
-        ArrayList<Semester> semesters = new ArrayList<Semester>(8);
+        final ArrayList<Semester> semesters = new ArrayList<Semester>(educationDuration);
 
         for (int i = 1; i <= educationDuration; i++){
             semesters.add(new Semester(group, i));
