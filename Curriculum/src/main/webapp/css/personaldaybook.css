@@ -1,0 +1,38 @@
+#scheduleDaybook {
+    width: 100%;
+    font-size: 14px;
+    padding: 3px 3px 3px 3px;
+}
+
+.standartTable {
+	margin: 5px;
+	border-width: 1px;
+	border-style: outset;
+	border-spacing: 2px;
+	font-style: verdana;
+	background-color: #def1fb;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-khtml-border-radius: 4px;
+	border-collapse: separate;
+	font-size: 14px;
+}
+
+.standartTable td, .standartTable th {
+	border-width: none;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-khtml-border-radius: 4px;
+	background-color: rgb(150, 204, 233);
+	padding: 3px 5px 3px 5px;
+}
+
+.standartTable th {
+	background-color: #296375;
+	padding: 0px 40px 0px 40px;
+	color: white;
+	font-style: italic;
+	text-align: center;
+}

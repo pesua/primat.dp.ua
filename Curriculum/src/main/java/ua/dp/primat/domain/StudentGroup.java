@@ -2,6 +2,7 @@ package ua.dp.primat.domain;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.util.regex.Pattern;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,11 +12,13 @@ import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries({
-    @NamedQuery(name = StudentGroup.GET_GROUPS_QUERY, query = "select n from StudentGroup n")
+    @NamedQuery(name = StudentGroup.GET_GROUPS_QUERY, query = "select n from StudentGroup n"),
+    @NamedQuery(name = StudentGroup.GET_GROUPS_BY_CODE_AND_YEAR_AND_NUMBER_QUERY, query = "select n from StudentGroup n where n.code = :code and n.year = :year and n.number = :number")
 })
 public class StudentGroup implements Serializable {
 
     public static final String GET_GROUPS_QUERY = "getGroups";
+    public static final String GET_GROUPS_BY_CODE_AND_YEAR_AND_NUMBER_QUERY = "getGroupsByCodeAndYearAndNumber";
     public static final int CODE_LENGTH = 2;
 
     public StudentGroup() {
@@ -28,8 +31,12 @@ public class StudentGroup implements Serializable {
     }
 
     public StudentGroup(String fullCode) {
+        if (!Pattern.matches("\\D{2,5}-\\d{2,4}-\\d{1,}", fullCode)) {
+            throw new IllegalArgumentException("Wrong student group code");
+        }
+
         try {
-            final char separator = ' ';
+            final char separator = '-';
             final int firstDefis = fullCode.indexOf(separator);
             final int secondDefis = fullCode.indexOf(separator, firstDefis + 1);
             this.code = fullCode.substring(0, firstDefis);
@@ -80,7 +87,6 @@ public class StudentGroup implements Serializable {
         final String yearCode = format.format(getYear() % yearMask);
         return String.format("%s-%s-%d", getCode(), yearCode, getNumber());
     }
-
     private static final Long YEARBASE = 2000L;
     private static final long serialVersionUID = 1L;
     @Id

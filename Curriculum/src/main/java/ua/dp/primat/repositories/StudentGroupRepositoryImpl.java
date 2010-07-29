@@ -18,6 +18,12 @@ public class StudentGroupRepositoryImpl implements StudentGroupRepository {
         return em.createNamedQuery(StudentGroup.GET_GROUPS_QUERY).getResultList();
     }
 
+    public StudentGroup getGroupByCodeAndYearAndNumber(String code, Long year, Long number) {
+        return (StudentGroup) em.createNamedQuery(StudentGroup.GET_GROUPS_BY_CODE_AND_YEAR_AND_NUMBER_QUERY)
+                .setParameter("code", code).setParameter("year", year).setParameter("number", number)
+                .getSingleResult();
+    }
+
     public void store(StudentGroup studentGroup) {
         if (contains(studentGroup)) {
             em.merge(studentGroup);
