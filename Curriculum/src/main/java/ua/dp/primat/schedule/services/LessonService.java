@@ -81,13 +81,11 @@ public class LessonService {
     }
 
     public List<Lesson> getLessonsForLecturerBySemester(Lecturer lecturer, Semester semester){
-        //TODO
-        throw new NotImplementedException();
+        return lessonRepository.getLessonsByLecturerAndSemester(lecturer, semester);
     }
 
     public List<Lesson> getLessonForRoomBySemester(Room room, Semester semester){
-        //TODO
-        throw new NotImplementedException();
+        return lessonRepository.getLessonsByRoomAndSemester(room, semester);
     }
 
     /**

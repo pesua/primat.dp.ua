@@ -45,6 +45,14 @@ public class Semester {
         return new HashCodeBuilder().append(year).append(number).toHashCode();
     }
 
+    public long getNumber() {
+        return number;
+    }
+
+    public long getYear() {
+        return year;
+    }
+
     private long year;
     private long number;
 }

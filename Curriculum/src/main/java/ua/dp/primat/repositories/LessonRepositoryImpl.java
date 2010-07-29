@@ -5,10 +5,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
+import ua.dp.primat.domain.Lecturer;
+import ua.dp.primat.domain.Room;
 import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.domain.lesson.DayOfWeek;
 import ua.dp.primat.domain.lesson.Lesson;
 import ua.dp.primat.domain.lesson.WeekType;
+import ua.dp.primat.schedule.services.Semester;
 
 /**
  *
@@ -39,12 +42,6 @@ public class LessonRepositoryImpl implements LessonRepository {
         return em.find(Lesson.class, id);
     }
 
-    public List<Lesson> getLessons(StudentGroup group) {
-        final Query query = em.createNamedQuery(Lesson.GET_LESSONS_BY_GROUP_QUERY);
-        query.setParameter(SGROUP, group);
-        return query.getResultList();
-    }
-
     public List<Lesson> getLessonsByGroupAndSemester(StudentGroup group, Long semester) {
         final Query query = em.createNamedQuery(Lesson.GET_LESSONS_BY_GROUP_AND_SEMESTER_QUERY);
         query.setParameter(SGROUP, group);
@@ -66,4 +63,22 @@ public class LessonRepositoryImpl implements LessonRepository {
         return true;
     }
     private static final String SGROUP = "group";
+
+    public List<Lesson> getLessonsByLecturerAndSemester(Lecturer lecturer, Semester semester) {
+        Query q = em.createNamedQuery(Lesson.GET_LESSONS_BY_LECTURER_AND_SEMESTER_QUERY);
+        q.setParameter("lecturer", lecturer);
+        q.setParameter("year", semester.getYear());
+        q.setParameter("semester", semester.getNumber());
+        
+        return q.getResultList();
+    }
+
+    public List<Lesson> getLessonsByRoomAndSemester(Room room, Semester semester) {
+        Query q = em.createNamedQuery(Lesson.GET_LESSONS_BY_ROOM_AND_SEMESTER_QUERY);
+        q.setParameter("room", room);
+        q.setParameter("year", semester.getYear());
+        q.setParameter("semester", semester.getNumber());
+
+        return q.getResultList();
+    }
 }
