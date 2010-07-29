@@ -1,6 +1,5 @@
 package ua.dp.primat.schedule.widget;
 
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.WebPage;
 
 /**
@@ -9,11 +8,8 @@ import org.apache.wicket.markup.html.WebPage;
  */
 public final class NoSchedulePage extends WebPage {
     public NoSchedulePage() {
-        super ();
     }
-
-    public NoSchedulePage(PageParameters params) {
-        //TODO:  process page parameters
-    }
+    
+    private static final long serialVersionUID = 1L;
 }
 
