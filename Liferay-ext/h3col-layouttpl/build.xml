@@ -2,7 +2,7 @@
 
 <project name="layouttpl" basedir="." default="deploy">
 	<property name="plugin.version" value="1" />
-	<property name="project.dir" value="/opt/liferay-plugins-sdk-6.0.1/" />
+	<property name="project.dir" value="/opt/liferay-plugins-sdk-6.0.4/" />
 
-	<import file="/opt/liferay-plugins-sdk-6.0.1/layouttpl/build-common-layouttpl.xml" />
+	<import file="/opt/liferay-plugins-sdk-6.0.4/layouttpl/build-common-layouttpl.xml" />
 </project>
