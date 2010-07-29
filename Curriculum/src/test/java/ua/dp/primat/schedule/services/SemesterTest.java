@@ -30,9 +30,9 @@ public class SemesterTest {
     public void testToString() {
         System.out.println("toString");
         Semester instance = new Semester(2007, 1);
-        String expResult = "2007-2008, 1 semester";
+        String expResult = "2007-2008, 1 ";
         String result = instance.toString();
-        assertEquals("Incorrect work of method toString", expResult, result);
+        assertTrue("Incorrect work of method toString", result.startsWith(expResult));
     }
 
     /**

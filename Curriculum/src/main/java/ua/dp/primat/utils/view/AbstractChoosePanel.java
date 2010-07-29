@@ -11,6 +11,8 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.repositories.StudentGroupRepository;
 import ua.dp.primat.curriculum.view.NoCurriculumsPage;
+import ua.dp.primat.schedule.services.Semester;
+import ua.dp.primat.schedule.services.TimeService;
 
 /**
  * Wicket panel for the Group and Semester choosing.
@@ -32,8 +34,8 @@ public abstract class AbstractChoosePanel extends Panel {
 
         //set the default values
         studentGroup = groups.get(0);
-        semester = Long.valueOf(1);
-        executeAction(studentGroup, semester);
+        semester = timeService.currentSemester();
+        executeAction(studentGroup, timeService.semesterNumberForGroup(studentGroup, semester));
 
         final DropDownGroup groupChoice = new DropDownGroup("group",
                 new PropertyModel<StudentGroup>(this, "studentGroup"),
@@ -43,7 +45,7 @@ public abstract class AbstractChoosePanel extends Panel {
         //semester combo
         final String sSemester = "semester";
         final DropDownLong semesterChoise = new DropDownLong(sSemester,
-                new PropertyModel<Long>(this, sSemester),
+                new PropertyModel<Semester>(this, sSemester),
                 new LoadableDetachableModelList());
         add(semesterChoise);
     }
@@ -65,7 +67,7 @@ public abstract class AbstractChoosePanel extends Panel {
         protected void onSelectionChanged(StudentGroup newSelection) {
             studentGroup = newSelection;
 
-            executeAction(studentGroup, semester);
+            executeAction(studentGroup, timeService.semesterNumberForGroup(studentGroup, semester));
             super.onSelectionChanged(studentGroup);
         }
 
@@ -76,9 +78,9 @@ public abstract class AbstractChoosePanel extends Panel {
         private static final long serialVersionUID = 1L;
     }
 
-    private class DropDownLong extends DropDownChoice<Long> {
+    private class DropDownLong extends DropDownChoice<Semester> {
 
-        DropDownLong(String id, PropertyModel<Long> propmodel, LoadableDetachableModel<List<Long>> loadmodel) {
+        DropDownLong(String id, PropertyModel<Semester> propmodel, LoadableDetachableModel<List<Semester>> loadmodel) {
             super(id, propmodel, loadmodel);
         }
 
@@ -88,30 +90,28 @@ public abstract class AbstractChoosePanel extends Panel {
         }
 
         @Override
-        protected void onSelectionChanged(Long newSelection) {
-            executeAction(studentGroup, newSelection);
+        protected void onSelectionChanged(Semester newSelection) {
+            executeAction(studentGroup, timeService.semesterNumberForGroup(studentGroup, semester));
             super.onSelectionChanged(newSelection);
         }
         private static final long serialVersionUID = 1L;
     }
 
-    private static class LoadableDetachableModelList extends LoadableDetachableModel<List<Long>> {
+    private class LoadableDetachableModelList extends LoadableDetachableModel<List<Semester>> {
 
         @Override
-        protected List<Long> load() {
-            final List<Long> l = new ArrayList<Long>();
-            for (int i = 1; i <= SEMESTERCOUNT; i++) {
-                l.add(Long.valueOf(i));
-            }
-            return l;
+        protected List<Semester> load() {
+            return timeService.semestersForGroup(studentGroup);
         }
         private static final long serialVersionUID = 1L;
     }
 
     protected abstract void executeAction(StudentGroup studentGroup, Long semester);
     private StudentGroup studentGroup;
-    private Long semester;
+    private Semester semester;
     @SpringBean
     private StudentGroupRepository studentGroupRepository;
+    @SpringBean
+    private TimeService timeService;
     private static final int SEMESTERCOUNT = 8;
 }

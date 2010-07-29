@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.NotImplementedException;
+import org.springframework.stereotype.Service;
 import ua.dp.primat.domain.StudentGroup;
 import ua.dp.primat.domain.lesson.DayOfWeek;
 import ua.dp.primat.domain.lesson.WeekType;
@@ -13,6 +14,7 @@ import ua.dp.primat.domain.lesson.WeekType;
  * Service which helps work with date or time extract information from it.
  * @author EniSh
  */
+@Service
 public class TimeService {
 
     public Semester currentSemester() {

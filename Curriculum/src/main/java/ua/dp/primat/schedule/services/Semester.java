@@ -1,5 +1,7 @@
 package ua.dp.primat.schedule.services;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import ua.dp.primat.domain.StudentGroup;
@@ -22,7 +24,7 @@ public class Semester {
 
     @Override
     public String toString() {
-        return year + "-" + (year+1) + ", " + number + " semester";
+        return year + "-" + (year+1) + ", " + number + " " + BUNDLE.getString("semester");
     }
 
     @Override
@@ -53,6 +55,9 @@ public class Semester {
         return year;
     }
 
+    private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("dimainModel", new Locale("uk"));
+
     private long year;
     private long number;
+    
 }
