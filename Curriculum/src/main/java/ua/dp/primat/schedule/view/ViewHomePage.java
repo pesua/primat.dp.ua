@@ -56,7 +56,7 @@ public final class ViewHomePage extends WebPage {
 
             @Override
             protected void executeAction(StudentGroup studentGroup, Long semester) {
-                queryResult = lessonService.getLessonsForGroupAndSemester(studentGroup, semester);
+                queryResult = lessonService.getLessonsForGroupBySemester(studentGroup, semester);
                 if (schedulePanel != null) {
                     schedulePanel.refreshView(queryResult);
                 }

@@ -75,7 +75,7 @@ public class LessonService {
         disciplineRepository.delete(discipline);
     }
 
-    public List<Lesson> getLessonsForGroupAndSemester(StudentGroup studentGroup,
+    public List<Lesson> getLessonsForGroupBySemester(StudentGroup studentGroup,
             Long semester) {
         return lessonRepository.getLessonsByGroupAndSemester(studentGroup, semester);
     }

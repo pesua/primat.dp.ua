@@ -78,7 +78,7 @@ public class LessonTest extends AbstractTransactionalJUnit4SpringContextTests {
         lessonService.saveLesson(lesson);
 
         //check the result
-        final List<Lesson> resultLessons = lessonService.getLessonsForGroupAndSemester(sg, semester);
+        final List<Lesson> resultLessons = lessonService.getLessonsForGroupBySemester(sg, semester);
         
         System.out.println(String.format("The added lessons (%d): \n", resultLessons.size()));
         for (Lesson l : resultLessons) {

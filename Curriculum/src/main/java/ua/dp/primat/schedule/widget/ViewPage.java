@@ -21,7 +21,7 @@ public final class ViewPage extends WebPage {
     public ViewPage() {
         super();
         StudentGroup group = groupRepository.getGroups().get(0);
-        List<Lesson> lessons = lessonService.getLessonsForGroupAndSemester(group, 4L);
+        List<Lesson> lessons = lessonService.getLessonsForGroupBySemester(group, 4L);
         DayPanel today = new DayPanel("today", DayOfWeek.MONDAY);
         today.updateInfo(lessonService.getLessonsPerDay(lessons, DayOfWeek.MONDAY, WeekType.NUMERATOR));
         add(today);
