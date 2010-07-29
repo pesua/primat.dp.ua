@@ -25,7 +25,7 @@ public class TimeService {
 
     public DayOfWeek currentDay() {
         final Calendar c = Calendar.getInstance();
-        int dayNum = c.get(Calendar.DAY_OF_WEEK) - 2;
+        final int dayNum = c.get(Calendar.DAY_OF_WEEK) - 2;
         if (dayNum < 0) {
             return DayOfWeek.SUNDAY;
         }

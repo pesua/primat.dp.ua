@@ -35,4 +35,6 @@ public final class ViewPage extends WebPage {
     private LessonService lessonService;
     @SpringBean
     private StudentGroupRepository groupRepository;
+
+    private static final long serialVersionUID = 1L;
 }

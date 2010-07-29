@@ -113,5 +113,4 @@ public abstract class AbstractChoosePanel extends Panel {
     private StudentGroupRepository studentGroupRepository;
     @SpringBean
     private TimeService timeService;
-    private static final int SEMESTERCOUNT = 8;
 }
