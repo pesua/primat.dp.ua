@@ -1,5 +1,7 @@
 package ua.dp.primat.schedule.services;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.NotImplementedException;
@@ -14,17 +16,17 @@ import ua.dp.primat.domain.lesson.WeekType;
 public class TimeService {
 
     public Semester currentSemester() {
-        //TODO
-        throw new NotImplementedException();
-    }
-
-    public DayOfWeek dayOfWeekByDate(Date date) {
-        //TODO
-        throw new NotImplementedException();
+        Calendar c = Calendar.getInstance();
+        return new Semester(c.get(Calendar.YEAR), (c.get(Calendar.MONTH) > 6)?2:1);
     }
 
     public DayOfWeek currentDay() {
-        return dayOfWeekByDate(new Date());
+        Calendar c = Calendar.getInstance();
+        int dayNum = c.get(Calendar.DAY_OF_WEEK) - 2;
+        if (dayNum < 0) {
+            dayNum = 6;
+        }
+        return DayOfWeek.fromNumber(dayNum);
     }
 
     public WeekType weekTypeByDate(Date date) {
@@ -37,6 +39,8 @@ public class TimeService {
     }
 
     public Long lessonNumberByTime(Date date) {
+
+
         //TODO
         throw new NotImplementedException();
     }
@@ -52,8 +56,13 @@ public class TimeService {
      * with number 1, ..., 8 for group
      */
     public List<Semester> semestersForGroup(StudentGroup group) {
-        //TODO
-        throw new NotImplementedException();
+        final int educationDuration = 8;
+        ArrayList<Semester> semesters = new ArrayList<Semester>(8);
+
+        for (int i = 1; i <= educationDuration; i++){
+            semesters.add(new Semester(group, i));
+        }
+        return semesters;
     }
 
     /**
@@ -64,7 +73,6 @@ public class TimeService {
      * @return number of semester
      */
     public Long semesterNumberForGroup(StudentGroup group, Semester semester) {
-        //TODO
-        throw new NotImplementedException();
+        return 2 * (semester.getYear() - group.getYear()) + semester.getNumber();
     }
 }
