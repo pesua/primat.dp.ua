@@ -14,7 +14,7 @@ import ua.dp.primat.domain.Room;
 @NamedQueries({
     @NamedQuery(name = Lesson.GET_LESSONS_BY_GROUP_AND_DAY_QUERY, query = "select lesson from Lesson lesson join lesson.lessonDescription ld where ld.studentGroup = :group and ld.semester=:semester and dayOfWeek=:day and weekType=:weekType"),
     @NamedQuery(name = Lesson.GET_LESSONS_BY_GROUP_AND_SEMESTER_QUERY, query = "select lesson from Lesson lesson join lesson.lessonDescription ld where ld.studentGroup = :group and ld.semester=:semester"),
-    @NamedQuery(name = Lesson.GET_LESSONS_BY_LECTURER_AND_SEMESTER_QUERY, query = "select lesson from Lesson lesson join lesson.lessonDescription ld  join ld.studentGroup sgroup where (ld.lecturer = :lecturer or ld.assistant=:lecturer) and 2*sgroup.year + ld.semester = 2*:year+:semester"),
+    @NamedQuery(name = Lesson.GET_LESSONS_BY_LECTURER_AND_SEMESTER_QUERY, query = "select lesson from Lesson lesson join lesson.lessonDescription ld  join ld.studentGroup sgroup where (ld.lecturer = :lecturer or ld.assistant=:lecturer) and 2L * sgroup.year + ld.semester = 2L * :year + :semester"),
     @NamedQuery(name = Lesson.GET_LESSONS_BY_ROOM_AND_SEMESTER_QUERY, query = "select lesson from Lesson lesson join lesson.lessonDescription ld  join ld.studentGroup sgroup where lesson.room = :room and 2*sgroup.year + ld.semester = 2*:year+:semester")
 })
 public class Lesson implements Serializable {
