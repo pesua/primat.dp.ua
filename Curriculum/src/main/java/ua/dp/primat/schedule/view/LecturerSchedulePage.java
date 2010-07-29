@@ -1,6 +1,5 @@
 package ua.dp.primat.schedule.view;
 
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.WebPage;
 
 /**
@@ -10,7 +9,10 @@ import org.apache.wicket.markup.html.WebPage;
 public final class LecturerSchedulePage extends WebPage {
     public LecturerSchedulePage() {
         super ();
-        
+        schedulePanel = new ViewSchedulePanel("tabs");
+        add(schedulePanel);
     }
+
+    ViewSchedulePanel schedulePanel;
 }
 
