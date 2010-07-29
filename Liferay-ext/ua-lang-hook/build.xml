@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+
+<project name="hook" basedir="." default="deploy">
+  <property name="project.dir" value="/opt/liferay-plugins-sdk-6.0.4/" />
+	<import file="/opt/liferay-plugins-sdk-6.0.4/hooks/build-common-hook.xml" />
+</project>
