@@ -1,4 +1,5 @@
 package ua.dp.primat.schedule.view;
+
 import ua.dp.primat.schedule.view.daybook.ViewDaybook;
 import ua.dp.primat.schedule.view.crosstab.ViewCrosstab;
 import ua.dp.primat.domain.lesson.Lesson;
@@ -28,66 +29,22 @@ public final class ViewHomePage extends WebPage {
      */
     public ViewHomePage() {
         super();
-        languageLoad();
-
-        // create the tabbed panel
-        final List<ITab> tabs = new ArrayList<ITab>();
-        tabs.add(new AbstractTab(new Model<String>(tabDaybookText)) {
-                @Override
-                public Panel getPanel(String panelId) {
-                    daybookPanel = new ViewDaybook(panelId);
-                    daybookPanel.refreshView(queryResult);
-                    return daybookPanel;
-                }
-        });
-
-        tabs.add(new AbstractTab(new Model<String>(tabScheduleText)) {
-                @Override
-                public Panel getPanel(String panelId) {
-                    schedulePanel = new ViewCrosstab(panelId);
-                    schedulePanel.refreshView(queryResult);
-                    return schedulePanel;
-                }
-        });
-        add(new AjaxTabbedPanel("tabs", tabs));
+        schedulePanel = new ViewSchedulePanel("tabs");
+        add(schedulePanel);
 
         //create chooser for group and semester
         final AbstractChoosePanel choosePanel = new AbstractChoosePanel("choosePanel") {
 
             @Override
             protected void executeAction(StudentGroup studentGroup, Long semester) {
-                queryResult = lessonService.getLessonsForGroupBySemester(studentGroup, semester);
-                if (schedulePanel != null) {
-                    schedulePanel.refreshView(queryResult);
-                }
-                if (daybookPanel != null) {
-                    daybookPanel.refreshView(queryResult);
-                }
+                schedulePanel.refreshView(lessonService.getLessonsForGroupBySemester(studentGroup, semester));
             }
         };
         add(choosePanel);
     }
-
-    /**
-     * Load language resources from assigned to page .properties file.
-     */
-    private void languageLoad() {
-        final ResourceBundle bundle = ResourceBundle.getBundle("ua.dp.primat.schedule.view.ViewHomePage");
-        tabScheduleText = bundle.getString("tab.crosstab");
-        tabDaybookText = bundle.getString("tab.daybook");
-    }
-
-    private AbstractRefreshablePanel schedulePanel;
-    private AbstractRefreshablePanel daybookPanel;
-
-    private String tabScheduleText;
-    private String tabDaybookText;
-
-    private List<Lesson> queryResult;
+    private ViewSchedulePanel schedulePanel;
 
     @SpringBean
     private LessonService lessonService;
-
     private static final long serialVersionUID = 1L;
-
 }
