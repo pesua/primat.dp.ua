@@ -19,8 +19,11 @@ public class TimeService {
 
     public Semester currentSemester() {
         final Calendar c = Calendar.getInstance();
-        
-        return new Semester(c.get(Calendar.YEAR), (c.get(Calendar.MONTH) > Calendar.AUGUST)?2:1);
+        if (c.get(Calendar.MONTH) > Calendar.AUGUST) {
+            return new Semester(c.get(Calendar.YEAR), 1);
+        } else {
+            return new Semester(c.get(Calendar.YEAR) - 1, 2);
+        }
     }
 
     public DayOfWeek currentDay() {
@@ -62,7 +65,7 @@ public class TimeService {
         final int educationDuration = 8;
         final ArrayList<Semester> semesters = new ArrayList<Semester>(educationDuration);
 
-        for (int i = 1; i <= educationDuration; i++){
+        for (int i = 1; i <= educationDuration; i++) {
             semesters.add(new Semester(group, i));
         }
         return semesters;
