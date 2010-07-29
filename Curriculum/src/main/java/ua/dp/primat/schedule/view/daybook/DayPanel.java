@@ -20,12 +20,12 @@ public final class DayPanel extends Panel {
      * Constructor of wicket panel, which adds day name and list view
      * of lessons.
      * @param id
-     * @param day
+     * @param title
      */
-    public DayPanel(final String id, DayOfWeek day) {
+    public DayPanel(final String id, String title) {
         super(id);
 
-        add(new Label("oneDayName", day.toString()));
+        add(new Label("oneDayName", title));
 
         dayListView = new DayListView("row", new ArrayList<Lesson>());
         add(dayListView);

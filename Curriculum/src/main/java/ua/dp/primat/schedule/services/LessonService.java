@@ -79,6 +79,11 @@ public class LessonService {
         return lessonRepository.getLessonsByGroupAndSemester(studentGroup, semester);
     }
 
+    public List<Lesson> getLessonsForGroupBySemester(StudentGroup studentGroup,
+            Semester semester) {
+        return getLessonsForGroupBySemester(studentGroup, timeService.semesterNumberForGroup(studentGroup, semester));
+    }
+
     public List<Lesson> getLessonsForLecturerBySemester(Lecturer lecturer, Semester semester){
         return lessonRepository.getLessonsByLecturerAndSemester(lecturer, semester);
     }
@@ -135,6 +140,9 @@ public class LessonService {
 
     @Resource
     private LecturerRepository lecturerRepository;
+
+    @Resource
+    private TimeService timeService;
 
     public static final int LESSONCOUNT = 5;
 }

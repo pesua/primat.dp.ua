@@ -38,7 +38,7 @@ public final class ViewDaybook extends AbstractRefreshablePanel {
 
         //add the 6-day-week
         for (int i = 0; i < listDataPanel.length; i++) {
-            listDataPanel[i] = new DayPanel("oneDay" + i, DayOfWeek.fromNumber(i));
+            listDataPanel[i] = new DayPanel("oneDay" + i, DayOfWeek.fromNumber(i).toString());
             add(listDataPanel[i]);
         }
 

@@ -26,12 +26,18 @@ public class TimeService {
         }
     }
 
-    public DayOfWeek currentDay() {
+    public DayOfWeek todayDayOfWeek() {
         final Calendar c = Calendar.getInstance();
         final int dayNum = c.get(Calendar.DAY_OF_WEEK) - 2;
         if (dayNum < 0) {
             return DayOfWeek.SUNDAY;
         }
+        return DayOfWeek.fromNumber(dayNum);
+    }
+
+    public DayOfWeek tomorrowDayOfWeek() {
+        final Calendar c = Calendar.getInstance();
+        final int dayNum = c.get(Calendar.DAY_OF_WEEK) - 1;
         return DayOfWeek.fromNumber(dayNum);
     }
 
