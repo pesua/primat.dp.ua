@@ -122,7 +122,7 @@ Format dateFormatDateTime = FastDateFormatFactoryUtil.getDateTime(locale, timeZo
 
 					<br />
 
-					<input id="<%= randomNamespace %>postReplyButton<%= i %>" type="button" value="<liferay-ui:message key="reply" />" onClick="<%= randomNamespace %>postReply(<%= i %>);" />
+					<input disabled="disabled" id="<%= randomNamespace %>postReplyButton<%= i %>" type="button" value="<liferay-ui:message key="reply" />" onClick="<%= randomNamespace %>postReply(<%= i %>);" />
 
 					<input type="button" value="<liferay-ui:message key="cancel" />" onClick="document.getElementById('<%= randomNamespace %>postReplyForm<%= i %>').style.display = 'none'; void('');" />
 				</td>
@@ -277,13 +277,6 @@ Format dateFormatDateTime = FastDateFormatFactoryUtil.getDateTime(locale, timeZo
 								Portlet portlet = PortletLocalServiceUtil.getPortletById(company.getCompanyId(), portletDisplay.getId());
 								%>
 
-								<td>
-									<liferay-ui:ratings
-										className="<%= MBMessage.class.getName() %>"
-										classPK="<%= message.getMessageId() %>"
-										type="thumbs"
-									/>
-								</td>
 							</c:if>
 
 							<c:if test="<%= MBDiscussionPermission.contains(permissionChecker, company.getCompanyId(), scopeGroupId, permissionClassName, permissionClassPK, userId, ActionKeys.ADD_DISCUSSION) %>">
@@ -343,9 +336,9 @@ Format dateFormatDateTime = FastDateFormatFactoryUtil.getDateTime(locale, timeZo
 
 								<br />
 
-								<input id="<%= randomNamespace %>postReplyButton<%= i %>" type="button" value="<liferay-ui:message key="reply" />" onClick="<%= randomNamespace %>postReply(<%= i %>);" />
+								<input disabled="disabled" id="<%= randomNamespace %>postReplyButton<%= i %>" type="button" value="<liferay-ui:message key="reply" />" onClick="<%= randomNamespace %>postReply(<%= i %>);" />
 
-								<input type="button" value="<liferay-ui:message key="cancel" />" onClick="document.getElementById('<%= randomNamespace %>postReplyForm<%= i %>').style.display = 'none'; void('');" />
+								<input type="button" dis value="<liferay-ui:message key="cancel" />" onClick="document.getElementById('<%= randomNamespace %>postReplyForm<%= i %>').style.display = 'none'; void('');" />
 							</td>
 						</tr>
 
