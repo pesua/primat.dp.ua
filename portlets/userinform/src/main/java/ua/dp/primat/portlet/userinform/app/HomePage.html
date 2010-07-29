@@ -6,6 +6,9 @@
         <link rel="stylesheet" type="text/css" href="style.css"/>
     </head>
     <body>
+        <a href="javascript:showForPrint(document.getElementById('forPrint').innerHTML)">
+            <img border=0 src='http://www.iconsearch.ru/uploads/icons/gnomeicontheme/24x24/stock_print.png' />
+        </a>
         <div id="forPrint">
             <div style="font-weight: bold; font-size: 14px;">
                 <wicket:message key="page.header"></wicket:message>
@@ -14,8 +17,5 @@
             <br/>
             <span wicket:id="userDetails">##</span>
         </div> 
-        <a href="javascript:showForPrint(document.getElementById('forPrint').innerHTML)">
-            <img border=0 src='http://www.iconsearch.ru/uploads/icons/gnomeicontheme/24x24/stock_print.png' />Version for print
-        </a>
     </body>
 </html>

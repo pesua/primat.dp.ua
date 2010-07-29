@@ -11,26 +11,19 @@ import com.liferay.portal.model.impl.OrganizationImpl;
 import com.liferay.portal.model.impl.RoleImpl;
 import com.liferay.portal.model.impl.UserImpl;
 import com.liferay.portlet.expando.model.ExpandoBridge;
-import com.liferay.portlet.expando.model.impl.ExpandoBridgeImpl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import junit.framework.TestCase;
-import org.apache.wicket.Page;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.Session;
-import org.apache.wicket.protocol.http.MockHttpServletRequest;
-import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.spring.injection.annot.test.AnnotApplicationContextMock;
 import org.apache.wicket.util.tester.WicketTester;
 import static org.easymock.EasyMock.*;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Service;
 import ua.dp.primat.portlet.userinform.services.LiferayUserService;
-import ua.dp.primat.portlet.userinform.services.LiferayUserServiceImpl;
 
 /**
  * Test, that checks wicket markup using fake service's implementations.
