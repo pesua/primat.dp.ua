@@ -27,7 +27,7 @@ showSearch = showSearch && !results.isEmpty();
 			<span class="aui-search-bar">
 				<aui:input inlineField="<%= true %>" label="" name="keywords" size="30" title="search-entries" type="text" />
 
-				<aui:button type="submit" value="<%= "\u041f\u043e\u0448\u0443\u043a \u043f\u043e \u043d\u043e\u0432\u0438\u043d\u0430\u043c"%>" />
+				<aui:button type="submit" value="search" />
 			</span>
 		</c:if>
 
@@ -78,12 +78,25 @@ showSearch = showSearch && !results.isEmpty();
 <div class="timbrel" style="visibility: hidden; ">-</div>
 
 <%
-for (AssetEntry assetEntry : results) {
-	BlogsEntry entry = BlogsEntryLocalServiceUtil.getEntry(assetEntry.getClassPK());
+for (Object result : results) {
+	BlogsEntry entry = null;
 
-	AssetUtil.addLayoutTags(request, assetEntry.getTags());
+	AssetEntry assetEntry = null;
+
+	if (result instanceof AssetEntry) {
+		assetEntry = (AssetEntry)result;
+
+		entry = BlogsEntryLocalServiceUtil.getEntry(assetEntry.getClassPK());
+
+		AssetUtil.addLayoutTags(request, assetEntry.getTags());
+	}
+	else {
+		entry = (BlogsEntry)result;
+	}
 
 	request.setAttribute("view_entry_content.jsp-redirect", redirect);
+
+	request.setAttribute("view_entry_content.jsp-searchContainer", searchContainer);
 
 	request.setAttribute("view_entry_content.jsp-entry", entry);
 
@@ -91,8 +104,6 @@ for (AssetEntry assetEntry : results) {
 %>
 
 	<liferay-util:include page="/html/portlet/blogs/view_entry_content.jsp" />
-
-	<div class="separator"><!-- --></div>
 
 <%
 }
@@ -105,7 +116,13 @@ if (rssURLParams.length() > 0) {
 %>
 
 <div class="subscribe">
-	<liferay-ui:icon image="rss" label="<%= true %>" method="get" target="_blank" url="<%= rssURL %>" />
+	<liferay-ui:icon
+		image="rss"
+		label="<%= true %>"
+		method="get"
+		target="_blank"
+		url="<%= rssURL %>"
+	/>
 
 	<c:if test="<%= showSubscribeButton %>">
 		<c:choose>
@@ -116,7 +133,11 @@ if (rssURLParams.length() > 0) {
 					<portlet:param name="redirect" value="<%= currentURL %>" />
 				</portlet:actionURL>
 
-				<liferay-ui:icon image="unsubscribe" label="<%= true %>" url="<%= unsubscribeURL %>" />
+				<liferay-ui:icon
+					image="unsubscribe"
+					label="<%= true %>"
+					url="<%= unsubscribeURL %>"
+				/>
 			</c:when>
 			<c:otherwise>
 				<portlet:actionURL var="subscribeURL">
@@ -125,7 +146,11 @@ if (rssURLParams.length() > 0) {
 					<portlet:param name="redirect" value="<%= currentURL %>" />
 				</portlet:actionURL>
 
-				<liferay-ui:icon image="subscribe" label="<%= true %>" url="<%= subscribeURL %>" />
+				<liferay-ui:icon
+					image="subscribe"
+					label="<%= true %>"
+					url="<%= subscribeURL %>"
+				/>
 			</c:otherwise>
 		</c:choose>
 	</c:if>

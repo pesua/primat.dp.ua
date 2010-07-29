@@ -29,16 +29,11 @@ BlogsEntry entry = (BlogsEntry)request.getAttribute(WebKeys.BLOGS_ENTRY);
 
 long entryId = BeanParamUtil.getLong(entry, request, "entryId");
 
-BlogsEntry[] prevAndNext = BlogsEntryLocalServiceUtil.getEntriesPrevAndNext(entryId);
-
-BlogsEntry previousEntry = prevAndNext[0];
-BlogsEntry nextEntry = prevAndNext[2];
-
 pageDisplayStyle = RSSUtil.DISPLAY_STYLE_FULL_CONTENT;
 
 AssetEntry assetEntry = AssetEntryLocalServiceUtil.getEntry(BlogsEntry.class.getName(), entry.getEntryId());
 
-AssetEntryLocalServiceUtil.incrementViewCounter(BlogsEntry.class.getName(), entry.getEntryId());
+AssetEntryServiceUtil.incrementViewCounter(BlogsEntry.class.getName(), entry.getEntryId());
 
 AssetUtil.addLayoutTags(request, AssetTagLocalServiceUtil.getTags(BlogsEntry.class.getName(), entry.getEntryId()));
 
@@ -48,6 +43,11 @@ request.setAttribute("view_entry_content.jsp-entry", entry);
 
 request.setAttribute("view_entry_content.jsp-assetEntry", assetEntry);
 %>
+
+<liferay-ui:header
+	backURL="<%= redirect %>"
+	title="<%= entry.getTitle() %>"
+/>
 
 <portlet:actionURL var="editEntryURL">
 	<portlet:param name="struts_action" value="/blogs/edit_entry" />
@@ -60,60 +60,59 @@ request.setAttribute("view_entry_content.jsp-assetEntry", assetEntry);
 	<liferay-util:include page="/html/portlet/blogs/view_entry_content.jsp" />
 </aui:form>
 
+<script language='JavaScript'>
+    function showForPrint(pr) {
+        newWin=window.open('','printWindow','width=800,height=600');
+        newWin.document.open();
 
-    <script language='JavaScript'>
-        function showForPrint(pr) {
-            newWin=window.open('','printWindow','width=800,height=600');
-            newWin.document.open();
+        newWin.document.write("<html><head><title>Version for print");
+        newWin.document.write("</title>");
+        newWin.document.write("</head><body>");
+        newWin.document.write("<a href='javascript:window.print();'><img border=0 src='http://www.iconsearch.ru/uploads/icons/gnomeicontheme/24x24/stock_print.png' /></a>");
+        newWin.document.write(pr);
+        newWin.document.write("</body></html>");
 
-            newWin.document.write("<html><head><title>Version for print");
-            newWin.document.write("</title>");
-            newWin.document.write("</head><body>");
-            newWin.document.write("<a href='javascript:window.print();'><img border=0 src='http://www.iconsearch.ru/uploads/icons/gnomeicontheme/24x24/stock_print.png' /></a>");
-            newWin.document.write(pr);
-            newWin.document.write("</body></html>");
-
-            var r = newWin.document.getElementById("ykmt_socialBookmarks");
-            newWin.document.getElementById("footer").removeChild(r);
-            
-            newWin.document.close();
-        }
-    </script>
+        var r = newWin.document.getElementById("ykmt_socialBookmarks");
+        newWin.document.getElementById("blogfooter").removeChild(r);
+        
+        newWin.document.close();
+    }
+</script>
 
 
-    <a href="javascript:showForPrint(document.getElementById('forPrint').innerHTML)">
-        <img src='http://www.iconsearch.ru/uploads/icons/gnomeicontheme/24x24/stock_print.png' />Version for print
-    </a>
+<a href="javascript:showForPrint(document.getElementById('forPrint').innerHTML)">
+    <img src='http://www.iconsearch.ru/uploads/icons/gnomeicontheme/24x24/stock_print.png' />Version for print
+</a>
 
 <c:if test="<%= enableComments %>">
-	<br />
+	<liferay-ui:panel-container extended="<%= false %>" id="blogsCommentsPanelContainer" persistState="<%= true %>">
+		<liferay-ui:panel collapsible="<%= true %>" extended="<%= true %>" id="blogsCommentsPanel" persistState="<%= true %>" title='<%= LanguageUtil.get(pageContext, "comments") %>'>
+			<c:if test="<%= PropsValues.BLOGS_TRACKBACK_ENABLED && entry.isAllowTrackbacks() %>">
+				<liferay-ui:message key="trackback-url" />:
 
-	<liferay-ui:tabs names="comments" />
+				<liferay-ui:input-resource
+					url='<%= PortalUtil.getLayoutFullURL(themeDisplay) + Portal.FRIENDLY_URL_SEPARATOR + "blogs/trackback/" + entry.getUrlTitle() %>'
+				/>
 
-	<c:if test="<%= PropsValues.BLOGS_TRACKBACK_ENABLED && entry.isAllowTrackbacks() %>">
-		<liferay-ui:message key="trackback-url" />:
+				<br /><br />
+			</c:if>
 
-		<liferay-ui:input-resource
-			url='<%= PortalUtil.getLayoutFullURL(themeDisplay) + Portal.FRIENDLY_URL_SEPARATOR + "blogs/trackback/" + entry.getUrlTitle() %>'
-		/>
+			<portlet:actionURL var="discussionURL">
+				<portlet:param name="struts_action" value="/blogs/edit_entry_discussion" />
+			</portlet:actionURL>
 
-		<br /><br />
-	</c:if>
-
-	<portlet:actionURL var="discussionURL">
-		<portlet:param name="struts_action" value="/blogs/edit_entry_discussion" />
-	</portlet:actionURL>
-
-	<liferay-ui:discussion
-		className="<%= BlogsEntry.class.getName() %>"
-		classPK="<%= entry.getEntryId() %>"
-		formAction="<%= discussionURL %>"
-		formName="fm2"
-		ratingsEnabled="<%= enableCommentRatings %>"
-		redirect="<%= currentURL %>"
-		subject="<%= entry.getTitle() %>"
-		userId="<%= entry.getUserId() %>"
-	/>
+			<liferay-ui:discussion
+				className="<%= BlogsEntry.class.getName() %>"
+				classPK="<%= entry.getEntryId() %>"
+				formAction="<%= discussionURL %>"
+				formName="fm2"
+				ratingsEnabled="<%= enableCommentRatings %>"
+				redirect="<%= currentURL %>"
+				subject="<%= entry.getTitle() %>"
+				userId="<%= entry.getUserId() %>"
+			/>
+		</liferay-ui:panel>
+	</liferay-ui:panel-container>
 </c:if>
 
 <%

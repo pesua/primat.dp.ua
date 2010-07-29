@@ -23,7 +23,8 @@
 <%@ page import="com.liferay.portal.kernel.search.Indexer" %>
 <%@ page import="com.liferay.portal.kernel.search.IndexerRegistryUtil" %>
 <%@ page import="com.liferay.portal.kernel.search.SearchContext" %>
-<%@ page import="com.liferay.portal.search.SearchContextFactory" %>
+<%@ page import="com.liferay.portal.kernel.search.SearchContextFactory" %>
+<%@ page import="com.liferay.portal.security.permission.ResourceActionsUtil" %>
 <%@ page import="com.liferay.portlet.asset.model.AssetCategory" %>
 <%@ page import="com.liferay.portlet.asset.model.AssetEntry" %>
 <%@ page import="com.liferay.portlet.asset.model.AssetRenderer" %>
@@ -31,6 +32,7 @@
 <%@ page import="com.liferay.portlet.asset.model.AssetVocabulary" %>
 <%@ page import="com.liferay.portlet.asset.service.AssetCategoryLocalServiceUtil" %>
 <%@ page import="com.liferay.portlet.asset.service.AssetEntryLocalServiceUtil" %>
+<%@ page import="com.liferay.portlet.asset.service.AssetEntryServiceUtil" %>
 <%@ page import="com.liferay.portlet.asset.service.AssetTagLocalServiceUtil" %>
 <%@ page import="com.liferay.portlet.asset.service.AssetVocabularyLocalServiceUtil" %>
 <%@ page import="com.liferay.portlet.asset.service.persistence.AssetEntryQuery" %>
@@ -70,21 +72,8 @@ int rssDelta = GetterUtil.getInteger(preferences.getValue("rss-delta", StringPoo
 String rssDisplayStyle = preferences.getValue("rss-display-style", RSSUtil.DISPLAY_STYLE_FULL_CONTENT);
 String rssFormat = preferences.getValue("rss-format", "atom10");
 
-String rssFormatType = RSSUtil.DEFAULT_TYPE;
-double rssFormatVersion = RSSUtil.DEFAULT_VERSION;
-
-if (rssFormat.equals("rss10")) {
-	rssFormatType = RSSUtil.RSS;
-	rssFormatVersion = 1.0;
-}
-else if (rssFormat.equals("rss20")) {
-	rssFormatType = RSSUtil.RSS;
-	rssFormatVersion = 2.0;
-}
-else if (rssFormat.equals("atom10")) {
-	rssFormatType = RSSUtil.ATOM;
-	rssFormatVersion = 1.0;
-}
+String rssFormatType = RSSUtil.getFormatType(rssFormat);
+double rssFormatVersion = RSSUtil.getFormatVersion(rssFormat);
 
 StringBuilder rssURLParams = new StringBuilder();
 
