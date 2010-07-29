@@ -2,6 +2,7 @@ package ua.dp.primat.repositories;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +20,15 @@ public class StudentGroupRepositoryImpl implements StudentGroupRepository {
     }
 
     public StudentGroup getGroupByCodeAndYearAndNumber(String code, Long year, Long number) {
-        return (StudentGroup) em.createNamedQuery(StudentGroup.GET_GROUPS_BY_CODE_AND_YEAR_AND_NUMBER_QUERY)
-                .setParameter("code", code).setParameter("year", year).setParameter("number", number)
-                .getSingleResult();
+        try {
+            return (StudentGroup) em.createNamedQuery(StudentGroup.GET_GROUPS_BY_CODE_AND_YEAR_AND_NUMBER_QUERY)
+                    .setParameter("code", code)
+                    .setParameter("year", year)
+                    .setParameter("number", number)
+                    .getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
     }
 
     public void store(StudentGroup studentGroup) {

@@ -3,6 +3,7 @@ package ua.dp.primat.repositories;
 import ua.dp.primat.domain.Lecturer;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +34,11 @@ public class LecturerRepositoryImpl implements LecturerRepository {
     }
 
     public Lecturer getLecturerByName(String name) {
-        return (Lecturer) em.createNamedQuery(Lecturer.GET_LECRURER_BY_NAME_QUERY).setParameter("name", name).getSingleResult();
+        try {
+            return (Lecturer) em.createNamedQuery(Lecturer.GET_LECRURER_BY_NAME_QUERY).setParameter("name", name).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
     }
 
     public void delete(Lecturer lecturer) {
