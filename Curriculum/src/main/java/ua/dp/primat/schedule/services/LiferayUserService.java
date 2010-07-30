@@ -13,7 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.commons.lang.NotImplementedException;
 import org.springframework.stereotype.Service;
 import ua.dp.primat.domain.Lecturer;
 import ua.dp.primat.domain.StudentGroup;
@@ -85,7 +84,8 @@ public class LiferayUserService {
                 if (Arrays.binarySearch(roleIds, 0, roleIds.length - 1, lecturerRoleId) == -1){
                     return null;
                 } else {
-                    return lecturerRepository.getLecturerByName(user.getLastName() + " " + user.getFirstName() + " " + user.getMiddleName());
+                    final String space = " ";
+                    return lecturerRepository.getLecturerByName(user.getLastName() + space + user.getFirstName() + space + user.getMiddleName());
                 }
 
             } else {

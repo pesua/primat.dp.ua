@@ -18,7 +18,7 @@ public final class LecturerSchedulePage extends WebPage {
 
     public LecturerSchedulePage() {
         super();
-        List<Lecturer> lecturers = lecturerRepository.getAllLecturers();
+        final List<Lecturer> lecturers = lecturerRepository.getAllLecturers();
         lecturer = lecturers.get(0);
 
         add(new DropDownChoice<Lecturer>(

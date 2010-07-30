@@ -5,6 +5,7 @@ import ua.dp.primat.domain.lesson.Lesson;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 import java.util.List;
+import java.util.ResourceBundle;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 
@@ -25,22 +26,22 @@ public final class DayPanel extends Panel {
         super(id);
 
         add(new Label("oneDayName", title));
-        
-        add(new Label("head.lecturer") {
+
+        add(new Label("head.lecturer", locale.getString("table.caption.lecturer")) {
 
             @Override
             public boolean isVisible() {
                 return lecturerVisible;
             }
         });
-        add(new Label("head.room"){
-            
+        add(new Label("head.room", locale.getString("table.caption.room")) {
+
             @Override
             public boolean isVisible() {
                 return roomVisible;
             }
         });
-        add(new Label("head.group"){
+        add(new Label("head.group", locale.getString("table.caption.group")) {
 
             @Override
             public boolean isVisible() {
@@ -129,6 +130,7 @@ public final class DayPanel extends Panel {
         }
         private static final long serialVersionUID = 2L;
     }
+    private static ResourceBundle locale = ResourceBundle.getBundle("ua.dp.primat.schedule.view.DayPanel");
     private boolean lecturerVisible = true;
     private boolean roomVisible = true;
     private boolean groupVisible = true;

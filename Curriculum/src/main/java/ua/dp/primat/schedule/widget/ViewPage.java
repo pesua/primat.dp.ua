@@ -35,20 +35,20 @@ public final class ViewPage extends WebPage {
         boolean groupVisible = true;
 
         final Lecturer lecturer = liferayUserService.lecturerFrom(req);
-        if (lecturer != null) {
-            lessons = lessonService.getLessonsForLecturerBySemester(lecturer, timeService.currentSemester());
-            lecturerVisible = false;
-        } else {
+        if (lecturer == null) {
             final StudentGroup group = liferayUserService.studentGroupFrom(req);
-            if (group != null) {
+            if (group == null) {
+                throw new RestartResponseAtInterceptPageException(NoSchedulePage.class);
+            } else {
                 lessons = lessonService.getLessonsForGroupBySemester(group, timeService.currentSemester());
                 groupVisible = false;
-            } else {
-                throw new RestartResponseAtInterceptPageException(NoSchedulePage.class);
             }
+        } else {
+            lessons = lessonService.getLessonsForLecturerBySemester(lecturer, timeService.currentSemester());
+            lecturerVisible = false;
         }
 
-        ResourceBundle locale = ResourceBundle.getBundle("ua.dp.primat.schedule.widget.ViewPage");
+        final ResourceBundle locale = ResourceBundle.getBundle("ua.dp.primat.schedule.widget.ViewPage");
 
         final DayPanel todayPanel = new DayPanel("todayPanel", locale.getString("today"));
         todayPanel.setLecturerVisible(lecturerVisible);

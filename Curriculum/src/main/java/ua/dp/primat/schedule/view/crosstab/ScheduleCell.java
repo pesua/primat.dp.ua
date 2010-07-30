@@ -22,27 +22,9 @@ public final class ScheduleCell extends Panel {
         
         add(new Label("cellSubject", cellSubject));
         add(new Label("cellType", cellType));
-        add(new Label("cellLecturer", cellLecturer) {
-
-            @Override
-            public boolean isVisible() {
-                return lecturerVisible;
-            }
-        });
-        add(new Label("cellGroup", cellGroup) {
-
-            @Override
-            public boolean isVisible() {
-                return groupVisible;
-            }
-        });
-        add(new Label("cellRoom", cellRoom) {
-
-            @Override
-            public boolean isVisible() {
-                return roomVisible;
-            }
-        });
+        add(new LecturerLabel("cellLecturer", cellLecturer));
+        add(new GroupLabel("cellGroup", cellGroup));
+        add(new RoomLabel("cellRoom", cellRoom));
     }
 
     public boolean isGroupVisible() {
@@ -74,5 +56,41 @@ public final class ScheduleCell extends Panel {
     private boolean groupVisible = true;
 
     private static final long serialVersionUID = 1L;
+
+    private class LecturerLabel extends Label {
+
+        public LecturerLabel(String id, String label) {
+            super(id, label);
+        }
+
+        @Override
+        public boolean isVisible() {
+            return lecturerVisible;
+        }
+    }
+
+    private class GroupLabel extends Label {
+
+        public GroupLabel(String id, String label) {
+            super(id, label);
+        }
+
+        @Override
+        public boolean isVisible() {
+            return groupVisible;
+        }
+    }
+
+    private class RoomLabel extends Label {
+
+        public RoomLabel(String id, String label) {
+            super(id, label);
+        }
+
+        @Override
+        public boolean isVisible() {
+            return roomVisible;
+        }
+    }
 }
 

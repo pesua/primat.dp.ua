@@ -42,7 +42,7 @@ public class TimeService {
     }
 
     public WeekType weekTypeByDate(Date date) {
-        Calendar c = Calendar.getInstance();
+        final Calendar c = Calendar.getInstance();
         c.setTime(date);
         int currentWeekNum;
         currentWeekNum = c.get(Calendar.WEEK_OF_YEAR);
@@ -51,7 +51,8 @@ public class TimeService {
             c.set(Calendar.MONTH, Calendar.DECEMBER);
             c.set(Calendar.DATE, c.getMaximum(Calendar.DATE));
             currentWeekNum += c.get(Calendar.WEEK_OF_YEAR);
-            if (c.get(Calendar.DAY_OF_WEEK) != ((c.getFirstDayOfWeek() + 6) % 7)){
+            final int dayInWeekCount = 7;
+            if (c.get(Calendar.DAY_OF_WEEK) != ((c.getFirstDayOfWeek() + dayInWeekCount - 1) % dayInWeekCount)){
                 currentWeekNum--;
             }
         }
