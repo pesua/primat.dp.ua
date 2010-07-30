@@ -1,5 +1,6 @@
 package ua.dp.primat.schedule.services;
 
+import java.io.Serializable;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -10,7 +11,7 @@ import ua.dp.primat.domain.StudentGroup;
  *
  * @author EniSh
  */
-public class Semester {
+public class Semester implements Serializable {
 
     public Semester(long year, long number) {
         this.year = year;
@@ -59,5 +60,6 @@ public class Semester {
 
     private long year;
     private long number;
-    
+
+    private static final long serialVersionUID = 1L;
 }
