@@ -26,22 +26,6 @@ import ua.dp.primat.repositories.StudentGroupRepository;
  */
 @Service
 public class LiferayUserService {
-
-    public boolean isLecturerPage(HttpServletRequest req) {
-        //TODO
-        throw new NotImplementedException();
-    }
-
-    public boolean isStudentPage(HttpServletRequest req) {
-        //TODO
-        throw new NotImplementedException();
-    }
-
-    public boolean isStudentGroupPage(HttpServletRequest req) {
-        //TODO
-        throw new NotImplementedException();
-    }
-
     /**
      * returns student group which correspond owner of site. owner can be user or community
      * of users(student group)

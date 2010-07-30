@@ -1,6 +1,7 @@
 package ua.dp.primat.schedule.widget;
 
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.wicket.Request;
 import org.apache.wicket.RequestCycle;
@@ -43,11 +44,13 @@ public final class ViewPage extends WebPage {
             }
         }
 
-        final DayPanel todayPanel = new DayPanel("today", "today");
+        ResourceBundle locale = ResourceBundle.getBundle("ua.dp.primat.schedule.widget.ViewPage");
+
+        final DayPanel todayPanel = new DayPanel("todayPanel", locale.getString("today"));
         todayPanel.updateInfo(lessonService.getLessonsPerDay(lessons, timeService.todayDayOfWeek(), WeekType.NUMERATOR));
         add(todayPanel);
 
-        final DayPanel tomorrowPanel = new DayPanel("tomorrow", "tomorrow");
+        final DayPanel tomorrowPanel = new DayPanel("tomorrowPanel", locale.getString("tomorrow"));
         tomorrowPanel.updateInfo(lessonService.getLessonsPerDay(lessons, timeService.tomorrowDayOfWeek(), WeekType.NUMERATOR));
         add(tomorrowPanel);
     }

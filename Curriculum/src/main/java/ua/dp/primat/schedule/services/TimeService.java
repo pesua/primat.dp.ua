@@ -42,8 +42,24 @@ public class TimeService {
     }
 
     public WeekType weekTypeByDate(Date date) {
-        //TODO
-        throw new NotImplementedException();
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        int currentWeekNum;
+        currentWeekNum = c.get(Calendar.WEEK_OF_YEAR);
+        if (c.get(Calendar.MONTH) < Calendar.SEPTEMBER) {
+            c.add(Calendar.YEAR, -1);
+            c.set(Calendar.MONTH, Calendar.DECEMBER);
+            c.set(Calendar.DATE, c.getMaximum(Calendar.DATE));
+            currentWeekNum += c.get(Calendar.WEEK_OF_YEAR);
+            if (c.get(Calendar.DAY_OF_WEEK) != ((c.getFirstDayOfWeek() + 6) % 7)){
+                currentWeekNum--;
+            }
+        }
+        c.set(Calendar.MONTH, Calendar.SEPTEMBER);
+        c.set(Calendar.DATE, 1);
+        currentWeekNum -= c.get(Calendar.WEEK_OF_YEAR);
+
+        return ((currentWeekNum) % 2 == 0) ? WeekType.NUMERATOR : WeekType.DENOMINATOR;
     }
 
     public WeekType currentWeekType() {

@@ -10,6 +10,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import ua.dp.primat.domain.lesson.DayOfWeek;
 import ua.dp.primat.domain.lesson.WeekType;
 import ua.dp.primat.schedule.services.LessonService;
+import ua.dp.primat.schedule.services.TimeService;
 import ua.dp.primat.utils.view.AbstractRefreshablePanel;
 
 /**
@@ -30,6 +31,7 @@ public final class ViewDaybook extends AbstractRefreshablePanel {
         final List<WeekType> weekTypeValues = new ArrayList<WeekType>();
         weekTypeValues.add(WeekType.NUMERATOR);
         weekTypeValues.add(WeekType.DENOMINATOR);
+        weekType = timeService.currentWeekType();
 
         final String sWeek = "weekType";
         final DropDownWeekType weekTypeChoice = new DropDownWeekType(sWeek,
@@ -105,6 +107,8 @@ public final class ViewDaybook extends AbstractRefreshablePanel {
     private DayPanel[] listDataPanel = new DayPanel[DayOfWeek.values().length - 1];
     @SpringBean
     private LessonService lessonService;
+    @SpringBean
+    private TimeService timeService;
     private static final long serialVersionUID = 1L;
 }
 
