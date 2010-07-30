@@ -51,10 +51,14 @@ public final class ViewPage extends WebPage {
         ResourceBundle locale = ResourceBundle.getBundle("ua.dp.primat.schedule.widget.ViewPage");
 
         final DayPanel todayPanel = new DayPanel("todayPanel", locale.getString("today"));
+        todayPanel.setLecturerVisible(lecturerVisible);
+        todayPanel.setGroupVisible(groupVisible);
         todayPanel.updateInfo(lessonService.getLessonsPerDay(lessons, timeService.todayDayOfWeek(), WeekType.NUMERATOR));
         add(todayPanel);
 
         final DayPanel tomorrowPanel = new DayPanel("tomorrowPanel", locale.getString("tomorrow"));
+        tomorrowPanel.setLecturerVisible(lecturerVisible);
+        tomorrowPanel.setGroupVisible(groupVisible);
         tomorrowPanel.updateInfo(lessonService.getLessonsPerDay(lessons, timeService.tomorrowDayOfWeek(), WeekType.NUMERATOR));
         add(tomorrowPanel);
     }
