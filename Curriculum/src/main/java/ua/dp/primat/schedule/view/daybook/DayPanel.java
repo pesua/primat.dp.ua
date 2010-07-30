@@ -130,7 +130,7 @@ public final class DayPanel extends Panel {
         }
         private static final long serialVersionUID = 2L;
     }
-    private static ResourceBundle locale = ResourceBundle.getBundle("ua.dp.primat.schedule.view.DayPanel");
+    private static ResourceBundle locale = ResourceBundle.getBundle("ua.dp.primat.schedule.view.daybook.DayPanel");
     private boolean lecturerVisible = true;
     private boolean roomVisible = true;
     private boolean groupVisible = true;
