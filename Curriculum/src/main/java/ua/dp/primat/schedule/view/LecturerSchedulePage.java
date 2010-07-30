@@ -18,6 +18,8 @@ public final class LecturerSchedulePage extends WebPage {
 
     public LecturerSchedulePage() {
         super();
+        add(new NavigationPanel("navigation"));
+        
         final List<Lecturer> lecturers = lecturerRepository.getAllLecturers();
         lecturer = lecturers.get(0);
 

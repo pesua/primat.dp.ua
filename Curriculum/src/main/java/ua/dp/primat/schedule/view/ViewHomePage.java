@@ -17,6 +17,8 @@ public final class ViewHomePage extends WebPage {
      */
     public ViewHomePage() {
         super();
+        add(new NavigationPanel("navigation"));
+
         schedulePanel = new ViewSchedulePanel("lessonView");
         schedulePanel.setGroupVisible(false);
         add(schedulePanel);
@@ -32,7 +34,6 @@ public final class ViewHomePage extends WebPage {
         add(choosePanel);
     }
     private ViewSchedulePanel schedulePanel;
-
     @SpringBean
     private LessonService lessonService;
     private static final long serialVersionUID = 1L;

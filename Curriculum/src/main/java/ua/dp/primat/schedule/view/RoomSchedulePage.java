@@ -16,7 +16,11 @@ import ua.dp.primat.schedule.services.TimeService;
  */
 public final class RoomSchedulePage extends WebPage {
     public RoomSchedulePage() {
-        super ();final List<Room> lecturers = roomRepository.getRooms();
+        super ();
+
+        add(new NavigationPanel("navigation"));
+
+        final List<Room> lecturers = roomRepository.getRooms();
         room = lecturers.get(0);
 
         add(new DropDownChoice<Room>(
