@@ -29,7 +29,7 @@ public final class ViewHomePage extends WebPage {
      */
     public ViewHomePage() {
         super();
-        schedulePanel = new ViewSchedulePanel("tabs");
+        schedulePanel = new ViewSchedulePanel("lessonView");
         add(schedulePanel);
 
         //create chooser for group and semester

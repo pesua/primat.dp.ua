@@ -8,6 +8,7 @@ import org.apache.wicket.markup.html.WebPage;
  */
 public final class NoSchedulePage extends WebPage {
     public NoSchedulePage() {
+        super();
     }
     
     private static final long serialVersionUID = 1L;
