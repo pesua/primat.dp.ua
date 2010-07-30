@@ -37,7 +37,7 @@ public final class RoomSchedulePage extends WebPage {
         });
 
         schedulePanel = new ViewSchedulePanel("lessonView");
-        schedulePanel.setLecturerVisible(false);
+        schedulePanel.setRoomVisible(false);
         add(schedulePanel);
 
         schedulePanel.refreshView(lessonService.getLessonForRoomBySemester(room, timeService.currentSemester()));
