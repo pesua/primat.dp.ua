@@ -30,6 +30,9 @@ public final class ViewSchedulePanel extends Panel {
             @Override
             public Panel getPanel(String panelId) {
                 daybookPanel = new ViewDaybook(panelId);
+                daybookPanel.setLecturerVisible(lecturerVisible);
+                daybookPanel.setRoomVisible(roomVisible);
+                daybookPanel.setGroupVisible(groupVisible);
                 daybookPanel.refreshView(lessons);
                 return daybookPanel;
             }
@@ -39,6 +42,9 @@ public final class ViewSchedulePanel extends Panel {
             @Override
             public Panel getPanel(String panelId) {
                 schedulePanel = new ViewCrosstab(panelId);
+                schedulePanel.setLecturerVisible(lecturerVisible);
+                schedulePanel.setRoomVisible(roomVisible);
+                schedulePanel.setGroupVisible(groupVisible);
                 schedulePanel.refreshView(lessons);
                 return schedulePanel;
             }
@@ -49,9 +55,15 @@ public final class ViewSchedulePanel extends Panel {
     public void refreshView(List<Lesson> lessons) {
         this.lessons = lessons;
         if (schedulePanel != null) {
+            schedulePanel.setLecturerVisible(lecturerVisible);
+            schedulePanel.setRoomVisible(roomVisible);
+            schedulePanel.setGroupVisible(groupVisible);
             schedulePanel.refreshView(lessons);
         }
         if (daybookPanel != null) {
+            daybookPanel.setLecturerVisible(lecturerVisible);
+            daybookPanel.setRoomVisible(roomVisible);
+            daybookPanel.setGroupVisible(groupVisible);
             daybookPanel.refreshView(lessons);
         }
     }
@@ -65,12 +77,36 @@ public final class ViewSchedulePanel extends Panel {
         tabDaybookText = bundle.getString("tab.daybook");
     }
 
+    public boolean isGroupVisible() {
+        return groupVisible;
+    }
+
+    public void setGroupVisible(boolean groupVisible) {
+        this.groupVisible = groupVisible;
+    }
+
+    public boolean isLecturerVisible() {
+        return lecturerVisible;
+    }
+
+    public void setLecturerVisible(boolean lecturerVisible) {
+        this.lecturerVisible = lecturerVisible;
+    }
+
+    public boolean isRoomVisible() {
+        return roomVisible;
+    }
+
+    public void setRoomVisible(boolean roomVisible) {
+        this.roomVisible = roomVisible;
+    }
     private AbstractRefreshablePanel schedulePanel;
     private AbstractRefreshablePanel daybookPanel;
     private List<Lesson> lessons = Collections.EMPTY_LIST;
-
     private String tabScheduleText;
     private String tabDaybookText;
-
+    private boolean lecturerVisible = true;
+    private boolean roomVisible = true;
+    private boolean groupVisible = true;
     private static final long serialVersionUID = 1L;
 }

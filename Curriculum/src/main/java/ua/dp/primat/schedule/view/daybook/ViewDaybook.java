@@ -56,6 +56,30 @@ public final class ViewDaybook extends AbstractRefreshablePanel {
         updateDataPanel();
     }
 
+    public boolean isGroupVisible() {
+        return groupVisible;
+    }
+
+    public void setGroupVisible(boolean groupVisible) {
+        this.groupVisible = groupVisible;
+    }
+
+    public boolean isLecturerVisible() {
+        return lecturerVisible;
+    }
+
+    public void setLecturerVisible(boolean lecturerVisible) {
+        this.lecturerVisible = lecturerVisible;
+    }
+
+    public boolean isRoomVisible() {
+        return roomVisible;
+    }
+
+    public void setRoomVisible(boolean roomVisible) {
+        this.roomVisible = roomVisible;
+    }
+
     private static class LDModel extends LoadableDetachableModel<List<WeekType>> {
 
         LDModel(List<WeekType> list) {
@@ -96,6 +120,9 @@ public final class ViewDaybook extends AbstractRefreshablePanel {
      */
     private void updateDataPanel() {
         for (int i = 0; i < listDataPanel.length; i++) {
+            listDataPanel[i].setLecturerVisible(lecturerVisible);
+            listDataPanel[i].setRoomVisible(roomVisible);
+            listDataPanel[i].setGroupVisible(groupVisible);
             listDataPanel[i].updateInfo(lessonService.getLessonsPerDay(lessons,
                     DayOfWeek.fromNumber(i), weekType));
         }
@@ -109,6 +136,11 @@ public final class ViewDaybook extends AbstractRefreshablePanel {
     private LessonService lessonService;
     @SpringBean
     private TimeService timeService;
+
+    private boolean lecturerVisible = true;
+    private boolean roomVisible = true;
+    private boolean groupVisible = true;
+
     private static final long serialVersionUID = 1L;
 }
 

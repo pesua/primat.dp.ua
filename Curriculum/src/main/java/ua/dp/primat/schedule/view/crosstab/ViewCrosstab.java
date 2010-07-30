@@ -45,6 +45,31 @@ public final class ViewCrosstab extends AbstractRefreshablePanel {
             lessonView.setList(lessons);
         }
     }
+
+    public boolean isGroupVisible() {
+        return groupVisible;
+    }
+
+    public void setGroupVisible(boolean groupVisible) {
+        this.groupVisible = groupVisible;
+    }
+
+    public boolean isLecturerVisible() {
+        return lecturerVisible;
+    }
+
+    public void setLecturerVisible(boolean lecturerVisible) {
+        this.lecturerVisible = lecturerVisible;
+    }
+
+    public boolean isRoomVisible() {
+        return roomVisible;
+    }
+
+    public void setRoomVisible(boolean roomVisible) {
+        this.roomVisible = roomVisible;
+    }
+
     //list and view of all retrieved lessons
     private List<LessonQueryItem> lessons;
     private ListView<LessonQueryItem> lessonView;
@@ -57,10 +82,13 @@ public final class ViewCrosstab extends AbstractRefreshablePanel {
     private static final String DAYNAME_WICKET = "caption_";
     private static final String[] DAY_WICKET_KEYS = {"monday", "tuesday", "wednesday", "thursday", "friday"};
 
+    private boolean lecturerVisible = true;
+    private boolean roomVisible = true;
+    private boolean groupVisible = true;
     /**
      * ListView, that outputs generated LessonQueryItem list into the table.
      */
-    private static class ScheduleListView extends ListView<LessonQueryItem> {
+    private class ScheduleListView extends ListView<LessonQueryItem> {
 
         public ScheduleListView(String string, List<? extends LessonQueryItem> list) {
             super(string, list);
@@ -80,10 +108,13 @@ public final class ViewCrosstab extends AbstractRefreshablePanel {
             //output the lesson's info in SchedulePanel for every day
             for (int i = 0; i < DAY_WICKET_KEYS.length; i++) {
                 final DayOfWeek dayOfWeek = DayOfWeek.values()[i];
-                final Panel labelDay = new ScheduleCell(DAY_WICKET_KEYS[i],
+                final ScheduleCell labelDay = new ScheduleCell(DAY_WICKET_KEYS[i],
                         entry.getLessonForDay(dayOfWeek));
 
                 labelDay.setVisible(isCellVisible(li.getIndex(), dayOfWeek));
+                labelDay.setLecturerVisible(lecturerVisible);
+                labelDay.setRoomVisible(roomVisible);
+                labelDay.setGroupVisible(groupVisible);
 
                 if ((entry.getLessonForDay(dayOfWeek) != null)
                         && (entry.getLessonForDay(dayOfWeek).getWeekType()

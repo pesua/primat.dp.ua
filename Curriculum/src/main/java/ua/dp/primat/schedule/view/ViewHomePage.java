@@ -18,6 +18,7 @@ public final class ViewHomePage extends WebPage {
     public ViewHomePage() {
         super();
         schedulePanel = new ViewSchedulePanel("lessonView");
+        schedulePanel.setGroupVisible(false);
         add(schedulePanel);
 
         //create chooser for group and semester

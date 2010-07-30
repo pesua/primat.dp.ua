@@ -1,21 +1,23 @@
 <wicket:panel>
-	<table class="standartTable">
-		<thead>
-			<tr><th colspan="4"><span wicket:id="oneDayName">Day</span></th></tr>
-			<tr>
-				<th style="padding:2px; width:24px"><wicket:message key="table.caption.num">N</wicket:message></th>
-				<th><wicket:message key="table.caption.discipline">Discipline</wicket:message></th>
-				<th><wicket:message key="table.caption.lecturer">Lecturer</wicket:message></th>
-				<th style="padding:2px; width:200px"><wicket:message key="table.caption.room">Room</wicket:message></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr wicket:id="row">
-				<th wicket:id="num" style="padding:2px; width:24px; color:black"></th>
-				<td wicket:id="discipline"></td>
-				<td wicket:id="teacher"></td>
-				<td wicket:id="room" style="padding:2px; width:200px"></td>
-			</tr>
-		</tbody>
-	</table>
+    <table class="standartTable">
+        <thead>
+            <tr><th colspan="4"><span wicket:id="oneDayName">Day</span></th></tr>
+            <tr>
+                <th style="padding:2px; width:24px"><wicket:message key="table.caption.num">N</wicket:message></th>
+                <th><wicket:message key="table.caption.discipline">Discipline</wicket:message></th>
+                <wicket:enclosure> <th wicket:id="head.lecturer">Lecturer</th> </wicket:enclosure>
+                <wicket:enclosure> <th wicket:id="head.group">Group</th> </wicket:enclosure>
+                <wicket:enclosure> <th style="padding:2px; width:200px" wicket:id="head.room">Room</th> </wicket:enclosure>
+            </tr>
+        </thead>
+        <tbody>
+            <tr wicket:id="row">
+                <th wicket:id="num" style="padding:2px; width:24px; color:black"></th>
+                <td wicket:id="discipline"></td>
+                <wicket:enclosure> <td wicket:id="teacher"></td> </wicket:enclosure>
+                <wicket:enclosure> <td wicket:id="group"></td> </wicket:enclosure>
+                <wicket:enclosure> <td wicket:id="room" style="padding:2px; width:200px"></td> </wicket:enclosure>
+            </tr>
+        </tbody>
+    </table>
 </wicket:panel>

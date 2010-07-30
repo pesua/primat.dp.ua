@@ -2,6 +2,7 @@
     <span wicket:id="cellSubject"></span>&nbsp;
     <small><i><span wicket:id="cellType"></span></i></small>
     <br/>
-    <div class="lecturer"><span wicket:id="cellLecturer"></span></div>
-    <div class="room"><span wicket:id="cellRoom"></span></div>
+    <wicket:enclosure> <div class="lecturer"><span wicket:id="cellLecturer"></span></div> </wicket:enclosure>
+    <wicket:enclosure> <div class="group"><span wicket:id="cellGroup"></span></div> </wicket:enclosure>
+    <wicket:enclosure> <div class="room"><span wicket:id="cellRoom"></span></div> </wicket:enclosure>
 </wicket:panel>

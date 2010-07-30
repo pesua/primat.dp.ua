@@ -39,7 +39,10 @@ public final class LecturerSchedulePage extends WebPage {
         });
 
         schedulePanel = new ViewSchedulePanel("tabs");
+        schedulePanel.setLecturerVisible(false);
         add(schedulePanel);
+
+        schedulePanel.refreshView(lessonService.getLessonsForLecturerBySemester(lecturer, timeService.currentSemester()));
     }
     private ViewSchedulePanel schedulePanel;
     private static final long serialVersionUID = 1L;
