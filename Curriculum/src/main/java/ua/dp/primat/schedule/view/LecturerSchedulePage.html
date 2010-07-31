@@ -4,7 +4,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>LecturerSchedulePage</title>
-        <link rel="stylesheet" type="text/css" href="viewTimeTable.css">
+        <link rel="stylesheet" type="text/css" href="viewTimeTable.css" />
         <script type="text/javascript" src="js/print.js"></script>
     </head>
     <body>
@@ -15,7 +15,9 @@
             <option>Segeda</option>
         </select>
 
-        <div wicket:id="tabs" class="tabpanel"></div>
+        <div id="forPrint">
+            <div wicket:id="tabs" class="tabpanel"></div>
+        </div>
 
         <a href="javascript:showForPrint(document.getElementById('forPrint').innerHTML)">
             <img border=0 src='http://www.iconsearch.ru/uploads/icons/gnomeicontheme/24x24/stock_print.png' /><wicket:message key="version.for.print">Version for print</wicket:message>
