@@ -95,3 +95,17 @@
     vertical-align: top;
     width: 50%;
 }
+
+#schedule-menu img {
+    border: 0px;
+}
+
+#schedule-menu {
+    border: 0px;
+    width: 100%;
+}
+
+#schedule-menu td {
+    width: 33%;
+    text-align: center;
+}
