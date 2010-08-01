@@ -1,16 +1,37 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns:wicket>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <title>NavigationPanel</title>
-    </head>
-    <body>
+
         <wicket:panel>
             <wicket:link>
-                <a href="ViewHomePage.html"><wicket:message key="for.students">For students</wicket:message></a>
+                <table id="schedule-menu">
+                <tbody>
+                <tr>
+                    <td>
+                        <a href="ViewHomePage.html"><img alt="student" src="images/schedule-menu-student-pick.png" width="133" height="142"></a>
+                    </td>
+                    <td>
+                        <a href="LecturerSchedulePage.html"><img alt="lecturer" src="images/schedule-menu-lecturer-pick.png" WIDTH="153" HEIGHT="147"></a>
+                    </td>
+                    <td>
+                        <a href="RoomSchedulePage.html"><img alt="room" src="images/schedule-menu-room-pick.png" WIDTH="186" HEIGHT="138"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="ViewHomePage.html"><img alt="student" src="images/schedule-menu-student-button.png" width="206" height="46"></a>
+                    </td>
+                    <td>
+                        <a href="LecturerSchedulePage.html"><img alt="lecturer" src="images/schedule-menu-lecturer-button.png" WIDTH="224" HEIGHT="46"></a>
+                    </td>
+                    <td>
+                        <a href="RoomSchedulePage.html"><img alt="room" src="images/schedule-menu-student-button.png" WIDTH="206" HEIGHT="46"></a>
+                    </td>
+                </tr>
+                </tbody>
+                </table>
+                <br/>
+
+                <!-- <a href="ViewHomePage.html"><wicket:message key="for.students">For students</wicket:message></a>
                 <a href="LecturerSchedulePage.html"><wicket:message key="for.lecturers">For lecturers</wicket:message></a>
-                <a href="RoomSchedulePage.html"><wicket:message key="for.rooms">For rooms</wicket:message></a></wicket:link>
+                <a href="RoomSchedulePage.html"><wicket:message key="for.rooms">For rooms</wicket:message></a> -->
+            </wicket:link>
         </wicket:panel>
-    </body>
-</html>
+
