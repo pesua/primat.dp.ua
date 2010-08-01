@@ -331,4 +331,5 @@ pageContext.setAttribute("portletURL", portletURL);
 	%>
 
 	<liferay-ui:search-iterator searchContainer="<%= searchContainer %>" />
+        <liferay-ui:message key="send-group-request" /> <a href="mailto:math.app.fpm@gmail.com">math.app.fpm@gmail.com</a>
 </aui:form>

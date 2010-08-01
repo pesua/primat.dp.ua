@@ -249,7 +249,7 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
           }
           %>
         </aui:select>
-        
+        <liferay-ui:message key="send-group-request" /> <a href="mailto:math.app.fpm@gmail.com">math.app.fpm@gmail.com</a>
         <aui:input label="is-member-student-council" name="is-member-student-council" type="checkbox"/>
       </div>
 
