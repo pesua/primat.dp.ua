@@ -16,10 +16,6 @@
 
 <%@ include file="/html/portlet/css_init.jsp" %>
 
-.portlet-search .add-search-provider {
-	margin: 15px 0;
-}
-
 .portlet-search .entry-tags {
 	margin: 3px 0 0;
 }
