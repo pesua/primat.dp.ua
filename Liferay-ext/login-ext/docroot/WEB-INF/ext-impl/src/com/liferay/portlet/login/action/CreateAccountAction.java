@@ -239,13 +239,15 @@ public class CreateAccountAction extends PortletAction {
             CaptchaUtil.check(actionRequest);
         }
     
+        long mockFacebookId = 0;
         User user = UserServiceUtil.addUser(
                 company.getCompanyId(), autoPassword, password1, password2,
-                autoScreenName, screenName, emailAddress, openId,
+                autoScreenName, screenName, emailAddress, mockFacebookId, openId,
                 themeDisplay.getLocale(),firstName, middleName, lastName, prefixId,
                 suffixId, male, birthdayMonth, birthdayDay, birthdayYear, jobTitle,
                 groupIds, organizationIds, roleIds, userGroupIds, sendEmail,
                 serviceContext);
+                
         user = UserLocalServiceUtil.updateActive(user.getUserId(), false);
 
         String from = "math.app.fpm@gmail.com";
