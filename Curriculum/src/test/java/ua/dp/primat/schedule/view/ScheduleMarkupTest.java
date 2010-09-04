@@ -32,7 +32,6 @@ import ua.dp.primat.domain.lesson.LessonDescription;
 import ua.dp.primat.domain.lesson.LessonType;
 import ua.dp.primat.domain.lesson.WeekType;
 import ua.dp.primat.domain.workload.Discipline;
-import ua.dp.primat.repositories.CathedraRepository;
 import ua.dp.primat.repositories.DisciplineRepository;
 import ua.dp.primat.repositories.LecturerRepository;
 import ua.dp.primat.repositories.LessonDescriptionRepository;
