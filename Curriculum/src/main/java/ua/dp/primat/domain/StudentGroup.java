@@ -12,7 +12,7 @@ import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQueries({
-    @NamedQuery(name = StudentGroup.GET_GROUPS_QUERY, query = "select n from StudentGroup n"),
+    @NamedQuery(name = StudentGroup.GET_GROUPS_QUERY, query = "select n from StudentGroup n order by n.code, n.year, n.number"),
     @NamedQuery(name = StudentGroup.GET_GROUPS_BY_CODE_AND_YEAR_AND_NUMBER_QUERY, query = "select n from StudentGroup n where n.code = :code and n.year = :year and n.number = :number")
 })
 public class StudentGroup implements Serializable {

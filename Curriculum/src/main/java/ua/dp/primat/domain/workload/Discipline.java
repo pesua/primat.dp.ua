@@ -16,7 +16,7 @@ import ua.dp.primat.domain.Cathedra;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name=Discipline.GET_ALL_DISCIPLINES_QUERY, query="from Discipline")
+    @NamedQuery(name=Discipline.GET_ALL_DISCIPLINES_QUERY, query="select n from Discipline n order by n.name")
 })
 public class Discipline implements Serializable {
     public static final String GET_ALL_DISCIPLINES_QUERY = "getAllDisciplines";
