@@ -16,7 +16,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = Lecturer.GET_ALL_LECTURERS_QUERY, query = "from Lecturer"),
+    @NamedQuery(name = Lecturer.GET_ALL_LECTURERS_QUERY, query = "select l from Lecturer l order by l.name"),
     @NamedQuery(name = Lecturer.GET_LECTURERS_BY_CATHEDRA_QUERY, query = "from Lecturer where cathedra=:Cathedra"),
     @NamedQuery(name = Lecturer.GET_LECRURER_BY_NAME_QUERY, query="select l from Lecturer l where l.name=:name")
 })

@@ -11,7 +11,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 @Entity
 @NamedQueries(
-@NamedQuery(name = Room.GET_ALL_ROOMS_QUERY, query = "from Room"))
+@NamedQuery(name = Room.GET_ALL_ROOMS_QUERY, query = "select r from Room r order by r.number"))
 public class Room implements Serializable {
 
     public static final String GET_ALL_ROOMS_QUERY = "getAllRooms";
