@@ -40,7 +40,7 @@ public class StudentGroupRepositoryImpl implements StudentGroupRepository {
     }
 
     public void remove(StudentGroup studentGroup) {
-        em.remove(studentGroup);
+        em.remove(em.merge(studentGroup));
     }
 
     public EntityManager getEm() {
