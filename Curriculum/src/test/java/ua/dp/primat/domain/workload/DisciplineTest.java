@@ -39,8 +39,11 @@ public class DisciplineTest {
         Discipline b = new Discipline("TestDisc1", new Cathedra("TestCath"));
         assertFalse("Incorect compare by null key", a.equals(b));
 
-        a.setId(Long.MIN_VALUE);
-        b.setId(Long.MIN_VALUE);
+        Cathedra c = new Cathedra("");
+        a.setName("trololo");
+        a.setCathedra(c);
+        b.setName("trololo");
+        b.setCathedra(c);
         assertTrue("Incorect compare with same object", a.equals(b));
 
         assertTrue("Incorect compare with itself", a.equals(a));
@@ -53,11 +56,11 @@ public class DisciplineTest {
     public void testHashCode() {
         System.out.println("hashCode");
         Discipline instance = new Discipline();
-        int expResult = 329;
+        int expResult = 23273;
         int result = instance.hashCode();
         assertEquals("Incorect hash code", expResult, result);
         instance.setId(7L);
-        expResult = 336;
+        expResult = 23532;
         result = instance.hashCode();
         assertEquals("Incorect hash code", expResult, result);
     }

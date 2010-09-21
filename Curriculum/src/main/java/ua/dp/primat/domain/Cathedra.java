@@ -32,8 +32,6 @@ public class Cathedra implements Serializable {
         }
         final Cathedra other = (Cathedra) obj;
         return new EqualsBuilder()
-                .appendSuper(super.equals(obj))
-                .append(id, other.id)
                 .append(name, other.name)
                 .isEquals();
     }

@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import ua.dp.primat.domain.Cathedra;
 
 /**
@@ -39,20 +41,15 @@ public class Discipline implements Serializable {
             return false;
         }
         final Discipline other = (Discipline) obj;
-        if (this.id == null) {
-            return (this.name.compareTo(other.name) == 0) && (this.cathedra.equals(other.cathedra));
-        }
-        if (this.id.compareTo(other.id) != 0 && (!this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return new EqualsBuilder()
+                .append(name, other.name)
+                .append(cathedra, other.cathedra)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        int hash = HASHBASE;
-        if (this.id != null) { hash += this.id.hashCode(); }
-        return hash;
+        return new HashCodeBuilder().append(id).append(name).hashCode();
     }
 
     @Override
@@ -92,6 +89,4 @@ public class Discipline implements Serializable {
     
     @ManyToOne(cascade = CascadeType.ALL)
     private Cathedra cathedra;
-
-    private static final int HASHBASE = 329;
 }

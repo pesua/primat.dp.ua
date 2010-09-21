@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 @Entity
 @NamedQueries({
@@ -80,7 +82,32 @@ public class StudentGroup implements Serializable {
     }
 
     @Override
-    //TODO must be simple
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final StudentGroup other = (StudentGroup) obj;
+        return new EqualsBuilder()
+                .append(code, other.code)
+                .append(year, other.year)
+                .append(number, other.number)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder()
+                .append(id)
+                .append(code)
+                .append(year)
+                .append(number)
+                .hashCode();
+    }
+
+    @Override
     public String toString() {
         final int yearMask = 100;
         final DecimalFormat format = new DecimalFormat("00");

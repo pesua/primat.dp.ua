@@ -53,8 +53,6 @@ public class Lecturer implements Serializable {
 
         final Lecturer other = (Lecturer) obj;
         return new EqualsBuilder()
-                .appendSuper(super.equals(obj))
-                .append(id, other.id)
                 .append(name, other.name)
                 .append(cathedra, other.cathedra)
                 .append(lecturerType, other.lecturerType)

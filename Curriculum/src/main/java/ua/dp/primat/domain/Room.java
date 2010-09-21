@@ -34,8 +34,6 @@ public class Room implements Serializable {
         }
         final Room other = (Room) obj;
         return new EqualsBuilder()
-                .appendSuper(super.equals(obj))
-                .append(id, other.id)
                 .append(getNumber(), other.getNumber())
                 .append(getBuilding(), other.getBuilding())
                 .isEquals();
