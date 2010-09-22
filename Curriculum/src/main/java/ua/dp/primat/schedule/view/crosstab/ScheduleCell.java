@@ -19,7 +19,7 @@ public final class ScheduleCell extends Panel {
         final String cellLecturer = ((lesson == null) ? "" : lesson.getLessonDescription().getLecturerNames());
         final String cellGroup = ((lesson == null) || (lesson.getLessonDescription() == null))
                 ? "" : lesson.getLessonDescription().getStudentGroup().toString();
-        final String cellRoom = ((lesson == null) ? "" : lesson.getRoom().toString());
+        final String cellRoom = (((lesson == null) || (lesson.getRoom() == null)) ? "" : lesson.getRoom().toString());
 
         add(new Label("cellSubject", cellSubject));
         add(new Label("cellType", cellType));
