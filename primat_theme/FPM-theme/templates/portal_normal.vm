@@ -3,116 +3,84 @@
 #parse ($init)
 
 <html dir="#language("lang.dir")" lang="$w3c_language_id">
+	<head>
+		<title>$the_title - $company_name</title>
 
-<head>
-	<title>$the_title - $company_name</title>
+		$theme.include($top_head_include)
+	</head>
 
-	$theme.include($top_head_include)
+	<body class="$css_class">
 
-	#set ($groupLocalService = $serviceLocator.findService("com.liferay.portal.service.GroupLocalService"))
-
-	#set ($guestGroup = $groupLocalService.getGroup($company_id, "Guest"))
-
-	#set ($journalTemplateLocalService = $serviceLocator.findService("com.liferay.portlet.journal.service.JournalTemplateLocalService"))
-
-	#set ($journalTemplateId = $theme_settings.getProperty("css-template-id"))
-
-	#if ($journalTemplateLocalService.hasTemplate($guestGroup.getGroupId(), $journalTemplateId))
-
-		## Instead of reference the URL, just insert the content to save an
-		## extra HTTP request.
-
-		## <link rel="stylesheet" type="text/css" href="$theme_display.getPathMain()/journal/get_template?groupId=$guestGroup.getGroupId()&templateId=$journalTemplateId" />-->
-
-		#set ($journalTemplate = $journalTemplateLocalService.getTemplate($guestGroup.getGroupId(), $journalTemplateId))
-
-		<style type="text/css">
-			#set ($cssTemplate = $journalTemplate.getXsl())
-			#set ($cssTemplate = $stringUtil.replace($cssTemplate, "@root_path@", $themeDisplay.getPathContext()))
-			#set ($cssTemplate = $stringUtil.replace($cssTemplate, "@image_path@", $themeDisplay.getPathImage()))
-			#set ($cssTemplate = $stringUtil.stripBetween($cssTemplate, "/*", "*/"))
-
-			$cssTemplate
-		</style>
-	#end
-</head>
-
-<body class="$css_class">
-
-<div id="wholepage">
-#if($is_signed_in)
-	#dockbar()
-#end
-
-
-<div id="wrapper">
-	<header id="banner" role="banner">
-		<hgroup id="heading">
-			<h1 class="company-title">
-				<a class="logo" href="$company_url" title="#language("go-to") $company_name">
-					<span>$company_name</span>
-				</a>
-			</h1>
-
-		</hgroup>
-		
-		<div>
-			<p id="FPM">Факультет прикладної математики</p>
-			<p id="DNU">Дніпропетровський національній університет ім. О. Гончара</p>
-		</div>
-
-		
-		#if(!$is_signed_in)
-			<a href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a>
+		#if($is_signed_in)
+			#dockbar()
 		#end
 
-		#if ($update_available_url)
-			<div class="popup-alert-notice">
-				<a class="update-available" href="$update_available_url">#language("updates-are-available-for-liferay")</a>
+		<div id="container">
+			<table width="100%">
+				<tbody>
+					<tr>
+						<td width="20%">
+							<hgroup id="heading">
+								<h1 class="company-title">
+									<a class="logo" href="$company_url" title="#language("go-to") $company_name">
+										<span>$company_name</span>
+									</a>
+								</h1>
+							</hgroup>
+						</td>
+
+						<td width="60%">
+							<p id="FPM">Факультет прикладної математики</p>
+							<p id="DNU">Дніпропетровський національній університет ім. О. Гончара</p>
+						</td>
+
+						<td width="20%">
+							#if(!$is_signed_in)
+								<div><a href="$sign_in_url" id="sign-in" rel="nofollow">$sign_in_text</a></div>
+							#end
+
+							#if ($update_available_url)
+								<div class="popup-alert-notice">
+									<a class="update-available" href="$update_available_url">#language("updates-are-available-for-liferay")</a>
+								</div>
+							#end
+						</td>
+					</tr>
+				</tbody>
+			</table>
+	
+			#if ($has_navigation)
+				#parse ("$full_templates_path/navigation.vm")
+			#end
+
+			<div id="content" style="height:80%;">
+		
+
+				#if ($selectable)
+					$theme.include($content_include)
+				#else
+					$portletDisplay.recycle()
+					$portletDisplay.setTitle($the_title)
+					$theme.wrapPortlet("portlet.vm", $content_include)
+				#end
 			</div>
-		#end
 
-		
-	</header>
-	
-	#if ($has_navigation)
-			#parse ("$full_templates_path/navigation.vm")
-	#end
-
-	<div id="content" style="height:80%;">
-
-		#if ($selectable)
-			$theme.include($content_include)
-		#else
-			$portletDisplay.recycle()
-
-			$portletDisplay.setTitle($the_title)
-
-			$theme.wrapPortlet("portlet.vm", $content_include)
-		#end
-	</div>
-	
-</div>
-
-	<div id="footer_hook_text">$theme.include($bottom_include)</div>
-</div>
-
-<div id="footer_dummy" role="contentinfo">
-	<div id="footer_line"></div>
-	<div id="footer_text">
-		Copyright &copy; 2010 Команда студентів <a href="developers">розробників</a>. Сервер надає Сіницін Олександр.<br/><br/>
-		Створено на основі <a href="http://liferay.com/" rel="external">Liferay Portal</a><br/><br/>
-		<img src="$images_folder/footer/vk.png" WIDTH="16" HEIGHT="16" alt="VKontakte" align="left">&nbsp;
-		<a href="http://vkontakte.ru/club638940" target="_blank">Група факультету ВКонтакті</a><br/>
-		<div id="footer_logo">
-			<div class="text">За підтримки:</div><br/>
-			<a href="http://www.exigenservices.com.ua/">
-			<img src="$images_folder/footer/exigen_logo.png" WIDTH="121" HEIGHT="47" alt="Exigen Services">
-			</a>
+			<div id="footer_hook_text">$theme.include($bottom_include)</div>
 		</div>
-	</div>
-</div>
-
-</body>
-
+		<div id="container1">
+			<div id="footer_dummy" role="contentinfo">
+				<div id="footer_line"></div>
+				<div id="footer_text">
+					Copyright &copy; 2010 Група <a href="http://primat.dp.ua/web/developers">розробників</a> - студентів ДНУ ім. О. Гончара.<br/>
+					<br/>
+					<img src="$images_folder/footer/vk.png" WIDTH="16" HEIGHT="16" alt="VKontakte" align="left">&nbsp;
+					<a href="http://vkontakte.ru/club638940" target="_blank">Група факультету ВКонтакті</a><br/>
+					<br/>
+					<div id="footer_logo">
+						Створено на основі <a href="http://liferay.com/" rel="external" target="_blank">Liferay Portal</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>

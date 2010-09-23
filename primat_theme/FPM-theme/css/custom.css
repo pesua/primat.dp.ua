@@ -1,89 +1,3 @@
-/* ---------- Search ---------- */
-#csearch {
-	position: absolute;
-	right: 10px;
-	top: 174px;
-	height: 12px;
-}
-
-#csearch input[type=text] {
-	height: 10px;
-	font-size: 0.8em;
-}
-
-/* ------------ Footer ------------- */
-*{
-	margin: 0;
-	padding: 0;
-}
-
-html, body {
-	height: 100%;
-}
-
-#wholepage {
-	position: relative;
-	min-height: 100%;
-}
-
-* html #wholepage {
-	height: 100%;
-}
-
-#footer_hook_text {
-	padding-bottom: 90px;
-}
-
-#footer_dummy {
-	background-color: #def1fb;
-	position: relative;
-	height: 90px;
-	margin-top: -90px;
-}
-
-#footer_line {
-	width: 100%;
-	height: 1px;
-	background-color: #6699AA;
-}
-
-#footer_text {
-	font-family: Verdana;
-	padding-left: 10px;
-	padding-top: 10px;
-	padding-right: 15px;
-	padding-bottom: 0px;
-	font-size: 11px;
-}
-
-#footer_logo {
-	text-align: right;
-	margin-top: -55px;
-}
-
-#footer_logo .text {
-  text-align: left;
-}
-
-#footer_logo img {
-	border: 0;
-}
-
-/* -------------- FPM -------------- */
-#FPM {
-	font-size: 40px; 
-	font-weight: bold;
-	font-style: italic;
-	position: absolute; top: 50px; left: 20%;
-}
-
-#DNU {
-	font-size: 15px;
-	position: absolute;
-	left: 40%;
-	top: 100px;
-}
-
 /* ---------- Base styles ---------- */
 body {
 	background: #ffffff;
@@ -109,33 +23,11 @@ hr, .separator {
 	border-width: 1px 0;
 }
 
-#wrapper {
-	background: none;
-	margin: 0 auto;
-	max-width: 90%;
-	min-width: 960px;
-	position: relative;
-	height:100%;
-}
-
-.ie6 #wrapper {
-	width: 90%;
-}
-
-#banner {
-	background: none;
-	height: auto;
-}
-
 #banner .company-title {
 	float: none;
 	margin: 0 0 0;
 	padding: 15px 0 0;
 	position: static;
-}
-
-body #banner .logo a {
-	float: left;
 }
 
 .current-community {
@@ -165,15 +57,6 @@ body #banner .logo a {
 	z-index: 1000;
 }
 
-#sign-in {
-	background: url(../images/common/key.png) no-repeat 3px 50%;
-	font-weight: bold;
-	padding: 5px 5px 5px 25px;
-	position: absolute;
-	right: 0;
-	top: 1.4em;
-}
-
 .guest-community .logo .current-community {
 	display: none;
 }
@@ -182,20 +65,12 @@ body #banner .logo a {
 	background-image: url(../images/dock/my_places_private.png);
 }
 
-.ie6 #banner {
-	height: 1%;
-}
-
-.ie6 #banner h1.logo {
-	height: 1%;
-}
-
 /* ---------- Main navigation ---------- */
 #navigation {
 	background: #414445 url(../images/portlet/header_bg_portlet.png) repeat-x 0 0;
 	clear: both;
 	margin: 0 auto 5px;
-	max-height: 2.6em;
+	height: 28px;
 	padding: 0 5px;
 }
 

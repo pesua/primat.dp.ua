@@ -1,256 +1,231 @@
+/* ------------ Static cite model ------------ */
+html {
+	height: 100%;
+}
+
+body {
+	max-width: 100%;
+	height: 100%;
+}
+
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+#container {
+	width: 975px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#container1 {
+	width: 975px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 /* ---------- Browser normalization ---------- */
-article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary
-{
+article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
 	display: block;
 }
 
-body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td
-{
-	margin: 0;
-	padding: 0;
-}
-
-table
-{
+table {
 	border-collapse: collapse;
 	border-spacing: 0;
 	clear: both;
 }
 
-fieldset, img
-{
+fieldset, img {
 	border: 0;
 }
 
-address, caption, cite, code, dfn, em, strong, th, var
-{
+address, caption, cite, code, dfn, em, strong, th, var {
 	font-style: normal;
 	font-weight: normal;
 }
 
-caption, th
-{
+caption, th {
 	text-align: left;
 }
 
-q:before, q:after
-{
+q:before, q:after {
 	content: '';
 }
 
-abbr, acronym
-{
+abbr, acronym {
 	border: 0;
 	border-bottom: 1px dotted #000;
 	cursor: help;
 }
 
-html
-{
+html {
 	overflow-y: scroll;
 }
 
-body
-{
+body {
 	background: #FFF;
 	font: 62.5%/1.4 Arial, Helvetica, Verdana, sans-serif;
 }
 
-body.portal-popup
-{
+body.portal-popup {
 	background: none;
 	padding: 10px;
 }
 
-body.configuration-popup
-{
+body.configuration-popup {
 	padding-bottom: 0;
 }
 
-body.portal-iframe
-{
+body.portal-iframe {
 	padding: 0;
 }
 
-body.html-editor
-{
+body.html-editor {
 	background: #FFF;
 	color: #000;
 }
 
-blockquote, ul, ol, dl
-{
+blockquote, ul, ol, dl {
 	margin: 1em;
 }
 
-ol, ul, dl
-{
+ol, ul, dl {
 	margin-left: 2em;
 }
 
-ol
-{
+ol {
 	list-style: decimal outside;
 }
 
-ul
-{
+ul {
 	list-style: disc outside;
 }
 
-ul ul
-{
+ul ul {
 	list-style-type: circle;
 }
 
-ol ol
-{
+ol ol {
 	list-style-type: upper-roman;
 }
 
-dl dd
-{
+dl dd {
 	margin-left: 1em;
 }
 
-th
-{
+th {
 	font-weight: bold;
 }
 
-caption
-{
+caption {
 	margin-bottom: 0.5em;
 	text-align: center;
 }
 
-p
-{
+p {
 	margin-bottom: 1em;
 }
 
 /* ---------- Links ---------- */
-a
-{
+a {
 }
 
-a:hover
-{
+a:hover {
 }
 
-a:visited
-{
+a:visited {
 }
 
 /* ---------- Headers ---------- */
-h1
-{
+h1 {
 	font-size: 1.8em;
 }
 
-h2
-{
+h2 {
 	font-size: 1.6em;
 }
 
-h3
-{
+h3 {
 	font-size: 1.4em;
 }
 
-h1, h2, h3
-{
+h1, h2, h3 {
 	margin: 1em 0;
 }
 
-h4, h5, h6
-{
+h4, h5, h6 {
 	font-size: 1.1em;
 }
 
-h1, h2, h3, h4, h5, h6, strong
-{
+h1, h2, h3, h4, h5, h6, strong {
 	font-weight: bold;
 }
 
 /* ---------- Text formatting ---------- */
-b, strong
-{
+b, strong {
 	font-weight: bold;
 }
 
-i, em
-{
+i, em {
 	font-style: italic;
 }
 
-code, pre
-{
+code, pre {
 	font-family: "Courier New", Courier, monospace;
 	white-space: pre;
 }
 
-.important
-{
+.important {
 	font-weight: bold;
 }
 
 /* ---------- Staging area ---------- */
-body.staging, body.live-view
-{
+body.staging, body.live-view {
 	border: 10px solid #F00;
 }
 
-body.live-view
-{
+body.live-view {
 	border-color: #FC0;
 }
 
-.portal-iframe.staging
-{
+.portal-iframe.staging {
 	border: none;
 }
 
 /* ---------- Main content body ---------- */
-.portal-iframe #main-content
-{
+.portal-iframe #main-content {
 	width: 100%;
 }
 
 /* ---------- Alerts and popups ---------- */
-.alert-background
-{
+.alert-background {
 	background: #000;
 }
 
-.popup-alert-notice
-{
+.popup-alert-notice {
 	background-color: #FFC;
 	border-bottom-color: #FC0;
 }
 
-.popup-alert-warning
-{
+.popup-alert-warning {
 	background-color: #FDD;
 	border-bottom-color: #F00;
 }
 
 /* ---------- Portal add content ---------- */
-.portal-add-content
-{
+.portal-add-content {
 	background: #FFF;
 	text-align: left;
 	z-index: 20;
 }
 
-.portal-add-content a
-{
+.portal-add-content a {
 	text-decoration: none;
 }
 
 /* ---------- Loading animation ---------- */
-.loading-animation
-{
+.loading-animation {
 	background: url(../images/progress_bar/loading_animation.gif) no-repeat top center;
 	margin-top: 10px;
 	padding-top: 40px;
@@ -258,22 +233,19 @@ body.live-view
 }
 
 /* ---------- Separator ---------- */
-hr, .separator
-{
+hr, .separator {
 	border-top: 1px dotted #BFBFBF;
 }
 
 /* ---------- Update Manager ---------- */
-.update-available
-{
+.update-available {
 	margin-top: 10px;
 	padding: 2px;
 	text-align: left;
 }
 
 /* ---------- Text highlighting ---------- */
-.highlight
-{
+.highlight {
 	background: #FFC;
 	font-weight: bold;
 	margin: 0 1px;
