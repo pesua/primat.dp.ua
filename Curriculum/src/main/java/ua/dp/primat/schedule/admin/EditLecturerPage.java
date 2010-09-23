@@ -2,6 +2,7 @@ package ua.dp.primat.schedule.admin;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -9,7 +10,10 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.apache.wicket.validation.validator.StringValidator.LengthBetweenValidator;
+import org.apache.wicket.validation.IErrorMessageSource;
+import org.apache.wicket.validation.IValidatable;
+import org.apache.wicket.validation.IValidationError;
+import org.apache.wicket.validation.validator.AbstractValidator;
 import ua.dp.primat.domain.Cathedra;
 import ua.dp.primat.domain.Lecturer;
 import ua.dp.primat.repositories.LecturerRepositoryImpl;
@@ -40,12 +44,12 @@ public final class EditLecturerPage extends WebPage {
 
             final TextField name = new TextField("name");
             name.setRequired(true);
-            name.add(new LengthBetweenValidator(MINVALIDATOR, MAXVALIDATOR));
+            name.add(new NameValidator());
             add(name);
             final List<Cathedra> cathedras = cathedraRepository.getCathedras();
-            add(new DropDownChoice("cathedra", cathedras));
+            add(new DropDownChoice("cathedra", cathedras).setRequired(true));
             final List<LecturerType> lecturerTypes = Arrays.asList(LecturerType.values());
-            add(new DropDownChoice("lecturerType", lecturerTypes));
+            add(new DropDownChoice("lecturerType", lecturerTypes).setRequired(true));
         }
 
         @Override
@@ -61,7 +65,20 @@ public final class EditLecturerPage extends WebPage {
     @SpringBean
     private CathedraRepository cathedraRepository;
     private static final long serialVersionUID = 1L;
-    private static final int MINVALIDATOR = 5;
-    private static final int MAXVALIDATOR = 60;
+    
+    private static class NameValidator extends AbstractValidator<String> {
+
+        @Override
+        protected void onValidate(IValidatable<String> iv) {
+            if (!Pattern.matches("^\\p{Lu}(\\p{Ll}||'||(-\\p{Lu}))+\\s\\p{Lu}(\\p{Ll}||'||(-\\p{Lu}))+\\s\\p{Lu}(\\p{Ll}||'||(-\\p{Lu}))+$", iv.getValue())) {
+                iv.error(new IValidationError() {
+
+                    public String getErrorMessage(IErrorMessageSource iems) {
+                        return "Full name is incorrect. Please input valid full name.";
+                    }
+                });
+            }
+        }
+    }
 }
 
