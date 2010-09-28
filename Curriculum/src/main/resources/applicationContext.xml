@@ -22,7 +22,6 @@
         <property name="url" value="jdbc:mysql://localhost:3306/curriculum?autoReconnect=true"/>
         <property name="username" value="lifedbuser"/>
         <property name="password" value="FCH9AWqDt2cpDvhQ"/>
-        <property name=""
     </bean>
 
     <bean id="entityManagerFactory"
