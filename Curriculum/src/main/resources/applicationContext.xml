@@ -19,9 +19,10 @@
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/curriculum"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/curriculum?autoReconnect=true"/>
         <property name="username" value="lifedbuser"/>
         <property name="password" value="FCH9AWqDt2cpDvhQ"/>
+        <property name=""
     </bean>
 
     <bean id="entityManagerFactory"
