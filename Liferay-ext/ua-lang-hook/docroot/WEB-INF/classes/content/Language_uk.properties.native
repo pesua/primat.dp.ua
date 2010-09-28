@@ -1,4 +1,4 @@
-## 
+﻿## 
 ## Language settings 
 ## 
 
@@ -3340,7 +3340,7 @@ scope=Область дії
 score=Рейтинг 
 scramble=Пробитись
 screen-name-attribute=Атрібут ніку
-screen-name=Нік 
+screen-name=Нік (латиницею)
 screen-names=Ніки
 screenshot=Знімок екрану 
 screenshots-must-contain-a-valid-thumbnail-and-a-valid-full-image=Знімки екрану повинні містити коректне зменшене зображення і повне. 
