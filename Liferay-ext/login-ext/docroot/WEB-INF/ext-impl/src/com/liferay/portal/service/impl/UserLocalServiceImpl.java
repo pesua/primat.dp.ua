@@ -13,7 +13,7 @@
  */
 package com.liferay.portal.service.impl;
 
-import com.liferay.util.mail.MailEngine;
+import com.liferay.portal.CompanyMaxUsersException;
 import com.liferay.portal.ContactBirthdayException;
 import com.liferay.portal.ContactFirstNameException;
 import com.liferay.portal.ContactFullNameException;
@@ -56,8 +56,9 @@ import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.Base64;
 import com.liferay.portal.kernel.util.CharPool;
+import com.liferay.portal.kernel.util.Digester;
+import com.liferay.portal.kernel.util.DigesterUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.KeyValuePair;
@@ -76,6 +77,7 @@ import com.liferay.portal.model.PasswordPolicy;
 import com.liferay.portal.model.ResourceConstants;
 import com.liferay.portal.model.Role;
 import com.liferay.portal.model.RoleConstants;
+import com.liferay.portal.model.Ticket;
 import com.liferay.portal.model.User;
 import com.liferay.portal.model.UserGroup;
 import com.liferay.portal.model.UserGroupRole;
@@ -95,18 +97,18 @@ import com.liferay.portal.security.auth.ScreenNameValidator;
 import com.liferay.portal.security.auth.ScreenNameValidatorFactory;
 import com.liferay.portal.security.ldap.LDAPSettingsUtil;
 import com.liferay.portal.security.permission.PermissionCacheUtil;
+import com.liferay.portal.security.pwd.PwdAuthenticator;
 import com.liferay.portal.security.pwd.PwdEncryptor;
 import com.liferay.portal.security.pwd.PwdToolkitUtil;
 import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.ServiceContextThreadLocal;
 import com.liferay.portal.service.base.PrincipalBean;
 import com.liferay.portal.service.base.UserLocalServiceBaseImpl;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.PrefsPropsUtil;
-import com.liferay.portal.util.PropsUtil;
 import com.liferay.portal.util.PropsValues;
 import com.liferay.portlet.enterpriseadmin.util.EnterpriseAdminUtil;
 import com.liferay.portlet.imagegallery.ImageSizeException;
+import com.liferay.portlet.messageboards.model.MBMessage;
 import com.liferay.util.Encryptor;
 import com.liferay.util.EncryptorException;
 
@@ -114,10 +116,6 @@ import java.awt.image.RenderedImage;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -134,8 +132,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.mail.internet.InternetAddress;
 
 /**
- * <a href="UserLocalServiceImpl.java.html"><b><i>View Source</i></b></a>
- *
  * @author Brian Wing Shun Chan
  * @author Scott Lee
  * @author Raymond Augé
@@ -143,7 +139,7 @@ import javax.mail.internet.InternetAddress;
  * @author Julio Camarero
  * @author Wesley Gong
  * @author Zsigmond Rab
- */ 
+ */
 public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
     public void addDefaultGroups(long userId)
@@ -303,30 +299,236 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
     public User addUser(
             long creatorUserId, long companyId, boolean autoPassword,
             String password1, String password2, boolean autoScreenName,
-            String screenName, String emailAddress, String openId,
-            Locale locale, String firstName, String middleName, String lastName,
-            int prefixId, int suffixId, boolean male, int birthdayMonth,
-            int birthdayDay, int birthdayYear, String jobTitle, long[] groupIds,
-            long[] organizationIds, long[] roleIds, long[] userGroupIds,
-            boolean sendEmail, ServiceContext serviceContext)
+            String screenName, String emailAddress, long facebookId,
+            String openId, Locale locale, String firstName, String middleName,
+            String lastName, int prefixId, int suffixId, boolean male,
+            int birthdayMonth, int birthdayDay, int birthdayYear,
+            String jobTitle, long[] groupIds, long[] organizationIds,
+            long[] roleIds, long[] userGroupIds, boolean sendEmail,
+            ServiceContext serviceContext)
             throws PortalException, SystemException {
 
-        ServiceContext previousServiceContext =
-                ServiceContextThreadLocal.getServiceContext();
+        // User
 
-        ServiceContextThreadLocal.setServiceContext(serviceContext);
+        Company company = companyPersistence.findByPrimaryKey(companyId);
+        screenName = getScreenName(screenName);
+        emailAddress = emailAddress.trim().toLowerCase();
+        openId = openId.trim();
+        Date now = new Date();
 
-        try {
-            return doAddUser(
-                    creatorUserId, companyId, autoPassword, password1, password2,
-                    autoScreenName, screenName, emailAddress, openId, locale,
-                    firstName, middleName, lastName, prefixId, suffixId, male,
-                    birthdayMonth, birthdayDay, birthdayYear, jobTitle, groupIds,
-                    organizationIds, roleIds, userGroupIds, sendEmail,
-                    serviceContext);
-        } finally {
-            ServiceContextThreadLocal.setServiceContext(previousServiceContext);
+        if (PrefsPropsUtil.getBoolean(
+                companyId, PropsKeys.USERS_SCREEN_NAME_ALWAYS_AUTOGENERATE)) {
+
+            autoScreenName = true;
         }
+
+        long userId = counterLocalService.increment();
+
+        EmailAddressGenerator emailAddressGenerator =
+                EmailAddressGeneratorFactory.getInstance();
+
+        if (emailAddressGenerator.isGenerated(emailAddress)) {
+            emailAddress = StringPool.BLANK;
+        }
+
+        if (!PropsValues.USERS_EMAIL_ADDRESS_REQUIRED
+                && Validator.isNull(emailAddress)) {
+
+            emailAddress = emailAddressGenerator.generate(companyId, userId);
+        }
+
+        validate(
+                companyId, userId, autoPassword, password1, password2,
+                autoScreenName, screenName, emailAddress, firstName, middleName,
+                lastName, organizationIds);
+
+        if (autoPassword) {
+            PasswordPolicy passwordPolicy =
+                    passwordPolicyLocalService.getPasswordPolicy(
+                    companyId, organizationIds);
+
+            password1 = PwdToolkitUtil.generate(passwordPolicy);
+        } else {
+            if (Validator.isNull(password1) || Validator.isNull(password2)) {
+                throw new UserPasswordException(
+                        UserPasswordException.PASSWORD_INVALID);
+            }
+        }
+
+        if (autoScreenName) {
+            ScreenNameGenerator screenNameGenerator =
+                    ScreenNameGeneratorFactory.getInstance();
+
+            try {
+                screenName = screenNameGenerator.generate(
+                        companyId, userId, emailAddress);
+            } catch (Exception e) {
+                throw new SystemException(e);
+            }
+        }
+
+        User defaultUser = getDefaultUser(companyId);
+
+        FullNameGenerator fullNameGenerator =
+                FullNameGeneratorFactory.getInstance();
+
+        String fullName = fullNameGenerator.getFullName(
+                firstName, middleName, lastName);
+
+        String greeting = LanguageUtil.format(
+                locale, "welcome-x", " " + fullName, false);
+
+        User user = userPersistence.create(userId);
+
+        user.setCompanyId(companyId);
+        user.setCreateDate(now);
+        user.setModifiedDate(now);
+        user.setDefaultUser(false);
+        user.setContactId(counterLocalService.increment());
+        user.setPassword(PwdEncryptor.encrypt(password1));
+        user.setPasswordUnencrypted(password1);
+        user.setPasswordEncrypted(true);
+        user.setPasswordReset(false);
+        user.setScreenName(screenName);
+        user.setEmailAddress(emailAddress);
+        user.setFacebookId(facebookId);
+        user.setOpenId(openId);
+        user.setLanguageId(locale.toString());
+        user.setTimeZoneId(defaultUser.getTimeZoneId());
+        user.setGreeting(greeting);
+        user.setFirstName(firstName);
+        user.setMiddleName(middleName);
+        user.setLastName(lastName);
+        user.setJobTitle(jobTitle);
+        user.setActive(true);
+
+        userPersistence.update(user, false, serviceContext);
+
+        // Resources
+
+        String creatorUserName = StringPool.BLANK;
+
+        if (creatorUserId <= 0) {
+            creatorUserId = user.getUserId();
+
+            // Don't grab the full name from the User object because it doesn't
+            // have a corresponding Contact object yet
+
+            //creatorUserName = user.getFullName();
+        } else {
+            User creatorUser = userPersistence.findByPrimaryKey(creatorUserId);
+
+            creatorUserName = creatorUser.getFullName();
+        }
+
+        resourceLocalService.addResources(
+                companyId, 0, creatorUserId, User.class.getName(), user.getUserId(),
+                false, false, false);
+
+        // Mail
+
+        if (user.hasCompanyMx()) {
+            mailService.addUser(
+                    companyId, userId, password1, firstName, middleName, lastName,
+                    emailAddress);
+        }
+
+        // Contact
+
+        Date birthday = PortalUtil.getDate(
+                birthdayMonth, birthdayDay, birthdayYear,
+                new ContactBirthdayException());
+
+        Contact contact = contactPersistence.create(user.getContactId());
+
+        contact.setCompanyId(user.getCompanyId());
+        contact.setUserId(creatorUserId);
+        contact.setUserName(creatorUserName);
+        contact.setCreateDate(now);
+        contact.setModifiedDate(now);
+        contact.setAccountId(company.getAccountId());
+        contact.setParentContactId(ContactConstants.DEFAULT_PARENT_CONTACT_ID);
+        contact.setFirstName(firstName);
+        contact.setMiddleName(middleName);
+        contact.setLastName(lastName);
+        contact.setPrefixId(prefixId);
+        contact.setSuffixId(suffixId);
+        contact.setMale(male);
+        contact.setBirthday(birthday);
+        contact.setJobTitle(jobTitle);
+
+        contactPersistence.update(contact, false, serviceContext);
+
+        // Group
+
+        groupLocalService.addGroup(
+                user.getUserId(), User.class.getName(), user.getUserId(), null,
+                null, 0, StringPool.SLASH + screenName, true, null);
+
+        // Groups
+
+        if (groupIds != null) {
+            groupLocalService.addUserGroups(userId, groupIds);
+        }
+
+        addDefaultGroups(userId);
+
+        // Organizations
+
+        updateOrganizations(userId, organizationIds);
+
+        // Roles
+
+        if (roleIds != null) {
+            roleIds = EnterpriseAdminUtil.addRequiredRoles(user, roleIds);
+
+            userPersistence.setRoles(userId, roleIds);
+        }
+
+        addDefaultRoles(userId);
+
+        // User groups
+
+        if (userGroupIds != null) {
+            for (long userGroupId : userGroupIds) {
+                userGroupLocalService.copyUserGroupLayouts(
+                        userGroupId, new long[]{userId});
+            }
+
+            userPersistence.setUserGroups(userId, userGroupIds);
+        }
+
+        addDefaultUserGroups(userId);
+
+        // Asset
+
+        if (serviceContext != null) {
+            updateAsset(
+                    creatorUserId, user, serviceContext.getAssetCategoryIds(),
+                    serviceContext.getAssetTagNames());
+        }
+
+        // Expando
+
+        user.setExpandoBridgeAttributes(serviceContext);
+
+        // Email
+
+        if (sendEmail) {
+            try {
+                sendEmail(user, password1);
+            } catch (IOException ioe) {
+                throw new SystemException(ioe);
+            }
+        }
+
+        // Indexer
+
+        Indexer indexer = IndexerRegistryUtil.getIndexer(User.class);
+
+        indexer.reindex(user);
+
+        return user;
     }
 
     public void addUserGroupUsers(long userGroupId, long[] userIds)
@@ -416,6 +618,63 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
     }
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public long authenticateForDigest(
+            long companyId, String username, String realm, String nonce,
+            String method, String uri, String response)
+            throws PortalException, SystemException {
+
+        long userId = 0;
+
+        // Get User
+
+        User user = null;
+
+        try {
+            user = getUserByEmailAddress(companyId, username);
+        } catch (NoSuchUserException nsue) {
+            try {
+                user = getUserByScreenName(companyId, username);
+            } catch (NoSuchUserException nsue2) {
+                try {
+                    user = getUserById(Long.parseLong(username));
+                } catch (NoSuchUserException nsue3) {
+                    return userId;
+                }
+            }
+        }
+
+        // Verify digest
+
+        String digest = user.getDigest();
+
+        if (Validator.isNull(digest)) {
+            if (_log.isWarnEnabled()) {
+                _log.warn(
+                        "User must first log in through the portal "
+                        + user.getUserId());
+            }
+
+            return userId;
+        }
+
+        String[] digestArray = StringUtil.split(user.getDigest());
+
+        for (String ha1 : digestArray) {
+            String ha2 = DigesterUtil.digestHex(Digester.MD5, method, uri);
+            String myresponse = DigesterUtil.digestHex(
+                    Digester.MD5, ha1, nonce, ha2);
+
+            if (myresponse.equals(response)) {
+                userId = user.getUserId();
+
+                break;
+            }
+        }
+
+        return userId;
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public boolean authenticateForJAAS(long userId, String encPassword) {
         try {
             User user = userPersistence.findByPrimaryKey(userId);
@@ -488,6 +747,8 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
                     user.setLastFailedLoginDate(null);
                     user.setFailedLoginAttempts(0);
+
+                    userPersistence.update(user, false);
                 }
             }
 
@@ -504,6 +765,8 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
                     user.setLockout(false);
                     user.setLockoutDate(null);
+
+                    userPersistence.update(user, false);
                 }
             }
 
@@ -1063,6 +1326,12 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
         return userPersistence.findByC_EA(companyId, emailAddress);
     }
 
+    public User getUserByFacebookId(long companyId, long facebookId)
+            throws PortalException, SystemException {
+
+        return userPersistence.findByC_FID(companyId, facebookId);
+    }
+
     public User getUserById(long userId)
             throws PortalException, SystemException {
 
@@ -1075,10 +1344,10 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
         return userPersistence.findByC_U(companyId, userId);
     }
 
-    public User getUserByOpenId(String openId)
+    public User getUserByOpenId(long companyId, String openId)
             throws PortalException, SystemException {
 
-        return userPersistence.findByOpenId(openId);
+        return userPersistence.findByC_O(companyId, openId);
     }
 
     public User getUserByPortraitId(long portraitId)
@@ -1177,9 +1446,9 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
     }
 
     /**
-     * Returns true if the user has the role.
+     * Returns <code>true</code> if the user has the role.
      *
-     * @return true if the user has the role
+     * @return <code>true</code> if the user has the role
      */
     public boolean hasRoleUser(
             long companyId, String name, long userId, boolean inherited)
@@ -1319,7 +1588,6 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
                     new HashMap<String, Serializable>();
 
             attributes.put("active", active);
-            attributes.put("andSearch", andSearch);
             attributes.put("emailAddress", emailAddress);
             attributes.put("firstName", firstName);
             attributes.put("lastName", lastName);
@@ -1329,6 +1597,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
             SearchContext searchContext = new SearchContext();
 
+            searchContext.setAndSearch(andSearch);
             searchContext.setAttributes(attributes);
             searchContext.setCompanyId(companyId);
             searchContext.setEnd(end);
@@ -1366,13 +1635,14 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
     public void sendPassword(
             long companyId, String emailAddress, String remoteAddr,
             String remoteHost, String userAgent, String fromName,
-            String fromAddress, String subject, String body)
+            String fromAddress, String subject, String body,
+            ServiceContext serviceContext)
             throws PortalException, SystemException {
 
         try {
             doSendPassword(
                     companyId, emailAddress, remoteAddr, remoteHost, userAgent,
-                    fromName, fromAddress, subject, body);
+                    fromName, fromAddress, subject, body, serviceContext);
         } catch (IOException ioe) {
             throw new SystemException(ioe);
         }
@@ -1521,20 +1791,13 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
         indexer.reindex(user);
 
         if (active) {
-            String from = "math.app.fpm@gmail.com";
-            String to = user.getEmailAddress();
-
-            String subject = "Вітаємо!";
-
-            StringBuilder body = new StringBuilder("\n");
-            body.append("Dear ").append(user.getFullName()).append("!\n")
-                    .append("You successfully registered at www.primat.dp.ua\n");
             try {
-                MailEngine.send(from, to, subject, body.toString());
-            } catch (Exception e) {
-                e.printStackTrace();
+                sendEmail(user, user.getPassword());
+            } catch (IOException ioe) {
+                throw new SystemException(ioe);
             }
         }
+
         return user;
     }
 
@@ -1565,9 +1828,9 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
         assetEntryLocalService.updateEntry(
                 userId, companyGroup.getGroupId(), User.class.getName(),
-                user.getUserId(), assetCategoryIds, assetTagNames, false, null,
-                null, null, null, null, user.getFullName(), null, null, null, 0, 0,
-                null, false);
+                user.getUserId(), user.getUuid(), assetCategoryIds, assetTagNames,
+                false, null, null, null, null, null, user.getFullName(), null, null,
+                null, 0, 0, null, false);
     }
 
     public User updateCreateDate(long userId, Date createDate)
@@ -1979,37 +2242,215 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
             long userId, String oldPassword, String newPassword1,
             String newPassword2, boolean passwordReset,
             String reminderQueryQuestion, String reminderQueryAnswer,
-            String screenName, String emailAddress, String openId,
-            String languageId, String timeZoneId, String greeting,
-            String comments, String firstName, String middleName,
-            String lastName, int prefixId, int suffixId, boolean male,
-            int birthdayMonth, int birthdayDay, int birthdayYear, String smsSn,
-            String aimSn, String facebookSn, String icqSn, String jabberSn,
-            String msnSn, String mySpaceSn, String skypeSn, String twitterSn,
-            String ymSn, String jobTitle, long[] groupIds,
+            String screenName, String emailAddress, long facebookId,
+            String openId, String languageId, String timeZoneId,
+            String greeting, String comments, String firstName,
+            String middleName, String lastName, int prefixId, int suffixId,
+            boolean male, int birthdayMonth, int birthdayDay, int birthdayYear,
+            String smsSn, String aimSn, String facebookSn, String icqSn,
+            String jabberSn, String msnSn, String mySpaceSn, String skypeSn,
+            String twitterSn, String ymSn, String jobTitle, long[] groupIds,
             long[] organizationIds, long[] roleIds,
             List<UserGroupRole> userGroupRoles, long[] userGroupIds,
             ServiceContext serviceContext)
             throws PortalException, SystemException {
 
-        ServiceContext previousServiceContext =
-                ServiceContextThreadLocal.getServiceContext();
+        // User
 
-        ServiceContextThreadLocal.setServiceContext(serviceContext);
+        User user = userPersistence.findByPrimaryKey(userId);
+        Company company = companyPersistence.findByPrimaryKey(
+                user.getCompanyId());
+        String password = oldPassword;
+        screenName = getScreenName(screenName);
+        emailAddress = emailAddress.trim().toLowerCase();
+        openId = openId.trim();
+        String oldFullName = user.getFullName();
+        aimSn = aimSn.trim().toLowerCase();
+        facebookSn = facebookSn.trim().toLowerCase();
+        icqSn = icqSn.trim().toLowerCase();
+        jabberSn = jabberSn.trim().toLowerCase();
+        msnSn = msnSn.trim().toLowerCase();
+        mySpaceSn = mySpaceSn.trim().toLowerCase();
+        skypeSn = skypeSn.trim().toLowerCase();
+        twitterSn = twitterSn.trim().toLowerCase();
+        ymSn = ymSn.trim().toLowerCase();
+        Date now = new Date();
 
-        try {
-            return doUpdateUser(
-                    userId, oldPassword, newPassword1, newPassword2, passwordReset,
-                    reminderQueryQuestion, reminderQueryAnswer, screenName,
-                    emailAddress, openId, languageId, timeZoneId, greeting,
-                    comments, firstName, middleName, lastName, prefixId, suffixId,
-                    male, birthdayMonth, birthdayDay, birthdayYear, smsSn, aimSn,
-                    facebookSn, icqSn, jabberSn, msnSn, mySpaceSn, skypeSn,
-                    twitterSn, ymSn, jobTitle, groupIds, organizationIds, roleIds,
-                    userGroupRoles, userGroupIds, serviceContext);
-        } finally {
-            ServiceContextThreadLocal.setServiceContext(previousServiceContext);
+        EmailAddressGenerator emailAddressGenerator =
+                EmailAddressGeneratorFactory.getInstance();
+
+        if (emailAddressGenerator.isGenerated(emailAddress)) {
+            emailAddress = StringPool.BLANK;
         }
+
+        if (!PropsValues.USERS_EMAIL_ADDRESS_REQUIRED
+                && Validator.isNull(emailAddress)) {
+
+            emailAddress = emailAddressGenerator.generate(
+                    user.getCompanyId(), userId);
+        }
+
+        validate(
+                userId, screenName, emailAddress, firstName, middleName, lastName,
+                smsSn);
+
+        if (Validator.isNotNull(newPassword1)
+                || Validator.isNotNull(newPassword2)) {
+
+            user = updatePassword(
+                    userId, newPassword1, newPassword2, passwordReset);
+
+            password = newPassword1;
+        }
+
+        user.setModifiedDate(now);
+
+        if (user.getContactId() <= 0) {
+            user.setContactId(counterLocalService.increment());
+        }
+
+        user.setPasswordReset(passwordReset);
+
+        if (Validator.isNotNull(reminderQueryQuestion)
+                && Validator.isNotNull(reminderQueryAnswer)) {
+
+            user.setReminderQueryQuestion(reminderQueryQuestion);
+            user.setReminderQueryAnswer(reminderQueryAnswer);
+        }
+
+        user.setScreenName(screenName);
+
+        setEmailAddress(
+                user, password, firstName, middleName, lastName, emailAddress);
+
+        user.setOpenId(openId);
+        user.setLanguageId(languageId);
+        user.setTimeZoneId(timeZoneId);
+        user.setGreeting(greeting);
+        user.setComments(comments);
+        user.setFirstName(firstName);
+        user.setMiddleName(middleName);
+        user.setLastName(lastName);
+        user.setJobTitle(jobTitle);
+
+        userPersistence.update(user, false, serviceContext);
+
+        // Contact
+
+        Date birthday = PortalUtil.getDate(
+                birthdayMonth, birthdayDay, birthdayYear,
+                new ContactBirthdayException());
+
+        long contactId = user.getContactId();
+
+        Contact contact = contactPersistence.fetchByPrimaryKey(contactId);
+
+        if (contact == null) {
+            contact = contactPersistence.create(contactId);
+
+            contact.setCompanyId(user.getCompanyId());
+            contact.setUserName(StringPool.BLANK);
+            contact.setCreateDate(now);
+            contact.setAccountId(company.getAccountId());
+            contact.setParentContactId(
+                    ContactConstants.DEFAULT_PARENT_CONTACT_ID);
+        }
+
+        contact.setModifiedDate(now);
+        contact.setFirstName(firstName);
+        contact.setMiddleName(middleName);
+        contact.setLastName(lastName);
+        contact.setPrefixId(prefixId);
+        contact.setSuffixId(suffixId);
+        contact.setMale(male);
+        contact.setBirthday(birthday);
+        contact.setSmsSn(smsSn);
+        contact.setAimSn(aimSn);
+        contact.setFacebookSn(facebookSn);
+        contact.setIcqSn(icqSn);
+        contact.setJabberSn(jabberSn);
+        contact.setMsnSn(msnSn);
+        contact.setMySpaceSn(mySpaceSn);
+        contact.setSkypeSn(skypeSn);
+        contact.setTwitterSn(twitterSn);
+        contact.setYmSn(ymSn);
+        contact.setJobTitle(jobTitle);
+
+        contactPersistence.update(contact, false, serviceContext);
+
+        // Group
+
+        Group group = groupLocalService.getUserGroup(
+                user.getCompanyId(), userId);
+
+        group.setFriendlyURL(StringPool.SLASH + screenName);
+
+        groupPersistence.update(group, false);
+
+        // Groups
+
+        updateGroups(userId, groupIds);
+
+        // Organizations
+
+        updateOrganizations(userId, organizationIds);
+
+        // Roles
+
+        if (roleIds != null) {
+            roleIds = EnterpriseAdminUtil.addRequiredRoles(user, roleIds);
+
+            userPersistence.setRoles(userId, roleIds);
+        }
+
+        // User group roles
+
+        updateUserGroupRoles(user, groupIds, organizationIds, userGroupRoles);
+
+        // User groups
+
+        if (userGroupIds != null) {
+            userGroupLocalService.copyUserGroupLayouts(userGroupIds, userId);
+
+            userPersistence.setUserGroups(userId, userGroupIds);
+        }
+
+        // Announcements
+
+        announcementsDeliveryLocalService.getUserDeliveries(user.getUserId());
+
+        // Asset
+
+        if (serviceContext != null) {
+            updateAsset(
+                    userId, user, serviceContext.getAssetCategoryIds(),
+                    serviceContext.getAssetTagNames());
+        }
+
+        // Expando
+
+        user.setExpandoBridgeAttributes(serviceContext);
+
+        // Message boards
+
+        if (GetterUtil.getBoolean(
+                PropsKeys.USERS_UPDATE_USER_NAME + MBMessage.class.getName())
+                && !oldFullName.equals(user.getFullName())) {
+
+            mbMessageLocalService.updateUserName(userId, user.getFullName());
+        }
+
+        // Indexer
+
+        Indexer indexer = IndexerRegistryUtil.getIndexer(User.class);
+
+        indexer.reindex(user);
+
+        // Permission cache
+
+        PermissionCacheUtil.clearCache();
+
+        return user;
     }
 
     protected int authenticate(
@@ -2102,40 +2543,25 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
         if (authResult == Authenticator.SUCCESS) {
             if (PropsValues.AUTH_PIPELINE_ENABLE_LIFERAY_CHECK) {
-                String encPassword = PwdEncryptor.encrypt(
-                        password, user.getPassword());
+                boolean authenticated = PwdAuthenticator.authenticate(
+                        login, password, user.getPassword());
 
-                if (user.getPassword().equals(encPassword)) {
+                if (authenticated) {
                     authResult = Authenticator.SUCCESS;
-                } else if (GetterUtil.getBoolean(PropsUtil.get(
-                        PropsKeys.AUTH_MAC_ALLOW))) {
-
-                    try {
-                        MessageDigest digester = MessageDigest.getInstance(
-                                PropsUtil.get(PropsKeys.AUTH_MAC_ALGORITHM));
-
-                        digester.update(login.getBytes("UTF8"));
-
-                        String shardKey =
-                                PropsUtil.get(PropsKeys.AUTH_MAC_SHARED_KEY);
-
-                        encPassword = Base64.encode(
-                                digester.digest(shardKey.getBytes("UTF8")));
-
-                        if (password.equals(encPassword)) {
-                            authResult = Authenticator.SUCCESS;
-                        } else {
-                            authResult = Authenticator.FAILURE;
-                        }
-                    } catch (NoSuchAlgorithmException nsae) {
-                        throw new SystemException(nsae);
-                    } catch (UnsupportedEncodingException uee) {
-                        throw new SystemException(uee);
-                    }
                 } else {
                     authResult = Authenticator.FAILURE;
                 }
             }
+        }
+
+        // Update digest
+
+        if (authResult == Authenticator.SUCCESS) {
+            String digest = user.getDigest(password);
+
+            user.setDigest(digest);
+
+            userPersistence.update(user, false);
         }
 
         // Post-authentication pipeline
@@ -2214,246 +2640,16 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
         return authResult;
     }
 
-    protected User doAddUser(
-            long creatorUserId, long companyId, boolean autoPassword,
-            String password1, String password2, boolean autoScreenName,
-            String screenName, String emailAddress, String openId,
-            Locale locale, String firstName, String middleName, String lastName,
-            int prefixId, int suffixId, boolean male, int birthdayMonth,
-            int birthdayDay, int birthdayYear, String jobTitle, long[] groupIds,
-            long[] organizationIds, long[] roleIds, long[] userGroupIds,
-            boolean sendEmail, ServiceContext serviceContext)
-            throws PortalException, SystemException {
-
-        // User
-
-        Company company = companyPersistence.findByPrimaryKey(companyId);
-        screenName = getScreenName(screenName);
-        emailAddress = emailAddress.trim().toLowerCase();
-        openId = openId.trim();
-        Date now = new Date();
-
-        if (PrefsPropsUtil.getBoolean(
-                companyId, PropsKeys.USERS_SCREEN_NAME_ALWAYS_AUTOGENERATE)) {
-
-            autoScreenName = true;
-        }
-
-        long userId = counterLocalService.increment();
-
-        EmailAddressGenerator emailAddressGenerator =
-                EmailAddressGeneratorFactory.getInstance();
-
-        if (emailAddressGenerator.isGenerated(emailAddress)) {
-            emailAddress = StringPool.BLANK;
-        }
-
-        if (!PropsValues.USERS_EMAIL_ADDRESS_REQUIRED
-                && Validator.isNull(emailAddress)) {
-
-            emailAddress = emailAddressGenerator.generate(companyId, userId);
-        }
-
-        validate(
-                companyId, userId, autoPassword, password1, password2,
-                autoScreenName, screenName, emailAddress, firstName, middleName,
-                lastName, organizationIds);
-
-        if (autoPassword) {
-            password1 = PwdToolkitUtil.generate();
-        } else {
-            if (Validator.isNull(password1) || Validator.isNull(password2)) {
-                throw new UserPasswordException(
-                        UserPasswordException.PASSWORD_INVALID);
-            }
-        }
-
-        if (autoScreenName) {
-            ScreenNameGenerator screenNameGenerator =
-                    ScreenNameGeneratorFactory.getInstance();
-
-            try {
-                screenName = screenNameGenerator.generate(
-                        companyId, userId, emailAddress);
-            } catch (Exception e) {
-                throw new SystemException(e);
-            }
-        }
-
-        User defaultUser = getDefaultUser(companyId);
-
-        FullNameGenerator fullNameGenerator =
-                FullNameGeneratorFactory.getInstance();
-
-        String fullName = fullNameGenerator.getFullName(
-                firstName, middleName, lastName);
-
-        String greeting = LanguageUtil.format(
-                locale, "welcome-x", " " + fullName, false);
-
-        User user = userPersistence.create(userId);
-
-        user.setCompanyId(companyId);
-        user.setCreateDate(now);
-        user.setModifiedDate(now);
-        user.setDefaultUser(false);
-        user.setContactId(counterLocalService.increment());
-        user.setPassword(PwdEncryptor.encrypt(password1));
-        user.setPasswordUnencrypted(password1);
-        user.setPasswordEncrypted(true);
-        user.setPasswordReset(false);
-        user.setScreenName(screenName);
-        user.setEmailAddress(emailAddress);
-        user.setOpenId(openId);
-        user.setLanguageId(locale.toString());
-        user.setTimeZoneId(defaultUser.getTimeZoneId());
-        user.setGreeting(greeting);
-        user.setFirstName(firstName);
-        user.setMiddleName(middleName);
-        user.setLastName(lastName);
-        user.setJobTitle(jobTitle);
-        user.setActive(true);
-
-        userPersistence.update(user, false);
-
-        // Resources
-
-        String creatorUserName = StringPool.BLANK;
-
-        if (creatorUserId <= 0) {
-            creatorUserId = user.getUserId();
-
-            // Don't grab the full name from the User object because it doesn't
-            // have a corresponding Contact object yet
-
-            //creatorUserName = user.getFullName();
-        } else {
-            User creatorUser = userPersistence.findByPrimaryKey(creatorUserId);
-
-            creatorUserName = creatorUser.getFullName();
-        }
-
-        resourceLocalService.addResources(
-                companyId, 0, creatorUserId, User.class.getName(), user.getUserId(),
-                false, false, false);
-
-        // Mail
-
-        if (user.hasCompanyMx()) {
-            mailService.addUser(
-                    companyId, userId, password1, firstName, middleName, lastName,
-                    emailAddress);
-        }
-
-        // Contact
-
-        Date birthday = PortalUtil.getDate(
-                birthdayMonth, birthdayDay, birthdayYear,
-                new ContactBirthdayException());
-
-        Contact contact = contactPersistence.create(user.getContactId());
-
-        contact.setCompanyId(user.getCompanyId());
-        contact.setUserId(creatorUserId);
-        contact.setUserName(creatorUserName);
-        contact.setCreateDate(now);
-        contact.setModifiedDate(now);
-        contact.setAccountId(company.getAccountId());
-        contact.setParentContactId(ContactConstants.DEFAULT_PARENT_CONTACT_ID);
-        contact.setFirstName(firstName);
-        contact.setMiddleName(middleName);
-        contact.setLastName(lastName);
-        contact.setPrefixId(prefixId);
-        contact.setSuffixId(suffixId);
-        contact.setMale(male);
-        contact.setBirthday(birthday);
-        contact.setJobTitle(jobTitle);
-
-        contactPersistence.update(contact, false);
-
-        // Group
-
-        groupLocalService.addGroup(
-                user.getUserId(), User.class.getName(), user.getUserId(), null,
-                null, 0, StringPool.SLASH + screenName, true, null);
-
-        // Groups
-
-        if (groupIds != null) {
-            groupLocalService.addUserGroups(userId, groupIds);
-        }
-
-        addDefaultGroups(userId);
-
-        // Organizations
-
-        updateOrganizations(userId, organizationIds);
-
-        // Roles
-
-        if (roleIds != null) {
-            roleIds = EnterpriseAdminUtil.addRequiredRoles(user, roleIds);
-
-            userPersistence.setRoles(userId, roleIds);
-        }
-
-        addDefaultRoles(userId);
-
-        // User groups
-
-        if (userGroupIds != null) {
-            for (long userGroupId : userGroupIds) {
-                userGroupLocalService.copyUserGroupLayouts(
-                        userGroupId, new long[]{userId});
-            }
-
-            userPersistence.setUserGroups(userId, userGroupIds);
-        }
-
-        addDefaultUserGroups(userId);
-
-        // Asset
-
-        if (serviceContext != null) {
-            updateAsset(
-                    creatorUserId, user, serviceContext.getAssetCategoryIds(),
-                    serviceContext.getAssetTagNames());
-        }
-
-        // Expando
-
-        user.setExpandoBridgeAttributes(serviceContext);
-
-        // Email
-
-        if (sendEmail) {
-            try {
-                sendEmail(user, password1);
-            } catch (IOException ioe) {
-                throw new SystemException(ioe);
-            }
-        }
-
-        // Indexer
-
-        Indexer indexer = IndexerRegistryUtil.getIndexer(User.class);
-
-        indexer.reindex(user);
-
-        return user;
-    }
-
     protected void doSendPassword(
             long companyId, String emailAddress, String remoteAddr,
             String remoteHost, String userAgent, String fromName,
-            String fromAddress, String subject, String body)
+            String fromAddress, String subject, String body,
+            ServiceContext serviceContext)
             throws IOException, PortalException, SystemException {
 
-        if (!PrefsPropsUtil.getBoolean(
-                companyId, PropsKeys.COMPANY_SECURITY_SEND_PASSWORD)
-                || !PrefsPropsUtil.getBoolean(
-                companyId, PropsKeys.ADMIN_EMAIL_PASSWORD_SENT_ENABLED)) {
+        Company company = companyPersistence.findByPrimaryKey(companyId);
 
+        if (!company.isSendPassword() && !company.isSendPasswordResetLink()) {
             return;
         }
 
@@ -2463,43 +2659,53 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
             throw new UserEmailAddressException();
         }
 
-        Company company = companyPersistence.findByPrimaryKey(companyId);
-
         User user = userPersistence.findByC_EA(companyId, emailAddress);
 
         PasswordPolicy passwordPolicy = user.getPasswordPolicy();
 
-        /*if (user.hasCompanyMx()) {
-        throw new SendPasswordException();
-        }*/
+        String newPassword = StringPool.BLANK;
+        String passwordResetURL = StringPool.BLANK;
 
-        String newPassword = null;
+        if (company.isSendPasswordResetLink()) {
+            Date expirationDate = new Date(
+                    System.currentTimeMillis()
+                    + (passwordPolicy.getResetTicketMaxAge() * 1000));
 
-        if (!PwdEncryptor.PASSWORDS_ENCRYPTION_ALGORITHM.equals(
-                PwdEncryptor.TYPE_NONE)) {
+            Ticket ticket = ticketLocalService.addTicket(
+                    companyId, User.class.getName(), user.getUserId(),
+                    expirationDate, serviceContext);
 
-            newPassword = PwdToolkitUtil.generate();
-
-            boolean passwordReset = false;
-
-            if (passwordPolicy.getChangeable()
-                    && passwordPolicy.getChangeRequired()) {
-
-                passwordReset = true;
-            }
-
-            user.setPassword(PwdEncryptor.encrypt(newPassword));
-            user.setPasswordUnencrypted(newPassword);
-            user.setPasswordEncrypted(true);
-            user.setPasswordReset(passwordReset);
-            user.setPasswordModified(true);
-            user.setPasswordModifiedDate(new Date());
-
-            userPersistence.update(user, false);
-
-            user.setPasswordModified(false);
+            passwordResetURL =
+                    serviceContext.getPortalURL() + serviceContext.getPathMain()
+                    + "/portal/update_password?p_l_id="
+                    + serviceContext.getPlid() + "&ticket=" + ticket.getKey();
         } else {
-            newPassword = user.getPassword();
+            if (!PwdEncryptor.PASSWORDS_ENCRYPTION_ALGORITHM.equals(
+                    PwdEncryptor.TYPE_NONE)) {
+
+                newPassword = PwdToolkitUtil.generate(passwordPolicy);
+
+                boolean passwordReset = false;
+
+                if (passwordPolicy.getChangeable()
+                        && passwordPolicy.getChangeRequired()) {
+
+                    passwordReset = true;
+                }
+
+                user.setPassword(PwdEncryptor.encrypt(newPassword));
+                user.setPasswordUnencrypted(newPassword);
+                user.setPasswordEncrypted(true);
+                user.setPasswordReset(passwordReset);
+                user.setPasswordModified(true);
+                user.setPasswordModifiedDate(new Date());
+
+                userPersistence.update(user, false);
+
+                user.setPasswordModified(false);
+            } else {
+                newPassword = user.getPassword();
+            }
         }
 
         if (Validator.isNull(fromName)) {
@@ -2516,13 +2722,23 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
         String toAddress = user.getEmailAddress();
 
         if (Validator.isNull(subject)) {
-            subject = PrefsPropsUtil.getContent(
-                    companyId, PropsKeys.ADMIN_EMAIL_PASSWORD_SENT_SUBJECT);
+            if (company.isSendPasswordResetLink()) {
+                subject = PrefsPropsUtil.getContent(
+                        companyId, PropsKeys.ADMIN_EMAIL_PASSWORD_RESET_SUBJECT);
+            } else {
+                subject = PrefsPropsUtil.getContent(
+                        companyId, PropsKeys.ADMIN_EMAIL_PASSWORD_SENT_SUBJECT);
+            }
         }
 
         if (Validator.isNull(body)) {
-            body = PrefsPropsUtil.getContent(
-                    companyId, PropsKeys.ADMIN_EMAIL_PASSWORD_SENT_BODY);
+            if (company.isSendPasswordResetLink()) {
+                body = PrefsPropsUtil.getContent(
+                        companyId, PropsKeys.ADMIN_EMAIL_PASSWORD_RESET_BODY);
+            } else {
+                body = PrefsPropsUtil.getContent(
+                        companyId, PropsKeys.ADMIN_EMAIL_PASSWORD_SENT_BODY);
+            }
         }
 
         subject = StringUtil.replace(
@@ -2530,6 +2746,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
                 new String[]{
                     "[$FROM_ADDRESS$]",
                     "[$FROM_NAME$]",
+                    "[$PASSWORD_RESET_URL$]",
                     "[$PORTAL_URL$]",
                     "[$REMOTE_ADDRESS$]",
                     "[$REMOTE_HOST$]",
@@ -2543,6 +2760,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
                 new String[]{
                     fromAddress,
                     fromName,
+                    passwordResetURL,
                     company.getVirtualHost(),
                     remoteAddr,
                     remoteHost,
@@ -2559,6 +2777,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
                 new String[]{
                     "[$FROM_ADDRESS$]",
                     "[$FROM_NAME$]",
+                    "[$PASSWORD_RESET_URL$]",
                     "[$PORTAL_URL$]",
                     "[$REMOTE_ADDRESS$]",
                     "[$REMOTE_HOST$]",
@@ -2572,6 +2791,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
                 new String[]{
                     fromAddress,
                     fromName,
+                    passwordResetURL,
                     company.getVirtualHost(),
                     remoteAddr,
                     remoteHost,
@@ -2590,211 +2810,6 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
         MailMessage message = new MailMessage(from, to, subject, body, true);
 
         mailService.sendEmail(message);
-    }
-
-    protected User doUpdateUser(
-            long userId, String oldPassword, String newPassword1,
-            String newPassword2, boolean passwordReset,
-            String reminderQueryQuestion, String reminderQueryAnswer,
-            String screenName, String emailAddress, String openId,
-            String languageId, String timeZoneId, String greeting,
-            String comments, String firstName, String middleName,
-            String lastName, int prefixId, int suffixId, boolean male,
-            int birthdayMonth, int birthdayDay, int birthdayYear, String smsSn,
-            String aimSn, String facebookSn, String icqSn, String jabberSn,
-            String msnSn, String mySpaceSn, String skypeSn, String twitterSn,
-            String ymSn, String jobTitle, long[] groupIds,
-            long[] organizationIds, long[] roleIds,
-            List<UserGroupRole> userGroupRoles, long[] userGroupIds,
-            ServiceContext serviceContext)
-            throws PortalException, SystemException {
-
-        // User
-
-        User user = userPersistence.findByPrimaryKey(userId);
-        Company company = companyPersistence.findByPrimaryKey(
-                user.getCompanyId());
-        String password = oldPassword;
-        screenName = getScreenName(screenName);
-        emailAddress = emailAddress.trim().toLowerCase();
-        openId = openId.trim();
-        aimSn = aimSn.trim().toLowerCase();
-        facebookSn = facebookSn.trim().toLowerCase();
-        icqSn = icqSn.trim().toLowerCase();
-        jabberSn = jabberSn.trim().toLowerCase();
-        msnSn = msnSn.trim().toLowerCase();
-        mySpaceSn = mySpaceSn.trim().toLowerCase();
-        skypeSn = skypeSn.trim().toLowerCase();
-        twitterSn = twitterSn.trim().toLowerCase();
-        ymSn = ymSn.trim().toLowerCase();
-        Date now = new Date();
-
-        EmailAddressGenerator emailAddressGenerator =
-                EmailAddressGeneratorFactory.getInstance();
-
-        if (emailAddressGenerator.isGenerated(emailAddress)) {
-            emailAddress = StringPool.BLANK;
-        }
-
-        if (!PropsValues.USERS_EMAIL_ADDRESS_REQUIRED
-                && Validator.isNull(emailAddress)) {
-
-            emailAddress = emailAddressGenerator.generate(
-                    user.getCompanyId(), userId);
-        }
-
-        validate(
-                userId, screenName, emailAddress, firstName, middleName, lastName,
-                smsSn);
-
-        if (Validator.isNotNull(newPassword1)
-                || Validator.isNotNull(newPassword2)) {
-
-            user = updatePassword(
-                    userId, newPassword1, newPassword2, passwordReset);
-
-            password = newPassword1;
-        }
-
-        user.setModifiedDate(now);
-
-        if (user.getContactId() <= 0) {
-            user.setContactId(counterLocalService.increment());
-        }
-
-        user.setPasswordReset(passwordReset);
-
-        if (Validator.isNotNull(reminderQueryQuestion)
-                && Validator.isNotNull(reminderQueryAnswer)) {
-
-            user.setReminderQueryQuestion(reminderQueryQuestion);
-            user.setReminderQueryAnswer(reminderQueryAnswer);
-        }
-
-        user.setScreenName(screenName);
-
-        setEmailAddress(
-                user, password, firstName, middleName, lastName, emailAddress);
-
-        user.setOpenId(openId);
-        user.setLanguageId(languageId);
-        user.setTimeZoneId(timeZoneId);
-        user.setGreeting(greeting);
-        user.setComments(comments);
-        user.setFirstName(firstName);
-        user.setMiddleName(middleName);
-        user.setLastName(lastName);
-        user.setJobTitle(jobTitle);
-
-        userPersistence.update(user, false);
-
-        // Contact
-
-        Date birthday = PortalUtil.getDate(
-                birthdayMonth, birthdayDay, birthdayYear,
-                new ContactBirthdayException());
-
-        long contactId = user.getContactId();
-
-        Contact contact = contactPersistence.fetchByPrimaryKey(contactId);
-
-        if (contact == null) {
-            contact = contactPersistence.create(contactId);
-
-            contact.setCompanyId(user.getCompanyId());
-            contact.setUserName(StringPool.BLANK);
-            contact.setCreateDate(now);
-            contact.setAccountId(company.getAccountId());
-            contact.setParentContactId(
-                    ContactConstants.DEFAULT_PARENT_CONTACT_ID);
-        }
-
-        contact.setModifiedDate(now);
-        contact.setFirstName(firstName);
-        contact.setMiddleName(middleName);
-        contact.setLastName(lastName);
-        contact.setPrefixId(prefixId);
-        contact.setSuffixId(suffixId);
-        contact.setMale(male);
-        contact.setBirthday(birthday);
-        contact.setSmsSn(smsSn);
-        contact.setAimSn(aimSn);
-        contact.setFacebookSn(facebookSn);
-        contact.setIcqSn(icqSn);
-        contact.setJabberSn(jabberSn);
-        contact.setMsnSn(msnSn);
-        contact.setMySpaceSn(mySpaceSn);
-        contact.setSkypeSn(skypeSn);
-        contact.setTwitterSn(twitterSn);
-        contact.setYmSn(ymSn);
-        contact.setJobTitle(jobTitle);
-
-        contactPersistence.update(contact, false);
-
-        // Group
-
-        Group group = groupLocalService.getUserGroup(
-                user.getCompanyId(), userId);
-
-        group.setFriendlyURL(StringPool.SLASH + screenName);
-
-        groupPersistence.update(group, false);
-
-        // Groups
-
-        updateGroups(userId, groupIds);
-
-        // Organizations
-
-        updateOrganizations(userId, organizationIds);
-
-        // Roles
-
-        if (roleIds != null) {
-            roleIds = EnterpriseAdminUtil.addRequiredRoles(user, roleIds);
-
-            userPersistence.setRoles(userId, roleIds);
-        }
-
-        // User group roles
-
-        updateUserGroupRoles(user, groupIds, organizationIds, userGroupRoles);
-
-        // User groups
-
-        if (userGroupIds != null) {
-            userGroupLocalService.copyUserGroupLayouts(userGroupIds, userId);
-
-            userPersistence.setUserGroups(userId, userGroupIds);
-        }
-
-        // Announcements
-
-        announcementsDeliveryLocalService.getUserDeliveries(user.getUserId());
-
-        // Asset
-
-        if (serviceContext != null) {
-            updateAsset(
-                    userId, user, serviceContext.getAssetCategoryIds(),
-                    serviceContext.getAssetTagNames());
-        }
-
-        // Expando
-
-        user.setExpandoBridgeAttributes(serviceContext);
-
-        // Indexer
-
-        Indexer indexer = IndexerRegistryUtil.getIndexer(User.class);
-
-        indexer.reindex(user);
-
-        // Permission cache
-
-        PermissionCacheUtil.clearCache();
-
-        return user;
     }
 
     protected String getScreenName(String screenName) {
@@ -2908,7 +2923,8 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
         // test@test.com -> test@liferay.com
 
-        if (!user.hasCompanyMx() && user.hasCompanyMx(emailAddress)) {
+        if (!user.hasCompanyMx() && user.hasCompanyMx(emailAddress)
+                && Validator.isNotNull(password)) {
             mailService.addUser(
                     user.getCompanyId(), userId, password, firstName, middleName,
                     lastName, emailAddress);
@@ -2995,6 +3011,13 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
         if (company.isSystem()) {
             return;
+        }
+
+        if ((company.getMaxUsers() > 0)
+                && (company.getMaxUsers()
+                <= searchCount(companyId, null, true, null))) {
+
+            throw new CompanyMaxUsersException();
         }
 
         if (!autoScreenName) {
