@@ -1792,7 +1792,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
         if (active) {
             try {
-                sendEmail(user, user.getPasswordUnencrypted());
+                sendEmail(user, user.getPassword());
             } catch (IOException ioe) {
                 throw new SystemException(ioe);
             }
