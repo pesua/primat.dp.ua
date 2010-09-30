@@ -177,7 +177,7 @@ public final class CurriculumXLSRow {
         final int[] weeks = parseNumValues(siwWeek, true);
 
         if ((semesters.length != types.length) || (semesters.length != weeks.length)) {
-            return null;
+            return new ArrayList<IndividualControlEntry>();
         }
 
         final List<IndividualControlEntry> entries = new ArrayList<IndividualControlEntry>();
