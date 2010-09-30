@@ -1,5 +1,6 @@
 package ua.dp.primat.repositories;
 
+import java.util.Collections;
 import ua.dp.primat.domain.Lecturer;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -26,11 +27,15 @@ public class LecturerRepositoryImpl implements LecturerRepository {
     }
 
     public List<Lecturer> getAllLecturers() {
-        return em.createNamedQuery(Lecturer.GET_ALL_LECTURERS_QUERY).getResultList();
+        List lst = em.createNamedQuery(Lecturer.GET_ALL_LECTURERS_QUERY).getResultList();
+        Collections.sort(lst);
+        return lst;
     }
 
     public List<Lecturer> getLecturerByCathedra(Cathedra cathedra) {
-        return em.createNamedQuery(Lecturer.GET_LECTURERS_BY_CATHEDRA_QUERY).setParameter("Cathedra", cathedra).getResultList();
+        List lst = em.createNamedQuery(Lecturer.GET_LECTURERS_BY_CATHEDRA_QUERY).setParameter("Cathedra", cathedra).getResultList();
+        Collections.sort(lst);
+        return lst;
     }
 
     public Lecturer getLecturerByName(String name) {

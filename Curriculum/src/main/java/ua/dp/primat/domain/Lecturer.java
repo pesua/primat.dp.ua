@@ -1,6 +1,7 @@
 package ua.dp.primat.domain;
 
 import java.io.Serializable;
+import java.util.AbstractCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,6 +10,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.hibernate.mapping.Collection;
 
 /**
  * Entity for a custom lecturer.
@@ -20,7 +22,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
     @NamedQuery(name = Lecturer.GET_LECTURERS_BY_CATHEDRA_QUERY, query = "from Lecturer where cathedra=:Cathedra"),
     @NamedQuery(name = Lecturer.GET_LECRURER_BY_NAME_QUERY, query="select l from Lecturer l where l.name=:name")
 })
-public class Lecturer implements Serializable {
+public class Lecturer implements Serializable, Comparable<Lecturer> {
 
     public static final String GET_ALL_LECTURERS_QUERY = "getAllLecrurers";
     public static final String GET_LECTURERS_BY_CATHEDRA_QUERY = "getLecturersByCathedra";
@@ -125,4 +127,21 @@ public class Lecturer implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final int INITODDNUMBER = 3;
     private static final int MULTODDNUMBER = 67;
+
+    public int compareTo(Lecturer o) {
+        String name1 = name.toLowerCase();
+        String name2 = o.getName().toLowerCase();
+        String alphabet = "абвгґдеєжзишїйклмнопрстуфхцчшщьюя’";
+        for (int i = 0; i < Math.min(name1.length(), name2.length()); i++) {
+            if (alphabet.indexOf(name1.charAt(i)) == alphabet.indexOf(name2.charAt(i))) {
+                continue;
+            }
+            if (alphabet.indexOf(name1.charAt(i)) > alphabet.indexOf(name2.charAt(i))) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
+        return (name1.length() < name2.length()) ? -1 : 1;
+    }
 }
