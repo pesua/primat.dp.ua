@@ -179,7 +179,11 @@ public class EditPage extends WebPage {
             final Integer groupNumber = textGroupNumber.getConvertedInput();
             final FileUpload upload = fileUploadField.getFileUpload();
 
-            parseGroup = new StudentGroup(groupSpec, Long.valueOf(groupNumber), Long.valueOf(groupYear));
+            parseGroup = studentGroupRepository.getGroupByCodeAndYearAndNumber(groupSpec,
+                    Long.valueOf(groupNumber), Long.valueOf(groupYear));
+            if (parseGroup == null) {
+                parseGroup = new StudentGroup(groupSpec, Long.valueOf(groupNumber), Long.valueOf(groupYear));
+            }
 
             //parser launch
             try {
