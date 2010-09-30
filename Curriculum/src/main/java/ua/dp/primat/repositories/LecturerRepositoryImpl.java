@@ -1,6 +1,7 @@
 package ua.dp.primat.repositories;
 
 import java.util.Collections;
+import java.util.Comparator;
 import ua.dp.primat.domain.Lecturer;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -28,7 +29,25 @@ public class LecturerRepositoryImpl implements LecturerRepository {
 
     public List<Lecturer> getAllLecturers() {
         List<Lecturer> lst = em.createNamedQuery(Lecturer.GET_ALL_LECTURERS_QUERY).getResultList();
-        Collections.sort(lst);
+        Collections.sort(lst, new Comparator<Lecturer>() {
+
+            public int compare(Lecturer o1, Lecturer o2) {
+                String name1 = o1.getName().toLowerCase();
+                String name2 = o2.getName().toLowerCase();
+                String alphabet = "абвгґдеєжзишїйклмнопрстуфхцчшщьюя’";
+                for (int i = 0; i < Math.min(name1.length(), name2.length()); i++) {
+                    if (alphabet.indexOf(name1.charAt(i)) == alphabet.indexOf(name2.charAt(i))) {
+                        continue;
+                    }
+                    if (alphabet.indexOf(name1.charAt(i)) > alphabet.indexOf(name2.charAt(i))) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+                return (name1.length() < name2.length()) ? -1 : 1;
+            }
+        });
         return lst;
     }
 
