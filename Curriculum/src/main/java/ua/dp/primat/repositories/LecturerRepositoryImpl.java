@@ -11,7 +11,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import sun.jkernel.Bundle;
 import ua.dp.primat.domain.Cathedra;
 
 /**
