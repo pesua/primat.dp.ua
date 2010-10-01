@@ -4,11 +4,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import ua.dp.primat.domain.Lecturer;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import sun.jkernel.Bundle;
 import ua.dp.primat.domain.Cathedra;
 
 /**
@@ -34,7 +37,7 @@ public class LecturerRepositoryImpl implements LecturerRepository {
             public int compare(Lecturer o1, Lecturer o2) {
                 String name1 = o1.getName().toLowerCase();
                 String name2 = o2.getName().toLowerCase();
-                String alphabet = "абвгґдеєжзишїйклмнопрстуфхцчшщьюя’";
+                String alphabet =  BUNDLE.getString("alphabet");
                 for (int i = 0; i < Math.min(name1.length(), name2.length()); i++) {
                     if (alphabet.indexOf(name1.charAt(i)) == alphabet.indexOf(name2.charAt(i))) {
                         continue;
@@ -73,4 +76,5 @@ public class LecturerRepositoryImpl implements LecturerRepository {
     }
     @PersistenceContext(unitName = "curriculum")
     private EntityManager em;
+    private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("dimainModel", new Locale("uk"));
 }
