@@ -31,25 +31,7 @@ public class LecturerRepositoryImpl implements LecturerRepository {
 
     public List<Lecturer> getAllLecturers() {
         List<Lecturer> lst = em.createNamedQuery(Lecturer.GET_ALL_LECTURERS_QUERY).getResultList();
-        Collections.sort(lst, new Comparator<Lecturer>() {
-
-            public int compare(Lecturer o1, Lecturer o2) {
-                String name1 = o1.getName().toLowerCase();
-                String name2 = o2.getName().toLowerCase();
-                String alphabet =  BUNDLE.getString("alphabet");
-                for (int i = 0; i < Math.min(name1.length(), name2.length()); i++) {
-                    if (alphabet.indexOf(name1.charAt(i)) == alphabet.indexOf(name2.charAt(i))) {
-                        continue;
-                    }
-                    if (alphabet.indexOf(name1.charAt(i)) > alphabet.indexOf(name2.charAt(i))) {
-                        return 1;
-                    } else {
-                        return -1;
-                    }
-                }
-                return (name1.length() < name2.length()) ? -1 : 1;
-            }
-        });
+        Collections.sort(lst);
         return lst;
     }
 
@@ -75,5 +57,5 @@ public class LecturerRepositoryImpl implements LecturerRepository {
     }
     @PersistenceContext(unitName = "curriculum")
     private EntityManager em;
-    private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("dimainModel", new Locale("uk"));
+    
 }
