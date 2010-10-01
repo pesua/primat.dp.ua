@@ -1,7 +1,8 @@
 package ua.dp.primat.domain;
 
 import java.io.Serializable;
-import java.util.AbstractCollection;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,7 +11,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.hibernate.mapping.Collection;
 
 /**
  * Entity for a custom lecturer.
@@ -131,7 +131,8 @@ public class Lecturer implements Serializable, Comparable<Lecturer> {
     public int compareTo(Lecturer o) {
         String name1 = name.toLowerCase();
         String name2 = o.getName().toLowerCase();
-        String alphabet = "абвгґдеєжзишїйклмнопрстуфхцчшщьюя’";
+        ResourceBundle BUNDLE = ResourceBundle.getBundle("dimainModel", new Locale("uk"));
+        String alphabet = alphabet =  BUNDLE.getString("alphabet");
         for (int i = 0; i < Math.min(name1.length(), name2.length()); i++) {
             if (alphabet.indexOf(name1.charAt(i)) == alphabet.indexOf(name2.charAt(i))) {
                 continue;

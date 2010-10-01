@@ -1,11 +1,8 @@
 package ua.dp.primat.repositories;
 
 import java.util.Collections;
-import java.util.Comparator;
 import ua.dp.primat.domain.Lecturer;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
