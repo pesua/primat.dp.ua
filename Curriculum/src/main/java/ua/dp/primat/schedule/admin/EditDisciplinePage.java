@@ -45,7 +45,8 @@ public final class EditDisciplinePage extends WebPage {
 
         @Override
         protected void onSubmit() {
-            disciplineRepository.store(discipline);
+            disciplineRepository.update(discipline);
+            setResponsePage(ManageDisciplines.class);
         }
         private Discipline discipline;
         @SpringBean

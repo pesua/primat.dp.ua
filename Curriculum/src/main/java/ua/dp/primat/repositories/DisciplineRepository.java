@@ -20,6 +20,6 @@ public interface DisciplineRepository {
     List<Discipline> getDisciplines();
 
     void store(Discipline discipline);
-
+    Discipline update(Discipline discipline);
 }
 

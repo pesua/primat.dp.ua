@@ -1,9 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ua.dp.primat.repositories;
+
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -44,6 +40,10 @@ public class DisciplineRepositoryimpl implements DisciplineRepository {
 
     public Discipline load(Long id){
         return em.find(Discipline.class, id);
+    }
+
+    public Discipline update(Discipline discipline) {
+        return em.merge(discipline);
     }
 
     @PersistenceContext(unitName = "curriculum")
