@@ -38,6 +38,8 @@ public class EditPage extends WebPage {
     public EditPage() {
         super();
 
+        groups = studentGroupRepository.getGroups();
+
         final Form form = new FileUploadForm("formUploadXLS");
         add(form);
 
@@ -56,11 +58,15 @@ public class EditPage extends WebPage {
     private Folder getUploadFolder() {
         return ((WicketApplication) Application.get()).getUploadFolder();
     }
-    private StudentGroup parseGroup;
+
+    private List<StudentGroup> groups;
+
     @SpringBean
     private StudentGroupRepository studentGroupRepository;
+
     @SpringBean
     private WorkloadService workloadService;
+
     private static final long serialVersionUID = 2L;
     private static final int MIN_YEAR = 1910;
     private static final int MAX_YEAR = 2110;
@@ -72,9 +78,6 @@ public class EditPage extends WebPage {
      */
     private class RemoveForm extends Form<Void> {
 
-        private List<StudentGroup> groups;
-        private StudentGroup chosenGroup;
-
         /**
          * Constructor of form.
          * @param name
@@ -82,12 +85,12 @@ public class EditPage extends WebPage {
         public RemoveForm(String name) {
             super(name);
 
-            groups = studentGroupRepository.getGroups();
             if (!groups.isEmpty()) {
-                chosenGroup = groups.get(0);
+                removeGroup = groups.get(0);
             }
-            final DropDownChoice<StudentGroup> groupChoise = new DropDownChoice<StudentGroup>("group",
-                    new PropertyModel<StudentGroup>(this, "chosenGroup"),
+
+            final DropDownChoice<StudentGroup> groupChoise = new DropDownChoice<StudentGroup>("removeGroup",
+                    new PropertyModel<StudentGroup>(this, "removeGroup"),
                     new GroupsLoadableDetachableModel(groups));
             add(groupChoise);
         }
@@ -98,13 +101,16 @@ public class EditPage extends WebPage {
          */
         @Override
         protected void onSubmit() {
-            if (chosenGroup == null) {
+            if (removeGroup == null) {
                 this.error(String.format("No group selected"));
             } else {
-                studentGroupRepository.remove(chosenGroup);
+                studentGroupRepository.remove(removeGroup);
                 this.info(String.format("Curriculum has been removed"));
             }
         }
+
+        private StudentGroup removeGroup;
+
         private static final long serialVersionUID = 2L;
     }
 
@@ -119,6 +125,11 @@ public class EditPage extends WebPage {
          */
         public FileUploadForm(String name) {
             super(name);
+
+            if (!groups.isEmpty()) {
+                addGroup = groups.get(0);
+            }
+
             // set this form to multipart mode (allways needed for uploads!)
             setMultiPart(true);
             // Add file input field and other options fields
@@ -145,19 +156,10 @@ public class EditPage extends WebPage {
             textParseSemester.add(new RangeValidator<Integer>(0, Integer.MAX_VALUE));
             add(textParseSemester);
 
-            textGroupSpec = new TextField<String>("groupSpec", new Model<String>(), String.class);
-            textGroupSpec.setRequired(true);
-            add(textGroupSpec);
-
-            textGroupYear = new TextField<Integer>("groupYear", new Model<Integer>(), Integer.class);
-            textGroupYear.setRequired(true);
-            textGroupYear.add(new RangeValidator<Integer>(MIN_YEAR, MAX_YEAR));
-            add(textGroupYear);
-
-            textGroupNumber = new TextField<Integer>("groupNumber", new Model<Integer>(), Integer.class);
-            textGroupNumber.setRequired(true);
-            textGroupNumber.add(new RangeValidator<Integer>(1, MAX_GROUP_NUMBER));
-            add(textGroupNumber);
+            final DropDownChoice<StudentGroup> cbAddGroup = new DropDownChoice<StudentGroup>("addGroup",
+                    new PropertyModel<StudentGroup>(this, "addGroup"),
+                    new GroupsLoadableDetachableModel(groups));
+            add(cbAddGroup);
 
             // Set maximum size to 10M
             setMaxSize(Bytes.megabytes(MAX_FILESIZE));
@@ -174,16 +176,7 @@ public class EditPage extends WebPage {
             final Integer parseStart = textParseStart.getConvertedInput();
             final Integer parseEnd = textParseEnd.getConvertedInput();
             final Integer parseSemesters = textParseSemester.getConvertedInput();
-            final String groupSpec = textGroupSpec.getConvertedInput();
-            final Integer groupYear = textGroupYear.getConvertedInput();
-            final Integer groupNumber = textGroupNumber.getConvertedInput();
             final FileUpload upload = fileUploadField.getFileUpload();
-
-            parseGroup = studentGroupRepository.getGroupByCodeAndYearAndNumber(groupSpec,
-                    Long.valueOf(groupNumber), Long.valueOf(groupYear));
-            if (parseGroup == null) {
-                parseGroup = new StudentGroup(groupSpec, Long.valueOf(groupNumber), Long.valueOf(groupYear));
-            }
 
             //parser launch
             try {
@@ -191,7 +184,7 @@ public class EditPage extends WebPage {
                 final String uploadedFileName = makeUploadedFile(upload);
 
                 //create and run parser
-                final CurriculumParser cParser = new CurriculumParser(parseGroup,
+                final CurriculumParser cParser = new CurriculumParser(addGroup,
                         parseSheet, parseStart, parseEnd, parseSemesters,
                         uploadedFileName);
                 final List<CurriculumXLSRow> listParsed = cParser.parse();
@@ -246,14 +239,13 @@ public class EditPage extends WebPage {
                 throw new IllegalStateException("Unable to overwrite " + newFile.getAbsolutePath());
             }
         }
+
+        private StudentGroup addGroup;
         private FileUploadField fileUploadField;
         private TextField<Integer> textParseSheet;
         private TextField<Integer> textParseStart;
         private TextField<Integer> textParseEnd;
         private TextField<Integer> textParseSemester;
-        private TextField<String> textGroupSpec;
-        private TextField<Integer> textGroupYear;
-        private TextField<Integer> textGroupNumber;
         private static final long serialVersionUID = 2L;
     }
 }

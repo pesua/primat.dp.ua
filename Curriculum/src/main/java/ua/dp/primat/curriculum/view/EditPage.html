@@ -52,14 +52,12 @@
                 </tr>
                 <tr>
                     <td>
-                        <label for="groupSpec">Group:</label>
+                        <label for="addGroup">Group:</label>
                     </td>
                     <td>
-                        <input wicket:id="groupSpec" id="groupSpec" size="5"/>&nbsp;
-                        <label for="groupYear">Year:</label>
-                        <input wicket:id="groupYear" id="groupYear" size="5"/>&nbsp;
-                        <label for="groupNumber">Number:</label>
-                        <input wicket:id="groupNumber" id="groupNumber" size="3"/>
+                        <select id="addGroup" wicket:id="addGroup">
+                            <option>some group</option>
+                        </select>
                     </td>
                 </tr>
 	    </table>
@@ -70,7 +68,7 @@
         <form wicket:id="formRemove">
 	 <fieldset>
             <legend>Remove the group's curriculum, entered above</legend>
-	    <select id="group" wicket:id="group">
+	    <select id="removeGroup" wicket:id="removeGroup">
                 <option>some group</option>
             </select>
             <input type="submit" value="Remove"/>
