@@ -37,6 +37,19 @@ public class HomePage extends WebPage {
 
         workloadsView = new WorkloadsListView("disciplineRow", workloads);
         add(workloadsView);
+
+        add(new Label("sorry.message") {
+            @Override
+            public boolean isVisible() {
+                return workloads.isEmpty();
+            }
+        });
+        add(new Label("table.title") {
+            @Override
+            public boolean isVisible() {
+                return !workloads.isEmpty();
+            }
+        });
     }
 
     private static class CourseImage extends Image {

@@ -2,6 +2,7 @@ package ua.dp.primat.schedule.view;
 
 import java.util.List;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -17,7 +18,6 @@ import ua.dp.primat.schedule.services.TimeService;
 public final class RoomSchedulePage extends WebPage {
     public RoomSchedulePage() {
         super ();
-
         add(new NavigationPanel("navigation"));
 
         final List<Room> lecturers = roomRepository.getRooms();
@@ -39,6 +39,8 @@ public final class RoomSchedulePage extends WebPage {
                 return true;
             }
         });
+
+        add(new Label("semesterLabel", timeService.currentSemester().toString()));
 
         schedulePanel = new ViewSchedulePanel("lessonView");
         schedulePanel.setRoomVisible(false);

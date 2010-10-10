@@ -10,17 +10,19 @@
     <body>
         <span wicket:id="navigation"></span>
 
-        Lecturer: <select wicket:id="lecturerChoise">
+        <wicket:message key="lecturer">Lecturer:</wicket:message>
+        <select wicket:id="lecturerChoise">
             <option>Tonkoshkur</option>
             <option>Segeda</option>
         </select>
+        <span wicket:id="semesterLabel">2008-2009 1sem</span>
 
         <div id="forPrint">
             <div wicket:id="tabs" class="tabpanel"></div>
         </div>
 
         <a href="javascript:showForPrint(document.getElementById('forPrint').innerHTML)">
-            <img border=0 src='http://www.iconsearch.ru/uploads/icons/gnomeicontheme/24x24/stock_print.png' /><wicket:message key="version.for.print">Version for print</wicket:message>
+            <img border=0 src='http://www.iconsearch.ru/uploads/icons/gnomeicontheme/24x24/stock_print.png' alt="Version for print" /><wicket:message key="version.for.print">Version for print</wicket:message>
         </a>
     </body>
 </html>

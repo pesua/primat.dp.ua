@@ -2,6 +2,7 @@ package ua.dp.primat.schedule.view;
 
 import java.util.List;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -39,6 +40,7 @@ public final class LecturerSchedulePage extends WebPage {
                 return true;
             }
         });
+        add(new Label("semesterLabel", timeService.currentSemester().toString()));
 
         schedulePanel = new ViewSchedulePanel("tabs");
         schedulePanel.setLecturerVisible(false);

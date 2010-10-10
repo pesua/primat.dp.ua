@@ -10,10 +10,11 @@
     <body>
         <span wicket:id="navigation"></span>
 
-        Room: <select wicket:id="roomChoise">
+        <wicket:message key="room">Room:</wicket:message> <select wicket:id="roomChoise">
             <option>3/34</option>
             <option>3/55</option>
         </select>
+        <span wicket:id="semesterLabel">2008-2009 1sem</span>
 
         <div id="forPrint">
             <div wicket:id="lessonView" class="tabpanel"></div>
