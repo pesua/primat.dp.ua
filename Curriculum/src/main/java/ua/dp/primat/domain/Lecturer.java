@@ -131,8 +131,8 @@ public class Lecturer implements Serializable, Comparable<Lecturer> {
     public int compareTo(Lecturer o) {
         String name1 = name.toLowerCase();
         String name2 = o.getName().toLowerCase();
-        ResourceBundle BUNDLE = ResourceBundle.getBundle("dimainModel", new Locale("uk"));
-        String alphabet = alphabet =  BUNDLE.getString("alphabet");
+        ResourceBundle bundle = ResourceBundle.getBundle("dimainModel", new Locale("uk"));
+        String alphabet  =  bundle.getString("alphabet");
         for (int i = 0; i < Math.min(name1.length(), name2.length()); i++) {
             if (alphabet.indexOf(name1.charAt(i)) == alphabet.indexOf(name2.charAt(i))) {
                 continue;

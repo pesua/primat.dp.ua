@@ -3,7 +3,6 @@ package ua.dp.primat.schedule.view.daybook;
 import java.util.ArrayList;
 import ua.dp.primat.domain.lesson.Lesson;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.panel.Panel;
 import java.util.List;
 import java.util.ResourceBundle;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -32,21 +31,21 @@ public final class DayPanel extends ShedulePanel {
 
             @Override
             public boolean isVisible() {
-                return lecturerVisible;
+                return isLecturerVisible();
             }
         });
         add(new Label("head.room", locale.getString("table.caption.room")) {
 
             @Override
             public boolean isVisible() {
-                return roomVisible;
+                return isRoomVisible();
             }
         });
         add(new Label("head.group", locale.getString("table.caption.group")) {
 
             @Override
             public boolean isVisible() {
-                return groupVisible;
+                return isGroupVisible();
             }
         });
 
@@ -94,15 +93,15 @@ public final class DayPanel extends ShedulePanel {
             li.add(new Label("discipline", disciplineValue));
 
             final Label lecturer = new Label("teacher", teacherValue);
-            lecturer.setVisible(lecturerVisible);
+            lecturer.setVisible(isLecturerVisible());
             li.add(lecturer);
 
             final Label group = new Label("group", groupValue);
-            group.setVisible(groupVisible);
+            group.setVisible(isGroupVisible());
             li.add(group);
 
             final Label room = new Label("room", roomValue);
-            room.setVisible(roomVisible);
+            room.setVisible(isRoomVisible());
             li.add(room);
         }
         private static final long serialVersionUID = 2L;

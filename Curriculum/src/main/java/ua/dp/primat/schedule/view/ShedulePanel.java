@@ -9,7 +9,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 
 /**
  *
- * @author work
+ * @author pesua
  */
 public class ShedulePanel extends Panel{    
     public ShedulePanel(final String id){
@@ -41,7 +41,7 @@ public class ShedulePanel extends Panel{
     }
 
 
-    protected boolean lecturerVisible = true;
-    protected boolean roomVisible = true;
-    protected boolean groupVisible = true;
+    private boolean lecturerVisible = true;
+    private boolean roomVisible = true;
+    private boolean groupVisible = true;
 }

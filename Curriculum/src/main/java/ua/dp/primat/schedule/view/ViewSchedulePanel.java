@@ -30,9 +30,9 @@ public final class ViewSchedulePanel extends ShedulePanel {
             @Override
             public Panel getPanel(String panelId) {
                 daybookPanel = new ViewDaybook(panelId);
-                daybookPanel.setLecturerVisible(lecturerVisible);
-                daybookPanel.setRoomVisible(roomVisible);
-                daybookPanel.setGroupVisible(groupVisible);
+                daybookPanel.setLecturerVisible(isLecturerVisible());
+                daybookPanel.setRoomVisible(isRoomVisible());
+                daybookPanel.setGroupVisible(isGroupVisible());
                 daybookPanel.refreshView(lessons);
                 return daybookPanel;
             }
@@ -42,9 +42,9 @@ public final class ViewSchedulePanel extends ShedulePanel {
             @Override
             public Panel getPanel(String panelId) {
                 schedulePanel = new ViewCrosstab(panelId);
-                schedulePanel.setLecturerVisible(lecturerVisible);
-                schedulePanel.setRoomVisible(roomVisible);
-                schedulePanel.setGroupVisible(groupVisible);
+                schedulePanel.setLecturerVisible(isLecturerVisible());
+                schedulePanel.setRoomVisible(isRoomVisible());
+                schedulePanel.setGroupVisible(isGroupVisible());
                 schedulePanel.refreshView(lessons);
                 return schedulePanel;
             }
@@ -55,15 +55,15 @@ public final class ViewSchedulePanel extends ShedulePanel {
     public void refreshView(List<Lesson> lessons) {
         this.lessons = lessons;
         if (schedulePanel != null) {
-            schedulePanel.setLecturerVisible(lecturerVisible);
-            schedulePanel.setRoomVisible(roomVisible);
-            schedulePanel.setGroupVisible(groupVisible);
+            schedulePanel.setLecturerVisible(isLecturerVisible());
+            schedulePanel.setRoomVisible(isRoomVisible());
+            schedulePanel.setGroupVisible(isGroupVisible());
             schedulePanel.refreshView(lessons);
         }
         if (daybookPanel != null) {
-            daybookPanel.setLecturerVisible(lecturerVisible);
-            daybookPanel.setRoomVisible(roomVisible);
-            daybookPanel.setGroupVisible(groupVisible);
+            daybookPanel.setLecturerVisible(isLecturerVisible());
+            daybookPanel.setRoomVisible(isRoomVisible());
+            daybookPanel.setGroupVisible(isGroupVisible());
             daybookPanel.refreshView(lessons);
         }
     }

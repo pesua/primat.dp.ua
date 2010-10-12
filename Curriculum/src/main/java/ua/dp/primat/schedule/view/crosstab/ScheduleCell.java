@@ -39,7 +39,7 @@ public final class ScheduleCell extends ShedulePanel {
 
         @Override
         public boolean isVisible() {
-            return lecturerVisible;
+            return isLecturerVisible();
         }
         private static final long serialVersionUID = 1L;
     }
@@ -52,7 +52,7 @@ public final class ScheduleCell extends ShedulePanel {
 
         @Override
         public boolean isVisible() {
-            return groupVisible;
+            return isGroupVisible();
         }
         private static final long serialVersionUID = 1L;
     }
@@ -65,7 +65,7 @@ public final class ScheduleCell extends ShedulePanel {
 
         @Override
         public boolean isVisible() {
-            return roomVisible;
+            return isRoomVisible();
         }
         private static final long serialVersionUID = 1L;
     }
