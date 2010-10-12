@@ -68,11 +68,13 @@ public class EditPage extends WebPage {
     private WorkloadService workloadService;
 
     private static final long serialVersionUID = 2L;
+    /*
     private static final int MIN_YEAR = 1910;
     private static final int MAX_YEAR = 2110;
     private static final int MAX_GROUP_NUMBER = 20;
+    */
     private static final int MAX_FILESIZE = 10; //in megabytes
-
+    
     /**
      * Form for removing.
      */

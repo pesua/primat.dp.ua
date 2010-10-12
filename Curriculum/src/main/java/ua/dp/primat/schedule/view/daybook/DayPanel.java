@@ -8,13 +8,14 @@ import java.util.List;
 import java.util.ResourceBundle;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import ua.dp.primat.schedule.view.ShedulePanel;
 
 /**
  * Panel, that outputs lessons for the one day.
  * Each row outputs the subject name, lecturer etc.
  * @author fdevelop
  */
-public final class DayPanel extends Panel {
+public final class DayPanel extends ShedulePanel {
 
     /**
      * Constructor of wicket panel, which adds day name and list view
@@ -65,30 +66,6 @@ public final class DayPanel extends Panel {
         }
     }
 
-    public boolean isGroupVisible() {
-        return groupVisible;
-    }
-
-    public void setGroupVisible(boolean groupVisible) {
-        this.groupVisible = groupVisible;
-    }
-
-    public boolean isLecturerVisible() {
-        return lecturerVisible;
-    }
-
-    public void setLecturerVisible(boolean lecturerVisible) {
-        this.lecturerVisible = lecturerVisible;
-    }
-
-    public boolean isRoomVisible() {
-        return roomVisible;
-    }
-
-    public void setRoomVisible(boolean roomVisible) {
-        this.roomVisible = roomVisible;
-    }
-
     /**
      * ListView, that outputs lessons for one day.
      */
@@ -131,9 +108,6 @@ public final class DayPanel extends Panel {
         private static final long serialVersionUID = 2L;
     }
     private static ResourceBundle locale = ResourceBundle.getBundle("ua.dp.primat.schedule.view.daybook.DayPanel");
-    private boolean lecturerVisible = true;
-    private boolean roomVisible = true;
-    private boolean groupVisible = true;
     private ListView dayListView;
     private static final long serialVersionUID = 1L;
 }

@@ -3,13 +3,14 @@ package ua.dp.primat.schedule.view.crosstab;
 import ua.dp.primat.domain.lesson.Lesson;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
+import ua.dp.primat.schedule.view.ShedulePanel;
 
 /**
  * Panel, that outputs one schedule cell for specified Lesson.
  * It outputs the subject name, lecturer etc.
  * @author fdevelop
  */
-public final class ScheduleCell extends Panel {
+public final class ScheduleCell extends ShedulePanel {
 
     public ScheduleCell(final String id, Lesson lesson) {
         super(id);
@@ -28,32 +29,6 @@ public final class ScheduleCell extends Panel {
         add(new RoomLabel("cellRoom", cellRoom));
     }
 
-    public boolean isGroupVisible() {
-        return groupVisible;
-    }
-
-    public void setGroupVisible(boolean groupVisible) {
-        this.groupVisible = groupVisible;
-    }
-
-    public boolean isLecturerVisible() {
-        return lecturerVisible;
-    }
-
-    public void setLecturerVisible(boolean lecturerVisible) {
-        this.lecturerVisible = lecturerVisible;
-    }
-
-    public boolean isRoomVisible() {
-        return roomVisible;
-    }
-
-    public void setRoomVisible(boolean roomVisible) {
-        this.roomVisible = roomVisible;
-    }
-    private boolean lecturerVisible = true;
-    private boolean roomVisible = true;
-    private boolean groupVisible = true;
     private static final long serialVersionUID = 1L;
 
     private class LecturerLabel extends Label {
