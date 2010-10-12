@@ -44,6 +44,44 @@ if (selContact != null) {
 boolean deletePortrait = ParamUtil.getBoolean(request, "deletePortrait");
 %>
 
+<aui:script>
+	function <portlet:namespace />changePortrait(newPortraitURL) {
+		AUI().one('#<portlet:namespace />avatar').attr('src', newPortraitURL);
+		AUI().one('.avatar').attr('src', newPortraitURL);
+
+		AUI().one('#<portlet:namespace />deletePortrait').val(false);
+	}
+
+	function <portlet:namespace />deletePortrait(defaultPortraitURL) {
+		AUI().one('#<portlet:namespace />deletePortrait').val(true);
+
+		AUI().one('#<portlet:namespace />avatar').attr('src', defaultPortraitURL);
+		AUI().one('.avatar').attr('src', defaultPortraitURL);
+	}
+
+	function <portlet:namespace />openEditUserPortraitWindow(editUserPortraitURL) {
+		var editUserPortraitWindow = window.open(editUserPortraitURL, 'change', 'directories=no,height=400,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=500');
+
+		editUserPortraitWindow.focus();
+	}
+</aui:script>
+
+<aui:script use="aui-base">
+	var modifyLinks = A.all('span.modify-link');
+
+	if (modifyLinks) {
+		modifyLinks.on(
+			'click',
+			function() {
+				A.fire(
+					'enterpriseAdmin:trackChanges',
+					A.one('.selected .modify-link')
+				);
+			}
+		);
+	}
+</aui:script>
+
 <liferay-ui:error-marker key="errorSection" value="details" />
 
 <aui:model-context bean="<%= selUser %>" model="<%= User.class %>" />
@@ -247,41 +285,3 @@ boolean deletePortrait = ParamUtil.getBoolean(request, "deletePortrait");
     
   </aui:column>
 </aui:fieldset>
-
-<aui:script>
-	function <portlet:namespace />changePortrait(newPortraitURL) {
-		AUI().one('#<portlet:namespace />avatar').attr('src', newPortraitURL);
-		AUI().one('.avatar').attr('src', newPortraitURL);
-
-		AUI().one('#<portlet:namespace />deletePortrait').val(false);
-	}
-
-	function <portlet:namespace />deletePortrait(defaultPortraitURL) {
-		AUI().one('#<portlet:namespace />deletePortrait').val(true);
-
-		AUI().one('#<portlet:namespace />avatar').attr('src', defaultPortraitURL);
-		AUI().one('.avatar').attr('src', defaultPortraitURL);
-	}
-
-	function <portlet:namespace />openEditUserPortraitWindow(editUserPortraitURL) {
-		var editUserPortraitWindow = window.open(editUserPortraitURL, 'change', 'directories=no,height=400,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=500');
-
-		editUserPortraitWindow.focus();
-	}
-</aui:script>
-
-<aui:script use="aui-base">
-	var modifyLinks = A.all('span.modify-link');
-
-	if (modifyLinks) {
-		modifyLinks.on(
-			'click',
-			function() {
-				A.fire(
-					'enterpriseAdmin:trackChanges',
-					A.one('.selected .modify-link')
-				);
-			}
-		);
-	}
-</aui:script>
