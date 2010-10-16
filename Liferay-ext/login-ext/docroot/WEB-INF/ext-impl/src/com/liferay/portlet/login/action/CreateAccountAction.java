@@ -251,7 +251,7 @@ public class CreateAccountAction extends PortletAction {
         user = UserLocalServiceUtil.updateActive(user.getUserId(), false);
 
         String from = "math.app.fpm@gmail.com";
-        String to = "artem@fdevelopers.com";
+        String to = "math.app.fpm@gmail.com";
 
         String subject="New user has been registered!";
 
@@ -275,7 +275,7 @@ public class CreateAccountAction extends PortletAction {
               Group group = GroupLocalServiceUtil.getGroup(groupId);
               body.append(" has registered in as a student of the group  ").append(group.getDescriptiveName());
             } else {
-              //String newGroupName = user.getExpandoBridge().getAttribute("student-new-group-request").toString();
+              user.getExpandoBridge().setAttribute("student-new-group-request", groupRequest);
               body.append(" has registered in as a student, requested the NEW group ").append(groupRequest);
               subject += " (+ new group request)";
             }
