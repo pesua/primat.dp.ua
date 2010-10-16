@@ -251,9 +251,9 @@ public class CreateAccountAction extends PortletAction {
         user = UserLocalServiceUtil.updateActive(user.getUserId(), false);
 
         String from = "math.app.fpm@gmail.com";
-	String to = "math.app.fpm@gmail.com";
+        String to = "artem@fdevelopers.com";
 
-	String subject="New user has been registered!";
+        String subject="New user has been registered!";
 
         String userEmail = user.getEmailAddress();
         userEmail = userEmail.replace("@", "%40");
@@ -266,11 +266,20 @@ public class CreateAccountAction extends PortletAction {
         users[0] = user.getUserId();
         if (role == 0) {
             long groupId = ParamUtil.getLong(actionRequest, "student-groups");
-            UserLocalServiceUtil.addGroupUsers(groupId,users);
             UserLocalServiceUtil.addRoleUsers(10505,users);
             UserLocalServiceUtil.addUserGroupUsers(19334,users);
-            Group group = GroupLocalServiceUtil.getGroup(groupId);
-            body.append(" has registered in as a student of the group  ").append(group.getDescriptiveName());
+            
+            String groupRequest = ParamUtil.getString(actionRequest, "studentGroupRequest");
+            if (groupRequest.isEmpty()) {
+              UserLocalServiceUtil.addGroupUsers(groupId,users);
+              Group group = GroupLocalServiceUtil.getGroup(groupId);
+              body.append(" has registered in as a student of the group  ").append(group.getDescriptiveName());
+            } else {
+              //String newGroupName = user.getExpandoBridge().getAttribute("student-new-group-request").toString();
+              body.append(" has registered in as a student, requested the NEW group ").append(groupRequest);
+              subject += " (+ new group request)";
+            }
+            
             boolean isMemberCouncil = ParamUtil.getBoolean(actionRequest, "is-member-student-council");
             if (isMemberCouncil) {
                 //UserLocalServiceUtil.addGroupUsers( ,users);
