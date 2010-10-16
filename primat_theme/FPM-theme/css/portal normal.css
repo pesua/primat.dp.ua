@@ -45,6 +45,18 @@
 	min-height: 100%;
 }
 
+#baloons {
+	position: relative;
+	min-height: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+	background: white url("/FPM-theme/images/Addition/baloons.gif");
+	background-repeat: no-repeat;
+	background-position: 50% 0%;
+	background-color: transparent;
+}
+
 * html #container {
 	height: 100%;
 }
