@@ -30,6 +30,22 @@ function showRolePanel()
 		document.getElementById('panel_company').style.display='';
 	}
 }
+
+function showNoGroup(nogroup)
+{
+  if (nogroup == true) {
+    document.getElementById('student_select_group').style.display='none';
+		document.getElementById('student_request_group').style.display='';
+		document.getElementById('studentGroupRequest').value = document.getElementById('student-new-group-request').value;
+		if (document.getElementById('studentGroupRequest').value == '') {
+      document.getElementById('studentGroupRequest').value = '-';
+		}
+  } else {
+    document.getElementById('student_select_group').style.display='';
+		document.getElementById('student_request_group').style.display='none';
+		document.getElementById('studentGroupRequest').value = '';
+  }
+}
 </script>
 
 <style type=text/css>
@@ -233,23 +249,38 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
       </div>
       <hr/>
       <div id="panel_student">
-        <aui:select label="student-groups" name="student-groups">
-          <%
-          List groups = GroupLocalServiceUtil.getGroups(0,GroupLocalServiceUtil.getGroupsCount());
-          for (int i = 0; i < groups.size(); i++)
-          {
-              Group group = (Group)groups.get(i);
-              if(group.isCommunity() && (!group.getName().equals("Control Panel"))
-                  && (!group.getName().equals("Guest")) && (group.getName().length() > 0))
-              {
-                  %>
-                  <aui:option label="<%= group.getName() %>" selected="false" value="<%= group.getGroupId() %>" />
-                  <%
-              }
-          }
-          %>
-        </aui:select>
-        <liferay-ui:message key="send-group-request" /> <a href="mailto:math.app.fpm@gmail.com">math.app.fpm@gmail.com</a>
+        <input name="studentGroupRequest" id="studentGroupRequest" type="hidden" value=""/>
+        <div id="student_select_group">
+          <aui:select label="student-groups" name="student-groups">
+            <%
+            List groups = GroupLocalServiceUtil.getGroups(0,GroupLocalServiceUtil.getGroupsCount());
+            for (int i = 0; i < groups.size(); i++)
+            {
+                Group group = (Group)groups.get(i);
+                if(group.isCommunity() && (!group.getName().equals("Control Panel"))
+                    && (!group.getName().equals("Guest")) && (group.getName().length() > 0))
+                {
+                    %>
+                    <aui:option label="<%= group.getName() %>" selected="false" value="<%= group.getGroupId() %>" />
+                    <%
+                }
+            }
+            %>
+          </aui:select>
+          <a onClick="showNoGroup(true)"><liferay-ui:message key="student-no-group"/></a>
+        </div>
+        <div id="student_request_group" style="display: none;">
+          <span class="aui-field">
+            <span class="aui-field-content">
+              <liferay-ui:custom-attribute
+                className="com.liferay.portal.model.User" classPK="<%= 0 %>"
+                editable="<%= true %>" label="<%= true %>"
+                name="student-new-group-request"
+              />
+            </span>
+          </span>
+          <a onClick="showNoGroup(false)"><liferay-ui:message key="student-group-select"/></a>
+        </div>
         <aui:input label="is-member-student-council" name="is-member-student-council" type="checkbox"/>
       </div>
 
