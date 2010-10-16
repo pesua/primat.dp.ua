@@ -240,13 +240,13 @@ boolean male = BeanParamUtil.getBoolean(contact2, request, "male", true);
 	<div id="roleSelectArea">
 	<aui:fieldset>
 		<aui:column>      
-      <div class="chooser">
+      <!--<div class="chooser">
       <strong><liferay-ui:message key="role-select" />&nbsp;</strong>
       <select name="roleSelect" id="roleSelect" onChange=showRolePanel()>
         <option selected value="0"><liferay-ui:message key="role-select-student" /></option>
         <option value="1"><liferay-ui:message key="role-select-company" /></option>
       </select>
-      </div>
+      </div>-->
       <hr/>
       <div id="panel_student">
         <input name="studentGroupRequest" id="studentGroupRequest" type="hidden" value=""/>
