@@ -9,9 +9,10 @@
         <span wicket:id="choosePanel"></span>
         <br/>
         <wicket:enclosure>
-            <span wicket:id="sorry.message"><wicket:message key="sorry.message"></wicket:message></span>
+            <span wicket:id="sorry.message"></span>
+            <h3><wicket:message key="sorry.message"></wicket:message></h3>
         </wicket:enclosure>
-        <wicket:enclosure child="table.block">
+        <wicket:enclosure child="table.title">
             <span wicket:id="table.title"></span>
             <div id="forPrint">
                 <table id="curriculumTable">
