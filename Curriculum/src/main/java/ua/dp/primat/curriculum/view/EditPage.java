@@ -91,8 +91,9 @@ public class EditPage extends WebPage {
                 removeGroup = groups.get(0);
             }
 
-            final DropDownChoice<StudentGroup> groupChoise = new DropDownChoice<StudentGroup>("removeGroup",
-                    new PropertyModel<StudentGroup>(this, "removeGroup"),
+            final String sRemoveGroup = "removeGroup";
+            final DropDownChoice<StudentGroup> groupChoise = new DropDownChoice<StudentGroup>(sRemoveGroup,
+                    new PropertyModel<StudentGroup>(this, sRemoveGroup),
                     new GroupsLoadableDetachableModel(groups));
             add(groupChoise);
         }
@@ -158,8 +159,9 @@ public class EditPage extends WebPage {
             textParseSemester.add(new RangeValidator<Integer>(0, Integer.MAX_VALUE));
             add(textParseSemester);
 
-            final DropDownChoice<StudentGroup> cbAddGroup = new DropDownChoice<StudentGroup>("addGroup",
-                    new PropertyModel<StudentGroup>(this, "addGroup"),
+            final String sAddGroup = "addGroup";
+            final DropDownChoice<StudentGroup> cbAddGroup = new DropDownChoice<StudentGroup>(sAddGroup,
+                    new PropertyModel<StudentGroup>(this, sAddGroup),
                     new GroupsLoadableDetachableModel(groups));
             add(cbAddGroup);
 
