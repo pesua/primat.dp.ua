@@ -2,7 +2,6 @@ package ua.dp.primat.schedule.view.crosstab;
 
 import ua.dp.primat.domain.lesson.Lesson;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.panel.Panel;
 import ua.dp.primat.schedule.view.ShedulePanel;
 
 /**

@@ -129,10 +129,10 @@ public class Lecturer implements Serializable, Comparable<Lecturer> {
     private static final int MULTODDNUMBER = 67;
 
     public int compareTo(Lecturer o) {
-        String name1 = name.toLowerCase();
-        String name2 = o.getName().toLowerCase();
-        ResourceBundle bundle = ResourceBundle.getBundle("dimainModel", new Locale("uk"));
-        String alphabet  =  bundle.getString("alphabet");
+        final String name1 = name.toLowerCase();
+        final String name2 = o.getName().toLowerCase();
+        final ResourceBundle bundle = ResourceBundle.getBundle("dimainModel", new Locale("uk"));
+        final String alphabet  =  bundle.getString("alphabet");
         for (int i = 0; i < Math.min(name1.length(), name2.length()); i++) {
             if (alphabet.indexOf(name1.charAt(i)) == alphabet.indexOf(name2.charAt(i))) {
                 continue;
