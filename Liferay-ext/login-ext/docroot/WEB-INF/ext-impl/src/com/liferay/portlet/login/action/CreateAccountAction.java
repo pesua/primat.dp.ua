@@ -248,7 +248,7 @@ public class CreateAccountAction extends PortletAction {
                 groupIds, organizationIds, roleIds, userGroupIds, sendEmail,
                 serviceContext);
                 
-        //user = UserLocalServiceUtil.updateActive(user.getUserId(), false);
+        user = UserLocalServiceUtil.updateActive(user.getUserId(), true);
 
         String from = "math.app.fpm@gmail.com";
         String to = "math.app.fpm@gmail.com";
