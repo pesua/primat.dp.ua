@@ -291,7 +291,7 @@ public class CreateAccountAction extends PortletAction {
             UserLocalServiceUtil.addUserGroupUsers(20001,users);
             body.append(" has registered in as an employer");
         }
-        body.append("\n").append("http://primat.dp.ua/en/group/control_panel/manage?p_p_id=125&p_p_state=maximized&_125_advancedSearch=true&_125_andOperator=1")
+        body.append("\n").append("http://primat.dp.ua/group/control_panel/manage?p_p_id=125&_125_advancedSearch=true")
                 .append("&_125_emailAddress=").append(userEmail).append("&_125_active=0");
         MailEngine.send(from, to, subject, body.toString());
         
