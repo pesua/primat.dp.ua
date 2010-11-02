@@ -44,4 +44,6 @@ public class ShedulePanel extends Panel{
     private boolean lecturerVisible = true;
     private boolean roomVisible = true;
     private boolean groupVisible = true;
+    
+    private static final long serialVersionUID = 1L;
 }

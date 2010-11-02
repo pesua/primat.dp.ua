@@ -21,10 +21,20 @@ public abstract class AbstractRefreshablePanel extends Panel {
      */
     public abstract void refreshView(List<Lesson> listLesson);
     
-    public abstract boolean isGroupVisible();
-    public abstract void setGroupVisible(boolean groupVisible);
-    public abstract boolean isLecturerVisible();
-    public abstract void setLecturerVisible(boolean lecturerVisible);
-    public abstract boolean isRoomVisible();
-    public abstract void setRoomVisible(boolean roomVisible);
+
+    public void setGroupVisible(boolean groupVisible) {
+        this.groupVisible = groupVisible;
+    }
+
+    public void setLecturerVisible(boolean lecturerVisible) {
+        this.lecturerVisible = lecturerVisible;
+    }
+
+    public void setRoomVisible(boolean roomVisible) {
+        this.roomVisible = roomVisible;
+    }
+    
+    protected boolean lecturerVisible = true;
+    protected boolean roomVisible = true;
+    protected boolean groupVisible = true;
 }

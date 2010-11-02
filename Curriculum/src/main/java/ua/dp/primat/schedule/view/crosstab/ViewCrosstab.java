@@ -45,30 +45,6 @@ public final class ViewCrosstab extends AbstractRefreshablePanel {
         }
     }
 
-    public boolean isGroupVisible() {
-        return groupVisible;
-    }
-
-    public void setGroupVisible(boolean groupVisible) {
-        this.groupVisible = groupVisible;
-    }
-
-    public boolean isLecturerVisible() {
-        return lecturerVisible;
-    }
-
-    public void setLecturerVisible(boolean lecturerVisible) {
-        this.lecturerVisible = lecturerVisible;
-    }
-
-    public boolean isRoomVisible() {
-        return roomVisible;
-    }
-
-    public void setRoomVisible(boolean roomVisible) {
-        this.roomVisible = roomVisible;
-    }
-
     //list and view of all retrieved lessons
     private List<LessonQueryItem> lessons;
     private ListView<LessonQueryItem> lessonView;
@@ -81,9 +57,6 @@ public final class ViewCrosstab extends AbstractRefreshablePanel {
     private static final String DAYNAME_WICKET = "caption_";
     private static final String[] DAY_WICKET_KEYS = {"monday", "tuesday", "wednesday", "thursday", "friday"};
 
-    private boolean lecturerVisible = true;
-    private boolean roomVisible = true;
-    private boolean groupVisible = true;
     /**
      * ListView, that outputs generated LessonQueryItem list into the table.
      */

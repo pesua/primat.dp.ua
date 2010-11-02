@@ -127,17 +127,21 @@ public class Lecturer implements Serializable, Comparable<Lecturer> {
     private static final long serialVersionUID = 1L;
     private static final int INITODDNUMBER = 3;
     private static final int MULTODDNUMBER = 67;
+    private static final String ALPHABET;
+        
+    static {
+        final ResourceBundle bundle = ResourceBundle.getBundle("dimainModel", new Locale("uk"));
+        ALPHABET  =  bundle.getString("alphabet");
+    }
 
     public int compareTo(Lecturer o) {
         final String name1 = name.toLowerCase();
         final String name2 = o.getName().toLowerCase();
-        final ResourceBundle bundle = ResourceBundle.getBundle("dimainModel", new Locale("uk"));
-        final String alphabet  =  bundle.getString("alphabet");
         for (int i = 0; i < Math.min(name1.length(), name2.length()); i++) {
-            if (alphabet.indexOf(name1.charAt(i)) == alphabet.indexOf(name2.charAt(i))) {
+            if (ALPHABET.indexOf(name1.charAt(i)) == ALPHABET.indexOf(name2.charAt(i))) {
                 continue;
             }
-            if (alphabet.indexOf(name1.charAt(i)) > alphabet.indexOf(name2.charAt(i))) {
+            if (ALPHABET.indexOf(name1.charAt(i)) > ALPHABET.indexOf(name2.charAt(i))) {
                 return 1;
             } else {
                 return -1;

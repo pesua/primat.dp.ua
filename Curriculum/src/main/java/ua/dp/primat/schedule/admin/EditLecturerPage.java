@@ -65,20 +65,26 @@ public final class EditLecturerPage extends WebPage {
     @SpringBean
     private CathedraRepository cathedraRepository;
     private static final long serialVersionUID = 1L;
-    
+
     private static class NameValidator extends AbstractValidator<String> {
 
         @Override
         protected void onValidate(IValidatable<String> iv) {
             if (!Pattern.matches("^\\p{Lu}(\\p{Ll}||'||(-\\p{Lu}))+\\s\\p{Lu}(\\p{Ll}||'||(-\\p{Lu}))+\\s\\p{Lu}(\\p{Ll}||'||(-\\p{Lu}))+$", iv.getValue())) {
-                iv.error(new IValidationError() {
-
-                    public String getErrorMessage(IErrorMessageSource iems) {
-                        return "Full name is incorrect. Please input valid full name.";
-                    }
-                });
+                iv.error(new ValidationErrorImpl());
             }
+        }
+        private static final long serialVersionUID = 1L;
+
+        private static class ValidationErrorImpl implements IValidationError {
+
+            public ValidationErrorImpl() {
+            }
+
+            public String getErrorMessage(IErrorMessageSource iems) {
+                return "Full name is incorrect. Please input valid full name.";
+            }
+            private static final long serialVersionUID = 1L;
         }
     }
 }
-
