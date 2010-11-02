@@ -96,9 +96,9 @@ public final class ViewDaybook extends AbstractRefreshablePanel {
      */
     private void updateDataPanel() {
         for (int i = 0; i < listDataPanel.length; i++) {
-            listDataPanel[i].setLecturerVisible(lecturerVisible);
-            listDataPanel[i].setRoomVisible(roomVisible);
-            listDataPanel[i].setGroupVisible(groupVisible);
+            listDataPanel[i].setLecturerVisible(isLecturerVisible());
+            listDataPanel[i].setRoomVisible(isRoomVisible());
+            listDataPanel[i].setGroupVisible(isGroupVisible());
             listDataPanel[i].updateInfo(lessonService.getLessonsPerDay(lessons,
                     DayOfWeek.fromNumber(i), weekType));
         }

@@ -84,9 +84,9 @@ public final class ViewCrosstab extends AbstractRefreshablePanel {
                         entry.getLessonForDay(dayOfWeek));
 
                 labelDay.setVisible(isCellVisible(li.getIndex(), dayOfWeek));
-                labelDay.setLecturerVisible(lecturerVisible);
-                labelDay.setRoomVisible(roomVisible);
-                labelDay.setGroupVisible(groupVisible);
+                labelDay.setLecturerVisible(isLecturerVisible());
+                labelDay.setRoomVisible(isRoomVisible());
+                labelDay.setGroupVisible(isGroupVisible());
 
                 if ((entry.getLessonForDay(dayOfWeek) != null)
                         && (entry.getLessonForDay(dayOfWeek).getWeekType()

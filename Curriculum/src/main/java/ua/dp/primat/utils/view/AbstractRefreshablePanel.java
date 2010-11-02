@@ -33,8 +33,20 @@ public abstract class AbstractRefreshablePanel extends Panel {
     public void setRoomVisible(boolean roomVisible) {
         this.roomVisible = roomVisible;
     }
+
+    public boolean isGroupVisible() {
+        return groupVisible;
+    }
+
+    public boolean isLecturerVisible() {
+        return lecturerVisible;
+    }
+
+    public boolean isRoomVisible() {
+        return roomVisible;
+    }
     
-    protected boolean lecturerVisible = true;
-    protected boolean roomVisible = true;
-    protected boolean groupVisible = true;
+    private boolean lecturerVisible = true;
+    private boolean roomVisible = true;
+    private boolean groupVisible = true;
 }
