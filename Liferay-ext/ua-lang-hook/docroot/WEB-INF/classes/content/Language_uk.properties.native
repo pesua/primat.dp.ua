@@ -2444,7 +2444,7 @@ new-over-total=Новий / Всього
 new-page-name=Назва нової сторінки 
 new-page=Нова сторінка 
 new-parent=Новий предок
-new-password=Новий пароль 
+new-password=Новий пароль <span style="color: #FF0000;">*</span>
 new-title=Новий заголовок 
 new-window=Нове вікно
 new=Новий 
@@ -2718,6 +2718,7 @@ password-sent-email=Відправка паролю по Email
 password-settings=Налаштування пароля 
 password-syntax-checking=Перевірка синтаксису пароля 
 password=Пароль <span style="color: #FF0000;">*</span>
+password-menu=Пароль
 past=Минуле 
 paste-in-widget-code=Вставте код елемента керування 
 path-and-file-name=Шлях та ім'я файлу 
