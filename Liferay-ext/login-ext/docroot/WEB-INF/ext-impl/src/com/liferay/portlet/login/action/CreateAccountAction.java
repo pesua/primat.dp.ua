@@ -267,7 +267,7 @@ public class CreateAccountAction extends PortletAction {
         if (role == 0) {
             long groupId = ParamUtil.getLong(actionRequest, "student-groups");
             UserLocalServiceUtil.addRoleUsers(10505,users);
-            UserLocalServiceUtil.addUserGroupUsers(33204,users);
+            UserLocalServiceUtil.addUserGroupUsers(33203,users);
             
             String groupRequest = ParamUtil.getString(actionRequest, "studentGroupRequest");
             if (groupRequest.isEmpty()) {
