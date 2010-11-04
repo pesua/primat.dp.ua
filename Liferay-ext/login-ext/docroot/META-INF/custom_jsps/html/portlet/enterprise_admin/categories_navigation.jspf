@@ -73,7 +73,6 @@ for (int i = 0; i < categoryNames.length; i++) {
 
             <!-- for required sections, which values are the same as fields (language) -->
             <% 
-              User user = PortalUtil.getSelectedUser(request);
               String sectionCaption = com.liferay.portal.language.LanguageUtil.get(user, section).replaceAll("\\*", ""); 
             %>
 					  <%= sectionCaption %>
