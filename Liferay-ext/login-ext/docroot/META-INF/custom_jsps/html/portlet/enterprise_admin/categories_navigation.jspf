@@ -72,7 +72,7 @@ for (int i = 0; i < categoryNames.length; i++) {
 						<a href="#<%= sectionId %>" id="<%= sectionId %>Link">
 
             <!-- for required sections, which values are the same as fields (language) -->
-            <% String sectionCaption = section.replaceAll("\\*", ""); %>
+            <% String sectionCaption = section.replaceAll("\\*", "") + "TEST"; %>
 						<liferay-ui:message key="<%= sectionCaption %>" />
 
 						<span class="modified-notice"> (<liferay-ui:message key="modified" />) </span>
