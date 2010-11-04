@@ -18,7 +18,7 @@
 String[] modifiedSections = StringUtil.split(ParamUtil.getString(request, "modifiedSections"));
 
 for (int i = 0; i < categoryNames.length; i++) {
-	String category = categoryNames[i].replaceAll("*", ""); //for required sections, which values are the same as fields (language)
+	String category = categoryNames[i];
 	String[] sections = categorySections[i];
 
 	if (sections.length > 0) {
@@ -71,7 +71,8 @@ for (int i = 0; i < categoryNames.length; i++) {
 					<li class="<%= cssClass %>">
 						<a href="#<%= sectionId %>" id="<%= sectionId %>Link">
 
-						<liferay-ui:message key="<%= section %>" />
+            <!-- for required sections, which values are the same as fields (language) -->
+						<liferay-ui:message key="<%= section.replace("*", "") %>" />
 
 						<span class="modified-notice"> (<liferay-ui:message key="modified" />) </span>
 
