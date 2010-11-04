@@ -1534,7 +1534,7 @@ editing-structure-details=Editing Structure Details
 editor-type=Тип редактора 
 educational=Освіта 
 email-address-attribute=Email Address Attribute  
-email-address=Адреса email 
+email-address=Адреса email <span style="color: #FF0000;">*</span>
 email-addresses=Email адреси 
 email-body=Тіло Email повідомлення 
 email-entry=Email повідомлення 
@@ -1590,7 +1590,7 @@ enter-a-list-item-click-cancel-or-leave-blank-to-end-the-list=Введіть п�
 enter-a-name-for-the-email-address=Введіть ім'я для email адреси. 
 enter-a-paypal-email-address-to-send-all-payments-to-paypal=Введіть PayPal email адреси для відправки всіх рахунків PayPal. 
 enter-a-title-for-the-address=Введіть заголовок для адреси. 
-enter-again=Введіть ще раз 
+enter-again=Введіть ще раз <span style="color: #FF0000;">*</span>
 enter-an-address-for-the-image=Введіть адресу для зображення. 
 enter-an-address=ввели адресу. 
 enter-an-email-address=Введіть email-адресу. 
@@ -1744,7 +1744,7 @@ firm-name=Назва фірми
 firms=Фірми 
 first-message=Перше повідомлення 
 first-name-attribute=First Name Attribute  
-first-name=Ім'я 
+first-name=Ім'я <span style="color: #FF0000;">*</span>
 first-thread=Перша тема 
 first-version=First Version  
 first=Перша 
@@ -2120,7 +2120,7 @@ last-login=Останній вхід:
 last-message=Останнє повідомлення 
 last-modified=Остання зміна 
 last-name-attribute=Last Name Attribute  
-last-name=Прізвище 
+last-name=Прізвище <span style="color: #FF0000;">*</span>
 last-post-date=Дата останнього посту 
 last-post=Останній запис 
 last-request=Останній запит 
@@ -2717,7 +2717,7 @@ password-reset-required=Потрібна обнулення пароля
 password-sent-email=Відправка паролю по Email 
 password-settings=Налаштування пароля 
 password-syntax-checking=Перевірка синтаксису пароля 
-password=Пароль 
+password=Пароль <span style="color: #FF0000;">*</span>
 past=Минуле 
 paste-in-widget-code=Вставте код елемента керування 
 path-and-file-name=Шлях та ім'я файлу 
@@ -3340,7 +3340,7 @@ scope=Область дії
 score=Рейтинг 
 scramble=Пробитись
 screen-name-attribute=Атрібут ніку
-screen-name=Нік (латинськими літерами)
+screen-name=Нік (латинськими літерами) <span style="color: #FF0000;">*</span>
 screen-names=Ніки
 screenshot=Знімок екрану 
 screenshots-must-contain-a-valid-thumbnail-and-a-valid-full-image=Знімки екрану повинні містити коректне зменшене зображення і повне. 
