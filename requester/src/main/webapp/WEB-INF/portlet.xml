@@ -6,7 +6,7 @@
         <portlet-class>org.apache.wicket.protocol.http.portlet.WicketPortlet</portlet-class>
         <init-param>
             <name>wicketFilterPath</name>
-            <value>/requester</value>
+            <value>/requester/*</value>
         </init-param>
         <supports>
             <mime-type>text/html</mime-type>
@@ -15,7 +15,7 @@
         </supports>
         <portlet-info>
             <title>Request</title>
-            <short-title>srequeste</short-title>
+            <short-title>srequester</short-title>
             <keywords>requester</keywords>
         </portlet-info>
     </portlet>

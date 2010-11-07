@@ -17,7 +17,7 @@
 	-->
 
 	<filter>
-		<filter-name>wicket.requester</filter-name>
+		<filter-name>requester</filter-name>
  		<filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
 		<init-param>
 			<param-name>applicationClassName</param-name>
@@ -26,9 +26,12 @@
  	</filter>
 
  <filter-mapping>
-  <filter-name>wicket.requester</filter-name>
-	<url-pattern>/*</url-pattern>
- </filter-mapping>
+    <filter-name>requester</filter-name>
+    <url-pattern>/requester/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+  </filter-mapping>
 
 
 </web-app>

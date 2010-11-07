@@ -10,7 +10,7 @@ public class Start {
 	public static void main(String[] args) throws Exception {
 		Server server = new Server();
 		SocketConnector connector = new SocketConnector();
-		
+
 		// Set some timeout options to make debugging easier.
 		connector.setMaxIdleTime(1000 * 60 * 60);
 		connector.setSoLingerTime(-1);
@@ -34,7 +34,7 @@ public class Start {
 			System.out.println(">>> STARTING EMBEDDED JETTY SERVER, PRESS ANY KEY TO STOP");
 			server.start();
 			System.in.read();
-			System.out.println(">>> STOPPING EMBEDDED JETTY SERVER"); 
+			System.out.println(">>> STOPPING EMBEDDED JETTY SERVER");
             // while (System.in.available() == 0) {
 			//   Thread.sleep(5000);
 			// }

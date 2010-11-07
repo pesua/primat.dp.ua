@@ -27,7 +27,7 @@ public class HomePage extends WebPage {
      *            Page parameters
      */
     private final static List PRODUCTS = Arrays.asList(new String[]{
-        "красный", "желтый", "зеленый"});
+        "win", "office", "smth else"});
 
     public final class SelectionForm extends Form {
 
