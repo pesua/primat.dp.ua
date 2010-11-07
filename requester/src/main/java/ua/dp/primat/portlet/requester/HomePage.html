@@ -1,0 +1,16 @@
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.5-strict.dtd" >
+    <head>  
+        <title>MSDN AA request</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    </head>
+    <body>        
+        <form wicket:id="form">
+            <wicket:message key="page.text">Select product.</wicket:message>
+            <select wicket:id="product">
+                <option>Windows</option>
+                <option>Office</option>
+            </select>
+            <input wicket:id="submitButton" type="submit" value="Send" wicket:message="value:button.label"/>
+        </form>
+    </body>
+</html>
